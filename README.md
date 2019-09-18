@@ -4,7 +4,8 @@
 Mango Mambo
   
 ## **Descripción de la temática**
-Título multijugador de minijuegos competitivos, todos cotra todos.
+
+Se trata de un juego para varios jugadores de temática tropical desarrollado para ordenador. Consistirá en supererar minijuegos competitivos, todos contra todos. 
 
 La característica especial de los minijuegos será que las reglas de estos 
 estarán invertidas con respecto a los minijuegos clásicos ya existentes.
