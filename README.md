@@ -1,4 +1,4 @@
-# Juegos En Red _ Grupo _ D
+# JuegosEnRed_Grupo_D
 
 ## **Título del juego**
 Mango Mambo
