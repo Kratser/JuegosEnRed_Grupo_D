@@ -132,13 +132,10 @@ ganará la partida.
 
 ## **3. Interfaz**
 
-Especificaciones sobre cómo se organizarán los menús y la interfaz en las diferentes
-pantallas del juego. Tanto en el menú principal como en los propios niveles buscamos
+Tanto en el menú principal como en los propios niveles buscamos
 una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 
-### **3.1. Diagrama de flujo**
-
-AFDHK<AEHFKJ<AHK NO SE TODAVIA
+Las imágenes que ilustran este apartado se encuentran en el PDF del GDD adjuntado.
 
 ## **4. Arte**
 
