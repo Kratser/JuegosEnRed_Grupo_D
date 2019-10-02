@@ -27,7 +27,7 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 # Organización del tag fase1
 
 * Aparte del GDD incluido en este README, este tag tiene adjunto un documento pdf (MangoMamboGDD_V01.pdf) donde se encuentra toda la información al completo y que se irá actualizando en cada fase junto con este README.  
-* 
+* También hemos incluido la presentación con la que introduciremos nuestro juego en la fase 1 ().
 
 * * *
 
