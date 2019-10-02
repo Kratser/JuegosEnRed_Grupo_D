@@ -48,7 +48,7 @@ jugadores.
 
 ### **1.2. Características principales**
 
-  * Dinámico: Los modos de juego serán contrarreloj y los jugadores tendrán que
+  * **Dinámico:** Los modos de juego serán contrarreloj y los jugadores tendrán que
 moverse por todo el mapa interactuando constantemente entre ellos.
   * Divertido: El juego está pensado para partidas rápidas con amigos. Al ser
 rondas rápidas y mecánicas simples, cualquiera puede ganar, lo que hace que
