@@ -135,7 +135,7 @@ ganará la partida.
 Tanto en el menú principal como en los propios niveles buscamos
 una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 
-Las imágenes que ilustran este apartado se encuentran en el PDF del GDD adjuntado.
+**Las imágenes que ilustran este apartado se encuentran en el PDF del GDD adjuntado.**
 
 ## **4. Arte**
 
