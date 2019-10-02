@@ -1,4 +1,4 @@
-# **Introducción JuegosEnRed_Grupo_D**
+# **Información JuegosEnRed_Grupo_D**
 
 ## **Título del juego**
 Mango Mambo
@@ -142,3 +142,87 @@ una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 Con Mango Mambo queremos transmitir diversión y calidez para reforzar el género del
 juego. Para ello hemos elegido una temática tropical y cartoon que cuenta con colores
 cálidos, vivos y alegres:
+
+![Palette1](https://user-images.githubusercontent.com/36482605/66060601-387d9c80-e53e-11e9-8298-f0da5bc86ec0.png)
+
+Además, nos gustaría darle un toque con colores neón para resaltar algunos elementos del juego respecto a temática general:
+
+![Pallete2](https://user-images.githubusercontent.com/36482605/66060663-53501100-e53e-11e9-99c8-9eaf7de9fc02.png)
+
+Estos colores neón también servirán para diferenciar a los jugadores en la interfaz del juego. 
+
+### **4.1. Personajes**
+
+El formato de los personajes será una imagen PNG de 600x600, aunque luego la altura y la anchura de los personajes podrá variar en función de las características de estos, siempre y cuando no se salgan el tamaño establecido para la imagen.
+
+Características visuales:
+  *	**Congalmera:** Palmera pequeña y con aspecto “mono” que se encuentra metida en una maceta y se moverá dando saltitos.
+  *	**Jose Diplodo:** Un diplodocus con estilo playero que llevará como complementos: unas gafas de sol, un gorro, crema solar, un atuendo hawaiano y un cóctel. 
+  *	**Chamán Neón:** Lémur que se moverá deprisa a cuatro patas y llevará una máscara tiki adornada con vistosos colores.
+  *	**Tufat:** Tucán con sobrepeso que irá aleteando.
+
+### **4.2. Escenarios**
+
+El diseño visual de los escenarios cambiará dependiendo de en que nivel nos encontremos, pero siempre manteniendo la ambientación tropical. Para su composición, se hará uso de una superposición de capas de colores planos y con las mismas tonalidades, pero con diferente brillo para dar sensación de profundidad.
+Por otro lado, las plataformas que se superpondrán al fondo mantendrán la estética cartoon y los colores cálidos e intensos.
+
+### **4.3. Objetos**
+
+Mango explosivo: Su diseño irá acorde con la estética cartoon.
+
+### **4.4. Audio**
+
+#### **4.4.1. Música**
+
+Usaremos un estilo que recuerde a lo hawaino, con instrumentos como la marimba y con ritmos rápidos y marcados, usando armonías alegres en modo mayor. 
+Según se va acabando el tiempo en los niveles el ritmo de la música aumenta.
+El formato será “.wav”.
+
+#### **4.4.1. Efectos**
+
+*	Al seleccionar un botón de cualquier parte del juego.
+*	Salto.
+*	Robo a otro jugador.
+*	Explosión del mango.
+*	Choque contra el suelo.
+*	Al ganar la partida, sonido de celebración.
+
+## **5. Referencias**
+
+* Guión para hacer el GDD: 
+
+https://github.com/dsaltares/sion-tower/blob/master/doc/gdd/gdd.pdf
+
+* Inspiración para el tipo de juego:
+
+Move or die: https://store.steampowered.com/app/323850/Move_or_Die/
+
+![ReferenceMoD](https://user-images.githubusercontent.com/36482605/66061831-7c71a100-e540-11e9-93f5-d25fa78096db.PNG)
+
+Toto temple deluxe: https://juicybeast.itch.io/toto-temple-deluxe
+
+![ReferenceTTD](https://user-images.githubusercontent.com/36482605/66061317-86df6b00-e53f-11e9-94fb-78117e39358d.png)
+
+* Inspiración para los personajes:
+
+Ultimate Chicken Horse: https://www.cleverendeavourgames.com/ultimate-chicken-horse 
+
+![ReferenceCH](https://user-images.githubusercontent.com/36482605/66061396-aa0a1a80-e53f-11e9-8cd2-2eae88449151.png)
+
+* Inspiración para el estilo de fondos de escenarios:
+
+Donkey Kong Country Returns. 
+
+![ReferenceDKCR](https://user-images.githubusercontent.com/36482605/66062040-eb4efa00-e540-11e9-9343-470c1dc8462d.PNG)
+
+* Inspiración para el estilo de plataformas de escenarios:
+
+Jumpaii: https://frame-perfect.itch.io/jumpai
+
+![ReferenceJumpaii](https://user-images.githubusercontent.com/36482605/66061515-e89fd500-e53f-11e9-8d20-75b877f2a8e6.png)
+
+* Inspiración para el estilo de la pantalla de selección de personajes:
+
+Shot hot burn: https://store.steampowered.com/app/801750/Hot_Shot_Burn/ 
+
+![ReferenceSHB](https://user-images.githubusercontent.com/36482605/66061986-d4a8a300-e540-11e9-90a3-8b92057d782d.jpg)
