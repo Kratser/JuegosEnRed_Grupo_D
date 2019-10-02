@@ -29,3 +29,26 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * * *
 
 # Resumen GDD
+
+## **1. Introducción**
+
+Documento de Diseño del juego Mango Mambo. Videojuego 2D multijugador, tanto local
+como online, desarrollado en JavaScript y Java con ayuda del framework Phaser 3.
+
+### **1.1. Concepto del juego**
+
+Mango Mambo es un juego festivo de plataformas basado en minijuegos de hasta 4
+jugadores en el que podremos controlar a distintos personajes con características
+distintas, para poder ganar los minijuegos, obtener puntos y superar a los otros
+jugadores.
+
+
+### **1.2. Características principales**
+
+  * Dinámico: Los modos de juego serán contrarreloj y los jugadores tendrán que
+moverse por todo el mapa interactuando constantemente entre ellos.
+  * Divertido: El juego está pensado para partidas rápidas con amigos. Al ser
+rondas rápidas y mecánicas simples, cualquiera puede ganar, lo que hace que
+se cree un ambiente de competición entre amigos sin llegar a ser serio.
+  * Sencillo: El juego no cuenta con ninguna trama a seguir, tampoco hay que usar
+controles complejos
