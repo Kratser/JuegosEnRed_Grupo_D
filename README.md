@@ -1,4 +1,4 @@
-# Introducción JuegosEnRed_Grupo_D
+# **Introducción JuegosEnRed_Grupo_D**
 
 ## **Título del juego**
 Mango Mambo
@@ -24,7 +24,7 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 
 * * *
 
-# Organización del tag fase1
+# **Organización del tag fase1**
 
 * Aparte del GDD incluido en este README, este tag tiene adjunto un documento pdf (MangoMamboGDD_V01.pdf) donde se encuentra toda la información al completo y que se irá actualizando en cada fase junto con este README.  
 * También hemos incluido la presentación con la que introduciremos nuestro juego en la fase 1 (MangoMamboFase1.pptx).
@@ -32,7 +32,7 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 
 * * *
 
-# GDD
+# **GDD**
 
 ## **1. Introducción**
 
@@ -50,20 +50,20 @@ jugadores.
 
   * **Dinámico:** Los modos de juego serán contrarreloj y los jugadores tendrán que
 moverse por todo el mapa interactuando constantemente entre ellos.
-  * Divertido: El juego está pensado para partidas rápidas con amigos. Al ser
+  * **Divertido:** El juego está pensado para partidas rápidas con amigos. Al ser
 rondas rápidas y mecánicas simples, cualquiera puede ganar, lo que hace que
 se cree un ambiente de competición entre amigos sin llegar a ser serio.
-  * Sencillo: El juego no cuenta con ninguna trama a seguir, tampoco hay que usar
+  * **Sencillo:** El juego no cuenta con ninguna trama a seguir, tampoco hay que usar
 controles complejos.
 
 ### **1.3. Género**
 
 Mango Mambo está compuesto por diferentes géneros:
-  * Minijuegos: Mango Mambo estará compuesto por distintos minijuegos
+  * **Minijuegos:** Mango Mambo estará compuesto por distintos minijuegos
 competitivos, que los jugadores podrán seleccionar antes de empezar a jugar.
 Los minijuegos tendrán una duración corta, para darle un mayor dinamismo y
 velocidad al juego.
-  * Plataformas: El escenario estará compuesto por varias plataformas por las que
+  * **Plataformas:** El escenario estará compuesto por varias plataformas por las que
 los jugadores podrán correr, saltar y escapar de sus contrincantes.
 
 ### **1.4. Propósito y público objetivo**
@@ -117,12 +117,12 @@ minijuegos.
 
 A continuación, se van a nombrar y mostrar todos los personajes que el jugador tiene
 disponibles durante la selección de personajes junto con sus características especiales:
-  * Congalmera: La habilidad única de la palmera será caer de forma rápida
+  * **Congalmera:** La habilidad única de la palmera será caer de forma rápida
 siempre y cuando al jugador le interese.
-  * Jose Diplodo: La característica principal del dinosaurio será tener una esquiva.
-  * Chamán Neón: El lémur tendrá una aceleración y velocidad máxima superior al
+  * **Jose Diplodo:** La característica principal del dinosaurio será tener una esquiva.
+  * **Chamán Neón:** El lémur tendrá una aceleración y velocidad máxima superior al
 resto de personajes.
-  * Tufat: El tucán podrá dar saltos mucho mayores a los del resto.
+  * **Tufat:** El tucán podrá dar saltos mucho mayores a los del resto.
   
 ### **2.4. Condiciones de victoria**
  
