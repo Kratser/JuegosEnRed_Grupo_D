@@ -137,3 +137,11 @@ pantallas del juego. Tanto en el menú principal como en los propios niveles bus
 una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 
 ### **3.1. Diagrama de flujo**
+
+AFDHK<AEHFKJ<AHK NO SE TODAVIA
+
+## **4. Arte**
+
+Con Mango Mambo queremos transmitir diversión y calidez para reforzar el género del
+juego. Para ello hemos elegido una temática tropical y cartoon que cuenta con colores
+cálidos, vivos y alegres:
