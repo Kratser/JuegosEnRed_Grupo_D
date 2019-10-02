@@ -1,4 +1,4 @@
-# JuegosEnRed_Grupo_D
+# Introducción JuegosEnRed_Grupo_D
 
 ## **Título del juego**
 Mango Mambo
@@ -18,3 +18,11 @@ estarán invertidas con respecto a los minijuegos clásicos ya existentes.
 
 ## **Link de Trello**
 https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mambo-grupo-d
+
+* * *
+
+# Organización de la etiqueta fase1
+
+* * *
+
+# Resumen GDD
