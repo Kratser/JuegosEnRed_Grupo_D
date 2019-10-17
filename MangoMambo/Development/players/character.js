@@ -3,7 +3,7 @@
 // Lémur: Collider: 
 // 
 class Character extends Phaser.GameObjects.Sprite{
-    constructor (scene, type, x, y, cursors, colliderSize = [100,100], maxVelocity = 300, acceleration = 480, jumpHeight = 400, fallSpeed = 100) {
+    constructor (scene, type, x, y, cursors, colliderSize = [,], maxVelocity = 300, acceleration = 480, jumpHeight = 400, fallSpeed = 100) {
         // Llamada al padre del objeto
         super(scene, x, y, type);
 
