@@ -41,10 +41,10 @@ class TestingScene extends Phaser.Scene {
         this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.characters[0] = new Character(this, "palm", 0, 0, this.cursors);
-        this.characters[1] = new Character(this, "dino", 1152/4, 0, this.cursors, [25,96]);
-        this.characters[2] = new Character(this, "toucan", 1152/2, 0, this.cursors);
-        this.characters[3] = new Character(this, "lemur", 1152, 0, this.cursors);
+        this.characters[0] = new Character(this, "palm", 0, 0, this.cursors,[25,42]);
+        this.characters[1] = new Character(this, "dino", 1152/4, 0, this.cursors, [25,64]);
+        this.characters[2] = new Character(this, "toucan", 1152/2, 0, this.cursors,[25,20]);
+        this.characters[3] = new Character(this, "lemur", 1152, 0, this.cursors,[25,42]);
 
         // Se crea la colisión entre el personaje y las plataformas
         
