@@ -17,6 +17,12 @@ class TestingScene extends Phaser.Scene {
         this.load.image("toucan", "../Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "../Design/Characters/Lemur/lemur_idle_00.png");
         this.characters = [];
+        
+        // Se carga la música
+        this.load.audio("menu_begining", "../Design/Audio/MenuSong/menu_begining_with_edit.wav");
+        this.load.audio("menu_loop", "../Design/Audio/MenuSong/menu_with_edit.wav");
+        this.load.audio("minigame_begining", "../Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
+        this.load.audio("minigame_loop", "../Design/Audio/MinigameSong/minigame_with_edit.wav");
     }
 
     create() {
@@ -51,6 +57,15 @@ class TestingScene extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
         }
+        
+        // Se crea la música
+
+        this.sound.pauseOnBlur = false;
+        this.sound.play("minigame_begining")
+        this.sound.play("minigame_loop",{
+            loop : true,
+            delay : 6.9
+        })
 
         console.log(game);
     }
