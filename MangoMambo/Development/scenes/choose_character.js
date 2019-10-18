@@ -22,7 +22,7 @@ class ChooseCharacter extends Phaser.Scene {
 
     preload() {
         // Se cargan las imágenes
-        this.load.image("background", "../Design/Stages/Backgrounds/choose_player.png");
+        this.load.image("character_background", "../Design/Stages/Backgrounds/choose_player.png");
 
         this.load.image("palm", "../Design/Characters/Palm/palm_idle_00.png");
         this.load.image("dino", "../Design/Characters/Dino/dino_idle_00.png");
@@ -63,7 +63,7 @@ class ChooseCharacter extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0, 0, "background").setOrigin(0,0);
+        this.add.image(0, 0, "character_background").setOrigin(0,0);
     }
 
     update() {

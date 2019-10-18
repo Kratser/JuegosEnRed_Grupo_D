@@ -1,6 +1,6 @@
 class MainMenu extends Phaser.Scene {
     constructor(){
-        super({key: "mainMenu", active: true});
+        super({key: "mainMenu"});
         //Array de obciones para selecionar botón
         this.options;
         //Contador para cambiar la posición del array options
@@ -14,7 +14,7 @@ class MainMenu extends Phaser.Scene {
     preload() {
 
         // Cargar la imagen de fondo
-        this.load.image("background", "../Design/Stages/Backgrounds/main_menu.png");
+        this.load.image("menu_background", "../Design/Stages/Backgrounds/main_menu.png");
         // Buttons
         this.load.image("localButton", "../Design/Objects/local_button.png");
         this.load.image("onlineButton", "../Design/Objects/online_button.png");
@@ -24,7 +24,7 @@ class MainMenu extends Phaser.Scene {
         this.load.image("onlineButtonSelect", "../Design/Objects/online_button_select.png");
         this.load.image("optionsButtonSelect", "../Design/Objects/options_button_select.png");
         
-        //             local   online options
+        //             local  online options
         this.options = [true, false, false];
 
         // Audio
@@ -34,7 +34,7 @@ class MainMenu extends Phaser.Scene {
     create() {
         
         // Fondo
-        this.background = this.add.image(0, 0, "background").setOrigin(0,0).setDepth(0);
+        this.background = this.add.image(0, 0, "menu_background").setOrigin(0,0).setDepth(0);
         // Botones 
         this.localButton = this.add.image(250, 160, "localButton").setDepth(1);
         this.onlineButton = this.add.image(250, 270, "onlineButton").setDepth(1);
@@ -50,7 +50,7 @@ class MainMenu extends Phaser.Scene {
         this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors[4] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.cursors[4] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
  
         this.cont = 0;
         this.pulsación = true;
@@ -73,13 +73,13 @@ class MainMenu extends Phaser.Scene {
         
 // NO HE PODIDO ARREGLAR LO DE LA LATENCIA
         // Selección de botones
-        if ((this.cursors[1].isDown || this.cursors[3].isDown) && this.cont<=2){
+        if ((this.cursors[1].isDown || this.cursors[3].isDown) && this.cont<=1){
             this.options[this.cont] = false;
             this.cont++;
              console.log(this.cont);
             this.options[this.cont] = true;
         } 
-        if ((this.cursors[0].isDown || this.cursors[2].isDown) && this.cont>=0){
+        if ((this.cursors[0].isDown || this.cursors[2].isDown) && this.cont>=1){
             this.options[this.cont] = false;
             this.cont--;
             console.log(this.cont);
@@ -99,7 +99,7 @@ class MainMenu extends Phaser.Scene {
     
         //Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown ){
-            this.scene.start(TestingScene);
+            this.scene.start("choose_character");
             // this.scene.add(testingScene, new TestingScene);
         }
 

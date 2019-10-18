@@ -7,7 +7,7 @@ class TestingScene extends Phaser.Scene {
 
     preload() {
         // Se cargan las imágenes de las plataformas
-        this.load.image("background", "../Design/Stages/Backgrounds/testing_map_background.png");
+        this.load.image("test_background", "../Design/Stages/Backgrounds/testing_map_background.png");
         this.load.image("hor_plat", "../Design/Stages/Platforms/hor_platform.jpg");
         this.load.image("vert_plat", "../Design/Stages/Platforms/vert_platform.jpg");
 
@@ -28,7 +28,7 @@ class TestingScene extends Phaser.Scene {
     create() {
         // 960 x 720
         // Fondo, revisar
-        this.add.image(0, 0, "background").setOrigin(0,0);
+        this.add.image(0, 0, "test_background").setOrigin(0,0);
 
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
