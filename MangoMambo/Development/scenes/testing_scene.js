@@ -42,32 +42,27 @@ class TestingScene extends Phaser.Scene {
         platforms.create (600, 600, "hor_plat").setScale(5,1).refreshBody(); //Suelo
 
         // Se crea el personaje
-        this.cursors = []; // Esto vendrá dado en la clase Player
-        this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.characters[0] = new Character(this, "palm", 0, 0, this.cursors,[25,42]);
-        this.characters[1] = new Character(this, "dino", 1152/4, 0, this.cursors, [25,64]);
-        this.characters[2] = new Character(this, "toucan", 1152/2, 0, this.cursors,[25,20]);
-        this.characters[3] = new Character(this, "lemur", 1152, 0, this.cursors,[25,42]);
+        this.characters[0] = new Character(this, 1, "palm", true, 0, 0, [25,42]);
+        this.characters[1] = new Character(this, 2, "dino", true, 1152/4, 0, [25,64]);
+        this.characters[2] = new Character(this, 3, "toucan", true, 1152/2, 0, [25,20]);
+        this.characters[3] = new Character(this, 4, "lemur", true, 1152, 0, [25,42]);
+
+        for (var i = 0; i < this.characters.length; i++){
+            this.characters[i].preload();
+        }
 
         // Se crea la colisión entre el personaje y las plataformas
-        
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
         }
         
         // Se crea la música
-
         this.sound.pauseOnBlur = false;
         this.sound.play("minigame_begining")
         this.sound.play("minigame_loop",{
             loop : true,
             delay : 6.9
         })
-
-        console.log(game);
     }
 
     update() {

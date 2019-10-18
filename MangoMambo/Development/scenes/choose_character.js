@@ -13,11 +13,6 @@ class ChooseCharacter extends Phaser.Scene {
         this.cursors3;
         this.cursors4;
 
-        this.player1_img;
-        this.player2_img;
-        this.player3_img;
-        this.player4_img;
-
         this.selector1;
         this.selector2;
         this.selector3;
@@ -38,27 +33,28 @@ class ChooseCharacter extends Phaser.Scene {
 
         this.numPlayers = 0;
 
-        // this.characters = []; // Personajes
-        // this.characters[0] = new Character(this, "palm", 0, 0, undefined, [25,42]);
-        // this.characters[1] = new Character(this, "dino", 1152/4, 0, undefined, [25,64]);
-        // this.characters[2] = new Character(this, "toucan", 1152/2, 0, undefined,[25,20]);
-        // this.characters[3] = new Character(this, "lemur", 1152, 0, undefined,[25,42]);
+        this.characters = [];
 
-        this.cursors1 = []; // 
-        this.cursors1[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors1[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        // Controles de selección
+        this.cursors1 = []; // Controles de selector jugador 1
+        this.cursors1[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.cursors1[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.cursors1[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
-        this.cursors2 = []; // 
-        this.cursors2[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
-        this.cursors2[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
+        this.cursors2 = []; // Controles de selector jugador 2
+        this.cursors2[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+        this.cursors2[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+        this.cursors2[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
 
-        this.cursors3 = []; //
-        this.cursors3[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.cursors3[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.cursors3 = []; // Controles de selector jugador 3
+        this.cursors3[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.cursors3[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.cursors3[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
-        this.cursors4 = []; // 
-        this.cursors4[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_8);
-        this.cursors4[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_5);
+        this.cursors4 = []; // Controles de selector jugador 4
+        this.cursors4[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_4);
+        this.cursors4[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_6);
+        this.cursors4[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_5);
 
         this.selector1 = 0;
         this.selector2 = 0;
@@ -68,87 +64,141 @@ class ChooseCharacter extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, "background").setOrigin(0,0);
-
-        this.images = [];
-        this.images[0] = "palm";
-        this.images[1] = "dino";
-        this.images[2] = "toucan";
-        this.images[3] = "lemur";
     }
 
     update() {
         // Creación y cambio del personaje del jugador 1
-        if (this.cursors1[0].isDown) {
-            if (!this.players[0]){
+        if (!this.players[0]){
+            if (this.cursors1[0].isDown || this.cursors1[1].isDown || this.cursors1[2].isDown) {
+                this.characters[0] = new Character(this, 1, "palm", false, 200, 270);
                 this.players[0] = true;
                 this.numPlayers++;
-                this.player1_img = this.add.image(200, 270, this.images[this.selector1]);
-            }else{
-                if (this.selector1 < 3){
-                    this.selector1++;
-                    this.player1_img.destroy();
-                    this.player1_img = this.add.image(200, 270, this.images[this.selector1]);
+            }
+        }else {
+            if(this.cursors1[0].isDown) {
+                if (this.selector1 <= 0){
+                    this.selector1 = 3;
+                    this.changeCharacter(this.characters, 0, this.selector1);
                 }else{
+                    this.selector1--;
+                    this.changeCharacter(this.characters, 0, this.selector1);
+                }
+            }else if (this.cursors1[1].isDown){
+                if (this.selector1 >=3){
                     this.selector1 = 0;
-                    this.player1_img.destroy();
-                    this.player1_img = this.add.image(200, 270, this.images[this.selector1]);
+                    this.changeCharacter(this.characters, 0, this.selector1);
+                }else{
+                    this.selector1++;
+                    this.changeCharacter(this.characters, 0, this.selector1);
                 }
             }
         }
+
         // Creación y cambio del personaje del jugador 2
-        if (this.cursors2[0].isDown) {
-            if (!this.players[1]){
+        if (!this.players[1]){
+            if (this.cursors2[0].isDown || this.cursors2[1].isDown || this.cursors2[2].isDown) {
+                this.characters[1] = new Character(this, 2, "palm", false, 460, 270);
                 this.players[1] = true;
                 this.numPlayers++;
-                this.player2_img = this.add.image(460, 270, this.images[this.selector2]);
-            }else{
-                if (this.selector2 < 3){
-                    this.selector2++;
-                    this.player2_img.destroy();
-                    this.player2_img = this.add.image(460, 270, this.images[this.selector2]);
+            }
+        }else {
+            if(this.cursors2[0].isDown) {
+                if (this.selector2 <= 0){
+                    this.selector2 = 3;
+                    this.changeCharacter(this.characters, 1, this.selector2);
                 }else{
+                    this.selector2--;
+                    this.changeCharacter(this.characters, 1, this.selector2);
+                }
+            }else if (this.cursors2[1].isDown){
+                if (this.selector2 >=3){
                     this.selector2 = 0;
-                    this.player2_img.destroy();
-                    this.player2_img = this.add.image(460, 270, this.images[this.selector2]);
+                    this.changeCharacter(this.characters, 1, this.selector2);
+                }else{
+                    this.selector2++;
+                    this.changeCharacter(this.characters, 1, this.selector2);
                 }
             }
-
         }
+        
         // Creación y cambio del personaje del jugador 3
-        if (this.cursors3[0].isDown) {
-            if (!this.players[2]){
+        if (!this.players[2]){
+            if (this.cursors3[0].isDown || this.cursors3[1].isDown || this.cursors3[2].isDown) {
+                this.characters[2] = new Character(this, 3, "palm", false, 735, 270);
                 this.players[2] = true;
                 this.numPlayers++;
-                this.player3_img = this.add.image(735, 270, this.images[this.selector3]);
-            }else{
-                if (this.selector3 < 3){
-                    this.selector3++;
-                    this.player3_img.destroy();
-                    this.player3_img = this.add.image(735, 270, this.images[this.selector3]);
+            }
+        }else {
+            if(this.cursors3[0].isDown) {
+                if (this.selector3 <= 0){
+                    this.selector3 = 3;
+                    this.changeCharacter(this.characters, 2, this.selector3);
                 }else{
+                    this.selector3--;
+                    this.changeCharacter(this.characters, 2, this.selector3);
+                }
+            }else if (this.cursors3[1].isDown){
+                if (this.selector3 >=3){
                     this.selector3 = 0;
-                    this.player3_img.destroy();
-                    this.player3_img = this.add.image(735, 270, this.images[this.selector3]);
+                    this.changeCharacter(this.characters, 2, this.selector3);
+                }else{
+                    this.selector3++;
+                    this.changeCharacter(this.characters, 2, this.selector3);
                 }
             }
         }
+        
         // Creación y cambio del personaje del jugador 4
-        if (this.cursors4[0].isDown) {
-            if (!this.players[3]){
+        if (!this.players[3]){
+            if (this.cursors4[0].isDown || this.cursors4[1].isDown || this.cursors4[2].isDown) {
+                this.characters[3] = new Character(this, 4, "palm", false, 990, 270);
                 this.players[3] = true;
                 this.numPlayers++;
-                this.player4_img = this.add.image(990, 270, this.images[this.selector4]);
-            }else{
-                if (this.selector4 < 3){
-                    this.selector4++;
-                    this.player4_img.destroy();
-                    this.player4_img = this.add.image(990, 270, this.images[this.selector4]);
+            }
+        }else {
+            if(this.cursors4[0].isDown) {
+                if (this.selector4 <= 0){
+                    this.selector4 = 3;
+                    this.changeCharacter(this.characters, 3, this.selector4);
                 }else{
+                    this.selector4--;
+                    this.changeCharacter(this.characters, 3, this.selector4);
+                }
+            }else if (this.cursors4[1].isDown){
+                if (this.selector4 >=3){
                     this.selector4 = 0;
-                    this.player2_img.destroy();
-                    this.player4_img = this.add.image(990, 270, this.images[this.selector4]);
+                    this.changeCharacter(this.characters, 3, this.selector4);
+                }else{
+                    this.selector4++;
+                    this.changeCharacter(this.characters, 3, this.selector4);
                 }
             }
+        }
+        console.log(this.characters[2]);
+    }
+
+    changeCharacter(charactersArray, characterid, selector){
+        switch(selector){
+            case 0:
+                this.characterAux = new Character(this, characterid+1, "palm", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characters[characterid].destroy();
+                this.characters[characterid] = this.characterAux;
+                break;
+            case 1:
+                    this.characterAux = new Character(this, characterid+1, "dino", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characters[characterid].destroy();
+                    this.characters[characterid] = this.characterAux;
+                break;
+            case 2:
+                    this.characterAux = new Character(this, characterid+1, "lemur", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characters[characterid].destroy();
+                    this.characters[characterid] = this.characterAux;
+                break;
+            case 3:
+                    this.characterAux = new Character(this, characterid+1, "toucan", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characters[characterid].destroy();
+                    this.characters[characterid] = this.characterAux;
+                break;
         }
     }
 }
