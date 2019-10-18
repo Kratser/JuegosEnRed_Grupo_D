@@ -73,16 +73,14 @@ class MainMenu extends Phaser.Scene {
         
 // NO HE PODIDO ARREGLAR LO DE LA LATENCIA
         // Selección de botones
-        if ((this.cursors[1].isDown || this.cursors[3].isDown) && this.cont<=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
             this.options[this.cont] = false;
             this.cont++;
-             console.log(this.cont);
             this.options[this.cont] = true;
         } 
-        if ((this.cursors[0].isDown || this.cursors[2].isDown) && this.cont>=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=1){
             this.options[this.cont] = false;
             this.cont--;
-            console.log(this.cont);
             this.options[this.cont] = true;
         } 
           
