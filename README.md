@@ -36,7 +36,7 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 
 ## **1. Introducción**
 
-Documento de Diseño del juego Mango Mambo. Videojuego 2D multijugador, tanto local
+Documento de Diseño del juego para ordenador Mango Mambo. Videojuego 2D multijugador, tanto local
 como online, desarrollado en JavaScript y Java con ayuda del framework Phaser 3.
 
 ### **1.1. Concepto del juego**
