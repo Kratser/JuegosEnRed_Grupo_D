@@ -293,7 +293,7 @@ class ChooseCharacter extends Phaser.Scene {
 
         // ENTER para cambiar de escena
         if(Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.numPlayers >=2 ){
-            this.scene.start("testing_scene");
+            this.scene.start("level_1");
         }
 
     }//Fin Update
