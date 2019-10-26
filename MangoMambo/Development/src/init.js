@@ -13,7 +13,7 @@ var config = {
     scene: [
         MainMenu,
         ChooseCharacter,
-        TestingScene
+        Level1
     ]
 };
 
