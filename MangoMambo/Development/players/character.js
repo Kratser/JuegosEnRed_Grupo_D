@@ -3,7 +3,7 @@
 // Lémur: Collider: {25, 42}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Tucán: Collider: {25, 20}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 class Character extends Phaser.GameObjects.Sprite{
-    constructor (scene, id, type, physics, x, y, colliderSize = [,], maxVelocity = 300, acceleration = 480, jumpHeight = 400, fallSpeed = 100) {
+    constructor (scene, id, type, physics, x, y, colliderSize = [,], maxVelocity = 300, acceleration = 600, jumpHeight = 500, fallSpeed = 100) {
         // Llamada al padre del objeto
         super(scene, x, y, type);
 
