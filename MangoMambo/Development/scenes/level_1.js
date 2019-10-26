@@ -63,8 +63,8 @@ class Level1 extends Phaser.Scene {
 
         platforms.create (600, 434, "big_plat");
 
-        platforms.create (287.5, 306, "tiki_leg");
-        platforms.create (912.5, 306, "tiki_leg");
+        platforms.create (287.8, 306, "tiki_leg");
+        platforms.create (913, 306, "tiki_leg");
 
         platforms.create (300, 188, "tiki_arm1");
         platforms.create (900.5, 188, "tiki_arm");
