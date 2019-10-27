@@ -50,6 +50,7 @@ class Options extends Phaser.Scene {
         this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.cursors[4] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.cursors[5] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.cont = 0;
         this.pulsación = true;
@@ -101,7 +102,7 @@ class Options extends Phaser.Scene {
         }
 
         //Cambio de pantalla
-        if(this.options[3] && this.cursors[4].isDown ){
+        if((this.options[3] && this.cursors[4].isDown) || this.cursors[5].isDown){
             this.scene.start("mainMenu");
             // this.scene.add(testingScene, new TestingScene);
             // Se para la música
@@ -109,7 +110,7 @@ class Options extends Phaser.Scene {
         }
 
         //Cambio de pantalla
-        if(this.options[2] && this.cursors[4].isDown ){
+        if(this.options[2] && this.cursors[4].isDown){
             this.scene.start("credits");
             // this.scene.add(testingScene, new TestingScene);
             // Se para la música
