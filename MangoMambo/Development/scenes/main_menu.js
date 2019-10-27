@@ -49,6 +49,7 @@ class MainMenu extends Phaser.Scene {
         
         //     // this.scene.add(testingScene, new TestingScene);
         //     this.scene.start(testingScene);
+        // Array de teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -105,6 +106,14 @@ class MainMenu extends Phaser.Scene {
         //Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown ){
             this.scene.start("choose_character");
+            // this.scene.add(testingScene, new TestingScene);
+            // Se para la música
+            this.loop.stop();
+        }
+
+        //Cambio de pantalla
+        if(this.options[2] && this.cursors[4].isDown ){
+            this.scene.start("options");
             // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.loop.stop();

@@ -13,7 +13,9 @@ var config = {
     scene: [
         MainMenu,
         ChooseCharacter,
-        Level1
+        Level1,
+        Options,
+        Credits
     ]
 };
 

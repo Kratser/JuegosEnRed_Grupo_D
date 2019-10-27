@@ -414,6 +414,7 @@ class ChooseCharacter extends Phaser.Scene {
             this.scene.start("level_1");
             // Se para la música
             this.loop.stop();
+            // wow amazing UwU
         }
 
     }// Fin Update

@@ -89,6 +89,8 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
         }
+
+        this.scene.add("pause", new Pause);
         
         // Se crea la música
         this.sound.pauseOnBlur = false;
