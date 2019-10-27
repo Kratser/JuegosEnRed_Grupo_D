@@ -1,9 +1,9 @@
-// Dinosaurio: Collider: {25, 64}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Palmera: Collider: {25, 42}, VelMax: , Acel: , Alt Salto: , Vel Caída:
+// Dinosaurio: Collider: {25, 64}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Lémur: Collider: {25, 42}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Tucán: Collider: {25, 20}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 class Character extends Phaser.GameObjects.Sprite{
-    constructor (scene, id, type, physics, x, y, colliderSize = [,], maxVelocity = 300, acceleration = 600, jumpHeight = 500, fallSpeed = 100) {
+    constructor (scene, id, type, physics, x, y) {
         // Llamada al padre del objeto
         super(scene, x, y, type);
 
@@ -14,11 +14,8 @@ class Character extends Phaser.GameObjects.Sprite{
         this.physics = physics;
         this.x = x;
         this.y = y;
-        this.colliderSize = colliderSize;
-        this.maxVelocity = maxVelocity;
-        this.acceleration = acceleration;
-        this.jumpHeight = jumpHeight;
-        this.fallSpeed = fallSpeed;
+        
+        
 
         this.cursors;// 0 arriba, 1 izquierda, 2 abajo, 3 derecha, movimiento
         // Se añade a la escena al hacer el new
@@ -30,10 +27,9 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.setCollideWorldBounds(true);
         
         //Propiedades del personaje como el rozamiento o el escalado (revisar)
-        this.body.maxVelocity.x = this.maxVelocity;
         this.body.setAllowDrag();
         this.body.setDragX(480);
-        this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
+        
         }
     }
 
@@ -79,12 +75,50 @@ class Character extends Phaser.GameObjects.Sprite{
     }
 
     create() {
-
+        switch (this.type) {
+            case "palm":
+                this.colliderSize = [25, 42];
+                this.maxVelocity = 300;
+                this.acceleration = 600;
+                this.jumpHeight = 510;
+                this.fallSpeed = 500;
+                break;
+            case "dino":
+                this.colliderSize = [25, 64];
+                this.maxVelocity = 300;
+                this.acceleration = 600;
+                this.jumpHeight = 510;
+                this.fallSpeed = 0;
+                break;
+            case "lemur":
+                this.colliderSize = [25, 42];
+                this.maxVelocity = 400;
+                this.acceleration = 600;
+                this.jumpHeight = 510;
+                this.fallSpeed = 0;
+                break;
+            case "toufat":
+                this.colliderSize = [25, 20];
+                this.maxVelocity = 300;
+                this.acceleration = 400;
+                this.jumpHeight = 700;
+                this.fallSpeed = 0;
+                break;
+            default:
+                this.colliderSize = [,];
+                this.maxVelocity = 0;
+                this.acceleration = 0;
+                this.jumpHeight = 0;
+                this.fallSpeed = 0;
+                break;
+        }
+        this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
+        this.body.maxVelocity.x = this.maxVelocity;
     }
 
     update() {
         //Controla el movimiento del personaje
-        if (this.cursors[1].isDown) {
+        if (this.cursors[1].isDown) {// Izquierda
 
             if(this.body.velocity.x > 0){
                 this.body.setAccelerationX(-this.acceleration);
@@ -94,7 +128,7 @@ class Character extends Phaser.GameObjects.Sprite{
 
             
         }
-        else if (this.cursors[3].isDown) {
+        else if (this.cursors[3].isDown) {// Derecha
 
             if(this.body.velocity.x > 0){
                 this.body.setAccelerationX(this.acceleration);
@@ -106,8 +140,14 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.setAccelerationX(0);
         }
 
-        if (this.cursors[0].isDown && this.body.touching.down) {
+        if (this.cursors[0].isDown && this.body.touching.down) {// Arriba
             this.body.setVelocityY(-this.jumpHeight);
+        }
+
+        if (this.cursors[2].isDown && this.body.velocity.y >= 0){// Abajo
+            this.body.gravity.y = this.fallSpeed;
+        }else if (this.body.velocity.y >= 0){
+            this.body.gravity.y = 0;
         }
 
     }

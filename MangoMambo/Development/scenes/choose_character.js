@@ -36,7 +36,7 @@ class ChooseCharacter extends Phaser.Scene {
         // Imagenes de los personajes
         this.load.image("palm_choose", "./Design/Characters/Palm/palm_choose.png");
         this.load.image("dino_choose", "./Design/Characters/Dino/dino_choose.png");
-        this.load.image("toucan_choose", "./Design/Characters/Toucan/toufat_choose.png");
+        this.load.image("toufat_choose", "./Design/Characters/Toucan/toufat_choose.png");
         this.load.image("lemur_choose", "./Design/Characters/Lemur/lemur_choose.png");
 
         // Nombre de los personajes
@@ -467,7 +467,7 @@ class ChooseCharacter extends Phaser.Scene {
                     this.characters[characterid] = this.characterAux;
                 break;
             case 2:
-                    this.characterAux = new Character(this, characterid+1, "toucan_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characterAux = new Character(this, characterid+1, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                     this.characters[characterid].destroy();
                     this.characters[characterid] = this.characterAux;
                 break;
