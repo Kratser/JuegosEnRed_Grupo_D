@@ -411,13 +411,13 @@ class ChooseCharacter extends Phaser.Scene {
 
         // ENTER para cambiar de escena
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor)) {
-            var readyPlayers = 0;
+            this.readyPlayers = 0;
             for (var i = 0; i < this.players.length; i++) {
-                if (this.players.selected) {
-                    readyplayers++;
+                if (this.players[i].selected) {
+                    this.readyPlayers++;
                 }
             }
-            if (readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
+            if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
                 this.scene.start("level_1");
                 // Se para la música
                 this.loop.stop();
