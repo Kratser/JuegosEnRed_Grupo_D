@@ -8,6 +8,9 @@ class MainMenu extends Phaser.Scene {
         this.lastPress;
         this.actualTime;
         this.latence;
+
+        // La canción loopeada
+        this.loop;
        
     }
 
@@ -59,11 +62,12 @@ class MainMenu extends Phaser.Scene {
 
         // Se crea la música
         this.sound.pauseOnBlur = false;
-        this.sound.play("menu_begining")
-        this.sound.play("menu_loop",{
+        this.sound.play("menu_begining");
+        this.loop = this.sound.add("menu_loop");
+        this.loop.play({
             loop : true,
-            delay : 2.05
-        })
+            delay : 2.02
+        });
 
     }//End create
 
@@ -102,6 +106,8 @@ class MainMenu extends Phaser.Scene {
         if(this.options[0] && this.cursors[4].isDown ){
             this.scene.start("choose_character");
             // this.scene.add(testingScene, new TestingScene);
+            // Se para la música
+            this.loop.stop();
         }
 
     }//End updates

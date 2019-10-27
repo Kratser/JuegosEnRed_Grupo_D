@@ -24,6 +24,9 @@ class ChooseCharacter extends Phaser.Scene {
         this.selector3;
         this.selector4;
 
+        // La canción loopeada
+        this.loop;
+
     }//Fin constructor
 
     preload() {
@@ -111,6 +114,9 @@ class ChooseCharacter extends Phaser.Scene {
         this.selector3 = 0;
         this.selector4 = 0;
 
+        // Se carga la música
+        this.load.audio("character_selection", "./Design/Audio/CharacterSelectionScreenSong/characte_selection_screen.wav");
+
     }//Fin preload
 
     create() {
@@ -160,6 +166,13 @@ class ChooseCharacter extends Phaser.Scene {
         {name: this.player2_name, img: ["palm_P_name","dino_P_name","toufat_P_name","lemur_P_name"]}, 
         {name: this.player3_name, img: ["palm_B_name","dino_B_name","toufat_B_name","lemur_B_name"]}, 
         {name: this.player4_name, img: ["palm_Y_name","dino_Y_name","toufat_Y_name","lemur_Y_name"]}];
+
+        // Se crea la música
+        this.sound.pauseOnBlur = false;
+        this.loop = this.sound.add("character_selection");
+        this.loop.play({
+            loop : true,
+        });
 
     }//Fin create
 
@@ -399,6 +412,8 @@ class ChooseCharacter extends Phaser.Scene {
         // ENTER para cambiar de escena
         if(Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.numPlayers >=2 ){
             this.scene.start("level_1");
+            // Se para la música
+            this.loop.stop();
         }
 
     }// Fin Update

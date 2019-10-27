@@ -3,6 +3,9 @@ class Level1 extends Phaser.Scene {
         super({key: "level_1"});
 
         this.characters; // Escena, Sprite asociado, Array de Cursores, X, Y, VelMáx, Acel, Altura de salto, Vel Caída
+
+        // La canción loopeada
+        this.loop;
     }
 
     preload() {
@@ -89,11 +92,12 @@ class Level1 extends Phaser.Scene {
         
         // Se crea la música
         this.sound.pauseOnBlur = false;
-        this.sound.play("minigame_begining")
-        this.sound.play("minigame_loop",{
+        this.sound.play("minigame_begining");
+        this.loop = this.sound.add("minigame_loop");
+        this.loop.play({
             loop : true,
-            delay : 6.9
-        })
+            delay : 6.87
+        });
     }
 
     update() {
