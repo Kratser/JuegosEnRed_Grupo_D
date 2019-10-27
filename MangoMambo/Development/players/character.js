@@ -99,7 +99,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 break;
             case "toufat":
                 this.colliderSize = [25, 20];
-                this.maxVelocity = 300;
+                this.maxVelocity = 250;
                 this.acceleration = 400;
                 this.jumpHeight = 700;
                 this.fallSpeed = 0;
