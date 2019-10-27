@@ -11,6 +11,13 @@ class Level1 extends Phaser.Scene {
         this.loop;
     }
 
+    init (data){
+        this.characters = [];
+        for (var i = 0; i < data.length; i++){
+            this.characters = data;
+        }
+    }
+
     preload() {
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/lvl_1_background.png");
@@ -35,16 +42,18 @@ class Level1 extends Phaser.Scene {
         this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
         this.load.image("toucan", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
-        this.characters = [];
         
         // Se carga la música
         this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
         this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
+
+        this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+        this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
     }
 
     create() {
-        // 960 x 720
-        // Fondo, revisar
+
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
 
         // Se crean las plataformas como un grupo
@@ -79,10 +88,9 @@ class Level1 extends Phaser.Scene {
         platforms.create (1148.5, 185.50, "side_plat");
 
         // Se crea el personaje
-        this.characters[0] = new Character(this, 1, "palm", true, 0, 0, [25,42]);
-        this.characters[1] = new Character(this, 2, "dino", true, 1152/4, 0, [25,64]);
-        this.characters[2] = new Character(this, 3, "toucan", true, 1152/2, 0, [25,20]);
-        this.characters[3] = new Character(this, 4, "lemur", true, 1152, 0, [25,42]);
+        for (var i = 0; i < this.characters.length; i++){
+            this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type, true, this.characters[i].x, this.characters[i].y);
+        }
 
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].preload();
@@ -92,8 +100,6 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
         }
-
-        this.scene.add("pause", new Pause);
         
         // Se crea la música
         this.sound.pauseOnBlur = false;
@@ -104,12 +110,19 @@ class Level1 extends Phaser.Scene {
             loop : true,
             delay : 6.87
         });
+        
     }
 
     update() {
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
         }
+
+        if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
+            this.scene.pause("level_1");
+            this.scene.wake("pause");
+        }
+
     }
 }
 //setVolume(value)
