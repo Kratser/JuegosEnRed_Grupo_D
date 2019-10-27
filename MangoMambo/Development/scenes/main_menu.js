@@ -20,7 +20,8 @@ class MainMenu extends Phaser.Scene {
     preload() {
 
         // Cargar la imagen de fondo
-        this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu.png");
+        this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu_background.png");
+        this.load.image("title", "./Design/Stages/Backgrounds/mango_mambo_title.png");
         // Buttons
         this.load.image("localButton", "./Design/Objects/local_button.png");
         this.load.image("onlineButton", "./Design/Objects/online_button.png");
@@ -42,6 +43,22 @@ class MainMenu extends Phaser.Scene {
         
         // Fondo
         this.background = this.add.image(0, 0, "menu_background").setOrigin(0,0).setDepth(0);
+
+        // Título que se mueve
+        this.titleMove = this.add.image (712, 245, "title");
+        // Movimiento
+        var tween = this.tweens.add({
+            targets: this.titleMove,
+            
+            scaleX: 0.93,
+            scaleY: 0.93,
+            y: 260,
+            ease: 'Sine.easeInOut',
+            duration: 2000,
+            yoyo: true,
+            repeat: -1
+        });
+
         // Botones 
         this.localButton = this.add.image(250, 160, "localButton").setDepth(1);
         this.onlineButton = this.add.image(250, 270, "onlineButton").setDepth(1);
