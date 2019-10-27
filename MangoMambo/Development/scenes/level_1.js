@@ -59,8 +59,8 @@ class Level1 extends Phaser.Scene {
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
 
-        //Creación de plataformas
-        //Suelo
+        // Creación de plataformas
+        // Suelo
         platforms.create (53, 497.5, "top_step1");
         platforms.create (156, 524.5, "mid_step1");
         platforms.create (253.5, 552, "bott_step1");
@@ -69,11 +69,22 @@ class Level1 extends Phaser.Scene {
         platforms.create (1044, 524.5, "mid_step2");
         platforms.create (1147, 497.5, "top_step2");
 
-        //Aire
+        // Aire
         platforms.create (351.5, 199, "tiki_plat");
         platforms.create (849.5, 199, "tiki_plat");
 
-        platforms.create (600, 155, "yellow_plat");
+        // Plataforma que se mueve
+        this.upMovePlat = platforms.create (500, 155, "yellow_plat");
+        // Movimiento
+        var tween = this.tweens.add({
+            targets: this.upMovePlat,
+            x: 700,
+            ease: 'Sine.easeInOut',
+            duration: 5000,
+            yoyo: true,
+            repeat: -1
+        });
+
         platforms.create (600, 299, "yellow_plat");
 
         platforms.create (600, 434, "big_plat");
@@ -123,6 +134,8 @@ class Level1 extends Phaser.Scene {
             this.scene.pause("level_1");
             this.scene.wake("pause");
         }
+
+        this.upMovePlat.refreshBody();
 
     }
 }
