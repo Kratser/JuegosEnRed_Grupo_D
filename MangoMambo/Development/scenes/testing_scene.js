@@ -7,20 +7,20 @@ class TestingScene extends Phaser.Scene {
 
     preload() {
         // Se cargan las imágenes de las plataformas
-        this.load.image("test_background", "../Design/Stages/Backgrounds/testing_map_background.png");
-        this.load.image("hor_plat", "../Design/Stages/Platforms/hor_platform.jpg");
-        this.load.image("vert_plat", "../Design/Stages/Platforms/vert_platform.jpg");
+        this.load.image("test_background", "./Design/Stages/Backgrounds/testing_map_background.png");
+        this.load.image("hor_plat", "./Design/Stages/Platforms/hor_platform.jpg");
+        this.load.image("vert_plat", "./Design/Stages/Platforms/vert_platform.jpg");
 
         // Se carga la imagen del personaje "palmera"
-        this.load.image("palm", "../Design/Characters/Palm/palm_idle_00.png");
-        this.load.image("dino", "../Design/Characters/Dino/dino_idle_00.png");
-        this.load.image("toucan", "../Design/Characters/Toucan/toucan_idle_00.png");
-        this.load.image("lemur", "../Design/Characters/Lemur/lemur_idle_00.png");
+        this.load.image("palm", "./Design/Characters/Palm/palm_idle_00.png");
+        this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
+        this.load.image("toucan", "./Design/Characters/Toucan/toucan_idle_00.png");
+        this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         this.characters = [];
         
         // Se carga la música
-        this.load.audio("minigame_begining", "../Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
-        this.load.audio("minigame_loop", "../Design/Audio/MinigameSong/minigame_with_edit.wav");
+        this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
+        this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
     }
 
     create() {

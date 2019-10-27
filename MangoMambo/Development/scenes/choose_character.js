@@ -28,43 +28,43 @@ class ChooseCharacter extends Phaser.Scene {
 
     preload() {
         // Se cargan las imágenes
-        this.load.image("character_background", "../Design/Stages/Backgrounds/choose_character_background.png");
+        this.load.image("character_background", "./Design/Stages/Backgrounds/choose_character_background.png");
 
         // Imagenes de los personajes
-        this.load.image("palm", "../Design/Characters/Palm/palm_choose.png");
-        this.load.image("dino", "../Design/Characters/Dino/dino_choose.png");
-        this.load.image("toucan", "../Design/Characters/Toucan/toufat_choose.png");
-        this.load.image("lemur", "../Design/Characters/Lemur/lemur_choose.png");
+        this.load.image("palm", "./Design/Characters/Palm/palm_choose.png");
+        this.load.image("dino", "./Design/Characters/Dino/dino_choose.png");
+        this.load.image("toucan", "./Design/Characters/Toucan/toufat_choose.png");
+        this.load.image("lemur", "./Design/Characters/Lemur/lemur_choose.png");
 
         // Nombre de los personajes
         // Verde
-        this.load.image("palm_G_name", "../Design/Objects/Text/palm_G_name.png");
-        this.load.image("dino_G_name", "../Design/Objects/Text/dino_G_name.png");
-        this.load.image("toufat_G_name", "../Design/Objects/Text/toufat_G_name.png");
-        this.load.image("lemur_G_name", "../Design/Objects/Text/lemur_G_name.png");
+        this.load.image("palm_G_name", "./Design/Objects/Text/palm_G_name.png");
+        this.load.image("dino_G_name", "./Design/Objects/Text/dino_G_name.png");
+        this.load.image("toufat_G_name", "./Design/Objects/Text/toufat_G_name.png");
+        this.load.image("lemur_G_name", "./Design/Objects/Text/lemur_G_name.png");
         // Rosa
-        this.load.image("palm_P_name", "../Design/Objects/Text/palm_P_name.png");
-        this.load.image("dino_P_name", "../Design/Objects/Text/dino_P_name.png");
-        this.load.image("toufat_P_name", "../Design/Objects/Text/toufat_P_name.png");
-        this.load.image("lemur_P_name", "../Design/Objects/Text/lemur_P_name.png");
+        this.load.image("palm_P_name", "./Design/Objects/Text/palm_P_name.png");
+        this.load.image("dino_P_name", "./Design/Objects/Text/dino_P_name.png");
+        this.load.image("toufat_P_name", "./Design/Objects/Text/toufat_P_name.png");
+        this.load.image("lemur_P_name", "./Design/Objects/Text/lemur_P_name.png");
         // Azul
-        this.load.image("palm_B_name", "../Design/Objects/Text/palm_B_name.png");
-        this.load.image("dino_B_name", "../Design/Objects/Text/dino_B_name.png");
-        this.load.image("toufat_B_name", "../Design/Objects/Text/toufat_B_name.png");
-        this.load.image("lemur_B_name", "../Design/Objects/Text/lemur_B_name.png");
+        this.load.image("palm_B_name", "./Design/Objects/Text/palm_B_name.png");
+        this.load.image("dino_B_name", "./Design/Objects/Text/dino_B_name.png");
+        this.load.image("toufat_B_name", "./Design/Objects/Text/toufat_B_name.png");
+        this.load.image("lemur_B_name", "./Design/Objects/Text/lemur_B_name.png");
         // Amarillo
-        this.load.image("palm_Y_name", "../Design/Objects/Text/palm_Y_name.png");
-        this.load.image("dino_Y_name", "../Design/Objects/Text/dino_Y_name.png");
-        this.load.image("toufat_Y_name", "../Design/Objects/Text/toufat_Y_name.png");
-        this.load.image("lemur_Y_name", "../Design/Objects/Text/lemur_Y_name.png");
+        this.load.image("palm_Y_name", "./Design/Objects/Text/palm_Y_name.png");
+        this.load.image("dino_Y_name", "./Design/Objects/Text/dino_Y_name.png");
+        this.load.image("toufat_Y_name", "./Design/Objects/Text/toufat_Y_name.png");
+        this.load.image("lemur_Y_name", "./Design/Objects/Text/lemur_Y_name.png");
 
         // Descripción habilidades de los personajes
-        this.load.image("palm_hab", "../Design/Objects/Text/palm_hab.png");
-        this.load.image("dino_hab", "../Design/Objects/Text/dino_hab.png");
-        this.load.image("toufat_hab", "../Design/Objects/Text/toufat_hab.png");
-        this.load.image("lemur_hab", "../Design/Objects/Text/lemur_hab.png");
+        this.load.image("palm_hab", "./Design/Objects/Text/palm_hab.png");
+        this.load.image("dino_hab", "./Design/Objects/Text/dino_hab.png");
+        this.load.image("toufat_hab", "./Design/Objects/Text/toufat_hab.png");
+        this.load.image("lemur_hab", "./Design/Objects/Text/lemur_hab.png");
 
-        this.load.image("ready", "../Design/Objects/Text/ready.png");
+        this.load.image("ready", "./Design/Objects/Text/ready.png");
 
         // Arrays para los textos
         this.names = [];

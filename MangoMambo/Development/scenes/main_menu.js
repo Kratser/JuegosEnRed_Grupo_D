@@ -14,22 +14,22 @@ class MainMenu extends Phaser.Scene {
     preload() {
 
         // Cargar la imagen de fondo
-        this.load.image("menu_background", "../Design/Stages/Backgrounds/main_menu.png");
+        this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu.png");
         // Buttons
-        this.load.image("localButton", "../Design/Objects/local_button.png");
-        this.load.image("onlineButton", "../Design/Objects/online_button.png");
-        this.load.image("optionsButton", "../Design/Objects/options_button.png");
+        this.load.image("localButton", "./Design/Objects/local_button.png");
+        this.load.image("onlineButton", "./Design/Objects/online_button.png");
+        this.load.image("optionsButton", "./Design/Objects/options_button.png");
         // // Selected buttons
-        this.load.image("localButtonSelect", "../Design/Objects/local_button_select.png");
-        this.load.image("onlineButtonSelect", "../Design/Objects/online_button_select.png");
-        this.load.image("optionsButtonSelect", "../Design/Objects/options_button_select.png");
+        this.load.image("localButtonSelect", "./Design/Objects/local_button_select.png");
+        this.load.image("onlineButtonSelect", "./Design/Objects/online_button_select.png");
+        this.load.image("optionsButtonSelect", "./Design/Objects/options_button_select.png");
         
         // local  online options
         this.options = [true, false, false];
         
         // Se carga la música
-        this.load.audio("menu_begining", "../Design/Audio/MenuSong/menu_begining_with_edit.wav");
-        this.load.audio("menu_loop", "../Design/Audio/MenuSong/menu_with_edit.wav");
+        this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
+        this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
     }//End preload
 
     create() {

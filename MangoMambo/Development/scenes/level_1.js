@@ -7,33 +7,33 @@ class Level1 extends Phaser.Scene {
 
     preload() {
         // Se cargan las imágenes de las plataformas
-        this.load.image("lvl1_background", "../Design/Stages/Backgrounds/lvl_1_background.png");
+        this.load.image("lvl1_background", "./Design/Stages/Backgrounds/lvl_1_background.png");
         //Plataformas
-        this.load.image("big_plat", "../Design/Stages/Platforms/big_plat.png");
-        this.load.image("bott_step1", "../Design/Stages/Platforms/bott_step1.png");
-        this.load.image("bott_step2", "../Design/Stages/Platforms/bott_step2.png");
-        this.load.image("ground_base", "../Design/Stages/Platforms/ground_base.png");
-        this.load.image("tiki_leg", "../Design/Stages/Platforms/tiki_leg.png");
-        this.load.image("mid_step1", "../Design/Stages/Platforms/mid_step1.png");
-        this.load.image("mid_step2", "../Design/Stages/Platforms/mid_step2.png");
-        this.load.image("tiki_arm", "../Design/Stages/Platforms/tiki_arm.png");
-        this.load.image("tiki_arm1", "../Design/Stages/Platforms/tiki_arm1.png");
-        this.load.image("tiki_plat", "../Design/Stages/Platforms/tiki_plat.png");
-        this.load.image("top_step1", "../Design/Stages/Platforms/top_step1.png");
-        this.load.image("top_step2", "../Design/Stages/Platforms/top_step2.png");
-        this.load.image("yellow_plat", "../Design/Stages/Platforms/yellow_plat.png");
-        this.load.image("side_plat", "../Design/Stages/Platforms/side_plat.png");
+        this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
+        this.load.image("bott_step1", "./Design/Stages/Platforms/bott_step1.png");
+        this.load.image("bott_step2", "./Design/Stages/Platforms/bott_step2.png");
+        this.load.image("ground_base", "./Design/Stages/Platforms/ground_base.png");
+        this.load.image("tiki_leg", "./Design/Stages/Platforms/tiki_leg.png");
+        this.load.image("mid_step1", "./Design/Stages/Platforms/mid_step1.png");
+        this.load.image("mid_step2", "./Design/Stages/Platforms/mid_step2.png");
+        this.load.image("tiki_arm", "./Design/Stages/Platforms/tiki_arm.png");
+        this.load.image("tiki_arm1", "./Design/Stages/Platforms/tiki_arm1.png");
+        this.load.image("tiki_plat", "./Design/Stages/Platforms/tiki_plat.png");
+        this.load.image("top_step1", "./Design/Stages/Platforms/top_step1.png");
+        this.load.image("top_step2", "./Design/Stages/Platforms/top_step2.png");
+        this.load.image("yellow_plat", "./Design/Stages/Platforms/yellow_plat.png");
+        this.load.image("side_plat", "./Design/Stages/Platforms/side_plat.png");
 
         // Se carga la imagen del personaje "palmera"
-        this.load.image("palm", "../Design/Characters/Palm/palm_idle_00.png");
-        this.load.image("dino", "../Design/Characters/Dino/dino_idle_00.png");
-        this.load.image("toucan", "../Design/Characters/Toucan/toucan_idle_00.png");
-        this.load.image("lemur", "../Design/Characters/Lemur/lemur_idle_00.png");
+        this.load.image("palm", "./Design/Characters/Palm/palm_idle_00.png");
+        this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
+        this.load.image("toucan", "./Design/Characters/Toucan/toucan_idle_00.png");
+        this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         this.characters = [];
         
         // Se carga la música
-        this.load.audio("minigame_begining", "../Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
-        this.load.audio("minigame_loop", "../Design/Audio/MinigameSong/minigame_with_edit.wav");
+        this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
+        this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
     }
 
     create() {
