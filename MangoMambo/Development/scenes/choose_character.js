@@ -410,10 +410,18 @@ class ChooseCharacter extends Phaser.Scene {
         }//Fin jugador 4
 
         // ENTER para cambiar de escena
-        if(Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.numPlayers >=2 ){
-            this.scene.start("level_1");
-            // Se para la música
-            this.loop.stop();
+        if(Phaser.Input.Keyboard.JustDown(this.enterCursor)){
+            var readyPlayers = 0;
+            for (var i = 0; i < this.players.length; i++){ 
+                if (this.players.selected){
+                    readyplayers++;
+                }
+            }
+            if (readyPlayers >= 2){ // Si hay más de dos personajes seleccionados
+                this.scene.start("level_1");
+                // Se para la música
+                this.loop.stop();
+            }
         }
 
     }// Fin Update
