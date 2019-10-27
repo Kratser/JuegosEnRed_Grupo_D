@@ -135,6 +135,8 @@ class Level1 extends Phaser.Scene {
             this.scene.wake("pause");
         }
 
+        this.upMovePlat.refreshBody();
+
     }
 }
 //setVolume(value)
