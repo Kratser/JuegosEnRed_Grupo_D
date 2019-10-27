@@ -15,7 +15,6 @@ class Pause extends Phaser.Scene {
 
         this.resumeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        this.scene.sleep("pause");
     }// Fin preload
 
     create(){
@@ -23,6 +22,7 @@ class Pause extends Phaser.Scene {
         // Fondo
         this.add.image(0, 0, "pause_background").setOrigin(0,0);
 
+        this.scene.sleep("pause");
     }// Fin create
 
     update(){
@@ -31,7 +31,6 @@ class Pause extends Phaser.Scene {
             this.scene.resume(this.data.sceneKey);
             this.scene.sleep("pause");
         }  
-        console.log(this.data);
 
     }// Fin update
 

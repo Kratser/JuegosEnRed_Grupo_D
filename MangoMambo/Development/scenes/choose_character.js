@@ -418,7 +418,12 @@ class ChooseCharacter extends Phaser.Scene {
                 }
             }
             if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
-                this.scene.start("level_1");
+                for (var i = 0; i < this.characters.length; i++){
+                    if (!this.characters[i]){
+                        this.characters.splice(i,1);
+                    }
+                }
+                this.scene.start("level_1", this.characters);
                 // Se para la música
                 this.loop.stop();
             }
