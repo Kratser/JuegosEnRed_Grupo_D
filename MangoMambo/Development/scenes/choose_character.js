@@ -67,7 +67,11 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("toufat_hab", "./Design/Objects/Text/toufat_hab.png");
         this.load.image("lemur_hab", "./Design/Objects/Text/lemur_hab.png");
 
+        // Ready! para cuando el personaje se selecciona
         this.load.image("ready", "./Design/Objects/Text/ready.png");
+
+        // Boton de escape
+        this.load.image("escape_button", "./Design/Objects/escape_button.png");
 
         // Arrays para los textos
         this.names = [];
@@ -107,7 +111,13 @@ class ChooseCharacter extends Phaser.Scene {
         this.cursors4[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_6);
 
         // ENTER
-        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
+        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+        // ESCAPE
+        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+        this.pulsación = true;
+        this.press = true;
 
         this.selector1 = 0;
         this.selector2 = 0;
@@ -120,7 +130,12 @@ class ChooseCharacter extends Phaser.Scene {
     }//Fin preload
 
     create() {
-        this.add.image(0, 0, "character_background").setOrigin(0,0); // Fondo
+
+        // Fondo
+        this.add.image(0, 0, "character_background").setOrigin(0,0);
+
+        // Boton escape
+        this.escapeButton = this.add.image(45, 20, "escape_button");
 
         // Texto ready (seleccionado)
         this.ready1 = this.add.image(171.50, 239.05, "ready").setDepth(1);
@@ -177,6 +192,7 @@ class ChooseCharacter extends Phaser.Scene {
     }//Fin create
 
     update() {
+
         // Creación y cambio del personaje del jugador 1
         if (!this.players[0].active){// Si el jugador 1 no se encuentra activo
             // Si se pulsa la tecla WASD, se añade el jugador 1 a la lista de jugadores
@@ -423,6 +439,13 @@ class ChooseCharacter extends Phaser.Scene {
                 this.loop.stop();
             }
         }  
+
+        // ESCAPE para salir al menú principal
+        if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
+            this.scene.start("mainMenu");
+            // Se para la música
+            this.loop.stop();
+        } 
 
     }// Fin Update
 
