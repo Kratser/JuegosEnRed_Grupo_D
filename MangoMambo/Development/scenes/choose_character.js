@@ -3,7 +3,7 @@ class ChooseCharacter extends Phaser.Scene {
         super({key: "choose_character"});
 
         this.players;
-        //Hola que tal
+        
         this.numPlayers;
 
         this.characters;
