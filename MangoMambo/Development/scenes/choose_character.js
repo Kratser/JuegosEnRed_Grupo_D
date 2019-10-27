@@ -34,10 +34,10 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("character_background", "./Design/Stages/Backgrounds/choose_character_background.png");
 
         // Imagenes de los personajes
-        this.load.image("palm", "./Design/Characters/Palm/palm_choose.png");
-        this.load.image("dino", "./Design/Characters/Dino/dino_choose.png");
-        this.load.image("toucan", "./Design/Characters/Toucan/toufat_choose.png");
-        this.load.image("lemur", "./Design/Characters/Lemur/lemur_choose.png");
+        this.load.image("palm_choose", "./Design/Characters/Palm/palm_choose.png");
+        this.load.image("dino_choose", "./Design/Characters/Dino/dino_choose.png");
+        this.load.image("toufat_choose", "./Design/Characters/Toucan/toufat_choose.png");
+        this.load.image("lemur_choose", "./Design/Characters/Lemur/lemur_choose.png");
 
         // Nombre de los personajes
         // Verde
@@ -197,7 +197,7 @@ class ChooseCharacter extends Phaser.Scene {
         if (!this.players[0].active){// Si el jugador 1 no se encuentra activo
             // Si se pulsa la tecla WASD, se añade el jugador 1 a la lista de jugadores
             if (Phaser.Input.Keyboard.JustDown(this.cursors1[0]) || Phaser.Input.Keyboard.JustDown(this.cursors1[1]) || Phaser.Input.Keyboard.JustDown(this.cursors1[2]) || Phaser.Input.Keyboard.JustDown(this.cursors1[3])) {
-                this.characters[0] = new Character(this, 1, "palm", false, 163, 224.5);
+                this.characters[0] = new Character(this, 1, "palm_choose", false, 163, 224.5);
                 this.players[0].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector1, 0);// Que aparezca la habilidad/nombre al empezar a seleccionar
@@ -255,7 +255,7 @@ class ChooseCharacter extends Phaser.Scene {
         if (!this.players[1].active){// Si el jugador 2 no se encuentra activo
             // Si se pulsa IJKL, se añade el jugador 2 a la lista de jugadores
             if (Phaser.Input.Keyboard.JustDown(this.cursors2[0]) || Phaser.Input.Keyboard.JustDown(this.cursors2[1]) || Phaser.Input.Keyboard.JustDown(this.cursors2[2]) || Phaser.Input.Keyboard.JustDown(this.cursors2[3])) {
-                this.characters[1] = new Character(this, 2, "palm", false, 453, 224.5);
+                this.characters[1] = new Character(this, 2, "palm_choose", false, 453, 224.5);
                 this.players[1].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector2, 1);// Que aparezca la habilidad/nombre al empezar a seleccionar
@@ -313,7 +313,7 @@ class ChooseCharacter extends Phaser.Scene {
         if (!this.players[2].active){ // Si el jugador 3 no se encuentra activo
             // Si se pulsa alguna flecha de dirección se añade el jugador 3 a la lista de personajes
             if (Phaser.Input.Keyboard.JustDown(this.cursors3[0]) || Phaser.Input.Keyboard.JustDown(this.cursors3[1]) || Phaser.Input.Keyboard.JustDown(this.cursors3[2]) || Phaser.Input.Keyboard.JustDown(this.cursors3[3])) {
-                this.characters[2] = new Character(this, 3, "palm", false, 740.50, 224.5);
+                this.characters[2] = new Character(this, 3, "palm_choose", false, 740.50, 224.5);
                 this.players[2].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector3, 2);// Que aparezca la habilidad/nombre al empezar a seleccionar
@@ -371,7 +371,7 @@ class ChooseCharacter extends Phaser.Scene {
         if (!this.players[3].active){ // Si el jugador 4 no se encuentra activo
             // 8456 en el NUMPAD para añadir al jugador 4 a la lista de personajes
             if (Phaser.Input.Keyboard.JustDown(this.cursors4[0]) || Phaser.Input.Keyboard.JustDown(this.cursors4[1]) || Phaser.Input.Keyboard.JustDown(this.cursors4[2]) || Phaser.Input.Keyboard.JustDown(this.cursors4[3])) {
-                this.characters[3] = new Character(this, 4, "palm", false, 1022, 224.5);
+                this.characters[3] = new Character(this, 4, "palm_choose", false, 1022, 224.5);
                 this.players[3].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector4, 3);// Que aparezca la habilidad/nombre al empezar a seleccionar
@@ -435,7 +435,7 @@ class ChooseCharacter extends Phaser.Scene {
             }
             if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
                 for (var i = 0; i < this.characters.length; i++){
-                    if (!this.characters[i]){
+                    if (!this.players[i].selected){
                         this.characters.splice(i,1);
                     }
                 }
@@ -457,22 +457,22 @@ class ChooseCharacter extends Phaser.Scene {
     changeCharacter(charactersArray, characterid, selector, names){
         switch(selector){
             case 0:
-                this.characterAux = new Character(this, characterid+1, "palm", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new Character(this, characterid+1, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 1:
-                    this.characterAux = new Character(this, characterid+1, "dino", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characterAux = new Character(this, characterid+1, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                     this.characters[characterid].destroy();
                     this.characters[characterid] = this.characterAux;
                 break;
             case 2:
-                    this.characterAux = new Character(this, characterid+1, "toucan", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characterAux = new Character(this, characterid+1, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                     this.characters[characterid].destroy();
                     this.characters[characterid] = this.characterAux;
                 break;
             case 3:
-                    this.characterAux = new Character(this, characterid+1, "lemur", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                    this.characterAux = new Character(this, characterid+1, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                     this.characters[characterid].destroy();
                     this.characters[characterid] = this.characterAux;
                 break;
