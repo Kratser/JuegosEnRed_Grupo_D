@@ -40,7 +40,7 @@ class Level1 extends Phaser.Scene {
         // Se carga la imagen del personaje "palmera"
         this.load.image("palm", "./Design/Characters/Palm/palm_idle_00.png");
         this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
-        this.load.image("toucan", "./Design/Characters/Toucan/toucan_idle_00.png");
+        this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         
         // Se carga la música
@@ -89,11 +89,12 @@ class Level1 extends Phaser.Scene {
 
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
-            this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type, true, this.characters[i].x, this.characters[i].y);
+            this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, this.characters[i].x, this.characters[i].y);
         }
 
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].preload();
+            this.characters[i].create();
         }
 
         // Se crea la colisión entre el personaje y las plataformas
