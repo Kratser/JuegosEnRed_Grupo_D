@@ -125,8 +125,8 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(-this.acceleration);
             }
+            this.flipX = true;
 
-            
         }
         else if (this.cursors[3].isDown) {// Derecha
 
@@ -135,6 +135,7 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(this.acceleration);
             }
+            this.flipX = false;
         }
         else {
             this.body.setAccelerationX(0);
