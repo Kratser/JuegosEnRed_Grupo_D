@@ -50,10 +50,15 @@ class Level1 extends Phaser.Scene {
         this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
+
+        // Se carga el mango
+        this.load.image("mango", "./Design/Stages/Platforms/side_plat.png");
+        this.mango;
     }
 
     create() {
 
+        // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
 
         // Se crean las plataformas como un grupo
@@ -98,6 +103,11 @@ class Level1 extends Phaser.Scene {
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
 
+        // Se crea el mango
+        this. mango = new Mango(this, "mango", 600, 400);
+
+        console.log(this.mango);
+
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, this.characters[i].x, this.characters[i].y);
@@ -108,9 +118,21 @@ class Level1 extends Phaser.Scene {
             this.characters[i].create();
         }
 
-        // Se crea la colisión entre el personaje y las plataformas
+        // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
+        }
+
+        // Se crea la colisión entre los personajes y el mango
+        for (var i = 0; i < this.characters.length; i++){
+            this.physics.add.overlap(this.characters[i], this.mango, CogerMango, null, this);
+        }
+
+        // Se crea la colisión entre los personajes
+        for (var i = 0; i <this.characters.length; i++){
+            for (var j = 0; j < this.character.length; j++){
+                this.physics.add.collider(this.characters[i], this.character[j], RobarMango, null, this);
+            }
         }
         
         // Se crea la música
@@ -129,6 +151,7 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
         }
+        this.mango.update();
 
         if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
             this.scene.pause("level_1");
@@ -138,5 +161,15 @@ class Level1 extends Phaser.Scene {
         this.upMovePlat.refreshBody();
 
     }
+
+    
 }
-//setVolume(value)
+function CogerMango(character, mango){
+    if (!mango.character){
+        mango.character = character;
+    }
+}
+
+function RobarMango(character1, character2){
+
+}
