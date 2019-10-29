@@ -181,7 +181,6 @@ class Level1 extends Phaser.Scene {
     RobarMango(character1, character2){
         if (this.mango.character){
             if (this.clock.now - this.collisionTime >= this.maxCollisionTime){
-                console.log("Hola");
                 switch(this.mango.character.id){
                     case character1.id:
                         this.mango.character = character2;

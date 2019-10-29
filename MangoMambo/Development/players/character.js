@@ -140,7 +140,7 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.setAccelerationX(0);
         }
 
-        if (this.cursors[0].isDown && this.body.touching.down) {// Arriba
+        if (this.cursors[0].isDown && this.body.onFloor()) {// Arriba
             this.body.setVelocityY(-this.jumpHeight);
         }
 
