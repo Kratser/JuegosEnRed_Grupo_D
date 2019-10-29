@@ -37,11 +37,15 @@ class Level1 extends Phaser.Scene {
         this.load.image("yellow_plat", "./Design/Stages/Platforms/yellow_plat.png");
         this.load.image("side_plat", "./Design/Stages/Platforms/side_plat.png");
 
-        // Se carga la imagen del personaje "palmera"
+        // Se carga la imagen de los personajes
         this.load.image("palm", "./Design/Characters/Palm/palm_idle_00.png");
         this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
         this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
+
+        // Tiempo entre colisiones para cambiar el mango
+        this.maxCollisionTime;
+        this.collisionTime;
         
         // Se carga la música
         this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
@@ -52,12 +56,18 @@ class Level1 extends Phaser.Scene {
         this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
 
         // Se carga el mango
-        this.load.image("mango", "./Design/Stages/Platforms/side_plat.png");
+        this.load.image("mango", "./Design/Objects/mango.png");
         this.mango;
+
+        // Reloj del juego
+        this.clock;
+
     }
 
     create() {
-
+        // Se inicializa el reloj
+        this.clock = new Phaser.Time.Clock(this);
+        this.clock.start();
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
 
@@ -103,11 +113,6 @@ class Level1 extends Phaser.Scene {
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
 
-        // Se crea el mango
-        this. mango = new Mango(this, "mango", 600, 400);
-
-        console.log(this.mango);
-
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, this.characters[i].x, this.characters[i].y);
@@ -118,6 +123,9 @@ class Level1 extends Phaser.Scene {
             this.characters[i].create();
         }
 
+        // Se crea el mango
+        this.mango = new Mango(this, "mango", 600, 400);
+
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
@@ -125,13 +133,17 @@ class Level1 extends Phaser.Scene {
 
         // Se crea la colisión entre los personajes y el mango
         for (var i = 0; i < this.characters.length; i++){
-            this.physics.add.overlap(this.characters[i], this.mango, CogerMango, null, this);
+            this.physics.add.overlap(this.characters[i], this.mango, this.CogerMango, null, this);
         }
 
         // Se crea la colisión entre los personajes
-        for (var i = 0; i <this.characters.length; i++){
-            for (var j = 0; j < this.character.length; j++){
-                this.physics.add.collider(this.characters[i], this.character[j], RobarMango, null, this);
+        this.maxCollisionTime = 1000;
+        this.collisionTime = 0;
+        for (var i = 0; i <this.characters.length-1; i++){
+            for (var j = i+1; j < this.characters.length; j++){
+                if (i != j){
+                    this.physics.add.overlap(this.characters[i], this.characters[j], this.RobarMango, null, this);
+                }
             }
         }
         
@@ -144,10 +156,9 @@ class Level1 extends Phaser.Scene {
             loop : true,
             delay : 6.87
         });
-        
     }
 
-    update() {
+    update(time, delta) {
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
         }
@@ -159,17 +170,33 @@ class Level1 extends Phaser.Scene {
         }
 
         this.upMovePlat.refreshBody();
-
     }
 
+    CogerMango(character, mango){
+        if (!mango.character){
+            mango.character = character;
+        }
+    }
     
-}
-function CogerMango(character, mango){
-    if (!mango.character){
-        mango.character = character;
+    RobarMango(character1, character2){
+        if (this.mango.character){
+            if (this.clock.now - this.collisionTime >= this.maxCollisionTime){
+                console.log("Hola");
+                switch(this.mango.character.id){
+                    case character1.id:
+                        this.mango.character = character2;
+                        break;
+    
+                    case character2.id:
+                        this.mango.character = character1;
+                        break;
+    
+                    default:
+                        break;
+                }
+                this.collisionTime = this.clock.now;
+            }
+        }
     }
 }
 
-function RobarMango(character1, character2){
-
-}

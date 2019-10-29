@@ -32,6 +32,7 @@ class Mango extends Phaser.GameObjects.Sprite{
     update() {
         if (this.character){
             this.x = this.character.x;
+            this.y = this.character.y - this.character.height*3/4;
         }
     }
 }
