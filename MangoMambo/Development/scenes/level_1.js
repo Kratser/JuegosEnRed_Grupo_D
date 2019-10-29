@@ -190,6 +190,9 @@ class Level1 extends Phaser.Scene {
         console.log(this.maxMatchTime- (this.clock.now - this.matchTime)); // Tiempo restante
         if (this.clock.now - this.matchTime >= this.maxMatchTime){
             this.scene.start("main_menu");
+            // Se para la música
+            this.intro.stop();
+            this.loop.stop();
         }
 
     }// Fin Update
