@@ -447,7 +447,7 @@ class ChooseCharacter extends Phaser.Scene {
 
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
-            this.scene.start("mainMenu");
+            this.scene.start("main_menu");
             // Se para la música
             this.loop.stop();
         } 

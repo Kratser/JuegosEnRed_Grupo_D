@@ -16,6 +16,7 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < data.length; i++){
             this.characters = data;
         }
+
     }
 
     preload() {
@@ -53,7 +54,9 @@ class Level1 extends Phaser.Scene {
 
         this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
+        if (!this.scene.get("pause")){
+            this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
+        }
 
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
@@ -62,12 +65,16 @@ class Level1 extends Phaser.Scene {
         // Reloj del juego
         this.clock;
 
+        // Tiempo de partida
+        this.maxMatchTime;
+        this.matchTime
     }
 
     create() {
         // Se inicializa el reloj
         this.clock = new Phaser.Time.Clock(this);
         this.clock.start();
+        
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
 
@@ -156,31 +163,48 @@ class Level1 extends Phaser.Scene {
             loop : true,
             delay : 6.87
         });
-    }
 
-    update(time, delta) {
+        // Tiempo de partida
+        this.maxMatchTime = 60000;// Tiempo máximo
+        this.matchTime = this.time.now; 
+
+    }// Fin Create
+
+    update() {
+
+        // Update de los personajes y del mango
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
         }
         this.mango.update();
 
+        // Pause
         if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
             this.scene.pause("level_1");
             this.scene.wake("pause");
         }
-
+        // Refresh body de la plataforma que se mueve
         this.upMovePlat.refreshBody();
-    }
+
+        // Si el tiempo de partida supera el tiempo máximo, se vuelve al menú principal
+        console.log(this.maxMatchTime- (this.clock.now - this.matchTime)); // Tiempo restante
+        if (this.clock.now - this.matchTime >= this.maxMatchTime){
+            this.scene.start("main_menu");
+        }
+
+    }// Fin Update
 
     CogerMango(character, mango){
-        if (!mango.character){
-            mango.character = character;
+        if (!mango.character){// Si el mango no tiene ningún personaje asociado
+            mango.character = character;// El personaje que lo recoge queda guardado en el mango
         }
     }
     
     RobarMango(character1, character2){
-        if (this.mango.character){
-            if (this.clock.now - this.collisionTime >= this.maxCollisionTime){
+        if (this.mango.character){ // Si el mango tiene un personaje asociado
+            // Si ha pasado el tiempo suficiente para cambiar el mango de jugador
+            if (this.clock.now - this.collisionTime >= this.maxCollisionTime){ 
+                // Se detecta qué personaje tiene el mango, y se le da al que no lo tiene
                 switch(this.mango.character.id){
                     case character1.id:
                         this.mango.character = character2;
@@ -193,7 +217,7 @@ class Level1 extends Phaser.Scene {
                     default:
                         break;
                 }
-                this.collisionTime = this.clock.now;
+                this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
             }
         }
     }

@@ -1,6 +1,6 @@
 class MainMenu extends Phaser.Scene {
     constructor(){
-        super({key: "mainMenu"});
+        super({key: "main_menu"});
         //Array de obciones para selecionar botón
         this.options;
         //Contador para cambiar la posición del array options

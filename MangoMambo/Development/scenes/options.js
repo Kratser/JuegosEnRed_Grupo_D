@@ -103,7 +103,7 @@ class Options extends Phaser.Scene {
 
         //Cambio de pantalla
         if((this.options[3] && this.cursors[4].isDown) || this.cursors[5].isDown){
-            this.scene.start("mainMenu");
+            this.scene.start("main_menu");
             // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.loop.stop();
