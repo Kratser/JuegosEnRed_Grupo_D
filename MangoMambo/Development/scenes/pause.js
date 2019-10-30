@@ -79,6 +79,11 @@ class Pause extends Phaser.Scene {
 
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.enterKey)) {
             this.scene.sleep("pause");
+            
+            // Se para la música
+            this.data.scene.loop.stop();
+            this.data.scene.intro.stop();
+
             this.data.scene.scene.start("main_menu");
             this.options[1] = false;
         }

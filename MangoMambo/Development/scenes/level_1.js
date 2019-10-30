@@ -13,14 +13,18 @@ class Level1 extends Phaser.Scene {
 
     init (data){
         this.characters = [];
-        this.characters = data;
-        this.scores = [];
+        this.characters = data.characters;
+        this.scores = [
+            {id: 0, score: 0},
+            {id: 0, score: 0},
+            {id: 0, score: 0},
+            {id: 0, score: 0}
+        ];
         for (var i = 0; i < this.characters.length; i++){
-            this.scores[i] = this.characters[i].score;
+            this.scores[i].id = this.characters[i].id;
+            this.scores[i].score = this.characters[i].score;
         }
         this.numPlayers = this.characters.length; // Número de jugadores
-        
-
     }
 
     preload() {
@@ -47,6 +51,8 @@ class Level1 extends Phaser.Scene {
         this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
         this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
+        // Se cargan los contornos de los pesonajes
+        this.load.image("outline", "./Design/Objects/outline.png");
 
         // Tiempo entre colisiones para cambiar el mango
         this.maxCollisionTime;
@@ -80,7 +86,7 @@ class Level1 extends Phaser.Scene {
         this.clock.start();
         
         // Se crea el fondo
-        this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
+        this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
 
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
@@ -126,7 +132,23 @@ class Level1 extends Phaser.Scene {
 
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
-            this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, this.characters[i].x, this.characters[i].y);
+            switch(this.characters[i].id){
+                case 1:
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    break;
+
+                case 2:
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    break;
+                
+                case 3:
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    break;
+
+                case 4:
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    break;
+            }
         }
 
         for (var i = 0; i < this.characters.length; i++){
@@ -135,7 +157,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 400, 30000);
+        this.mango = new Mango(this, "mango", 600, 260, 30000);
 
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
@@ -193,12 +215,12 @@ class Level1 extends Phaser.Scene {
         // Si el tiempo de partida supera el tiempo máximo, se vuelve al menú principal
         console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
         if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
-            this.scene.start("main_menu");
+            this.scene.start("main_menu", {character: this.characters, scores: this.scores});
             // Se para la música
             this.intro.stop();
             this.loop.stop();
         }
-
+        console.log(this.characters[0]);
     }// Fin Update
 
     CogerMango(character, mango){
@@ -236,8 +258,9 @@ class Level1 extends Phaser.Scene {
                 this.characters[i].score += this.numPlayers;
                 this.scores[i] = this.characters[i].score;
                 console.log(this.scores[i]);
+                //Quitar al personaje de la escena
                 this.characters[i].destroy();
-                this.characters.splice(i,1);
+                this.characters.splice(i, 1);
             }
         }
         this.numPlayers--;

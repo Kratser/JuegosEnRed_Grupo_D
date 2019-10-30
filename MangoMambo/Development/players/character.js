@@ -34,6 +34,9 @@ class Character extends Phaser.GameObjects.Sprite{
     }
 
     preload(){
+        this.emitter;
+        this.outline;
+
         this.cursors1 = []; // Esto vendrá dado en la clase Player
         this.cursors1[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.cursors1[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -61,15 +64,64 @@ class Character extends Phaser.GameObjects.Sprite{
         switch (this.id){
             case 1:
                 this.cursors = this.cursors1;
+                // Borde de color
+                this.outline = this.scene.add.particles("outline").setDepth(-1);
+                this.emitter = this.outline.createEmitter({
+                    follow: this,
+                    followOffset: {
+                        y: this.height/4
+                    },
+                    angle: {min: 0, max: 360},
+                    scale: {start: 0.8, end: 0.0},
+                    // xxRRGGBB
+                    tint: 0xff0eff00,
+                    lifespan: 200
+                });
                 break;
             case 2:
                 this.cursors = this.cursors2;
+                // Borde de color
+                this.outline = this.scene.add.particles("outline").setDepth(-1);
+                this.emitter = this.outline.createEmitter({
+                    follow: this,
+                    followOffset: {
+                        y: this.height/4
+                    },
+                    scale: {start: 0.8, end: 0.0},
+                    // xxRRGGBB
+                    tint: 0xffff00e9,
+                    lifespan: 200
+                });
                 break;
             case 3:
                 this.cursors = this.cursors3;
+                // Borde de color
+                this.outline = this.scene.add.particles("outline").setDepth(-1);
+                this.emitter = this.outline.createEmitter({
+                    follow: this,
+                    followOffset: {
+                        y: this.height/4
+                    },
+                    scale: {start: 0.8, end: 0.0},
+                    // xxRRGGBB
+                    tint: 0xff00fff0,
+                    lifespan: 200
+                });
                 break;
             case 4:
                 this.cursors = this.cursors4;
+                // Borde de color
+                this.outline = this.scene.add.particles("outline").setDepth(-1);
+                this.emitter = this.outline.createEmitter({
+                    follow: this,
+                    followOffset: {
+                        y: this.height/4
+                    },
+                    scale: {start: 0.8, end: 0.0},
+                    // xxRRGGBB
+                    tint: 0xffffeb00,
+                    lifespan: 200
+                });
                 break;
         }
     }
@@ -81,7 +133,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.maxVelocity = 300;
                 this.acceleration = 600;
                 this.jumpHeight = 510;
-                this.fallSpeed = 500;
+                this.fallSpeed = 2000;
                 break;
             case "dino":
                 this.colliderSize = [25, 64];
@@ -92,8 +144,8 @@ class Character extends Phaser.GameObjects.Sprite{
                 break;
             case "lemur":
                 this.colliderSize = [25, 42];
-                this.maxVelocity = 400;
-                this.acceleration = 600;
+                this.maxVelocity = 600;
+                this.acceleration = 1000;
                 this.jumpHeight = 510;
                 this.fallSpeed = 0;
                 break;
@@ -145,7 +197,7 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.setVelocityY(-this.jumpHeight);
         }
 
-        if (this.cursors[2].isDown && this.body.velocity.y >= 0){// Abajo
+        if (this.cursors[2].isDown /*&& this.body.velocity.y >= 0*/){// Abajo
             this.body.gravity.y = this.fallSpeed;
         }else if (this.body.velocity.y >= 0){
             this.body.gravity.y = 0;

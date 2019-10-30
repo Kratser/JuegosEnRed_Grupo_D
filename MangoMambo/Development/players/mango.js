@@ -39,7 +39,7 @@ class Mango extends Phaser.GameObjects.Sprite{
                 console.log("PUM!");
                 this.time = this.scene.clock.now;
                 this.x = 600;
-                this.y = 272;
+                this.y = 260;
                 this.scene.EliminarPersonaje(this.character);
                 this.character = null;
             }
