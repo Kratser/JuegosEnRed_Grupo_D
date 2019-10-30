@@ -12,7 +12,6 @@ class Level1 extends Phaser.Scene {
     }
 
     init (data){
-        this.characters = [];
         this.characters = data.characters;
         this.numPlayers = this.characters.length; // Número de jugadores
     }
@@ -44,13 +43,13 @@ class Level1 extends Phaser.Scene {
         // Se cargan las animaciones de los personajes
         this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle_00.png',
         {
-            frameWidth: 49,
-            frameHeight: 69 
+            frameWidth: 80,
+            frameHeight: 80 
         });
-        this.load.spritesheet('dino_walk', './Design/Characters/Dino/dino_walk2.png',
+        this.load.spritesheet('dino_walk', './Design/Characters/Dino/dino_walk.png',
         {
-            frameWidth: 49,
-            frameHeight: 72 
+            frameWidth: 80,
+            frameHeight: 80 
         });
         // Se cargan los contornos de los pesonajes
         this.load.image("outline", "./Design/Objects/outline.png");
@@ -135,19 +134,19 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             switch(this.characters[i].id){
                 case 1:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
                     break;
 
                 case 2:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
                     break;
                 
                 case 3:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
                     break;
 
                 case 4:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0], true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
                     break;
             }
         }
