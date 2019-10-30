@@ -5,13 +5,12 @@ class HowToPlay extends Phaser.Scene {
     }// Fin constructor
 
     init(data){
-        this.characters = data;
+        this.characters = data.characters;
     }
 
     preload(){
 
         // Cargar imágenes
-        this.load.image("lvl_1_background", "./Design/Stages/Backgrounds/lvl_1_background.png");
         this.load.image("how_to_play_scene", "./Design/Stages/Backgrounds/how_to_play_scene.png");
 
     }// Fin preload
@@ -19,9 +18,7 @@ class HowToPlay extends Phaser.Scene {
     create(){
 
         // Fondo
-        this.background = this.add.image(0, 0, "lvl_1_background").setOrigin(0,0).setDepth(0);
-        // Dibujo de how to play
-        this.howToPlayButton = this.add.image(600, 300, "how_to_play_scene").setDepth(1);
+        this.howToPlay = this.add.image(0, 0, "how_to_play_scene").setOrigin(0, 0);
 
         // Tecla
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
