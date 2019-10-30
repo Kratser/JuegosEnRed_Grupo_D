@@ -127,7 +127,7 @@ class Character extends Phaser.GameObjects.Sprite{
     }
 
     create() {
-        switch (this.type) {
+        switch (this.type.split("_")[0]) {
             case "palm":
                 this.colliderSize = [25, 42];
                 this.maxVelocity = 300;
@@ -140,7 +140,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.anim[2] = "palm_jump";
                 break;
             case "dino":
-                this.colliderSize = [, ];
+                this.colliderSize = [80,80];
                 this.maxVelocity = 275;
                 this.acceleration = 3000;
                 this.jumpHeight = 510;
@@ -148,7 +148,7 @@ class Character extends Phaser.GameObjects.Sprite{
 
                 this.anim[0] = "dino_idle";
                 this.anim[1] = "dino_walk";
-                this.anim[1] = "dino_jump";
+                //this.anim[1] = "dino_jump";
                 this.scene.anims.create({
                     key: 'dino_idle',
                     frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 0 }),
