@@ -1,0 +1,112 @@
+{
+    "frames": [
+        {
+            "filename": "plam_walk_00",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_01",
+            "frame": {
+                "x": 57,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_02",
+            "frame": {
+                "x": 114,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_03",
+            "frame": {
+                "x": 171,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_04",
+            "frame": {
+                "x": 228,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_05",
+            "frame": {
+                "x": 285,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_06",
+            "frame": {
+                "x": 342,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "plam_walk_07",
+            "frame": {
+                "x": 399,
+                "y": 0,
+                "w": 57,
+                "h": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Phaser3",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

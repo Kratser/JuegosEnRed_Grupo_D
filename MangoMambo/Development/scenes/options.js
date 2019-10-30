@@ -53,8 +53,6 @@ class Options extends Phaser.Scene {
         this.cursors[5] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.cont = 0;
-        this.pulsación = true;
-        this.press = true;
 
         this.options = [true, false, false, false];
 
