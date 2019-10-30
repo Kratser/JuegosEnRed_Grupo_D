@@ -59,7 +59,7 @@ class Level1 extends Phaser.Scene {
         this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         if (!this.scene.get("pause")){
-            this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
+            this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1"});
         }
 
         // Se carga el mango
@@ -194,6 +194,9 @@ class Level1 extends Phaser.Scene {
         console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
         if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
             this.scene.start("main_menu");
+            // Se para la música
+            this.intro.stop();
+            this.loop.stop();
         }
 
     }// Fin Update

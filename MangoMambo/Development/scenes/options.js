@@ -16,7 +16,7 @@ class Options extends Phaser.Scene {
         this.load.image("sound_button", "./Design/Objects/sound_button.png");
         this.load.image("credits_button", "./Design/Objects/credits_button.png");
         this.load.image("back_button", "./Design/Objects/back_button.png");
-        // // Selected buttons
+        // Selected buttons
         this.load.image("tutorial_button_select", "./Design/Objects/tutorial_button_select.png");
         this.load.image("sound_button_select", "./Design/Objects/sound_button_select.png");
         this.load.image("credits_button_select", "./Design/Objects/credits_button_select.png");
