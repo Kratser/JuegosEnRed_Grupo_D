@@ -6,7 +6,6 @@ class ScoreLevel extends Phaser.Scene {
 
     init (data){
         this.characters = data.characters;
-        this.scores = data.scores;
     }// Fin init
 
     preload() {
@@ -64,28 +63,28 @@ class ScoreLevel extends Phaser.Scene {
                 case 1:
                     var tween = this.tweens.add({
                         targets: this.gTotem,
-                        y: 687,
+                        y: 687 - this.characters[i].score * 100,
                         duration: 4000
                     });
                     break;
                 case 2:
                     var tween = this.tweens.add({
                         targets: this.pTotem,
-                        y: 687, // 430 max
+                        y: 687 - this.characters[i].score * 100, // 430 max
                         duration: 4000
                     });
                     break;
                 case 3:
                     var tween = this.tweens.add({
                         targets: this.bTotem,
-                        y: 687,
+                        y: 687 - this.characters[i].score * 100,
                         duration: 4000
                     });
                     break;
                 case 4:
                     var tween = this.tweens.add({
                         targets: this.yTotem,
-                        y: 687, // 687 min
+                        y: 687 - this.characters[i].score * 100, // 687 min
                         duration: 4000
                     });
                     break;
