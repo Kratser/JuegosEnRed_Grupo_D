@@ -125,7 +125,7 @@ class MainMenu extends Phaser.Scene {
         }
     
         //Cambio de pantalla
-        if(this.options[0] && this.cursors[4].isDown ){
+        if(this.options[0] && this.cursors[4].isDown){
             this.scene.start("choose_character");
             // this.scene.add(testingScene, new TestingScene);
             // Se para la música

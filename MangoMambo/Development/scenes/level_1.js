@@ -55,7 +55,7 @@ class Level1 extends Phaser.Scene {
         this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         if (!this.scene.get("pause")){
-            this.scene.add("pause", new Pause, true, {sceneKey: "level_1"});
+            this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1"});
         }
 
         // Se carga el mango
