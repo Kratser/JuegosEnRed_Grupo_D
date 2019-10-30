@@ -16,7 +16,8 @@ var config = {
         Level1,
         ScoreLevel,
         Options,
-        Credits
+        Credits,
+        HowToPlay
     ]
 };
 

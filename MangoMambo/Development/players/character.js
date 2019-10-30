@@ -15,7 +15,6 @@ class Character extends Phaser.GameObjects.Sprite{
         this.x = x;
         this.y = y;
         this.score = score;
-        this.anim;
 
         this.cursors;// 0 arriba, 1 izquierda, 2 abajo, 3 derecha, movimiento
         // Se añade a la escena al hacer el new
@@ -60,12 +59,6 @@ class Character extends Phaser.GameObjects.Sprite{
         this.cursors4[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_4);
         this.cursors4[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_5);
         this.cursors4[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_6);
-
-        this.scene.load.spritesheet('dino_move', '../Design/Characters/Dino/dino_walk.png',
-        {
-            frameWidth: 80,
-            frameHeight: 80 
-        });
 
         switch (this.id){
             case 1:
@@ -169,15 +162,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.jumpHeight = 0;
                 this.fallSpeed = 0;
                 break;
-        }
-
-        this.anims.create({
-            key: 'dino_walk',
-            frames: this.scene.anims.generateFrameNumbers('dino_move', { start: 0, end: 7 }),
-            frameRate: 9,
-            repeat: -1
-        });
-        
+        }        
 
         this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
         this.body.maxVelocity.x = this.maxVelocity;
@@ -202,8 +187,6 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(this.acceleration);
             }
-            //this.anims.play('dino_walk', true);
-            console.log(this);
             this.flipX = false;
         }
         else {
