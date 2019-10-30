@@ -1,0 +1,112 @@
+{
+    "frames": [
+        {
+            "filename": "dino_walk00",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk01",
+            "frame": {
+                "x": 80,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk02",
+            "frame": {
+                "x": 160,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk03",
+            "frame": {
+                "x": 240,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk04",
+            "frame": {
+                "x": 320,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk05",
+            "frame": {
+                "x": 400,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk06",
+            "frame": {
+                "x": 480,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "dino_walk07",
+            "frame": {
+                "x": 560,
+                "y": 0,
+                "w": 80,
+                "h": 80
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Phaser3",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}
