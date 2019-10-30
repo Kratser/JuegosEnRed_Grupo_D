@@ -5,7 +5,7 @@ class ScoreLevel extends Phaser.Scene {
     }// Fin constructor
 
     init (data){
-        this.scores = data.scores;
+        this.characters = data.characters;
     }// Fin init
 
     preload() {
@@ -20,7 +20,8 @@ class ScoreLevel extends Phaser.Scene {
        this.load.image("p_totem", "./Design/Objects/Totems/pink_totem.png");
        this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
        this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
-
+        // Puntuación máxima
+       this.maxScore;
     }// Fin preload
 
     create() {
@@ -33,32 +34,62 @@ class ScoreLevel extends Phaser.Scene {
         this.bTotem = this.add.image (742, 687, "b_totem").setDepth(2);
         this.yTotem = this.add.image (1039, 687, "y_totem").setDepth(2);
         // Movimiento
-        var tween = this.tweens.add({
-            targets: this.gTotem,
-            y: 500,
-            // ease: 'Sine.easeInOut',
-            duration: 4000
-            // yoyo: true,
-            // repeat: -1
-        });
+        // var tween = this.tweens.add({
+        //     targets: this.gTotem,
+        //     y: 687,
+        //     duration: 4000
+        // });
 
-        var tween = this.tweens.add({
-            targets: this.pTotem,
-            y: 430,
-            duration: 4000
-        });
+        // var tween = this.tweens.add({
+        //     targets: this.pTotem,
+        //     y: 687, // 430 max
+        //     duration: 4000
+        // });
 
-        var tween = this.tweens.add({
-            targets: this.bTotem,
-            y: 600,
-            duration: 4000
-        });
+        // var tween = this.tweens.add({
+        //     targets: this.bTotem,
+        //     y: 687,
+        //     duration: 4000
+        // });
 
-        var tween = this.tweens.add({
-            targets: this.yTotem,
-            y: 670,
-            duration: 4000
-        });
+        // var tween = this.tweens.add({
+        //     targets: this.yTotem,
+        //     y: 687,
+        //     duration: 4000
+        // });
+
+        for(var i = 0; i < this.characters.length; i++){
+            switch(this.characters[i].id){
+                case 1:
+                    var tween = this.tweens.add({
+                        targets: this.gTotem,
+                        y: 687 - this.characters[i].score * 100,
+                        duration: 4000
+                    });
+                    break;
+                case 2:
+                    var tween = this.tweens.add({
+                        targets: this.pTotem,
+                        y: 687 - this.characters[i].score * 100, // 430 max
+                        duration: 4000
+                    });
+                    break;
+                case 3:
+                    var tween = this.tweens.add({
+                        targets: this.bTotem,
+                        y: 687 - this.characters[i].score * 100,
+                        duration: 4000
+                    });
+                    break;
+                case 4:
+                    var tween = this.tweens.add({
+                        targets: this.yTotem,
+                        y: 687 - this.characters[i].score * 100, // 687 min
+                        duration: 4000
+                    });
+                    break;
+            }
+        }
 
         // Personas que se mueven
         this.peopleMove = this.add.image (600, 525, "people").setDepth(1);;
