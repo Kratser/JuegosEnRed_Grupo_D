@@ -13,9 +13,13 @@ class Level1 extends Phaser.Scene {
 
     init (data){
         this.characters = [];
-        for (var i = 0; i < data.length; i++){
-            this.characters = data;
+        this.characters = data;
+        this.scores = [];
+        for (var i = 0; i < this.characters.length; i++){
+            this.scores[i] = this.characters[i].score;
         }
+        this.numPlayers = this.characters.length; // Número de jugadores
+        
 
     }
 
@@ -131,7 +135,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 400);
+        this.mango = new Mango(this, "mango", 600, 400, 3000);
 
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
@@ -165,8 +169,8 @@ class Level1 extends Phaser.Scene {
         });
 
         // Tiempo de partida
-        this.maxMatchTime = 60000;// Tiempo máximo
-        this.matchTime = this.time.now; 
+        this.maxMatchTime = 120000;// Tiempo máximo
+        this.matchTime = this.time.now;
 
     }// Fin Create
 
@@ -187,8 +191,8 @@ class Level1 extends Phaser.Scene {
         this.upMovePlat.refreshBody();
 
         // Si el tiempo de partida supera el tiempo máximo, se vuelve al menú principal
-        console.log(this.maxMatchTime- (this.clock.now - this.matchTime)); // Tiempo restante
-        if (this.clock.now - this.matchTime >= this.maxMatchTime){
+        console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
+        if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
             this.scene.start("main_menu");
         }
 
@@ -196,6 +200,7 @@ class Level1 extends Phaser.Scene {
 
     CogerMango(character, mango){
         if (!mango.character){// Si el mango no tiene ningún personaje asociado
+            this.mango.time = this.clock.now;
             mango.character = character;// El personaje que lo recoge queda guardado en el mango
         }
     }
@@ -220,6 +225,19 @@ class Level1 extends Phaser.Scene {
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
             }
         }
+    }
+
+    EliminarPersonaje(character){ // Al explotar el mango
+        for (var i = 0; i < this.characters.length; i++){
+            if (character.id == this.characters[i].id){
+                this.characters[i].score += this.numPlayers;
+                this.scores[i] = this.characters[i].score;
+                console.log(this.scores[i]);
+                this.characters[i].destroy();
+                this.characters.splice(i,1);
+            }
+        }
+        this.numPlayers--;
     }
 }
 
