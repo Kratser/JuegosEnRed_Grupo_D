@@ -1,43 +1,42 @@
 class MainMenu extends Phaser.Scene {
     constructor(){
         super({key: "main_menu"});
-        //Array de obciones para selecionar botón
+
+        // Array de opciones para selecionar botón
         this.options;
-        //Contador para cambiar la posición del array options
+
+        // Contador para cambiar la posición del array options
         this.cont;
-        this.lastPress;
-        this.actualTime;
-        this.latence;
 
         // La intro de la canción
         this.intro;
-
         // La canción loopeada
         this.loop;
        
-    }
+    }// Fin constructor
 
     preload() {
 
         // Cargar la imagen de fondo
         this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu_background.png");
         this.load.image("title", "./Design/Stages/Backgrounds/mango_mambo_title.png");
-        // Buttons
-        this.load.image("localButton", "./Design/Objects/local_button.png");
-        this.load.image("onlineButton", "./Design/Objects/online_button.png");
-        this.load.image("optionsButton", "./Design/Objects/options_button.png");
-        // // Selected buttons
-        this.load.image("localButtonSelect", "./Design/Objects/local_button_select.png");
-        this.load.image("onlineButtonSelect", "./Design/Objects/online_button_select.png");
-        this.load.image("optionsButtonSelect", "./Design/Objects/options_button_select.png");
+        // Botones
+        this.load.image("local_button", "./Design/Objects/local_button.png");
+        this.load.image("online_button", "./Design/Objects/online_button.png");
+        this.load.image("options_button", "./Design/Objects/options_button.png");
+        // Botones seleccionados
+        this.load.image("local_button_select", "./Design/Objects/local_button_select.png");
+        this.load.image("online_button_select", "./Design/Objects/online_button_select.png");
+        this.load.image("options_button_select", "./Design/Objects/options_button_select.png");
         
-        // local  online options
+        //              local online options
         this.options = [true, false, false];
         
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
-    }//End preload
+
+    }// Fin preload
 
     create() {
         
@@ -60,15 +59,13 @@ class MainMenu extends Phaser.Scene {
         });
 
         // Botones 
-        this.localButton = this.add.image(250, 160, "localButton").setDepth(1);
-        this.onlineButton = this.add.image(250, 270, "onlineButton").setDepth(1);
-        this.optionsButton = this.add.image(250, 380, "optionsButton").setDepth(1);
-        this.localButtonSelect = this.add.image(250, 160, "localButtonSelect").setDepth(2);
-        this.onlineButtonSelect = this.add.image(250, 270, "onlineButtonSelect").setDepth(2);
-        this.optionsButtonSelect = this.add.image(250, 380, "optionsButtonSelect").setDepth(2);
+        this.localButton = this.add.image(250, 160, "local_button").setDepth(1);
+        this.onlineButton = this.add.image(250, 270, "online_button").setDepth(1);
+        this.optionsButton = this.add.image(250, 380, "options_button").setDepth(1);
+        this.localButtonSelect = this.add.image(250, 160, "local_button_select").setDepth(2);
+        this.onlineButtonSelect = this.add.image(250, 270, "online_button_select").setDepth(2);
+        this.optionsButtonSelect = this.add.image(250, 380, "options_button_select").setDepth(2);
         
-        //     // this.scene.add(testingScene, new TestingScene);
-        //     this.scene.start(testingScene);
         // Array de teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -77,9 +74,8 @@ class MainMenu extends Phaser.Scene {
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.cursors[4] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
  
+        // Contador para moverse por el array de botones
         this.cont = 0;
-        this.pulsación = true;
-        this.press = true;
 
         // Se crea la música
         this.sound.pauseOnBlur = false;
@@ -91,7 +87,7 @@ class MainMenu extends Phaser.Scene {
             delay : 2.02
         });
 
-    }//End create
+    }// Fin create
 
     update(time, delta){
 
@@ -100,7 +96,6 @@ class MainMenu extends Phaser.Scene {
         this.onlineButtonSelect.alpha = 0;
         this.optionsButtonSelect.alpha = 0;
         
-// NO HE PODIDO ARREGLAR LO DE LA LATENCIA
         // Selección de botones
         if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
             this.options[this.cont] = false;
@@ -113,7 +108,7 @@ class MainMenu extends Phaser.Scene {
             this.options[this.cont] = true;
         } 
           
-        //Resaltado de botón seleccionado
+        // Resaltado de botón seleccionado
         if(this.options[0]){
             this.localButtonSelect.alpha = 1;
         }
@@ -124,10 +119,9 @@ class MainMenu extends Phaser.Scene {
             this.optionsButtonSelect.alpha = 1;
         }
     
-        //Cambio de pantalla
+        // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
             this.scene.start("choose_character");
-            // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.intro.stop();
             this.loop.stop();
@@ -136,12 +130,11 @@ class MainMenu extends Phaser.Scene {
         //Cambio de pantalla
         if(this.options[2] && this.cursors[4].isDown ){
             this.scene.start("options");
-            // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.intro.stop();
             this.loop.stop();
         }
 
-    }//End updates
+    }// Fin update
 
-}//End MainMenu
+}// Fin clase MainMenu
