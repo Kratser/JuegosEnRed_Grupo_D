@@ -260,7 +260,6 @@ class Level1 extends Phaser.Scene {
                 console.log(this.scores[i]);
                 //Quitar al personaje de la escena
                 this.characters[i].destroy();
-                this.characters.splice(i, 1);
             }
         }
         this.numPlayers--;
