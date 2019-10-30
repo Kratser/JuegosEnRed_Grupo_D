@@ -191,7 +191,7 @@ class Level1 extends Phaser.Scene {
         });
 
         // Tiempo de partida
-        this.maxMatchTime = 120000;// Tiempo máximo
+        this.maxMatchTime = 1200;// Tiempo máximo
         this.matchTime = this.time.now;
 
     }// Fin Create
@@ -212,10 +212,10 @@ class Level1 extends Phaser.Scene {
         // Refresh body de la plataforma que se mueve
         this.upMovePlat.refreshBody();
 
-        // Si el tiempo de partida supera el tiempo máximo, se vuelve al menú principal
+        // Si el tiempo de partida supera el tiempo máximo, se pasa a la pantalla de puntuaciones
         console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
         if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
-            this.scene.start("main_menu", {character: this.characters, scores: this.scores});
+            this.scene.start("end_level", {characters: this.characters, scores: this.scores});
             // Se para la música
             this.intro.stop();
             this.loop.stop();
