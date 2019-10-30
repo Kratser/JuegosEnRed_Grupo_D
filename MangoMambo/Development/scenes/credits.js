@@ -15,6 +15,8 @@ class Credits extends Phaser.Scene {
         this.load.image("back_button", "./Design/Objects/back_button.png");
         // Selected buttons
         this.load.image("back_button_select", "./Design/Objects/back_button_select.png");
+        // Se carga la música
+        this.load.audio("hawaii", "./Design/Audio/CreditsSong/hawaii.wav");
 
         // local  online options
         this.options;
@@ -42,6 +44,13 @@ class Credits extends Phaser.Scene {
 
         this.options = [false];
 
+        // Sonido
+        this.sound.pauseOnBlur = false;
+        this.loop = this.sound.add("hawaii");
+        this.loop.play({
+            loop : true,
+        });
+
     }// Fin create
 
     update(){
@@ -63,6 +72,8 @@ class Credits extends Phaser.Scene {
         if((this.options[0] && this.cursors[4].isDown) || this.cursors[5].isDown){
             this.scene.start("options");
             // this.scene.add(testingScene, new TestingScene);
+            // Se para la música
+            this.loop.stop();
         }
 
     }// Fin update
