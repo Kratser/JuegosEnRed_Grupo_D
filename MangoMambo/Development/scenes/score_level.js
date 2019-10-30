@@ -1,6 +1,6 @@
-class EndLevel extends Phaser.Scene {
+class ScoreLevel extends Phaser.Scene {
     constructor(){
-        super({key: "end_level"});
+        super({key: "score_level"});
 
     }// Fin constructor
 
@@ -11,7 +11,7 @@ class EndLevel extends Phaser.Scene {
     preload() {
 
        // Cargar la imagen de fondo
-       this.load.image("end_level_background", "./Design/Stages/Backgrounds/end_level_background.png");
+       this.load.image("score_level_background", "./Design/Stages/Backgrounds/score_level_background.png");
         // Personas de fondo
        this.load.image("people", "./Design/Stages/Backgrounds/people_end_level.png");
 
@@ -25,7 +25,7 @@ class EndLevel extends Phaser.Scene {
 
     create() {
         // Fondo
-        this.add.image(0, 0, "end_level_background").setOrigin(0,0);
+        this.add.image(0, 0, "score_level_background").setOrigin(0,0);
 
         // Totems
         this.gTotem = this.add.image (161.50, 687, "g_totem").setDepth(2);
