@@ -14,16 +14,6 @@ class Level1 extends Phaser.Scene {
     init (data){
         this.characters = [];
         this.characters = data.characters;
-        this.scores = [
-            {id: 0, score: 0},
-            {id: 0, score: 0},
-            {id: 0, score: 0},
-            {id: 0, score: 0}
-        ];
-        for (var i = 0; i < this.characters.length; i++){
-            this.scores[i].id = this.characters[i].id;
-            this.scores[i].score = this.characters[i].score;
-        }
         this.numPlayers = this.characters.length; // Número de jugadores
     }
 
@@ -157,7 +147,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 260, 30000);
+        this.mango = new Mango(this, "mango", 600, 260, 3000);
 
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
@@ -215,7 +205,7 @@ class Level1 extends Phaser.Scene {
         // Si el tiempo de partida supera el tiempo máximo, se pasa a la pantalla de puntuaciones
         console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
         if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
-            this.scene.start("score_level", {characters: this.characters, scores: this.scores});
+            this.scene.start("score_level", {characters: this.characters});
             // Se para la música
             this.intro.stop();
             this.loop.stop();
@@ -256,10 +246,9 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
                 this.characters[i].score += this.numPlayers;
-                this.scores[i] = this.characters[i].score;
-                console.log(this.scores[i]);
                 //Quitar al personaje de la escena
-                this.characters[i].destroy();
+                this.characters[i].body.destroy();
+                this.characters[i].alpha = 0;
             }
         }
         this.numPlayers--;
