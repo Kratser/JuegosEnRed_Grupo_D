@@ -14,6 +14,7 @@ var config = {
         MainMenu,
         ChooseCharacter,
         Level1,
+        EndLevel,
         Options,
         Credits
     ]
