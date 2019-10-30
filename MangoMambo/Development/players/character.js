@@ -15,10 +15,7 @@ class Character extends Phaser.GameObjects.Sprite{
         this.x = x;
         this.y = y;
         this.score = score;
-<<<<<<< HEAD
-=======
         this.anim = [];// 0 idle, 1 walk, 2 jump
->>>>>>> 5c26ece41964000c7035bc30bff63a56d931d3af
 
         this.cursors;// 0 arriba, 1 izquierda, 2 abajo, 3 derecha, movimiento
         // Se añade a la escena al hacer el new
@@ -186,11 +183,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.jumpHeight = 0;
                 this.fallSpeed = 0;
                 break;
-<<<<<<< HEAD
-        }        
-=======
         }
->>>>>>> 5c26ece41964000c7035bc30bff63a56d931d3af
 
         this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
         this.body.maxVelocity.x = this.maxVelocity;
@@ -216,10 +209,7 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(this.acceleration);
             }
-<<<<<<< HEAD
-=======
             this.anims.play(this.anim[1], true);
->>>>>>> 5c26ece41964000c7035bc30bff63a56d931d3af
             this.flipX = false;
         }
         else {
