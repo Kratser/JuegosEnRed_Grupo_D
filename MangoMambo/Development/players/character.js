@@ -15,6 +15,10 @@ class Character extends Phaser.GameObjects.Sprite{
         this.x = x;
         this.y = y;
         this.score = score;
+<<<<<<< HEAD
+=======
+        this.anim = [];// 0 idle, 1 walk, 2 jump
+>>>>>>> 5c26ece41964000c7035bc30bff63a56d931d3af
 
         this.cursors;// 0 arriba, 1 izquierda, 2 abajo, 3 derecha, movimiento
         // Se añade a la escena al hacer el new
@@ -133,13 +137,33 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.acceleration = 600;
                 this.jumpHeight = 510;
                 this.fallSpeed = 2000;
+
+                this.anim[0] = "palm_idle";
+                this.anim[1] = "palm_walk";
+                this.anim[2] = "palm_jump";
                 break;
             case "dino":
-                this.colliderSize = [25, 64];
+                this.colliderSize = [, ];
                 this.maxVelocity = 275;
                 this.acceleration = 3000;
                 this.jumpHeight = 510;
                 this.fallSpeed = 0;
+
+                this.anim[0] = "dino_idle";
+                this.anim[1] = "dino_walk";
+                this.anim[1] = "dino_jump";
+                this.scene.anims.create({
+                    key: 'dino_idle',
+                    frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 0 }),
+                    frameRate: 1,
+                    repeat: -1
+                });
+                this.scene.anims.create({
+                    key: 'dino_walk',
+                    frames: this.scene.anims.generateFrameNumbers('dino_walk', { start: 0, end: 7 }),
+                    frameRate: 9,
+                    repeat: -1
+                });
                 break;
             case "lemur":
                 this.colliderSize = [25, 42];
@@ -162,7 +186,11 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.jumpHeight = 0;
                 this.fallSpeed = 0;
                 break;
+<<<<<<< HEAD
         }        
+=======
+        }
+>>>>>>> 5c26ece41964000c7035bc30bff63a56d931d3af
 
         this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
         this.body.maxVelocity.x = this.maxVelocity;
@@ -177,6 +205,7 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(-this.acceleration);
             }
+            this.anims.play(this.anim[1], true);
             this.flipX = true;
 
         }
@@ -187,10 +216,15 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(this.acceleration);
             }
+<<<<<<< HEAD
+=======
+            this.anims.play(this.anim[1], true);
+>>>>>>> 5c26ece41964000c7035bc30bff63a56d931d3af
             this.flipX = false;
         }
         else {
             this.body.setAccelerationX(0);
+            this.anims.play(this.anim[0], true);
         }
 
         if (this.cursors[0].isDown && this.body.onFloor()) {// Arriba

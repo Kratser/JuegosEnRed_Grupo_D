@@ -41,6 +41,17 @@ class Level1 extends Phaser.Scene {
         this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
         this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
+        // Se cargan las animaciones de los personajes
+        this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle_00.png',
+        {
+            frameWidth: 49,
+            frameHeight: 69 
+        });
+        this.load.spritesheet('dino_walk', './Design/Characters/Dino/dino_walk2.png',
+        {
+            frameWidth: 49,
+            frameHeight: 72 
+        });
         // Se cargan los contornos de los pesonajes
         this.load.image("outline", "./Design/Objects/outline.png");
 
@@ -147,7 +158,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 260, 3000);
+        this.mango = new Mango(this, "mango", 600, 260, 30000);
 
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
@@ -187,7 +198,6 @@ class Level1 extends Phaser.Scene {
     }// Fin Create
 
     update() {
-
         // Update de los personajes y del mango
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
@@ -210,7 +220,6 @@ class Level1 extends Phaser.Scene {
             this.intro.stop();
             this.loop.stop();
         }
-        console.log(this.characters[0]);
     }// Fin Update
 
     CogerMango(character, mango){
