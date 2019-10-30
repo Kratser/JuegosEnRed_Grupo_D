@@ -39,8 +39,6 @@ class Pause extends Phaser.Scene {
         this.resumeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.cont = 0;
-        this.pulsación = true;
-        this.press = true;
 
         this.options = [true, false];
 
@@ -48,7 +46,7 @@ class Pause extends Phaser.Scene {
     }// Fin create
 
     update(time, delta){
-        
+
         // Se esconde la imagen de seleción de los botones
         this.resumeButtonSelect.alpha = 0;
         this.quitButtonSelect.alpha = 0;
@@ -76,11 +74,13 @@ class Pause extends Phaser.Scene {
         if ((Phaser.Input.Keyboard.JustDown(this.resumeKey)) || (this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey))) {
             this.scene.resume(this.data.sceneKey);
             this.scene.sleep("pause");
+            this.options[0] = false;
         }  
 
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.enterKey)) {
             this.scene.sleep("pause");
             this.data.scene.scene.start("main_menu");
+            this.options[1] = false;
         }
 
     }// Fin update
