@@ -439,7 +439,7 @@ class ChooseCharacter extends Phaser.Scene {
                         this.characters.splice(i,1);
                     }
                 }
-                this.scene.start("level_1", {characters: this.characters});
+                this.scene.start("how_to_play", {characters: this.characters});
                 // Se para la música
                 this.loop.stop();
             }

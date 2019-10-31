@@ -15,7 +15,7 @@ class Character extends Phaser.GameObjects.Sprite{
         this.x = x;
         this.y = y;
         this.score = score;
-        
+        this.anim = [];// 0 idle, 1 walk, 2 jump
 
         this.cursors;// 0 arriba, 1 izquierda, 2 abajo, 3 derecha, movimiento
         // Se añade a la escena al hacer el new
@@ -127,20 +127,40 @@ class Character extends Phaser.GameObjects.Sprite{
     }
 
     create() {
-        switch (this.type) {
+        switch (this.type.split("_")[0]) {
             case "palm":
                 this.colliderSize = [25, 42];
                 this.maxVelocity = 300;
                 this.acceleration = 600;
                 this.jumpHeight = 510;
                 this.fallSpeed = 2000;
+
+                this.anim[0] = "palm_idle";
+                this.anim[1] = "palm_walk";
+                this.anim[2] = "palm_jump";
                 break;
             case "dino":
-                this.colliderSize = [25, 64];
+                this.colliderSize = [80,80];
                 this.maxVelocity = 275;
                 this.acceleration = 3000;
                 this.jumpHeight = 510;
                 this.fallSpeed = 0;
+
+                this.anim[0] = "dino_idle";
+                this.anim[1] = "dino_walk";
+                //this.anim[1] = "dino_jump";
+                this.scene.anims.create({
+                    key: 'dino_idle',
+                    frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 0 }),
+                    frameRate: 1,
+                    repeat: -1
+                });
+                this.scene.anims.create({
+                    key: 'dino_walk',
+                    frames: this.scene.anims.generateFrameNumbers('dino_walk', { start: 0, end: 7 }),
+                    frameRate: 9,
+                    repeat: -1
+                });
                 break;
             case "lemur":
                 this.colliderSize = [25, 42];
@@ -164,6 +184,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.fallSpeed = 0;
                 break;
         }
+
         this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
         this.body.maxVelocity.x = this.maxVelocity;
     }
@@ -177,6 +198,7 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(-this.acceleration);
             }
+            this.anims.play(this.anim[1], true);
             this.flipX = true;
 
         }
@@ -187,10 +209,12 @@ class Character extends Phaser.GameObjects.Sprite{
             }else{
                 this.body.setAccelerationX(this.acceleration);
             }
+            this.anims.play(this.anim[1], true);
             this.flipX = false;
         }
         else {
             this.body.setAccelerationX(0);
+            this.anims.play(this.anim[0], true);
         }
 
         if (this.cursors[0].isDown && this.body.onFloor()) {// Arriba
