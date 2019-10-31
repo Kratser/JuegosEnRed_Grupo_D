@@ -117,5 +117,5 @@ class Options extends Phaser.Scene {
 
     }// Fin update
 
-}// Fin clase
+}// Fin clase Options
 

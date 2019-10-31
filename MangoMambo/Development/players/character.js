@@ -31,9 +31,10 @@ class Character extends Phaser.GameObjects.Sprite{
         this.body.setDragX(480);
         
         }
-    }
+    }// Fin constructor
 
     preload(){
+
         this.emitter;
         this.outline;
 
@@ -123,10 +124,11 @@ class Character extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-        }
-    }
+        }// Fin switch 
+    }// Fin preload
 
     create() {
+
         switch (this.type.split("_")[0]) {
             case "palm":
                 this.colliderSize = [25, 42];
@@ -164,7 +166,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 break;
             case "lemur":
                 this.colliderSize = [25, 42];
-                this.maxVelocity = 600;
+                this.maxVelocity = 500;
                 this.acceleration = 1000;
                 this.jumpHeight = 510;
                 this.fallSpeed = 0;
@@ -183,11 +185,11 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.jumpHeight = 0;
                 this.fallSpeed = 0;
                 break;
-        }
+        }// Fin switch
 
         this.body.setSize(this.colliderSize[0], this.colliderSize[1]); // Para cambiar el collider
         this.body.maxVelocity.x = this.maxVelocity;
-    }
+    }// Fin create
 
     update() {
         //Controla el movimiento del personaje
@@ -227,5 +229,5 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.gravity.y = 0;
         }
 
-    }
-}
+    }// Fin update
+}// Fin clase Character

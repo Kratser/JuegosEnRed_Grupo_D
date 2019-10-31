@@ -5,8 +5,11 @@ class HowToPlay extends Phaser.Scene {
     }// Fin constructor
 
     init(data){
+
         this.characters = data.characters;
-    }
+        data = null;
+
+    }// Fin init
 
     preload(){
 
@@ -34,4 +37,4 @@ class HowToPlay extends Phaser.Scene {
 
     }// Fin update
 
-}// Fin clase
+}// Fin clase HowToPlayScene

@@ -21,7 +21,7 @@ class Mango extends Phaser.GameObjects.Sprite{
         // Se añade a la escena al hacer el new
         scene.add.existing(this);
 
-    }
+    }// Fin constructor
 
     preload(){
 
@@ -44,5 +44,5 @@ class Mango extends Phaser.GameObjects.Sprite{
                 this.character = null;
             }
         }
-    }
-}
+    }// Fin update
+}// Fin clase Mango

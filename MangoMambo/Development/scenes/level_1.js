@@ -2,23 +2,27 @@ class Level1 extends Phaser.Scene {
     constructor(){
         super({key: "level_1"});
 
-        this.characters; // Escena, Sprite asociado, Array de Cursores, X, Y, VelMáx, Acel, Altura de salto, Vel Caída
+        // Escena, Sprite asociado, Array de Cursores, X, Y, VelMáx, Acel, Altura de salto, Vel Caída
+        this.characters; 
 
         // La intro de la canción
         this.intro;
 
         // La canción loopeada
         this.loop;
-    }
+        
+    }// Fin constructor
 
     init (data){
+
         this.characters = data.characters;
         this.numPlayers = this.characters.length; // Número de jugadores
         data = null;
-        // data.destroy();
-    }
+
+    }// Fin init
 
     preload() {
+
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/lvl_1_background.png");
         //Plataformas
@@ -80,9 +84,11 @@ class Level1 extends Phaser.Scene {
         // Tiempo de partida
         this.maxMatchTime;
         this.matchTime
-    }
+
+    }// Fin preload
 
     create() {
+
         // Se inicializa el reloj
         this.clock = new Phaser.Time.Clock(this);
         this.clock.start();
@@ -199,6 +205,7 @@ class Level1 extends Phaser.Scene {
     }// Fin Create
 
     update() {
+
         // Update de los personajes y del mango
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
@@ -221,6 +228,7 @@ class Level1 extends Phaser.Scene {
             this.intro.stop();
             this.loop.stop();
         }
+
     }// Fin Update
 
     CogerMango(character, mango){
@@ -228,7 +236,7 @@ class Level1 extends Phaser.Scene {
             this.mango.time = this.clock.now;
             mango.character = character;// El personaje que lo recoge queda guardado en el mango
         }
-    }
+    }// Fin CogerMango
     
     RobarMango(character1, character2){
         if (this.mango.character){ // Si el mango tiene un personaje asociado
@@ -250,7 +258,7 @@ class Level1 extends Phaser.Scene {
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
             }
         }
-    }
+    }//Fin RobarMango
 
     EliminarPersonaje(character){ // Al explotar el mango
         for (var i = 0; i < this.characters.length; i++){
@@ -262,6 +270,7 @@ class Level1 extends Phaser.Scene {
             }
         }
         this.numPlayers--;
-    }
-}
+    }// Fin EliminarPersonaje
+
+}// Fin clase Level1
 

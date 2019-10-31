@@ -78,4 +78,4 @@ class Credits extends Phaser.Scene {
 
     }// Fin update
 
-}// Fin clase
+}// Fin clase Credits

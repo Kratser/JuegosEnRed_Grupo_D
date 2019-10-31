@@ -5,8 +5,11 @@ class Pause extends Phaser.Scene {
     }// Fin constructor
 
     init (data){
+
         this.data = data;
-    }
+        data = null;
+
+    }// Fin init
 
     preload(){
 
@@ -43,6 +46,7 @@ class Pause extends Phaser.Scene {
         this.options = [true, false];
 
         this.scene.sleep("pause");
+
     }// Fin create
 
     update(time, delta){
@@ -90,4 +94,4 @@ class Pause extends Phaser.Scene {
 
     }// Fin update
 
-}
+}// Fin clase Pause

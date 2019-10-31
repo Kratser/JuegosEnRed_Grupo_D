@@ -8,6 +8,7 @@ class ScoreLevel extends Phaser.Scene {
     init (data){
 
         this.characters = data.characters;
+        data = null;
 
     }// Fin init
 
@@ -47,7 +48,7 @@ class ScoreLevel extends Phaser.Scene {
             targets: this.peopleMove,
             y: 520,
             ease: 'Sine.easeInOut',
-            duration: 700,
+            duration: 600,
             yoyo: true,
             repeat: -1
         });
