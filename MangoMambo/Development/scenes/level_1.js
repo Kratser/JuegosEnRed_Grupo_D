@@ -221,7 +221,6 @@ class Level1 extends Phaser.Scene {
     }// Fin Create
 
     update() {
-        console.log(this.pauseKey);
         // Update de los personajes y del mango
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
