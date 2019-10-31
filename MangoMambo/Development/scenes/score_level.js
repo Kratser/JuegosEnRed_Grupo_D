@@ -1,11 +1,14 @@
 class ScoreLevel extends Phaser.Scene {
     constructor(){
+
         super({key: "score_level"});
 
     }// Fin constructor
 
     init (data){
+
         this.characters = data.characters;
+
     }// Fin init
 
     preload() {
@@ -14,85 +17,31 @@ class ScoreLevel extends Phaser.Scene {
        this.load.image("score_level_background", "./Design/Stages/Backgrounds/score_level_background.png");
         // Personas de fondo
        this.load.image("people", "./Design/Stages/Backgrounds/people_end_level.png");
-
-       //Totems
+        // Corona del ganador
+        this.load.image("crown", "./Design/Objects/crown.png");
+       // Totems
        this.load.image("g_totem", "./Design/Objects/Totems/green_totem.png");
-       this.load.image("p_totem", "./Design/Objects/Totems/pink_totem.png");
-       this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
-       this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
+        this.load.image("p_totem", "./Design/Objects/Totems/pink_totem.png");
+        this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
+        this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
         // Puntuación máxima
-       this.maxScore;
+        this.maxScore;
+        // Botón next round
+        this.load.image("next_round", "./Design/Objects/next_round_button.png");
+        // ESCAPE
+        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // ENTER
+        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
     }// Fin preload
 
     create() {
+
         // Fondo
         this.add.image(0, 0, "score_level_background").setOrigin(0,0);
 
-        // Totems
-        this.gTotem = this.add.image (161.50, 687, "g_totem").setDepth(2);
-        this.pTotem = this.add.image (448.00, 687, "p_totem").setDepth(2);
-        this.bTotem = this.add.image (742, 687, "b_totem").setDepth(2);
-        this.yTotem = this.add.image (1039, 687, "y_totem").setDepth(2);
-        // Movimiento
-        // var tween = this.tweens.add({
-        //     targets: this.gTotem,
-        //     y: 687,
-        //     duration: 4000
-        // });
-
-        // var tween = this.tweens.add({
-        //     targets: this.pTotem,
-        //     y: 687, // 430 max
-        //     duration: 4000
-        // });
-
-        // var tween = this.tweens.add({
-        //     targets: this.bTotem,
-        //     y: 687,
-        //     duration: 4000
-        // });
-
-        // var tween = this.tweens.add({
-        //     targets: this.yTotem,
-        //     y: 687,
-        //     duration: 4000
-        // });
-
-        for(var i = 0; i < this.characters.length; i++){
-            switch(this.characters[i].id){
-                case 1:
-                    var tween = this.tweens.add({
-                        targets: this.gTotem,
-                        y: 687 - this.characters[i].score * 100,
-                        duration: 4000
-                    });
-                    break;
-                case 2:
-                    var tween = this.tweens.add({
-                        targets: this.pTotem,
-                        y: 687 - this.characters[i].score * 100, // 430 max
-                        duration: 4000
-                    });
-                    break;
-                case 3:
-                    var tween = this.tweens.add({
-                        targets: this.bTotem,
-                        y: 687 - this.characters[i].score * 100,
-                        duration: 4000
-                    });
-                    break;
-                case 4:
-                    var tween = this.tweens.add({
-                        targets: this.yTotem,
-                        y: 687 - this.characters[i].score * 100, // 687 min
-                        duration: 4000
-                    });
-                    break;
-            }
-        }
-
         // Personas que se mueven
-        this.peopleMove = this.add.image (600, 525, "people").setDepth(1);;
+        this.peopleMove = this.add.image (600, 525, "people").setDepth(0);
         // Movimiento
         var tween = this.tweens.add({
             targets: this.peopleMove,
@@ -103,10 +52,148 @@ class ScoreLevel extends Phaser.Scene {
             repeat: -1
         });
 
+        // Totems
+        this.gTotem = this.add.image (161.50, 687, "g_totem");
+        this.pTotem = this.add.image (448.00, 687, "p_totem");
+        this.bTotem = this.add.image (742, 687, "b_totem");
+        this.yTotem = this.add.image (1039, 687, "y_totem");
+
+        // Corona del ganador
+        this.player1_crown = this.add.image(161.50, 50, "crown");
+        this.player2_crown = this.add.image(448.00, 50, "crown");
+        this.player3_crown = this.add.image(742.00, 50, "crown");
+        this.player4_crown = this.add.image(1039, 50, "crown");
+
+        // Para que no aparezca la corona hasta que no gane
+        this.player1_crown.alpha = 0;
+        this.player2_crown.alpha = 0;
+        this.player3_crown.alpha = 0;
+        this.player4_crown.alpha = 0;
+
+        for (var i = 0; i < this.characters.length; i++) {
+            switch (this.characters[i].id) {
+                // Jugador 1
+                case 1:
+                    // Personaje
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"],
+                    false, 161.50, 532, this.characters[i].score);
+                    // y del nuevo sprite (_choose)
+                    this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
+                    // Animación subida personaje
+                    var tweenCha = this.tweens.add({
+                        targets: this.characters[i],
+                        y: this.characters[i].y - this.characters[i].score * 20,
+                        duration: 4000
+                    });
+                    // Animación subida tótem
+                    var tweenTot = this.tweens.add({
+                        targets: this.gTotem,
+                        y: 687 - this.characters[i].score * 20,
+                        duration: 4000
+                    });
+                    break;
+                // Jugador 2
+                case 2:
+                    // Personaje
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"],
+                    false, 448.00, 532, this.characters[i].score);
+                    // y del nuevo sprite (_choose)
+                    this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
+                    // Animación subida personaje
+                    var tweenCha = this.tweens.add({
+                        targets: this.characters[i],
+                        y: this.characters[i].y - this.characters[i].score * 20,
+                        duration: 4000
+                    });
+                    // Animación subida tótem
+                    var tweenTot = this.tweens.add({
+                        targets: this.pTotem,
+                        y: 687 - this.characters[i].score * 20, // 430 max
+                        duration: 4000
+                    });
+                    break;
+                // Jugador 3    
+                case 3:
+                    // Personaje
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"], 
+                    false, 742.00, 532, this.characters[i].score);
+                    // y del nuevo sprite (_choose)
+                    this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
+                    // Animación subida personaje
+                    var tweenCha = this.tweens.add({
+                        targets: this.characters[i],
+                        y: this.characters[i].y - this.characters[i].score * 20,
+                        duration: 4000
+                    });
+                    // Animación subida tótem
+                    var tweenTot = this.tweens.add({
+                        targets: this.bTotem,
+                        y: 687 - this.characters[i].score * 20,
+                        duration: 4000
+                    });
+                    break;
+                // Jugador 4   
+                case 4:
+                    // Personaje
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"], 
+                    false, 1039, 532, this.characters[i].score);
+                    // y del nuevo sprite (_choose)
+                    this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
+                    // Animación subida personaje
+                    var tweenCha = this.tweens.add({
+                        targets: this.characters[i],
+                        y: this.characters[i].y - this.characters[i].score * 20,
+                        duration: 4000
+                    });
+                    // Animación subida tótem
+                    var tweenTot = this.tweens.add({
+                        targets: this.yTotem,
+                        targets: this.characters[i],
+                        y: 687 - this.characters[i].score * 20, // 687 min
+                        duration: 4000
+                    });
+                    break;
+            }// Fin switch
+        }// Fin for
+
+        // Botón escape
+        this.escapeButton = this.add.image(45, 20, "escape_button");
+        // Botón enter
+        this.nextRound = this.add.image(1101.5, 31, "next_round");
+
+        // Máxima puntuación que se puede alcanzar 
+        this.maxScore = 10;
+
     }// Fin Create
 
     update() {
 
+        // Cuando terminan las rondas vuelve al menu principal
+        for (var i = 0; i < this.characters.length; i++) {
+            if (this.characters[i].score >= this.maxScore) {
+                this.scene.start("main_menu");
+            }
+        }
+
+        // Si es el ganador aparece la corona
+        if (this.gTotem.y <= 500) {
+            this.player1_crown.alpha = 1;
+        }else if(this.pTotem.y <= 500){
+            this.player2_crown.alpha = 1;
+        }else if(this.bTotem.y <= 500){
+            this.player3_crown.alpha = 1;
+        }else if (this.yTotem.y <= 500){
+            this.player4_crown.alpha = 1;
+        }
+
+         // ESCAPE para salir al menú principal
+         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
+            this.scene.start("main_menu");
+         }
+         // ENTER para pasar a la siguiente ronda
+        if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
+            this.scene.start("level_1", {characters: this.characters});//, {characters: this.characters}
+        }
       
     }// Fin update
 }// Fin clase EndLevel
