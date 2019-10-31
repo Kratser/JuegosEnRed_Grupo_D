@@ -84,13 +84,13 @@ class ScoreLevel extends Phaser.Scene {
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
                         y: this.characters[i].y - this.characters[i].score * 20,
-                        duration: 4000
+                        duration: 2000
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.gTotem,
                         y: 687 - this.characters[i].score * 20,
-                        duration: 4000
+                        duration: 2000
                     });
                     break;
                 // Jugador 2
@@ -104,13 +104,13 @@ class ScoreLevel extends Phaser.Scene {
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
                         y: this.characters[i].y - this.characters[i].score * 20,
-                        duration: 4000
+                        duration: 2000
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.pTotem,
                         y: 687 - this.characters[i].score * 20, // 430 max
-                        duration: 4000
+                        duration: 2000
                     });
                     break;
                 // Jugador 3    
@@ -124,13 +124,13 @@ class ScoreLevel extends Phaser.Scene {
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
                         y: this.characters[i].y - this.characters[i].score * 20,
-                        duration: 4000
+                        duration: 2000
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.bTotem,
                         y: 687 - this.characters[i].score * 20,
-                        duration: 4000
+                        duration: 2000
                     });
                     break;
                 // Jugador 4   
@@ -144,14 +144,14 @@ class ScoreLevel extends Phaser.Scene {
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
                         y: this.characters[i].y - this.characters[i].score * 20,
-                        duration: 4000
+                        duration: 2000
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.yTotem,
                         targets: this.characters[i],
                         y: 687 - this.characters[i].score * 20, // 687 min
-                        duration: 4000
+                        duration: 2000
                     });
                     break;
             }// Fin switch

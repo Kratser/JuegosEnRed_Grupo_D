@@ -24,7 +24,7 @@ class Level1 extends Phaser.Scene {
     preload() {
 
         // Se cargan las imágenes de las plataformas
-        this.load.image("lvl1_background", "./Design/Stages/Backgrounds/lvl_1_background.png");
+        this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
         //Plataformas
         this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
         this.load.image("bott_step1", "./Design/Stages/Platforms/bott_step1.png");

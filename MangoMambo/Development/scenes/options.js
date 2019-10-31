@@ -12,12 +12,12 @@ class Options extends Phaser.Scene {
         // Cargar la imagen de fondo
         this.load.image("options_background", "./Design/Stages/Backgrounds/options_background.png");
         // Buttons
-        this.load.image("tutorial_button", "./Design/Objects/Buttons/tutorial_button.png");
+        //this.load.image("tutorial_button", "./Design/Objects/Buttons/tutorial_button.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("sound_button", "./Design/Objects/Buttons/sound_button.png");
         this.load.image("credits_button", "./Design/Objects/Buttons/credits_button.png");
         this.load.image("back_button", "./Design/Objects/Buttons/back_button.png");
         // Selected buttons
-        this.load.image("tutorial_button_select", "./Design/Objects/Buttons/tutorial_button_select.png");
+        //this.load.image("tutorial_button_select", "./Design/Objects/Buttons/tutorial_button_select.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("sound_button_select", "./Design/Objects/Buttons/sound_button_select.png");
         this.load.image("credits_button_select", "./Design/Objects/Buttons/credits_button_select.png");
         this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
@@ -35,13 +35,13 @@ class Options extends Phaser.Scene {
         // Fondo
         this.background = this.add.image(0, 0, "options_background").setOrigin(0,0).setDepth(0);
         // Botones 
-        this.tutorialButton = this.add.image(900, 130, "tutorial_button").setDepth(1);
+        //this.tutorialButton = this.add.image(900, 130, "tutorial_button").setDepth(1); NO SE INCLUYE EN ESTA FASE
         this.soundButton = this.add.image(900, 290, "sound_button").setDepth(1);
-        this.creditsButton = this.add.image(900, 470, "credits_button").setDepth(1);
+        this.creditsButton = this.add.image(900, 130, "credits_button").setDepth(1);
         this.backButton = this.add.image(150, 500, "back_button").setDepth(1);
-        this.tutorialButtonSelect = this.add.image(900, 130, "tutorial_button_select").setDepth(2);
+        //this.tutorialButtonSelect = this.add.image(900, 130, "tutorial_button_select").setDepth(2); NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect = this.add.image(900, 290, "sound_button_select").setDepth(2);
-        this.creditsButtonSelect = this.add.image(900, 470, "credits_button_select").setDepth(2);
+        this.creditsButtonSelect = this.add.image(900, 130, "credits_button_select").setDepth(2);
         this.backButtonSelect = this.add.image(150, 500, "back_button_select").setDepth(2);
         // Array de teclas
         this.cursors = [];
@@ -52,9 +52,11 @@ class Options extends Phaser.Scene {
         this.cursors[4] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.cursors[5] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
+        // Contador para el array de botones
         this.cont = 0;
 
-        this.options = [true, false, false, false];
+        //             Credits Sound Back
+        this.options = [true, false, false];
 
         // Se crea la música
         this.sound.pauseOnBlur = false;
@@ -68,7 +70,7 @@ class Options extends Phaser.Scene {
     update(time, delta){
 
         // Se esconde la imagen de seleción de los botones
-        this.tutorialButtonSelect.alpha = 0;
+        //this.tutorialButtonSelect.alpha = 0; NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect.alpha = 0;
         this.creditsButtonSelect.alpha = 0;
         this.backButtonSelect.alpha = 0;
@@ -87,30 +89,25 @@ class Options extends Phaser.Scene {
 
         //Resaltado de botón seleccionado
         if(this.options[0]){
-            this.tutorialButtonSelect.alpha = 1;
+            this.creditsButtonSelect.alpha = 1;
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
         }
         if(this.options[2]){
-            this.creditsButtonSelect.alpha = 1;
-        }
-        if(this.options[3]){
             this.backButtonSelect.alpha = 1;
         }
 
         //Cambio de pantalla
-        if((this.options[3] && this.cursors[4].isDown) || this.cursors[5].isDown){
+        if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
             this.scene.start("main_menu");
-            // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.loop.stop();
         }
 
         //Cambio de pantalla
-        if(this.options[2] && this.cursors[4].isDown){
+        if(this.options[0] && this.cursors[4].isDown){
             this.scene.start("credits");
-            // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.loop.stop();
         }

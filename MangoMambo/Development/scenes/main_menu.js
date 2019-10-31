@@ -22,15 +22,17 @@ class MainMenu extends Phaser.Scene {
         this.load.image("title", "./Design/Stages/Backgrounds/mango_mambo_title.png");
         // Botones
         this.load.image("local_button", "./Design/Objects/Buttons/local_button.png");
-        this.load.image("online_button", "./Design/Objects/Buttons/online_button.png");
+        //this.load.image("online_button", "./Design/Objects/Buttons/online_button.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("options_button", "./Design/Objects/Buttons/options_button.png");
         // Botones seleccionados
         this.load.image("local_button_select", "./Design/Objects/Buttons/local_button_select.png");
-        this.load.image("online_button_select", "./Design/Objects/Buttons/online_button_select.png");
+        //this.load.image("online_button_select", "./Design/Objects/Buttons/online_button_select.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("options_button_select", "./Design/Objects/Buttons/options_button_select.png");
+
+        this.load.image("options_button_disable", "./Design/Objects/Buttons/online_button_disable.png");
         
-        //              local online options
-        this.options = [true, false, false];
+        //              local options
+        this.options = [true, false];
         
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
@@ -60,10 +62,11 @@ class MainMenu extends Phaser.Scene {
 
         // Botones 
         this.localButton = this.add.image(250, 160, "local_button").setDepth(1);
-        this.onlineButton = this.add.image(250, 270, "online_button").setDepth(1);
+        //this.onlineButton = this.add.image(250, 270, "online_button").setDepth(1); NO SE INCLUYE EN ESTA FASE
+        this.onlineDisable = this.add.image(250, 270, "options_button_disable").setDepth(1);
         this.optionsButton = this.add.image(250, 380, "options_button").setDepth(1);
         this.localButtonSelect = this.add.image(250, 160, "local_button_select").setDepth(2);
-        this.onlineButtonSelect = this.add.image(250, 270, "online_button_select").setDepth(2);
+        //this.onlineButtonSelect = this.add.image(250, 270, "online_button_select").setDepth(2); NO SE INCLUYE EN ESTA FASE
         this.optionsButtonSelect = this.add.image(250, 380, "options_button_select").setDepth(2);
         
         // Array de teclas
@@ -93,16 +96,16 @@ class MainMenu extends Phaser.Scene {
 
         // Se esconde la imagen de seleción de los botones
         this.localButtonSelect.alpha = 0;
-        this.onlineButtonSelect.alpha = 0;
+        //this.onlineButtonSelect.alpha = 0; NO SE INCLUYE EN ESTA FASE
         this.optionsButtonSelect.alpha = 0;
         
         // Selección de botones
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=0){
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
         } 
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=0){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
@@ -113,9 +116,6 @@ class MainMenu extends Phaser.Scene {
             this.localButtonSelect.alpha = 1;
         }
         if(this.options[1]){
-            this.onlineButtonSelect.alpha = 1;
-        }
-        if(this.options[2]){
             this.optionsButtonSelect.alpha = 1;
         }
     
@@ -128,7 +128,7 @@ class MainMenu extends Phaser.Scene {
         }
 
         //Cambio de pantalla
-        if(this.options[2] && this.cursors[4].isDown ){
+        if(this.options[1] && this.cursors[4].isDown ){
             this.scene.start("options");
             // Se para la música
             this.intro.stop();

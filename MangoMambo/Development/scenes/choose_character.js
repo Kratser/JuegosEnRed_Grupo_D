@@ -67,6 +67,12 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("toufat_hab", "./Design/Objects/Text/toufat_hab.png");
         this.load.image("lemur_hab", "./Design/Objects/Text/lemur_hab.png");
 
+        // Texto e imagenes que aparecen si no te has unido a la partida
+        this.load.image("press_g_key", "./Design/Objects/Keypress/press_g_key.png");
+        this.load.image("press_p_key", "./Design/Objects/Keypress/press_p_key.png");
+        this.load.image("press_b_key", "./Design/Objects/Keypress/press_b_key.png");
+        this.load.image("press_y_key", "./Design/Objects/Keypress/press_y_key.png");
+
         // Ready! para cuando el personaje se selecciona
         this.load.image("ready", "./Design/Objects/Text/ready.png");
 
@@ -137,6 +143,23 @@ class ChooseCharacter extends Phaser.Scene {
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
 
+        // Texto e imagenes que aparecen si no te has unido a la partida
+        this.gkeys = this.add.image(169, 218, "press_g_key").setDepth(1);
+        this.pkeys = this.add.image(457.38, 218, "press_p_key").setDepth(1);
+        this.bkeys = this.add.image(746.48, 218, "press_b_key").setDepth(1);
+        this.ykeys = this.add.image(1035.23, 218, "press_y_key").setDepth(1);
+        // Movimiento
+        var tween = this.tweens.add({
+            targets: [this.gkeys, this.pkeys, this.bkeys, this.ykeys],
+            scaleX: 0.96,
+            scaleY: 0.96,
+            y: 220,
+            ease: 'Sine.easeInOut',
+            duration: 1000,
+            yoyo: true,
+            repeat: -1
+        });
+
         // Texto ready (seleccionado)
         this.ready1 = this.add.image(171.50, 239.05, "ready").setDepth(1);
         this.ready2 = this.add.image(457.50, 239.05, "ready").setDepth(1);
@@ -201,6 +224,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[0].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector1, 0);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                this.gkeys.alpha = 0;// Desaparecen las teclas
             }
         }else {// Si el jugador 1 ya se encuentra activo
             // A para cambiar de personaje
@@ -248,6 +272,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.selector1 = 0;
                 this.habilities[0].hab.alpha = 0;// Ocultar habilidad
                 this.names[0].name.alpha = 0;// Ocultar nombre
+                this.gkeys.alpha = 1;// Aparecen las teclas
             }
         }// Fin jugador 1
 
@@ -259,6 +284,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[1].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector2, 1);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                this.pkeys.alpha = 0;// Desaparecen las teclas
             }
         }else {
             // J para cambiar de personaje
@@ -306,6 +332,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.selector2 = 0;
                 this.habilities[1].hab.alpha = 0; // Ocultar habilidad
                 this.names[1].name.alpha = 0; // Ocultar nombre
+                this.pkeys.alpha = 1;// Aparecen las teclas
             }
         }//Fin jugador 2
         
@@ -317,6 +344,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[2].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector3, 2);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                this.bkeys.alpha = 0;// Desaparecen las teclas
             }
         }else {
             // LEFT para cambiar de personaje
@@ -364,6 +392,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.selector3 = 0;
                 this.habilities[2].hab.alpha = 0;// Ocultar habilidad
                 this.names[2].name.alpha = 0;// Ocultar nombre
+                this.bkeys.alpha = 1;// Aparecen las teclas
             }
         }//Fin jugador 3
         
@@ -375,6 +404,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[3].active = true;
                 this.numPlayers++;
                 this.ChangeText(this.selector4, 3);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                this.ykeys.alpha = 0;// Desaparecen las teclas
             }
         }else {
             // NUMPAD_4 para cambiar de personaje
@@ -422,6 +452,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.selector4 = 0;
                 this.habilities[3].hab.alpha = 0;// Ocultar habilidad
                 this.names[3].name.alpha = 0;// Ocultar nombre
+                this.ykeys.alpha = 1;// Aparecen las teclas
             }
         }//Fin jugador 4
 
