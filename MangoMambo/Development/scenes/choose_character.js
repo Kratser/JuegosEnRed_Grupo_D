@@ -71,7 +71,7 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("ready", "./Design/Objects/Text/ready.png");
 
         // Boton de escape
-        this.load.image("escape_button", "./Design/Objects/escape_button.png");
+        this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
 
         // Arrays para los textos
         this.names = [];

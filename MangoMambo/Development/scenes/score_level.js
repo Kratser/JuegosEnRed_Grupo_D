@@ -28,7 +28,7 @@ class ScoreLevel extends Phaser.Scene {
         // Puntuación máxima
         this.maxScore;
         // Botón next round
-        this.load.image("next_round", "./Design/Objects/next_round_button.png");
+        this.load.image("next_round", "./Design/Objects/Buttons/next_round_button.png");
         // ESCAPE
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER

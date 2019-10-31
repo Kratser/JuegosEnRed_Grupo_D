@@ -12,9 +12,9 @@ class Credits extends Phaser.Scene {
         // Cargar la imagen de fondo
         this.load.image("credits_background", "./Design/Stages/Backgrounds/credits_background.png");
         // Buttons
-        this.load.image("back_button", "./Design/Objects/back_button.png");
+        this.load.image("back_button", "./Design/Objects/Buttons/back_button.png");
         // Selected buttons
-        this.load.image("back_button_select", "./Design/Objects/back_button_select.png");
+        this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         // Se carga la música
         this.load.audio("hawaii", "./Design/Audio/CreditsSong/hawaii.wav");
 

@@ -16,11 +16,11 @@ class Pause extends Phaser.Scene {
         // Se carga la imagen de fondo
         this.load.image("pause_background", "./Design/Stages/Backgrounds/pause_background.png");
         // Buttons
-        this.load.image("resume_button", "./Design/Objects/resume_button.png");
-        this.load.image("quit_button", "./Design/Objects/quit_button.png");
+        this.load.image("resume_button", "./Design/Objects/Buttons/resume_button.png");
+        this.load.image("quit_button", "./Design/Objects/Buttons/quit_button.png");
         // // Selected buttons
-        this.load.image("resume_button_select", "./Design/Objects/resume_button_select.png");
-        this.load.image("quit_button_select", "./Design/Objects/quit_button_select.png");
+        this.load.image("resume_button_select", "./Design/Objects/Buttons/resume_button_select.png");
+        this.load.image("quit_button_select", "./Design/Objects/Buttons/quit_button_select.png");
 
     }// Fin preload
 

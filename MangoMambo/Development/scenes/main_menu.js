@@ -21,13 +21,13 @@ class MainMenu extends Phaser.Scene {
         this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu_background.png");
         this.load.image("title", "./Design/Stages/Backgrounds/mango_mambo_title.png");
         // Botones
-        this.load.image("local_button", "./Design/Objects/local_button.png");
-        this.load.image("online_button", "./Design/Objects/online_button.png");
-        this.load.image("options_button", "./Design/Objects/options_button.png");
+        this.load.image("local_button", "./Design/Objects/Buttons/local_button.png");
+        this.load.image("online_button", "./Design/Objects/Buttons/online_button.png");
+        this.load.image("options_button", "./Design/Objects/Buttons/options_button.png");
         // Botones seleccionados
-        this.load.image("local_button_select", "./Design/Objects/local_button_select.png");
-        this.load.image("online_button_select", "./Design/Objects/online_button_select.png");
-        this.load.image("options_button_select", "./Design/Objects/options_button_select.png");
+        this.load.image("local_button_select", "./Design/Objects/Buttons/local_button_select.png");
+        this.load.image("online_button_select", "./Design/Objects/Buttons/online_button_select.png");
+        this.load.image("options_button_select", "./Design/Objects/Buttons/options_button_select.png");
         
         //              local online options
         this.options = [true, false, false];
