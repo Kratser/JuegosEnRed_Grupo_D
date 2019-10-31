@@ -142,19 +142,23 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             switch(this.characters[i].id){
                 case 1:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, 
+                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
                     break;
 
                 case 2:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, 
+                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
                     break;
                 
                 case 3:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, 
+                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
                     break;
 
                 case 4:
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0]+"_idle", true, 0, 0);
+                    this.characters[i] = new Character(this, this.characters[i].id, 
+                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
                     break;
             }
         }
