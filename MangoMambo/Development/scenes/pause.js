@@ -45,7 +45,7 @@ class Pause extends Phaser.Scene {
 
         this.options = [true, false];
 
-        this.scene.sleep("pause");
+        // this.scene.sleep("pause");
 
     }// Fin create
 
@@ -76,13 +76,14 @@ class Pause extends Phaser.Scene {
         }
 
         if ((Phaser.Input.Keyboard.JustDown(this.resumeKey)) || (this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey))) {
+            this.data.scene.pauseKey.isDown = false;
             this.scene.resume(this.data.sceneKey);
-            this.scene.sleep("pause");
+            this.scene.remove("pause");
             this.options[0] = false;
         }  
 
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.enterKey)) {
-            this.scene.sleep("pause");
+            this.scene.remove("pause");
             
             // Se para la música
             this.data.scene.loop.stop();
