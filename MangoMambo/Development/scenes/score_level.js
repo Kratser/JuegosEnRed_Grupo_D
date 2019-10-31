@@ -75,7 +75,7 @@ class ScoreLevel extends Phaser.Scene {
                 // Jugador 1
                 case 1:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"],
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 161.50, 532, this.characters[i].score);
                     // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
@@ -95,7 +95,7 @@ class ScoreLevel extends Phaser.Scene {
                 // Jugador 2
                 case 2:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"],
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 448.00, 532, this.characters[i].score);
                     // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
@@ -115,7 +115,7 @@ class ScoreLevel extends Phaser.Scene {
                 // Jugador 3    
                 case 3:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"], 
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 742.00, 532, this.characters[i].score);
                     // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
@@ -135,7 +135,7 @@ class ScoreLevel extends Phaser.Scene {
                 // Jugador 4   
                 case 4:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type + ["_choose"], 
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 1039, 532, this.characters[i].score);
                     // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
