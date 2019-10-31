@@ -10,7 +10,8 @@ class Level1 extends Phaser.Scene {
 
         // La canción loopeada
         this.loop;
-        
+
+  
     }// Fin constructor
 
     init (data){
@@ -96,6 +97,11 @@ class Level1 extends Phaser.Scene {
         // Tiempo de partida
         this.maxMatchTime;
         this.matchTime
+
+        // TESTEANDO
+        var text;
+        var timedEvent;
+        //var game = new Phaser.Game(config);
 
     }// Fin preload
 
@@ -218,6 +224,14 @@ class Level1 extends Phaser.Scene {
         this.maxMatchTime = 120000;// Tiempo máximo
         this.matchTime = this.time.now;
 
+        // 2:30 en segundos
+        this.initialTime = 150;
+
+        // TESTEANDO
+        //text = this.add.text(600, 300, 'Countdown: ' + FormatTime(this.initialTime));
+        // Cada 1000 ms llama onEvent
+        //timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
+
     }// Fin Create
 
     update() {
@@ -289,6 +303,24 @@ class Level1 extends Phaser.Scene {
         }
         this.numPlayers--;
     }// Fin EliminarPersonaje
+
+    // TESTEANDO
+    
+    FormatTime(seconds) {
+        // Minutos
+        var minutes = Math.floor(seconds / 60);
+        // Segundos
+        var partInSeconds = seconds % 60;
+        // Añade ceros a la izquierda a los segundos
+        partInSeconds = partInSeconds.toString().padStart(2, '0');
+        // Devuelve el tiempo formateado
+        return `${minutes}:${partInSeconds}`;
+    }
+
+    onEvent() {
+        this.initialTime -= 1; // Un segundo
+        text.setText('Countdown: ' + FormatTime(this.initialTime));
+    }
 
 }// Fin clase Level1
 
