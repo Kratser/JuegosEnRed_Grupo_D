@@ -47,7 +47,19 @@ class Level1 extends Phaser.Scene {
         this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         // Se cargan las animaciones de los personajes
-        this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle_00.png',
+        // Palm
+        // this.load.spritesheet('palm_idle', './Design/Characters/Palm/palm_idle.png',
+        // {
+        //     frameWidth: 80,
+        //     frameHeight: 80 
+        // });
+        this.load.spritesheet('palm_walk', './Design/Characters/Palm/palm_walk.png',
+        {
+            frameWidth: 64,
+            frameHeight: 64 
+        });
+        // Dino
+        this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle.png',
         {
             frameWidth: 80,
             frameHeight: 80 
@@ -70,9 +82,9 @@ class Level1 extends Phaser.Scene {
 
         this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        if (!this.scene.get("pause")){
-            this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1"});
-        }
+        // if (!this.scene.get("pause")){
+        //     this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1"});
+        // }
 
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
@@ -209,7 +221,6 @@ class Level1 extends Phaser.Scene {
     }// Fin Create
 
     update() {
-
         // Update de los personajes y del mango
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].update();
@@ -218,15 +229,18 @@ class Level1 extends Phaser.Scene {
 
         // Pause
         if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
-            this.scene.pause("level_1");
-            this.scene.wake("pause");
+            if (!this.scene.get("pause")) {
+                this.scene.add("pause", new Pause, true, { scene: this, sceneKey: "level_1" });
+                this.scene.pause("level_1");
+            }
         }
         // Refresh body de la plataforma que se mueve
         this.upMovePlat.refreshBody();
 
         // Si el tiempo de partida supera el tiempo máximo, se pasa a la pantalla de puntuaciones
-        console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
+        // console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
         if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
+            this.scene.remove("pause");
             this.scene.start("score_level", {characters: this.characters});
             // Se para la música
             this.intro.stop();
