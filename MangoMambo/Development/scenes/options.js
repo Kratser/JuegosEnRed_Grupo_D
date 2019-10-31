@@ -12,15 +12,15 @@ class Options extends Phaser.Scene {
         // Cargar la imagen de fondo
         this.load.image("options_background", "./Design/Stages/Backgrounds/options_background.png");
         // Buttons
-        this.load.image("tutorial_button", "./Design/Objects/tutorial_button.png");
-        this.load.image("sound_button", "./Design/Objects/sound_button.png");
-        this.load.image("credits_button", "./Design/Objects/credits_button.png");
-        this.load.image("back_button", "./Design/Objects/back_button.png");
+        this.load.image("tutorial_button", "./Design/Objects/Buttons/tutorial_button.png");
+        this.load.image("sound_button", "./Design/Objects/Buttons/sound_button.png");
+        this.load.image("credits_button", "./Design/Objects/Buttons/credits_button.png");
+        this.load.image("back_button", "./Design/Objects/Buttons/back_button.png");
         // Selected buttons
-        this.load.image("tutorial_button_select", "./Design/Objects/tutorial_button_select.png");
-        this.load.image("sound_button_select", "./Design/Objects/sound_button_select.png");
-        this.load.image("credits_button_select", "./Design/Objects/credits_button_select.png");
-        this.load.image("back_button_select", "./Design/Objects/back_button_select.png");
+        this.load.image("tutorial_button_select", "./Design/Objects/Buttons/tutorial_button_select.png");
+        this.load.image("sound_button_select", "./Design/Objects/Buttons/sound_button_select.png");
+        this.load.image("credits_button_select", "./Design/Objects/Buttons/credits_button_select.png");
+        this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         
         // local  online options
         this.options;
