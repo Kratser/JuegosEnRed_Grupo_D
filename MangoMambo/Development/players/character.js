@@ -140,6 +140,18 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.anim[0] = "palm_idle";
                 this.anim[1] = "palm_walk";
                 this.anim[2] = "palm_jump";
+                // this.scene.anims.create({
+                //     key: 'palm_idle',
+                //     frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 7 }),
+                //     frameRate: 9,
+                //     repeat: -1
+                // });
+                this.scene.anims.create({
+                    key: 'palm_walk',
+                    frames: this.scene.anims.generateFrameNumbers('palm_walk', { start: 0, end: 7 }),
+                    frameRate: 9,
+                    repeat: -1
+                });
                 break;
             case "dino":
                 this.colliderSize = [80,80];
@@ -150,11 +162,11 @@ class Character extends Phaser.GameObjects.Sprite{
 
                 this.anim[0] = "dino_idle";
                 this.anim[1] = "dino_walk";
-                //this.anim[1] = "dino_jump";
+                this.anim[2] = "dino_jump";
                 this.scene.anims.create({
                     key: 'dino_idle',
-                    frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 0 }),
-                    frameRate: 1,
+                    frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 7 }),
+                    frameRate: 9,
                     repeat: -1
                 });
                 this.scene.anims.create({
@@ -170,6 +182,10 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.acceleration = 1000;
                 this.jumpHeight = 510;
                 this.fallSpeed = 0;
+
+                this.anim[0] = "lemur_idle";
+                this.anim[1] = "lemur_walk";
+                this.anim[2] = "lemur_jump";
                 break;
             case "toufat":
                 this.colliderSize = [25, 20];
@@ -177,6 +193,10 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.acceleration = 400;
                 this.jumpHeight = 700;
                 this.fallSpeed = 0;
+
+                this.anim[0] = "toufat_idle";
+                this.anim[1] = "toufat_walk";
+                this.anim[2] = "toufat_jump";
                 break;
             default:
                 this.colliderSize = [,];

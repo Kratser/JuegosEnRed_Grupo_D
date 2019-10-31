@@ -47,7 +47,19 @@ class Level1 extends Phaser.Scene {
         this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         // Se cargan las animaciones de los personajes
-        this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle_00.png',
+        // Palm
+        // this.load.spritesheet('palm_idle', './Design/Characters/Palm/palm_idle.png',
+        // {
+        //     frameWidth: 80,
+        //     frameHeight: 80 
+        // });
+        this.load.spritesheet('palm_walk', './Design/Characters/Palm/palm_walk.png',
+        {
+            frameWidth: 64,
+            frameHeight: 64 
+        });
+        // Dino
+        this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle.png',
         {
             frameWidth: 80,
             frameHeight: 80 
