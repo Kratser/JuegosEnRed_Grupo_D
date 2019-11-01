@@ -16,8 +16,11 @@ class HowToPlay extends Phaser.Scene {
 
     preload(){
 
-        // Cargar imágenes
+        // Cargar imagen
         this.load.image("how_to_play_scene", "./Design/Stages/Backgrounds/how_to_play_scene.png");
+
+        // Cargar botón
+        this.load.image("ready_button", "./Design/Objects/Buttons/ready_button.png");
 
         // Cargar música
         this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
@@ -27,7 +30,22 @@ class HowToPlay extends Phaser.Scene {
     create(){
 
         // Fondo
-        this.howToPlay = this.add.image(0, 0, "how_to_play_scene").setOrigin(0, 0);
+        this.howToPlay = this.add.image(0, 0, "how_to_play_scene").setOrigin(0, 0).setDepth(0);
+
+        // Botón
+        this.readyButton = this.add.image(800, 500, "ready_button").setDepth(0);
+
+        // Movimiento
+        var tween = this.tweens.add({
+            targets: this.readyButton,
+            
+            scaleX: 0.90,
+            scaleY: 0.90,
+            ease: 'Sine.easeInOut',
+            duration: 1500,
+            yoyo: true,
+            repeat: -1
+        });
 
         // Tecla
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
