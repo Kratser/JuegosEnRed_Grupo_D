@@ -70,18 +70,18 @@ class Level1 extends Phaser.Scene {
             frameWidth: 80,
             frameHeight: 80 
         });
-        // Lemur
-        // this.load.spritesheet('lemur_idle', './Design/Characters/Lemur/lemur_idle.png',
-        // {
-        //     frameWidth: 80,
-        //     frameHeight: 80 
-        // });
-        // this.load.spritesheet('lemur_walk', './Design/Characters/Lemur/lemur_walk.png',
-        // {
-        //     frameWidth: 80,
-        //     frameHeight: 80 
-        // });
-        // Toufat
+        //Lemur
+        this.load.spritesheet('lemur_idle', './Design/Characters/Lemur/lemur_idle.png',
+        {
+            frameWidth: 80,
+            frameHeight: 80 
+        });
+        this.load.spritesheet('lemur_walk', './Design/Characters/Lemur/lemur_walk.png',
+        {
+            frameWidth: 80,
+            frameHeight: 80 
+        });
+        //Toufat
         this.load.spritesheet('toufat_idle', './Design/Characters/Toucan/toufat_idle.png',
         {
             frameWidth: 80,

@@ -186,18 +186,18 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.anim[0] = "lemur_idle";
                 this.anim[1] = "lemur_walk";
                 this.anim[2] = "lemur_jump";
-                // this.scene.anims.create({
-                //     key: 'lemur_idle',
-                //     frames: this.scene.anims.generateFrameNumbers('lemur_idle', { start: 0, end: 7 }),
-                //     frameRate: 9,
-                //     repeat: -1
-                // });
-                // this.scene.anims.create({
-                //     key: 'lemur_walk',
-                //     frames: this.scene.anims.generateFrameNumbers('lemur_walk', { start: 0, end: 7 }),
-                //     frameRate: 9,
-                //     repeat: -1
-                // });
+                this.scene.anims.create({
+                    key: 'lemur_idle',
+                    frames: this.scene.anims.generateFrameNumbers('lemur_idle', { start: 0, end: 7 }),
+                    frameRate: 9,
+                    repeat: -1
+                });
+                this.scene.anims.create({
+                    key: 'lemur_walk',
+                    frames: this.scene.anims.generateFrameNumbers('lemur_walk', { start: 0, end: 9 }),
+                    frameRate: 15,
+                    repeat: -1
+                });
                 break;
             case "toufat":
                 this.colliderSize = [25, 20];
