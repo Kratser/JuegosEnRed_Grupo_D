@@ -49,15 +49,15 @@ class Level1 extends Phaser.Scene {
         this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         // Se cargan las animaciones de los personajes
         // Palm
-        // this.load.spritesheet('palm_idle', './Design/Characters/Palm/palm_idle.png',
-        // {
-        //     frameWidth: 80,
-        //     frameHeight: 80 
-        // });
+        this.load.spritesheet('palm_idle', './Design/Characters/Palm/palm_idle.png',
+        {
+            frameWidth: 80,
+            frameHeight: 80 
+        });
         this.load.spritesheet('palm_walk', './Design/Characters/Palm/palm_walk.png',
         {
-            frameWidth: 64,
-            frameHeight: 64 
+            frameWidth: 80,
+            frameHeight: 80 
         });
         // Dino
         this.load.spritesheet('dino_idle', './Design/Characters/Dino/dino_idle.png',
@@ -66,6 +66,28 @@ class Level1 extends Phaser.Scene {
             frameHeight: 80 
         });
         this.load.spritesheet('dino_walk', './Design/Characters/Dino/dino_walk.png',
+        {
+            frameWidth: 80,
+            frameHeight: 80 
+        });
+        // Lemur
+        // this.load.spritesheet('lemur_idle', './Design/Characters/Lemur/lemur_idle.png',
+        // {
+        //     frameWidth: 80,
+        //     frameHeight: 80 
+        // });
+        // this.load.spritesheet('lemur_walk', './Design/Characters/Lemur/lemur_walk.png',
+        // {
+        //     frameWidth: 80,
+        //     frameHeight: 80 
+        // });
+        // Toufat
+        this.load.spritesheet('toufat_idle', './Design/Characters/Toucan/toufat_idle.png',
+        {
+            frameWidth: 80,
+            frameHeight: 80 
+        });
+        this.load.spritesheet('toufat_walk', './Design/Characters/Toucan/toufat_walk.png',
         {
             frameWidth: 80,
             frameHeight: 80 
