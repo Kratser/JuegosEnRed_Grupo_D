@@ -467,7 +467,9 @@ class ChooseCharacter extends Phaser.Scene {
             if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
                 for (var i = 0; i < this.characters.length; i++){
                     if (!this.players[i].selected){
+                        this.players.splice(i,1);
                         this.characters.splice(i,1);
+                        i--;
                     }
                 }
                 this.scene.start("how_to_play", {characters: this.characters});
