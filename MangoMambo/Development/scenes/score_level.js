@@ -149,7 +149,6 @@ class ScoreLevel extends Phaser.Scene {
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.yTotem,
-                        targets: this.characters[i],
                         y: 687 - this.characters[i].score * 20, // 687 min
                         duration: 2000
                     });

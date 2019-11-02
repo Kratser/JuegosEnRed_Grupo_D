@@ -26,7 +26,10 @@ class Level1 extends Phaser.Scene {
 
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
-        //Plataformas
+        // Fondo contador
+        this.load.image("cd_background", "./Design/Objects/countdown_background.png");
+
+        // Plataformas
         this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
         this.load.image("bott_step1", "./Design/Stages/Platforms/bott_step1.png");
         this.load.image("bott_step2", "./Design/Stages/Platforms/bott_step2.png");
@@ -127,6 +130,8 @@ class Level1 extends Phaser.Scene {
         
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
+
+        this.add.image(600, 25.50, "cd_background").setDepth(-1);
 
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
@@ -240,7 +245,21 @@ class Level1 extends Phaser.Scene {
         // 2:30 en segundos
         this.matchTime = 150;
         // Texto que aparece en pantalla
-        this.text = this.add.text(600, 0, 'Countdown: ' + this.FormatTime(this.matchTime));
+        var tconfig = {
+            x: 577,
+            y: 7,
+            text: this.FormatTime(this.matchTime),
+            style: {
+              fontSize: '24px',
+              fontFamily: 'Arial',
+              color: '#aaff75',
+              align: 'center',
+              strokeThickness: '3',
+              shadow: (5, 5, 'rgba(170,255,117,0.5)', 5)
+            }
+          };
+        this.text = this.make.text(tconfig);
+        //this.text = this.add.text(600, 0, 'Countdown: ' + this.FormatTime(this.matchTime));
         // Cada 1000 ms llama a UpdateTime
         this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.UpdateTime, callbackScope: this, loop: true });
 
@@ -329,7 +348,7 @@ class Level1 extends Phaser.Scene {
 
     UpdateTime() {
         this.matchTime -= 1; // Un segundo
-        this.text.setText('Countdown: ' + this.FormatTime(this.matchTime));
+        this.text.setText( this.FormatTime(this.matchTime));
     }
 
 }// Fin clase Level1
