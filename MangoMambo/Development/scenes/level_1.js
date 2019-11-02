@@ -105,10 +105,6 @@ class Level1 extends Phaser.Scene {
 
         this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        // if (!this.scene.get("pause")){
-        //     this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1"});
-        // }
-
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
         this.mango;
@@ -117,13 +113,9 @@ class Level1 extends Phaser.Scene {
         this.clock;
 
         // Tiempo de partida
-        this.maxMatchTime;
         this.matchTime
-
-        // TESTEANDO
-        var text;
-        var timedEvent;
-        //var game = new Phaser.Game(config);
+        this.text;
+        this.timedEvent;
 
     }// Fin preload
 
@@ -243,16 +235,12 @@ class Level1 extends Phaser.Scene {
         });
 
         // Tiempo de partida
-        this.maxMatchTime = 120000;// Tiempo máximo
-        this.matchTime = this.time.now;
-
         // 2:30 en segundos
-        this.initialTime = 150;
-
-        // TESTEANDO
-        //text = this.add.text(600, 300, 'Countdown: ' + FormatTime(this.initialTime));
-        // Cada 1000 ms llama onEvent
-        //timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
+        this.matchTime = 150;
+        // Texto que aparece en pantalla
+        this.text = this.add.text(600, 0, 'Countdown: ' + this.FormatTime(this.matchTime));
+        // Cada 1000 ms llama a UpdateTime
+        this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.UpdateTime, callbackScope: this, loop: true });
 
     }// Fin Create
 
@@ -273,9 +261,9 @@ class Level1 extends Phaser.Scene {
         // Refresh body de la plataforma que se mueve
         this.upMovePlat.refreshBody();
 
-        // Si el tiempo de partida supera el tiempo máximo, se pasa a la pantalla de puntuaciones
-        // console.log(this.maxMatchTime - (this.clock.now - this.matchTime)); // Tiempo restante
-        if (this.clock.now - this.matchTime >= this.maxMatchTime || this.numPlayers <= 1){
+        // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
+        console.log(this.matchTime); // Tiempo restante
+        if (this.matchTime <= 0){
             this.scene.remove("pause");
             this.scene.start("score_level", {characters: this.characters});
             // Se para la música
@@ -325,8 +313,6 @@ class Level1 extends Phaser.Scene {
         }
         this.numPlayers--;
     }// Fin EliminarPersonaje
-
-    // TESTEANDO
     
     FormatTime(seconds) {
         // Minutos
@@ -339,9 +325,9 @@ class Level1 extends Phaser.Scene {
         return `${minutes}:${partInSeconds}`;
     }
 
-    onEvent() {
-        this.initialTime -= 1; // Un segundo
-        text.setText('Countdown: ' + FormatTime(this.initialTime));
+    UpdateTime() {
+        this.matchTime -= 1; // Un segundo
+        this.text.setText('Countdown: ' + this.FormatTime(this.matchTime));
     }
 
 }// Fin clase Level1
