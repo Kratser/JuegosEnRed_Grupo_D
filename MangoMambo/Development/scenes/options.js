@@ -22,7 +22,7 @@ class Options extends Phaser.Scene {
         this.load.image("credits_button_select", "./Design/Objects/Buttons/credits_button_select.png");
         this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         
-        // local  online options
+        // options
         this.options;
 
         // Se carga la música
@@ -55,7 +55,7 @@ class Options extends Phaser.Scene {
         // Contador para el array de botones
         this.cont = 0;
 
-        //             Credits Sound Back
+        // Array de botones
         this.options = [true, false, false];
 
         // Se crea la música
@@ -76,7 +76,7 @@ class Options extends Phaser.Scene {
         this.backButtonSelect.alpha = 0;
 
         // Selección de botones
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=2){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
