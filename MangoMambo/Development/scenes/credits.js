@@ -59,8 +59,11 @@ class Credits extends Phaser.Scene {
         this.backButtonSelect.alpha = 0;
 
         // Selección de botones
-        if (Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[2]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])){
+        if (Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])){
             this.options[0] = true;
+        } 
+        if (Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])){
+            this.options[0] = false;
         } 
 
         //Resaltado de botón seleccionado
