@@ -201,7 +201,9 @@ class Level1 extends Phaser.Scene {
         }
 
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 260, 30000);
+        this.mango = new Mango(this, "mango", 600, 260, 30);
+        this.mango.preload();
+        this.mango.create();
 
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
@@ -262,8 +264,7 @@ class Level1 extends Phaser.Scene {
         this.upMovePlat.refreshBody();
 
         // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
-        console.log(this.matchTime); // Tiempo restante
-        if (this.matchTime <= 0){
+        if (this.matchTime <= 0 || this.numPlayers <= 1){
             this.scene.remove("pause");
             this.scene.start("score_level", {characters: this.characters});
             // Se para la música
@@ -275,8 +276,9 @@ class Level1 extends Phaser.Scene {
 
     CogerMango(character, mango){
         if (!mango.character){// Si el mango no tiene ningún personaje asociado
-            this.mango.time = this.clock.now;
-            mango.character = character;// El personaje que lo recoge queda guardado en el mango
+            this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.UpdateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
+            // El personaje que lo recoge queda guardado en el mango
+            mango.character = character;
         }
     }// Fin CogerMango
     
