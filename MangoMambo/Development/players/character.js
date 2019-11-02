@@ -154,7 +154,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 });
                 break;
             case "dino":
-                this.colliderSize = [80,80];
+                this.colliderSize = [25, 64];
                 this.maxVelocity = 275;
                 this.acceleration = 3000;
                 this.jumpHeight = 510;
