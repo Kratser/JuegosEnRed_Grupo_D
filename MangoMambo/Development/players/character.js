@@ -149,7 +149,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.scene.anims.create({
                     key: 'palm_walk',
                     frames: this.scene.anims.generateFrameNumbers('palm_walk', { start: 0, end: 7 }),
-                    frameRate: 9,
+                    frameRate: 20,
                     repeat: -1
                 });
                 break;
@@ -195,7 +195,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.scene.anims.create({
                     key: 'lemur_walk',
                     frames: this.scene.anims.generateFrameNumbers('lemur_walk', { start: 0, end: 9 }),
-                    frameRate: 15,
+                    frameRate: 20,
                     repeat: -1
                 });
                 break;
