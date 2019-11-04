@@ -98,6 +98,8 @@ class Level1 extends Phaser.Scene {
         // Se cargan los contornos de los pesonajes
         this.load.image("outline", "./Design/Objects/outline.png");
 
+        this.positions;
+
         // Tiempo entre colisiones para cambiar el mango
         this.maxCollisionTime;
         this.collisionTime;
@@ -172,27 +174,31 @@ class Level1 extends Phaser.Scene {
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
 
+        this.positions = [{x: 50, y: 50}, {x: 1150, y: 50},
+                          {x: 400, y: 500}, {x: 800, y: 500}];
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
             switch(this.characters[i].id){
                 case 1:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
                     break;
 
                 case 2:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
+                        this.characters[i].flipX = true;
                     break;
                 
                 case 3:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
+                        this.characters[i].flipX = true;
                     break;
 
                 case 4:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
                     break;
             }
         }
