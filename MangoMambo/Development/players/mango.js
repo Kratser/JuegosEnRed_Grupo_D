@@ -28,10 +28,14 @@ class Mango extends Phaser.GameObjects.Sprite{
     }
 
     create() {
-
+        
     }
 
     update() {
+        // Cambio de color y de escala en función del tiempo restante
+        this.tint = 0xff0000 + (0x00ffff * (this.explodeTime/this.time));
+        this.scale = 1 + (0.5 * ((this.time - this.explodeTime) / this.time));
+        
         if (this.character){
             this.x = this.character.x;
             this.y = this.character.y - this.character.height*3/4;
@@ -53,4 +57,3 @@ class Mango extends Phaser.GameObjects.Sprite{
     }
 
 }// Fin clase Mango
-
