@@ -81,6 +81,12 @@ class Level1 extends Phaser.Scene {
             frameWidth: 80,
             frameHeight: 80 
         });
+        // Explosión del mango
+        this.load.spritesheet('mango_explosion', './Design/Objects/mango_explosion.png',
+        {
+            frameWidth: 80,
+            frameHeight: 80 
+        });
         // Se cargan los contornos de los pesonajes
         this.load.image("outline", "./Design/Objects/outline.png");
         // Se carga la música

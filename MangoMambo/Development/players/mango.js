@@ -27,7 +27,13 @@ class Mango extends Phaser.GameObjects.Sprite{
     }// Fin Preload
 
     create() {
-        
+        this.scene.anims.create({
+            key: 'mango_explosion',
+            frames: this.scene.anims.generateFrameNumbers('mango_explosion', { start: 0, end: 8 }),
+            frameRate: 10,
+            repeat: 1
+        });
+        this.on("mango_explotion", this.AnimComplete, this);
     }// Fin Create
 
     update() {
@@ -40,21 +46,7 @@ class Mango extends Phaser.GameObjects.Sprite{
             this.y = this.character.y - this.character.height*3/4;
             if (this.explodeTime <= 0){
                 console.log("PUM!");
-                this.explodeTime = this.time;
-                this.x = 600;
-                this.y = -10;
-                this.scene.EliminarPersonaje(this.character);
-                this.character = null;
-                this.timer = null;
-                this.scene.text.alpha = 0;
-                this.scene.timeImage.alpha = 0;
-                // Aparece texto de getMango 
-                this.scene.getMango.alpha = 1;
-                var tween = this.scene.tweens.add({
-                    targets: this,
-                    y: 260,
-                    duration: 2000
-                });
+                this.anims.play("mango_explosion", true);
             }
         }
     }// Fin update
@@ -63,5 +55,23 @@ class Mango extends Phaser.GameObjects.Sprite{
         // Un segundo
         this.explodeTime -= 1; 
         this.scene.text.setText(this.scene.FormatTime(this.explodeTime));
+    }
+
+    AnimComplete(animation, frame) {
+        this.explodeTime = this.time;
+        this.x = 600;
+        this.y = -10;
+        this.scene.EliminarPersonaje(this.character);
+        this.character = null;
+        this.timer = null;
+        this.scene.text.alpha = 0;
+        this.scene.timeImage.alpha = 0;
+        // Aparece texto de getMango 
+        this.scene.getMango.alpha = 1;
+        var tween = this.scene.tweens.add({
+            targets: this,
+            y: 260,
+            duration: 2000
+        });
     }
 }// Fin clase Mango
