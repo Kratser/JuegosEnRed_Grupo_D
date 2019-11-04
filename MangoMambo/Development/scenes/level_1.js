@@ -28,6 +28,8 @@ class Level1 extends Phaser.Scene {
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
         // Fondo contador
         this.load.image("cd_background", "./Design/Objects/countdown_background.png");
+        // Get the mango
+        this.load.image("get_the_mango", "./Design/Objects/Text/get_the_mango.png");
 
         // Plataformas
         this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
@@ -131,6 +133,7 @@ class Level1 extends Phaser.Scene {
         
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
+        
 
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
@@ -244,6 +247,20 @@ class Level1 extends Phaser.Scene {
             delay : 6.87
         });
 
+        // Get the mango
+        this.getMango = this.add.image(594, 53, "get_the_mango");
+        // Movimiento
+        var tweenGetMango = this.tweens.add({
+            targets: [this.getMango],
+            scaleY: 0.85,
+            scaleX: 0.85,
+            ease: 'Sine.easeInOut',
+            duration: 700,
+            yoyo: true,
+            repeat: -1
+        });
+        // this.getMango.alpha = 0;
+
         // Tiempo de partida
         this.timeImage = this.add.image(600, 25.50, "cd_background");
         this.timeImage.alpha = 0;
@@ -303,6 +320,8 @@ class Level1 extends Phaser.Scene {
             mango.character = character;
             this.timeImage.alpha = 1;
             this.text.alpha = 1;
+            // Desaparece el texto de getMango
+            this.getMango.alpha = 0;
         }
     }// Fin CogerMango
     

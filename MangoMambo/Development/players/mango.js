@@ -28,7 +28,9 @@ class Mango extends Phaser.GameObjects.Sprite{
     }
 
     create() {
-        
+
+        // Get the mango
+        // this.getMango = this.add.image(594, 51.25, "get_the_mango");
     }
 
     update() {
@@ -42,8 +44,6 @@ class Mango extends Phaser.GameObjects.Sprite{
             if (this.explodeTime <= 0){
                 console.log("PUM!");
                 this.explodeTime = this.time;
-                // this.x = 600;
-                // this.y = 260;
                 this.x = 600;
                 this.y = -10;
                 this.scene.EliminarPersonaje(this.character);
@@ -51,6 +51,8 @@ class Mango extends Phaser.GameObjects.Sprite{
                 this.timer = null;
                 this.scene.text.alpha = 0;
                 this.scene.timeImage.alpha = 0;
+                // Aparece texto de getMango 
+                this.scene.getMango.alpha = 1;
                 var tween = this.scene.tweens.add({
                     targets: this,
                     y: 260,
