@@ -209,7 +209,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 260, 5);
+        this.mango = new Mango(this, "mango", 600, 260, 30);
         this.mango.preload();
         this.mango.create();
 

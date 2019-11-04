@@ -184,6 +184,8 @@ class ScoreLevel extends Phaser.Scene {
         // Cuando terminan las rondas vuelve al menu principal
         for (var i = 0; i < this.characters.length; i++) {
             if (this.characters[i].score >= this.maxScore) {
+                // Desaparece el siguiente ronda
+                this.nextRound.alpha = 0;
                 this.crowns[this.characters[i].id - 1].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
                     this.scene.start("main_menu", {characters: this.characters});
