@@ -1,34 +1,19 @@
 class Level1 extends Phaser.Scene {
     constructor(){
         super({key: "level_1"});
-
-        // Escena, Sprite asociado, Array de Cursores, X, Y, VelMáx, Acel, Altura de salto, Vel Caída
-        this.characters; 
-
-        // La intro de la canción
-        this.intro;
-
-        // La canción loopeada
-        this.loop;
-
-  
     }// Fin constructor
 
     init (data){
-
         this.characters = data.characters;
         this.numPlayers = this.characters.length; // Número de jugadores
         data = null;
-
     }// Fin init
 
     preload() {
-
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
         // Fondo contador
         this.load.image("cd_background", "./Design/Objects/countdown_background.png");
-
         // Plataformas
         this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
         this.load.image("bott_step1", "./Design/Stages/Platforms/bott_step1.png");
@@ -44,7 +29,6 @@ class Level1 extends Phaser.Scene {
         this.load.image("top_step2", "./Design/Stages/Platforms/top_step2.png");
         this.load.image("yellow_plat", "./Design/Stages/Platforms/yellow_plat.png");
         this.load.image("side_plat", "./Design/Stages/Platforms/side_plat.png");
-
         // Se carga la imagen de los personajes
         this.load.image("palm", "./Design/Characters/Palm/palm_idle_00.png");
         this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
@@ -97,44 +81,35 @@ class Level1 extends Phaser.Scene {
         });
         // Se cargan los contornos de los pesonajes
         this.load.image("outline", "./Design/Objects/outline.png");
-
-        this.positions;
-
-        // Tiempo entre colisiones para cambiar el mango
-        this.maxCollisionTime;
-        this.collisionTime;
-        
         // Se carga la música
         this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
         this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
-
-        this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
+        // Tecla de pausa
+        this.pauseKey;
+        // Mango
         this.mango;
-
+        // Posiciones inicales de los personajes
+        this.positions;
+        // Tiempo entre colisiones para cambiar el mango
+        this.maxCollisionTime;
+        this.collisionTime;
         // Reloj del juego
         this.clock;
-
+        // Música
+        this.intro;
+        this.loop;
         // Texto del mango
         this.text;
         this.timedEvent;
-
     }// Fin preload
 
     create() {
-
-        // Se inicializa el reloj
-        this.clock = new Phaser.Time.Clock(this);
-        this.clock.start();
-        
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
-
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
-
         // Creación de plataformas
         // Suelo
         platforms.create (53, 497.5, "top_step1");
@@ -144,11 +119,9 @@ class Level1 extends Phaser.Scene {
         platforms.create (946.5, 552, "bott_step2");
         platforms.create (1044, 524.5, "mid_step2");
         platforms.create (1147, 497.5, "top_step2");
-
         // Aire
         platforms.create (351.5, 199, "tiki_plat");
         platforms.create (849.5, 199, "tiki_plat");
-
         // Plataforma que se mueve
         this.upMovePlat = platforms.create (500, 155, "yellow_plat");
         // Movimiento
@@ -160,7 +133,6 @@ class Level1 extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-
         platforms.create (600, 299, "yellow_plat");
 
         platforms.create (600, 434, "big_plat");
@@ -173,7 +145,9 @@ class Level1 extends Phaser.Scene {
 
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
-
+        // Tecla de pausa
+        this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Posiciones iniciales de los personajes
         this.positions = [{x: 50, y: 50}, {x: 1150, y: 50},
                           {x: 400, y: 500}, {x: 800, y: 500}];
         // Se crea el personaje
@@ -183,46 +157,38 @@ class Level1 extends Phaser.Scene {
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
                     break;
-
                 case 2:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
                         this.characters[i].flipX = true;
                     break;
-                
                 case 3:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
                         this.characters[i].flipX = true;
                     break;
-
                 case 4:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
                     break;
             }
         }
-
         for (var i = 0; i < this.characters.length; i++){
             this.characters[i].preload();
             this.characters[i].create();
         }
-
         // Se crea el mango
         this.mango = new Mango(this, "mango", 600, 260, 30);
         this.mango.preload();
         this.mango.create();
-
         // Se crea la colisión entre los personajes y las plataformas
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
         }
-
         // Se crea la colisión entre los personajes y el mango
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.overlap(this.characters[i], this.mango, this.CogerMango, null, this);
         }
-
         // Se crea la colisión entre los personajes
         this.maxCollisionTime = 1000;
         this.collisionTime = 0;
@@ -233,7 +199,9 @@ class Level1 extends Phaser.Scene {
                 }
             }
         }
-        
+        // Se inicializa el reloj
+        this.clock = new Phaser.Time.Clock(this);
+        this.clock.start();
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("minigame_begining");
@@ -243,7 +211,6 @@ class Level1 extends Phaser.Scene {
             loop : true,
             delay : 6.87
         });
-
         // Tiempo de partida
         this.timeImage = this.add.image(600, 25.50, "cd_background");
         this.timeImage.alpha = 0;
@@ -274,7 +241,6 @@ class Level1 extends Phaser.Scene {
             this.characters[i].update();
         }
         this.mango.update();
-
         // Pause
         if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
             if (!this.scene.get("pause")) {
@@ -284,7 +250,6 @@ class Level1 extends Phaser.Scene {
         }
         // Refresh body de la plataforma que se mueve
         this.upMovePlat.refreshBody();
-
         // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
         if (this.numPlayers <= 1){
             this.scene.remove("pause");
@@ -293,7 +258,6 @@ class Level1 extends Phaser.Scene {
             this.intro.stop();
             this.loop.stop();
         }
-
     }// Fin Update
 
     CogerMango(character, mango){
@@ -328,7 +292,8 @@ class Level1 extends Phaser.Scene {
         }
     }//Fin RobarMango
 
-    EliminarPersonaje(character){ // Al explotar el mango
+    // Al explotar el mango
+    EliminarPersonaje(character){ 
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
                 this.characters[i].score += this.numPlayers;
@@ -349,7 +314,5 @@ class Level1 extends Phaser.Scene {
         partInSeconds = partInSeconds.toString().padStart(2, '0');
         // Devuelve el tiempo formateado
         return `${minutes}:${partInSeconds}`;
-    }
-
+    }// Fin FormatTime
 }// Fin clase Level1
-

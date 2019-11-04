@@ -1,32 +1,6 @@
 class ChooseCharacter extends Phaser.Scene {
     constructor(){
         super({key: "choose_character"});
-
-        this.players;
-        
-        this.numPlayers;
-
-        this.characters;
-        this.charactersSelected;
-
-        // Arrays para el texto
-        this.names;
-        this.habilities;
-
-        this.cursors1;
-        this.cursors2;
-        this.cursors3;
-        this.cursors4;
-        this.enterCursor;
-
-        this.selector1;
-        this.selector2;
-        this.selector3;
-        this.selector4;
-
-        // // La canción loopeada
-        // this.loop;
-
     }//Fin constructor
 
     init(data){
@@ -38,13 +12,11 @@ class ChooseCharacter extends Phaser.Scene {
     preload() {
         // Se cargan las imágenes
         this.load.image("character_background", "./Design/Stages/Backgrounds/choose_character_background.png");
-
         // Imagenes de los personajes
         this.load.image("palm_choose", "./Design/Characters/Palm/palm_choose.png");
         this.load.image("dino_choose", "./Design/Characters/Dino/dino_choose.png");
         this.load.image("toufat_choose", "./Design/Characters/Toucan/toufat_choose.png");
         this.load.image("lemur_choose", "./Design/Characters/Lemur/lemur_choose.png");
-
         // Nombre de los personajes
         // Verde
         this.load.image("palm_G_name", "./Design/Objects/Text/palm_G_name.png");
@@ -66,89 +38,55 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("dino_Y_name", "./Design/Objects/Text/dino_Y_name.png");
         this.load.image("toufat_Y_name", "./Design/Objects/Text/toufat_Y_name.png");
         this.load.image("lemur_Y_name", "./Design/Objects/Text/lemur_Y_name.png");
-
         // Descripción habilidades de los personajes
         this.load.image("palm_hab", "./Design/Objects/Text/palm_hab.png");
         this.load.image("dino_hab", "./Design/Objects/Text/dino_hab.png");
         this.load.image("toufat_hab", "./Design/Objects/Text/toufat_hab.png");
         this.load.image("lemur_hab", "./Design/Objects/Text/lemur_hab.png");
-
         // Texto e imagenes que aparecen si no te has unido a la partida
         this.load.image("press_g_key", "./Design/Objects/Keypress/press_g_key.png");
         this.load.image("press_p_key", "./Design/Objects/Keypress/press_p_key.png");
         this.load.image("press_b_key", "./Design/Objects/Keypress/press_b_key.png");
         this.load.image("press_y_key", "./Design/Objects/Keypress/press_y_key.png");
-
         // Ready! para cuando el personaje se selecciona
         this.load.image("ready", "./Design/Objects/Text/ready.png");
-
         // Boton de escape
         this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
-
         // Arrays para los textos
-        this.names = [];
-        this.habilities = [];
-
-        this.players = [ {active:false, selected: false}, {active:false, selected: false}, 
-                         {active:false, selected: false}, {active:false, selected: false}]; // Jugadores
-
-        this.numPlayers = 0; // Número de jugadores activo
-
-        this.characters = []; // Lista de jugadores
-        this.charactersSelected = [ false, false, false, false];
-
+        this.names;
+        this.habilities;
+        // Jugadores
+        this.players;
+        // Número de jugadores activo
+        this.numPlayers;
+        // Lista de jugadores
+        this.characters; 
+        this.charactersSelected;
         // Controles de selección
-        this.cursors1 = []; // Controles de selector jugador 1
-        this.cursors1[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors1[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.cursors1[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors1[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-        this.cursors2 = []; // Controles de selector jugador 2
-        this.cursors2[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
-        this.cursors2[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
-        this.cursors2[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
-        this.cursors2[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
-
-        this.cursors3 = []; // Controles de selector jugador 3
-        this.cursors3[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.cursors3[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.cursors3[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.cursors3[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-
-        this.cursors4 = []; // Controles de selector jugador 4
-        this.cursors4[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT);
-        this.cursors4[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR);
-        this.cursors4[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE);
-        this.cursors4[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX);
-
+        // Controles de selector jugador 1
+        this.cursors1; 
+        // Controles de selector jugador 2
+        this.cursors2; 
+        // Controles de selector jugador 3
+        this.cursors3; 
+        // Controles de selector jugador 4
+        this.cursors4; 
         // ENTER
-        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
+        this.enterCursor;
         // ESCAPE
-        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
-        this.pulsación = true;
-        this.press = true;
-
-        this.selector1 = 0;
-        this.selector2 = 0;
-        this.selector3 = 0;
-        this.selector4 = 0;
-
-        // Se carga la música
-        // this.load.audio("character_selection", "./Design/Audio/CharacterSelectionScreenSong/characte_selection_screen.wav");
-
+        this.escapeCursor;
+        // Selector para cada jugador
+        this.selector1;
+        this.selector2;
+        this.selector3;
+        this.selector4;
     }//Fin preload
 
     create() {
-
         // Fondo
         this.add.image(0, 0, "character_background").setOrigin(0,0);
-
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
-
         // Texto e imagenes que aparecen si no te has unido a la partida
         this.gkeys = this.add.image(169, 218, "press_g_key").setDepth(1);
         this.pkeys = this.add.image(457.38, 218, "press_p_key").setDepth(1);
@@ -165,7 +103,6 @@ class ChooseCharacter extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-
         // Texto ready (seleccionado)
         this.ready1 = this.add.image(171.50, 239.05, "ready").setDepth(1);
         this.ready2 = this.add.image(457.50, 239.05, "ready").setDepth(1);
@@ -176,13 +113,11 @@ class ChooseCharacter extends Phaser.Scene {
         this.ready2.alpha = 0;
         this.ready3.alpha = 0;
         this.ready4.alpha = 0;
-
         // Texto habilidades
         this.player1_hab = this.add.image(167.28, 389.96, "palm_hab");
         this.player2_hab = this.add.image(455, 389.96, "palm_hab");
         this.player3_hab = this.add.image(744.28, 389.96, "palm_hab");
         this.player4_hab = this.add.image(1035.28, 389.96, "palm_hab");
-
         // Para que no aparezcan de primeras
         this.player1_hab.alpha = 0;
         this.player2_hab.alpha = 0;
@@ -193,13 +128,11 @@ class ChooseCharacter extends Phaser.Scene {
         {hab: this.player2_hab, img: "dino_hab"}, 
         {hab: this.player3_hab, img: "toufat_hab"}, 
         {hab: this.player4_hab, img: "lemur_hab"}];
-
         // Texto nombres
         this.player1_name = this.add.image(167.28, 63, "palm_G_name");
         this.player2_name = this.add.image(459.28, 63, "palm_P_name");
         this.player3_name = this.add.image(744.28, 63, "palm_B_name");
         this.player4_name = this.add.image(1035.28, 63, "palm_Y_name");
-
         // Para que no aparezcan de primeras
         this.player1_name.alpha = 0;
         this.player2_name.alpha = 0;
@@ -210,18 +143,53 @@ class ChooseCharacter extends Phaser.Scene {
         {name: this.player2_name, img: ["palm_P_name","dino_P_name","toufat_P_name","lemur_P_name"]}, 
         {name: this.player3_name, img: ["palm_B_name","dino_B_name","toufat_B_name","lemur_B_name"]}, 
         {name: this.player4_name, img: ["palm_Y_name","dino_Y_name","toufat_Y_name","lemur_Y_name"]}];
-
+        // Jugadores
+        this.players = [{active:false, selected: false}, {active:false, selected: false}, 
+            {active:false, selected: false}, {active:false, selected: false}]; 
+        // Número de jugadores activo
+        this.numPlayers = 0;
+        // Lista de jugadores
+        this.characters = []; 
+        this.charactersSelected = [ false, false, false, false];
+        // Controles de selección
+        // Controles de selector jugador 1
+        this.cursors1 = []; 
+        this.cursors1[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.cursors1[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.cursors1[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.cursors1[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        // Controles de selector jugador 2
+        this.cursors2 = []; 
+        this.cursors2[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+        this.cursors2[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+        this.cursors2[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
+        this.cursors2[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+        // Controles de selector jugador 3
+        this.cursors3 = []; 
+        this.cursors3[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.cursors3[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.cursors3[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.cursors3[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        // Controles de selector jugador 4
+        this.cursors4 = []; 
+        this.cursors4[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT);
+        this.cursors4[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR);
+        this.cursors4[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE);
+        this.cursors4[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX);
+        // ENTER
+        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        // ESCAPE
+        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Selector para cada jugador
+        this.selector1 = 0;
+        this.selector2 = 0;
+        this.selector3 = 0;
+        this.selector4 = 0;
         // Se crea la música
         this.sound.pauseOnBlur = false;
-        // this.loop = this.sound.add("character_selection");
-        // this.loop.play({
-        //     loop : true,
-        // });
-
     }//Fin create
 
     update() {
-
         // Creación y cambio del personaje del jugador 1
         if (!this.players[0].active){// Si el jugador 1 no se encuentra activo
             // Si se pulsa la tecla WASD, se añade el jugador 1 a la lista de jugadores
@@ -281,7 +249,6 @@ class ChooseCharacter extends Phaser.Scene {
                 this.gkeys.alpha = 1;// Aparecen las teclas
             }
         }// Fin jugador 1
-
         // Creación y cambio del personaje del jugador 2
         if (!this.players[1].active){// Si el jugador 2 no se encuentra activo
             // Si se pulsa IJKL, se añade el jugador 2 a la lista de jugadores
@@ -341,7 +308,6 @@ class ChooseCharacter extends Phaser.Scene {
                 this.pkeys.alpha = 1;// Aparecen las teclas
             }
         }//Fin jugador 2
-        
         // Creación y cambio del personaje del jugador 3
         if (!this.players[2].active){ // Si el jugador 3 no se encuentra activo
             // Si se pulsa alguna flecha de dirección se añade el jugador 3 a la lista de personajes
@@ -401,7 +367,6 @@ class ChooseCharacter extends Phaser.Scene {
                 this.bkeys.alpha = 1;// Aparecen las teclas
             }
         }//Fin jugador 3
-        
         // Creación y cambio del personaje del jugador 4
         if (!this.players[3].active){ // Si el jugador 4 no se encuentra activo
             // 8456 en el NUMPAD para añadir al jugador 4 a la lista de personajes
@@ -461,7 +426,6 @@ class ChooseCharacter extends Phaser.Scene {
                 this.ykeys.alpha = 1;// Aparecen las teclas
             }
         }//Fin jugador 4
-
         // ENTER para cambiar de escena
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor)) {
             this.readyPlayers = 0;
@@ -485,7 +449,6 @@ class ChooseCharacter extends Phaser.Scene {
             }
             
         }  
-
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu");
@@ -493,7 +456,6 @@ class ChooseCharacter extends Phaser.Scene {
             this.loop.stop();
             this.intro.stop();
         } 
-
     }// Fin Update
 
     changeCharacter(charactersArray, characterid, selector, names){
@@ -532,5 +494,5 @@ class ChooseCharacter extends Phaser.Scene {
         var nameAux = this.add.image(this.names[characterid].name.x, this.names[characterid].name.y, this.names[characterid].img[selector]);
         this.names[characterid].name.destroy();
         this.names[characterid].name = nameAux;
-    }// Fin ChangeHabilities
+    }// Fin ChangeText
 }

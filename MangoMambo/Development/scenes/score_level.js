@@ -1,22 +1,14 @@
 class ScoreLevel extends Phaser.Scene {
     constructor(){
-
         super({key: "score_level"});
-
-        // La canción loopeada
-        this.loop;
-
     }// Fin constructor
 
     init (data){
-
         this.characters = data.characters;
         data = null;
-
     }// Fin init
 
     preload() {
-
        // Cargar la imagen de fondo
        this.load.image("score_level_background", "./Design/Stages/Backgrounds/score_level_background.png");
         // Personas de fondo
@@ -28,27 +20,36 @@ class ScoreLevel extends Phaser.Scene {
         this.load.image("p_totem", "./Design/Objects/Totems/pink_totem.png");
         this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
         this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
-        // Puntuación máxima
-        this.maxScore;
         // Botón next round
         this.load.image("next_round", "./Design/Objects/Buttons/next_round_button.png");
-        // ESCAPE
-        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        // ENTER
-        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        // Array que contiene las coronas de los ganadores
-        this.crowns = [];
-
         // Se carga la música
         this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
-
+        // Personas que se mueven
+        this.peopleMove;
+        // Totems
+        this.gTotem;
+        this.pTotem;
+        this.bTotem;
+        this.yTotem;
+        // Array que contiene las coronas de los ganadores
+        this.crowns;
+        // Botón escape
+        this.escapeButton;
+        // Botón enter
+        this.nextRound;
+        // Puntuación máxima
+        this.maxScore;
+        // ESCAPE
+        this.escapeCursor;
+        // ENTER
+        this.enterCursor;
+        // La canción loopeada
+        this.loop;
     }// Fin preload
 
     create() {
-
         // Fondo
         this.add.image(0, 0, "score_level_background").setOrigin(0,0);
-
         // Personas que se mueven
         this.peopleMove = this.add.image (600, 525, "people").setDepth(0);
         // Movimiento
@@ -60,18 +61,18 @@ class ScoreLevel extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-
         // Totems
         this.gTotem = this.add.image (161.50, 687, "g_totem");
         this.pTotem = this.add.image (448.00, 687, "p_totem");
         this.bTotem = this.add.image (742, 687, "b_totem");
         this.yTotem = this.add.image (1039, 687, "y_totem");
-
         // Corona del ganador
         this.player1_crown = this.add.image(161.50, 55, "crown");
         this.player2_crown = this.add.image(448.00, 55, "crown");
         this.player3_crown = this.add.image(742.00, 55, "crown");
         this.player4_crown = this.add.image(1039, 55, "crown");
+        // Array que contiene las coronas de los ganadores
+        this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
         // Movimiento
         var tweenCrown = this.tweens.add({
             targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
@@ -81,9 +82,6 @@ class ScoreLevel extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-        // Array que contiene las coronas de los ganadores
-        this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
-
         // Para que no aparezca la corona hasta que no gane
         this.player1_crown.alpha = 0;
         this.player2_crown.alpha = 0;
@@ -174,26 +172,25 @@ class ScoreLevel extends Phaser.Scene {
                     break;
             }// Fin switch
         }// Fin for
-
         // Botón escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Botón enter
         this.nextRound = this.add.image(1101.5, 31, "next_round");
-
         // Máxima puntuación que se puede alcanzar 
         this.maxScore = 10;
-
+        // ESCAPE
+        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // ENTER
+        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.loop = this.sound.add("score_level_music");
         this.loop.play({
             loop: true,
         });
-
     }// Fin Create
 
     update() {
-
         // Cuando terminan las rondas vuelve al menu principal
         for (var i = 0; i < this.characters.length; i++) {
             if (this.characters[i].score >= this.maxScore) {
@@ -205,7 +202,6 @@ class ScoreLevel extends Phaser.Scene {
                 }
             }
         }// Fin for
-
          // ESCAPE para salir al menú principal
          if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu");
@@ -218,6 +214,5 @@ class ScoreLevel extends Phaser.Scene {
             // Se para la música
             this.loop.stop();
         }
-      
     }// Fin update
 }// Fin clase EndLevel
