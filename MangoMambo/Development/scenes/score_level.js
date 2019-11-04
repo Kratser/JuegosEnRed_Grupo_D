@@ -67,19 +67,12 @@ class ScoreLevel extends Phaser.Scene {
         this.bTotem = this.add.image (742, 687, "b_totem");
         this.yTotem = this.add.image (1039, 687, "y_totem");
         // Corona del ganador
-<<<<<<< HEAD
-        this.player1_crown = this.add.image(161.50, 55, "crown");
-        this.player2_crown = this.add.image(448.00, 55, "crown");
-        this.player3_crown = this.add.image(742.00, 55, "crown");
-        this.player4_crown = this.add.image(1039, 55, "crown");
-        // Array que contiene las coronas de los ganadores
-        this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
-=======
         this.player1_crown = this.add.image(161.50, -40, "crown");
         this.player2_crown = this.add.image(448.00, -40, "crown");
         this.player3_crown = this.add.image(742.00, -40, "crown");
         this.player4_crown = this.add.image(1039, -40, "crown");
->>>>>>> 1557447d7226a8573476d6a4dae0780bd0595d73
+        // Array que contiene las coronas de los ganadores
+        this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
         // Movimiento
         var tweenCrown = this.tweens.add({
             targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
