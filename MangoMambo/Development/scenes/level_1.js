@@ -14,6 +14,12 @@ class Level1 extends Phaser.Scene {
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
         // Fondo contador
         this.load.image("cd_background", "./Design/Objects/countdown_background.png");
+<<<<<<< HEAD
+=======
+        // Get the mango
+        this.load.image("get_the_mango", "./Design/Objects/Text/get_the_mango.png");
+
+>>>>>>> 1557447d7226a8573476d6a4dae0780bd0595d73
         // Plataformas
         this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
         this.load.image("bott_step1", "./Design/Stages/Platforms/bott_step1.png");
@@ -108,6 +114,11 @@ class Level1 extends Phaser.Scene {
     create() {
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
+<<<<<<< HEAD
+=======
+        
+
+>>>>>>> 1557447d7226a8573476d6a4dae0780bd0595d73
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas
@@ -211,6 +222,24 @@ class Level1 extends Phaser.Scene {
             loop : true,
             delay : 6.87
         });
+<<<<<<< HEAD
+=======
+
+        // Get the mango
+        this.getMango = this.add.image(594, 53, "get_the_mango");
+        // Movimiento
+        var tweenGetMango = this.tweens.add({
+            targets: [this.getMango],
+            scaleY: 0.85,
+            scaleX: 0.85,
+            ease: 'Sine.easeInOut',
+            duration: 700,
+            yoyo: true,
+            repeat: -1
+        });
+        // this.getMango.alpha = 0;
+
+>>>>>>> 1557447d7226a8573476d6a4dae0780bd0595d73
         // Tiempo de partida
         this.timeImage = this.add.image(600, 25.50, "cd_background");
         this.timeImage.alpha = 0;
@@ -258,6 +287,17 @@ class Level1 extends Phaser.Scene {
             this.intro.stop();
             this.loop.stop();
         }
+<<<<<<< HEAD
+=======
+
+        if(this.mango.explodeTime <= 10){
+            this.loop.setRate(1.05);
+        }
+        if(this.mango.explodeTime <= 5){
+            this.loop.setRate(1.15);
+        }
+
+>>>>>>> 1557447d7226a8573476d6a4dae0780bd0595d73
     }// Fin Update
 
     CogerMango(character, mango){
@@ -267,6 +307,8 @@ class Level1 extends Phaser.Scene {
             mango.character = character;
             this.timeImage.alpha = 1;
             this.text.alpha = 1;
+            // Desaparece el texto de getMango
+            this.getMango.alpha = 0;
         }
     }// Fin CogerMango
     

@@ -48,6 +48,8 @@ class Mango extends Phaser.GameObjects.Sprite{
                 this.timer = null;
                 this.scene.text.alpha = 0;
                 this.scene.timeImage.alpha = 0;
+                // Aparece texto de getMango 
+                this.scene.getMango.alpha = 1;
                 var tween = this.scene.tweens.add({
                     targets: this,
                     y: 260,

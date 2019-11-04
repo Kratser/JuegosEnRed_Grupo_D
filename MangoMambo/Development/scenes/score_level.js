@@ -67,16 +67,30 @@ class ScoreLevel extends Phaser.Scene {
         this.bTotem = this.add.image (742, 687, "b_totem");
         this.yTotem = this.add.image (1039, 687, "y_totem");
         // Corona del ganador
+<<<<<<< HEAD
         this.player1_crown = this.add.image(161.50, 55, "crown");
         this.player2_crown = this.add.image(448.00, 55, "crown");
         this.player3_crown = this.add.image(742.00, 55, "crown");
         this.player4_crown = this.add.image(1039, 55, "crown");
         // Array que contiene las coronas de los ganadores
         this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
+=======
+        this.player1_crown = this.add.image(161.50, -40, "crown");
+        this.player2_crown = this.add.image(448.00, -40, "crown");
+        this.player3_crown = this.add.image(742.00, -40, "crown");
+        this.player4_crown = this.add.image(1039, -40, "crown");
+>>>>>>> 1557447d7226a8573476d6a4dae0780bd0595d73
         // Movimiento
         var tweenCrown = this.tweens.add({
             targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
-            scaleY: 0.94,
+            y: 55,
+            ease: 'Sine.easeInOut',
+            duration: 3000,
+        });
+        var tweenCrown = this.tweens.add({
+            targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
+            scaleX: 0.90,
+            scaleY: 0.90,
             ease: 'Sine.easeInOut',
             duration: 1000,
             yoyo: true,
@@ -199,6 +213,8 @@ class ScoreLevel extends Phaser.Scene {
                 this.crowns[this.characters[i].id - 1].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
                     this.scene.start("main_menu", {characters: this.characters});
+                    // Se para la música
+                    this.loop.stop();
                 }
             }
         }// Fin for
