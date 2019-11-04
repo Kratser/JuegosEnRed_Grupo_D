@@ -3,9 +3,14 @@ class HowToPlayDetails extends Phaser.Scene {
         super({key: "how_to_play_details"});
 
         // La canción loopeada
-        this.loop;
+        // this.loop;
        
     }// Fin constructor
+
+    init(data){
+        this.loop = data.loop;
+        data = null;
+    }
 
     preload(){
 
@@ -22,7 +27,7 @@ class HowToPlayDetails extends Phaser.Scene {
         this.options;
 
         // Cargar música
-        this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
+        // this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
 
     }// Fin preload
 
@@ -51,10 +56,10 @@ class HowToPlayDetails extends Phaser.Scene {
 
         // Música
         this.sound.pauseOnBlur = false;
-        this.loop = this.sound.add("how_to_play_song");
-        this.loop.play({
-            loop : true,
-        });
+        // this.loop = this.sound.add("how_to_play_song");
+        // this.loop.play({
+        //     loop : true,
+        // });
 
     }// Fin create
 

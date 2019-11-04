@@ -24,10 +24,16 @@ class ChooseCharacter extends Phaser.Scene {
         this.selector3;
         this.selector4;
 
-        // La canción loopeada
-        this.loop;
+        // // La canción loopeada
+        // this.loop;
 
     }//Fin constructor
+
+    init(data){
+        this.loop = data.loop;
+        this.intro = data.intro;
+        data = null;
+    }
 
     preload() {
         // Se cargan las imágenes
@@ -131,7 +137,7 @@ class ChooseCharacter extends Phaser.Scene {
         this.selector4 = 0;
 
         // Se carga la música
-        this.load.audio("character_selection", "./Design/Audio/CharacterSelectionScreenSong/characte_selection_screen.wav");
+        // this.load.audio("character_selection", "./Design/Audio/CharacterSelectionScreenSong/characte_selection_screen.wav");
 
     }//Fin preload
 
@@ -207,10 +213,10 @@ class ChooseCharacter extends Phaser.Scene {
 
         // Se crea la música
         this.sound.pauseOnBlur = false;
-        this.loop = this.sound.add("character_selection");
-        this.loop.play({
-            loop : true,
-        });
+        // this.loop = this.sound.add("character_selection");
+        // this.loop.play({
+        //     loop : true,
+        // });
 
     }//Fin create
 
@@ -475,6 +481,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.scene.start("how_to_play", {characters: this.characters});
                 // Se para la música
                 this.loop.stop();
+                this.intro.stop();
             }
             
         }  
@@ -484,6 +491,7 @@ class ChooseCharacter extends Phaser.Scene {
             this.scene.start("main_menu");
             // Se para la música
             this.loop.stop();
+            this.intro.stop();
         } 
 
     }// Fin Update

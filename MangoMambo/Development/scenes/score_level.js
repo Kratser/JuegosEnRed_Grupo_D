@@ -3,6 +3,9 @@ class ScoreLevel extends Phaser.Scene {
 
         super({key: "score_level"});
 
+        // La canción loopeada
+        this.loop;
+
     }// Fin constructor
 
     init (data){
@@ -33,6 +36,9 @@ class ScoreLevel extends Phaser.Scene {
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER
         this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+        // Se carga la música
+        this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
 
     }// Fin preload
 
@@ -173,6 +179,13 @@ class ScoreLevel extends Phaser.Scene {
         // Máxima puntuación que se puede alcanzar 
         this.maxScore = 10;
 
+        // Se crea la música
+        this.sound.pauseOnBlur = false;
+        this.loop = this.sound.add("score_level_music");
+        this.loop.play({
+            loop: true,
+        });
+
     }// Fin Create
 
     update() {
@@ -200,10 +213,14 @@ class ScoreLevel extends Phaser.Scene {
          // ESCAPE para salir al menú principal
          if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu");
+            // Se para la música
+            this.loop.stop();
          }
          // ENTER para pasar a la siguiente ronda
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
             this.scene.start("level_1", {characters: this.characters});//, {characters: this.characters}
+            // Se para la música
+            this.loop.stop();
         }
       
     }// Fin update

@@ -120,9 +120,7 @@ class HowToPlay extends Phaser.Scene {
 
         //Cambio de pantalla
         if(this.options[0] && this.enterKey.isDown){
-            this.scene.start("how_to_play_details");
-            // Se para la música
-            this.loop.stop();
+            this.scene.start("how_to_play_details", {loop: this.loop});
         }
 
         //Cambio de pantalla
