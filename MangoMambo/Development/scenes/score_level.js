@@ -3,6 +3,9 @@ class ScoreLevel extends Phaser.Scene {
 
         super({key: "score_level"});
 
+        // La canción loopeada
+        this.loop;
+
     }// Fin constructor
 
     init (data){
@@ -36,6 +39,9 @@ class ScoreLevel extends Phaser.Scene {
         // Array que contiene las coronas de los ganadores
         this.crowns = [];
 
+        // Se carga la música
+        this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
+
     }// Fin preload
 
     create() {
@@ -62,14 +68,21 @@ class ScoreLevel extends Phaser.Scene {
         this.yTotem = this.add.image (1039, 687, "y_totem");
 
         // Corona del ganador
-        this.player1_crown = this.add.image(161.50, 55, "crown");
-        this.player2_crown = this.add.image(448.00, 55, "crown");
-        this.player3_crown = this.add.image(742.00, 55, "crown");
-        this.player4_crown = this.add.image(1039, 55, "crown");
+        this.player1_crown = this.add.image(161.50, -40, "crown");
+        this.player2_crown = this.add.image(448.00, -40, "crown");
+        this.player3_crown = this.add.image(742.00, -40, "crown");
+        this.player4_crown = this.add.image(1039, -40, "crown");
         // Movimiento
         var tweenCrown = this.tweens.add({
             targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
-            scaleY: 0.94,
+            y: 55,
+            ease: 'Sine.easeInOut',
+            duration: 3000,
+        });
+        var tweenCrown = this.tweens.add({
+            targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
+            scaleX: 0.90,
+            scaleY: 0.90,
             ease: 'Sine.easeInOut',
             duration: 1000,
             yoyo: true,
@@ -177,6 +190,13 @@ class ScoreLevel extends Phaser.Scene {
         // Máxima puntuación que se puede alcanzar 
         this.maxScore = 10;
 
+        // Se crea la música
+        this.sound.pauseOnBlur = false;
+        this.loop = this.sound.add("score_level_music");
+        this.loop.play({
+            loop: true,
+        });
+
     }// Fin Create
 
     update() {
@@ -189,6 +209,8 @@ class ScoreLevel extends Phaser.Scene {
                 this.crowns[this.characters[i].id - 1].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
                     this.scene.start("main_menu", {characters: this.characters});
+                    // Se para la música
+                    this.loop.stop();
                 }
             }
         }// Fin for
@@ -196,10 +218,14 @@ class ScoreLevel extends Phaser.Scene {
          // ESCAPE para salir al menú principal
          if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu");
+            // Se para la música
+            this.loop.stop();
          }
          // ENTER para pasar a la siguiente ronda
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
             this.scene.start("level_1", {characters: this.characters});//, {characters: this.characters}
+            // Se para la música
+            this.loop.stop();
         }
       
     }// Fin update
