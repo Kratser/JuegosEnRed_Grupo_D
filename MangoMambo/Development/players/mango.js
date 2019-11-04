@@ -42,18 +42,27 @@ class Mango extends Phaser.GameObjects.Sprite{
             if (this.explodeTime <= 0){
                 console.log("PUM!");
                 this.explodeTime = this.time;
+                // this.x = 600;
+                // this.y = 260;
                 this.x = 600;
-                this.y = 260;
+                this.y = -10;
                 this.scene.EliminarPersonaje(this.character);
                 this.character = null;
                 this.timer = null;
+                this.scene.text.alpha = 0;
+                this.scene.timeImage.alpha = 0;
+                var tween = this.scene.tweens.add({
+                    targets: this,
+                    y: 260,
+                    duration: 2000
+                });
             }
         }
     }// Fin update
     
     UpdateTime() {
         this.explodeTime -= 1; // Un segundo
-        // console.log(this.explodeTime);
+        this.scene.text.setText(this.scene.FormatTime(this.explodeTime));
     }
 
 }// Fin clase Mango
