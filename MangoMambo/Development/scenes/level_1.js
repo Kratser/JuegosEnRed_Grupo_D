@@ -311,6 +311,13 @@ class Level1 extends Phaser.Scene {
             this.loop.stop();
         }
 
+        if(this.mango.explodeTime <= 10){
+            this.loop.setRate(1.05);
+        }
+        if(this.mango.explodeTime <= 5){
+            this.loop.setRate(1.15);
+        }
+
     }// Fin Update
 
     CogerMango(character, mango){
