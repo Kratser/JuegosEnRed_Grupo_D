@@ -212,7 +212,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.scene.anims.create({
                     key: 'toufat_idle',
                     frames: this.scene.anims.generateFrameNumbers('toufat_idle', { start: 0, end: 7 }),
-                    frameRate: 9,
+                    frameRate: 6,
                     repeat: -1
                 });
                 this.scene.anims.create({
@@ -267,9 +267,9 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.setVelocityY(-this.jumpHeight);
         }
 
-        if (this.cursors[2].isDown /*&& this.body.velocity.y >= 0*/){// Abajo
+        if (/*this.cursors[2].isDown &&*/ this.body.velocity.y >= 0){// Abajo
             this.body.gravity.y = this.fallSpeed;
-        }else if (this.body.velocity.y >= 0){
+        }else if (this.body.velocity.y < 0){
             this.body.gravity.y = 0;
         }
 

@@ -98,6 +98,8 @@ class Level1 extends Phaser.Scene {
         // Se cargan los contornos de los pesonajes
         this.load.image("outline", "./Design/Objects/outline.png");
 
+        this.positions;
+
         // Tiempo entre colisiones para cambiar el mango
         this.maxCollisionTime;
         this.collisionTime;
@@ -115,8 +117,7 @@ class Level1 extends Phaser.Scene {
         // Reloj del juego
         this.clock;
 
-        // Tiempo de partida
-        this.matchTime
+        // Texto del mango
         this.text;
         this.timedEvent;
 
@@ -130,8 +131,6 @@ class Level1 extends Phaser.Scene {
         
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
-
-        this.add.image(600, 25.50, "cd_background").setDepth(-1);
 
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
@@ -175,27 +174,31 @@ class Level1 extends Phaser.Scene {
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
 
+        this.positions = [{x: 50, y: 50}, {x: 1150, y: 50},
+                          {x: 400, y: 500}, {x: 800, y: 500}];
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
             switch(this.characters[i].id){
                 case 1:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
                     break;
 
                 case 2:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
+                        this.characters[i].flipX = true;
                     break;
                 
                 case 3:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
+                        this.characters[i].flipX = true;
                     break;
 
                 case 4:
                     this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, 0, 0, this.characters[i].score);
+                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
                     break;
             }
         }
@@ -242,13 +245,15 @@ class Level1 extends Phaser.Scene {
         });
 
         // Tiempo de partida
+        this.timeImage = this.add.image(600, 25.50, "cd_background");
+        this.timeImage.alpha = 0;
+        this.timeImage.setDepth(-1);
         // 2:30 en segundos
-        this.matchTime = 150;
         // Texto que aparece en pantalla
         var tconfig = {
             x: 577,
             y: 7,
-            text: this.FormatTime(this.matchTime),
+            text: this.FormatTime(this.mango.explodeTime),
             style: {
               fontSize: '24px',
               fontFamily: 'Arial',
@@ -259,10 +264,8 @@ class Level1 extends Phaser.Scene {
             }
           };
         this.text = this.make.text(tconfig);
-        //this.text = this.add.text(600, 0, 'Countdown: ' + this.FormatTime(this.matchTime));
-        // Cada 1000 ms llama a UpdateTime
-        this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.UpdateTime, callbackScope: this, loop: true });
-
+        this.text.alpha = 0;
+        this.text.setDepth(-1);
     }// Fin Create
 
     update() {
@@ -283,7 +286,7 @@ class Level1 extends Phaser.Scene {
         this.upMovePlat.refreshBody();
 
         // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
-        if (this.matchTime <= 0 || this.numPlayers <= 1){
+        if (this.numPlayers <= 1){
             this.scene.remove("pause");
             this.scene.start("score_level", {characters: this.characters});
             // Se para la música
@@ -298,6 +301,8 @@ class Level1 extends Phaser.Scene {
             this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.UpdateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
             // El personaje que lo recoge queda guardado en el mango
             mango.character = character;
+            this.timeImage.alpha = 1;
+            this.text.alpha = 1;
         }
     }// Fin CogerMango
     
@@ -344,11 +349,6 @@ class Level1 extends Phaser.Scene {
         partInSeconds = partInSeconds.toString().padStart(2, '0');
         // Devuelve el tiempo formateado
         return `${minutes}:${partInSeconds}`;
-    }
-
-    UpdateTime() {
-        this.matchTime -= 1; // Un segundo
-        this.text.setText( this.FormatTime(this.matchTime));
     }
 
 }// Fin clase Level1
