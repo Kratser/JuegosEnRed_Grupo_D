@@ -29,11 +29,10 @@ class Mango extends Phaser.GameObjects.Sprite{
     create() {
         this.scene.anims.create({
             key: 'mango_explosion',
-            frames: this.scene.anims.generateFrameNumbers('mango_explosion', { start: 0, end: 8 }),
-            frameRate: 10,
-            repeat: 1
+            frames: this.scene.anims.generateFrameNumbers('mango_explosion', { start: 0, end: 7 }),
+            frameRate: 9
         });
-        this.on("mango_explotion", this.AnimComplete, this);
+        this.on("animationcomplete", this.AnimComplete, this);
     }// Fin Create
 
     update() {
@@ -46,9 +45,12 @@ class Mango extends Phaser.GameObjects.Sprite{
             this.y = this.character.y - this.character.height*3/4;
             if (this.explodeTime <= 0){
                 console.log("PUM!");
+                this.y = this.character.y;
                 this.anims.play("mango_explosion", true);
+                this.tint = 0xffffff;
             }
         }
+        console.log(this.time);
     }// Fin update
     
     UpdateTime() {
@@ -59,6 +61,7 @@ class Mango extends Phaser.GameObjects.Sprite{
 
     AnimComplete(animation, frame) {
         this.explodeTime = this.time;
+        this.setTexture("mango", 0);
         this.x = 600;
         this.y = -10;
         this.scene.EliminarPersonaje(this.character);
