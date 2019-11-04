@@ -36,6 +36,8 @@ class ScoreLevel extends Phaser.Scene {
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER
         this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        // Array que contiene las coronas de los ganadores
+        this.crowns = [];
 
         // Se carga la música
         this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
@@ -79,6 +81,8 @@ class ScoreLevel extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+        // Array que contiene las coronas de los ganadores
+        this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
 
         // Para que no aparezca la corona hasta que no gane
         this.player1_crown.alpha = 0;
@@ -193,22 +197,14 @@ class ScoreLevel extends Phaser.Scene {
         // Cuando terminan las rondas vuelve al menu principal
         for (var i = 0; i < this.characters.length; i++) {
             if (this.characters[i].score >= this.maxScore) {
+                // Desaparece el siguiente ronda
+                this.nextRound.alpha = 0;
+                this.crowns[this.characters[i].id - 1].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
                     this.scene.start("main_menu", {characters: this.characters});
                 }
             }
-        }
-
-        // Si es el ganador aparece la corona
-        if (this.gTotem.y <= 500) {
-            this.player1_crown.alpha = 1;
-        }else if(this.pTotem.y <= 500){
-            this.player2_crown.alpha = 1;
-        }else if(this.bTotem.y <= 500){
-            this.player3_crown.alpha = 1;
-        }else if (this.yTotem.y <= 500){
-            this.player4_crown.alpha = 1;
-        }
+        }// Fin for
 
          // ESCAPE para salir al menú principal
          if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
