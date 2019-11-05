@@ -30,7 +30,7 @@ class Mango extends Phaser.GameObjects.Sprite{
         this.scene.anims.create({
             key: 'mango_explosion',
             frames: this.scene.anims.generateFrameNumbers('mango_explosion', { start: 0, end: 7 }),
-            frameRate: 9
+            frameRate: 15
         });
         this.on("animationcomplete", this.AnimComplete, this);
     }// Fin Create

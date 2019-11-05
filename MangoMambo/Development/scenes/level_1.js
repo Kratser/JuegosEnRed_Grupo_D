@@ -276,9 +276,9 @@ class Level1 extends Phaser.Scene {
         }
         if(this.mango.explodeTime <= 10){
             this.loop.setRate(1.05);
-        }else if(this.mango.explodeTime <= 5){
+        }if(this.mango.explodeTime <= 5){
             this.loop.setRate(1.15);
-        }else{
+        }if(this.mango.explodeTime > 10){
             this.loop.setRate(1);
         }
     }// Fin Update
