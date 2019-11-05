@@ -19,7 +19,6 @@ var config = {
         Options,
         Credits,
         HowToPlay,
-        HowToPlayDetails
     ]
 };
 

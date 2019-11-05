@@ -51,7 +51,6 @@ class Mango extends Phaser.GameObjects.Sprite{
                 if (!this.scene.mango_explosion.isPlaying){
                     this.scene.mango_explosion.play();
                 }
-                // this.explodeTime = this.time;
             }
         }
     }// Fin update
