@@ -16,7 +16,7 @@ class Credits extends Phaser.Scene {
         // Selected buttons
         this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         // Se carga la música
-        this.load.audio("hawaii", "./Design/Audio/CreditsSong/hawaii.wav");
+        this.load.audio("hawaii", "./Design/Audio/CreditsSong/ZitronSound - Hula Lemon.mp3");
         // Fondo
         this.background;
         // Botones
@@ -51,7 +51,7 @@ class Credits extends Phaser.Scene {
         this.loop = this.sound.add("hawaii");
         this.loop.play({
             loop : true,
-            volume: this.vol
+            volume: 0.2
         });
     }// Fin create
 
