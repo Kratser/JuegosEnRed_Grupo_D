@@ -3,6 +3,11 @@ class Credits extends Phaser.Scene {
         super({key: "credits"});
     }// Fin constructor
 
+    init(data){
+        this.vol = data.volume;
+        data = null;
+    }
+
     preload(){
         // Cargar la imagen de fondo
         this.load.image("credits_background", "./Design/Stages/Backgrounds/credits_background.png");
@@ -46,6 +51,7 @@ class Credits extends Phaser.Scene {
         this.loop = this.sound.add("hawaii");
         this.loop.play({
             loop : true,
+            volume: this.vol
         });
     }// Fin create
 
@@ -65,7 +71,7 @@ class Credits extends Phaser.Scene {
         }
         //Cambio de pantalla
         if((this.options[0] && this.cursors[4].isDown) || this.cursors[5].isDown){
-            this.scene.start("options");
+            this.scene.start("options", {volume: this.vol});
             // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.loop.stop();

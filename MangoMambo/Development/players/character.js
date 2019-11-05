@@ -86,7 +86,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.emitter = this.outline.createEmitter({
                     follow: this,
                     followOffset: {
-                        y: this.height/4
+                        y: this.height/6
                     },
                     angle: {min: 0, max: 360},
                     scale: {start: 0.8, end: 0.0},
@@ -105,7 +105,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.emitter = this.outline.createEmitter({
                     follow: this,
                     followOffset: {
-                        y: this.height/4
+                        y: this.height/6
                     },
                     scale: {start: 0.8, end: 0.0},
                     // xxRRGGBB
@@ -123,7 +123,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.emitter = this.outline.createEmitter({
                     follow: this,
                     followOffset: {
-                        y: this.height/4
+                        y: this.height/6
                     },
                     scale: {start: 0.8, end: 0.0},
                     // xxRRGGBB
@@ -141,7 +141,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.emitter = this.outline.createEmitter({
                     follow: this,
                     followOffset: {
-                        y: this.height/4
+                        y: this.height/6
                     },
                     scale: {start: 0.8, end: 0.0},
                     // xxRRGGBB

@@ -102,7 +102,7 @@ class Pause extends Phaser.Scene {
             // Se para la música
             this.data.scene.loop.stop();
             this.data.scene.intro.stop();
-            this.data.scene.scene.start("main_menu");
+            this.data.scene.scene.start("main_menu", {volume: this.data.volume});
             this.options[1] = false;
         }
     }// Fin update
