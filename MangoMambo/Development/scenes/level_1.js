@@ -327,17 +327,17 @@ class Level1 extends Phaser.Scene {
                 switch(this.mango.character.id){
                     case character1.id:
                         this.mango.character = character2;
+                        this.hit.play();
                         break;
     
                     case character2.id:
                         this.mango.character = character1;
+                        this.hit.play();
                         break;
-    
                     default:
                         break;
                 }
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
-                this.hit.play();
             }
         }
     }//Fin RobarMango
