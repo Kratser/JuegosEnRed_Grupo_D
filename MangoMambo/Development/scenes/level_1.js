@@ -6,6 +6,7 @@ class Level1 extends Phaser.Scene {
     init (data){
         this.characters = data.characters;
         this.numPlayers = this.characters.length; // Número de jugadores
+        this.vol = data.volume;
         data = null;
     }// Fin init
 
@@ -210,11 +211,14 @@ class Level1 extends Phaser.Scene {
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("minigame_begining");
-        this.intro.play();
+        this.intro.play({
+            volume: this.vol
+        });
         this.loop = this.sound.add("minigame_loop");
         this.loop.play({
             loop : true,
-            delay : 6.87
+            delay : 6.87,
+            volume: this.vol
         });
         // Get the Mango
         this.getMango = this.add.image(594, 53, "get_the_mango");
@@ -260,7 +264,7 @@ class Level1 extends Phaser.Scene {
         // Pause
         if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
             if (!this.scene.get("pause")) {
-                this.scene.add("pause", new Pause, true, { scene: this, sceneKey: "level_1" });
+                this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1", volume: this.vol});
                 this.scene.pause("level_1");
             }
         }
@@ -269,7 +273,7 @@ class Level1 extends Phaser.Scene {
         // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
         if (this.numPlayers <= 1){
             this.scene.remove("pause");
-            this.scene.start("score_level", {characters: this.characters});
+            this.scene.start("score_level", {characters: this.characters, volume: this.vol});
             // Se para la música
             this.intro.stop();
             this.loop.stop();

@@ -3,6 +3,11 @@ class MainMenu extends Phaser.Scene {
         super({key: "main_menu"});
     }// Fin constructor
 
+    init(data){
+        this.vol = data.volume;
+        data = null; 
+    }
+
     preload() {
         // Cargar la imagen de fondo
         this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu_background.png");
@@ -77,11 +82,14 @@ class MainMenu extends Phaser.Scene {
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("menu_begining");
-        this.intro.play();
+        this.intro.play({
+            volume: this.vol
+        });
         this.loop = this.sound.add("menu_loop");
         this.loop.play({
             loop : true,
-            delay : 2.02
+            delay : 2.02,
+            volume: this.vol
         });
         //              local options
         this.options = [true, false];
@@ -112,11 +120,11 @@ class MainMenu extends Phaser.Scene {
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
-            this.scene.start("choose_character", {loop: this.loop, intro: this.intro});
+            this.scene.start("choose_character", {loop: this.loop, intro: this.intro, volume: this.vol});
         }
         //Cambio de pantalla
         if(this.options[1] && this.cursors[4].isDown ){
-            this.scene.start("options");
+            this.scene.start("options", {volume: this.vol});
             // Se para la música
             this.intro.stop();
             this.loop.stop();
