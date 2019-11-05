@@ -6,6 +6,7 @@ class ChooseCharacter extends Phaser.Scene {
     init(data){
         this.loop = data.loop;
         this.intro = data.intro;
+        this.vol = data.volume;
         data = null;
     }
 
@@ -442,7 +443,7 @@ class ChooseCharacter extends Phaser.Scene {
                         i--;
                     }
                 }
-                this.scene.start("how_to_play", {characters: this.characters});
+                this.scene.start("how_to_play", {characters: this.characters, volume: this.vol});
                 // Se para la música
                 this.loop.stop();
                 this.intro.stop();
@@ -451,7 +452,7 @@ class ChooseCharacter extends Phaser.Scene {
         }  
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
-            this.scene.start("main_menu");
+            this.scene.start("main_menu", {volume: this.vol});
             // Se para la música
             this.loop.stop();
             this.intro.stop();

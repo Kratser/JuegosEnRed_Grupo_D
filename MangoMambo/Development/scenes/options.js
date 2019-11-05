@@ -3,6 +3,11 @@ class Options extends Phaser.Scene {
         super({key: "options"});
     }// Fin constructor
 
+    init(data){
+        this.vol = data.volume;
+        data = null;
+    }
+
     preload(){
         // Cargar la imagen de fondo
         this.load.image("options_background", "./Design/Stages/Backgrounds/options_background.png");
@@ -66,6 +71,7 @@ class Options extends Phaser.Scene {
         this.loop = this.sound.add("character_selection");
         this.loop.play({
             loop : true,
+            volume: this.vol
         });
     }// Fin create
 
@@ -98,13 +104,13 @@ class Options extends Phaser.Scene {
         }
         //Cambio de pantalla
         if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
-            this.scene.start("main_menu");
+            this.scene.start("main_menu", {volume: this.vol});
             // Se para la música
             this.loop.stop();
         }
         //Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
-            this.scene.start("credits");
+            this.scene.start("credits", {volume: this.vol});
             // Se para la música
             this.loop.stop();
         }

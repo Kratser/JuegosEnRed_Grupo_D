@@ -5,6 +5,7 @@ class ScoreLevel extends Phaser.Scene {
 
     init (data){
         this.characters = data.characters;
+        this.vol = data.volume;
         data = null;
     }// Fin init
 
@@ -194,6 +195,7 @@ class ScoreLevel extends Phaser.Scene {
         this.loop = this.sound.add("score_level_music");
         this.loop.play({
             loop: true,
+            volume: this.vol
         });
     }// Fin Create
 
@@ -205,7 +207,7 @@ class ScoreLevel extends Phaser.Scene {
                 this.nextRound.alpha = 0;
                 this.crowns[this.characters[i].id - 1].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
-                    this.scene.start("main_menu", {characters: this.characters});
+                    this.scene.start("main_menu", {volume: this.vol});
                     // Se para la música
                     this.loop.stop();
                 }
@@ -213,13 +215,13 @@ class ScoreLevel extends Phaser.Scene {
         }// Fin for
          // ESCAPE para salir al menú principal
          if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
-            this.scene.start("main_menu");
+            this.scene.start("main_menu", {volume: this.vol});
             // Se para la música
             this.loop.stop();
          }
          // ENTER para pasar a la siguiente ronda
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
-            this.scene.start("level_1", {characters: this.characters});//, {characters: this.characters}
+            this.scene.start("level_1", {characters: this.characters, volume: this.vol});//, {characters: this.characters}
             // Se para la música
             this.loop.stop();
         }

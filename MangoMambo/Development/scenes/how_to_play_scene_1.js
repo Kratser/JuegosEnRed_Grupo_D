@@ -5,6 +5,7 @@ class HowToPlay extends Phaser.Scene {
 
     init(data){
         this.characters = data.characters;
+        this.vol = data.volume;
         data = null;
     }// Fin init
 
@@ -82,6 +83,7 @@ class HowToPlay extends Phaser.Scene {
         this.loop = this.sound.add("how_to_play_song");
         this.loop.play({
             loop : true,
+            volume: this.vol
         });
     }// Fin create
 
@@ -115,7 +117,7 @@ class HowToPlay extends Phaser.Scene {
         }
         //Cambio de pantalla
         if(this.options[1] && this.enterKey.isDown){
-            this.scene.start("level_1", {characters: this.characters});
+            this.scene.start("level_1", {characters: this.characters, volume: this.vol});
             // Se para la música
             this.loop.stop();
         }
