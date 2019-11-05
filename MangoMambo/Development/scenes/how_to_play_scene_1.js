@@ -19,6 +19,9 @@ class HowToPlay extends Phaser.Scene {
         this.load.image("details_button_select", "./Design/Objects/Buttons/details_button_select.png");
         // Cargar música
         this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
+        // Sonido
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Fondo
         this.howToPlay;
         // Botones
@@ -38,6 +41,9 @@ class HowToPlay extends Phaser.Scene {
         this.options;
         // La canción loopeada
         this.loop;
+        // Efectos de Sonido
+        this.change_options;
+        this.choose_options;
     }// Fin preload
 
     create(){
@@ -83,6 +89,9 @@ class HowToPlay extends Phaser.Scene {
         this.loop.play({
             loop : true,
         });
+        // Crear sonido
+        this.change_options = this.sound.add("change_options");
+        this.choose_options = this.sound.add("choose_options");
     }// Fin create
 
     update(time, delta){
@@ -95,19 +104,23 @@ class HowToPlay extends Phaser.Scene {
             this.cont--;
             this.options[this.cont] = true;
             this.readyButton.alpha = 1;
+            this.change_options.play();
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.dKey) || Phaser.Input.Keyboard.JustDown(this.rightKey)) && this.cont<=0){
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
             this.readyButton.alpha = 0;
+            this.change_options.play();
         } 
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.detailsButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         if(this.options[1]){
             this.readyButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         //Cambio de pantalla
         if(this.options[0] && this.enterKey.isDown){

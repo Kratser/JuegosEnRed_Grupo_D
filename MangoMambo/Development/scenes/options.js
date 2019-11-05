@@ -18,6 +18,8 @@ class Options extends Phaser.Scene {
         this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         // Se carga la música
         this.load.audio("character_selection", "./Design/Audio/CharacterSelectionScreenSong/characte_selection_screen.wav");
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Fondo
         this.background;
         // Botones 
@@ -35,6 +37,9 @@ class Options extends Phaser.Scene {
         this.options;
         // La canción loopeada
         this.loop;
+        // Efectos de Sonido
+        this.change_options;
+        this.choose_options;
     }// Fin preload
 
     create(){
@@ -63,6 +68,8 @@ class Options extends Phaser.Scene {
         this.options = [true, false, false];
         // Se crea la música
         this.sound.pauseOnBlur = false;
+        this.change_options = this.sound.add("change_options");
+        this.choose_options = this.sound.add("choose_options");
         this.loop = this.sound.add("character_selection");
         this.loop.play({
             loop : true,
@@ -80,21 +87,26 @@ class Options extends Phaser.Scene {
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
+            this.change_options.play();
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=1){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
+            this.change_options.play();
         }
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.creditsButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         if(this.options[2]){
             this.backButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         //Cambio de pantalla
         if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
