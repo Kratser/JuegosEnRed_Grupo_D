@@ -50,7 +50,6 @@ class Mango extends Phaser.GameObjects.Sprite{
                 this.tint = 0xffffff;
             }
         }
-        console.log(this.time);
     }// Fin update
     
     UpdateTime() {

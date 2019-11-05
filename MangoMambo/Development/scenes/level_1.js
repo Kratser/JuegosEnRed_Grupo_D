@@ -31,11 +31,6 @@ class Level1 extends Phaser.Scene {
         this.load.image("top_step2", "./Design/Stages/Platforms/top_step2.png");
         this.load.image("yellow_plat", "./Design/Stages/Platforms/yellow_plat.png");
         this.load.image("side_plat", "./Design/Stages/Platforms/side_plat.png");
-        // Se carga la imagen de los personajes
-        this.load.image("palm", "./Design/Characters/Palm/palm_idle_00.png");
-        this.load.image("dino", "./Design/Characters/Dino/dino_idle_00.png");
-        this.load.image("toufat", "./Design/Characters/Toucan/toucan_idle_00.png");
-        this.load.image("lemur", "./Design/Characters/Lemur/lemur_idle_00.png");
         // Se cargan las animaciones de los personajes
         // Palm
         this.load.spritesheet('palm_idle', './Design/Characters/Palm/palm_idle.png',
@@ -281,9 +276,10 @@ class Level1 extends Phaser.Scene {
         }
         if(this.mango.explodeTime <= 10){
             this.loop.setRate(1.05);
-        }
-        if(this.mango.explodeTime <= 5){
+        }else if(this.mango.explodeTime <= 5){
             this.loop.setRate(1.15);
+        }else{
+            this.loop.setRate(1);
         }
     }// Fin Update
 
