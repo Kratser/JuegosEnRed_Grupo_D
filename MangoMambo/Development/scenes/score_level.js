@@ -56,9 +56,9 @@ class ScoreLevel extends Phaser.Scene {
         // Movimiento
         var tween = this.tweens.add({
             targets: this.peopleMove,
-            y: 520,
+            y: 510,
             ease: 'Sine.easeInOut',
-            duration: 600,
+            duration: 400,
             yoyo: true,
             repeat: -1
         });
