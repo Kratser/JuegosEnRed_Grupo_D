@@ -17,6 +17,9 @@ class Pause extends Phaser.Scene {
         // // Selected buttons
         this.load.image("resume_button_select", "./Design/Objects/Buttons/resume_button_select.png");
         this.load.image("quit_button_select", "./Design/Objects/Buttons/quit_button_select.png");
+        // Sonido
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Botones
         this.resumeButton;
         this.quitButton;
@@ -32,6 +35,9 @@ class Pause extends Phaser.Scene {
         // Controlador para botones
         this.cont = 0;
         this.options = [true, false];
+        // Efectos de Sonido
+        this.change_options;
+        this.choose_options;
     }// Fin preload
 
     create(){
@@ -52,6 +58,9 @@ class Pause extends Phaser.Scene {
         // Controlador para botones
         this.cont = 0;
         this.options = [true, false];
+        // Crear sonido
+        this.change_options = this.sound.add("change_options");
+        this.choose_options = this.sound.add("choose_options");
     }// Fin create
 
     update(time, delta){
@@ -63,18 +72,22 @@ class Pause extends Phaser.Scene {
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
+            this.change_options.play();
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.upKey1) || Phaser.Input.Keyboard.JustDown(this.upKey2)) && this.cont>=1){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
+            this.change_options.play();
         } 
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.resumeButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         if(this.options[1]){
             this.quitButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         // Si se pulsa el botón de resume o el escape
         if ((Phaser.Input.Keyboard.JustDown(this.resumeKey)) || (this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey))) {

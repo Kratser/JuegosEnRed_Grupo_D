@@ -24,6 +24,8 @@ class MainMenu extends Phaser.Scene {
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Fondo
         this.background;
         // Título 
@@ -41,6 +43,9 @@ class MainMenu extends Phaser.Scene {
         // Música de inicio
         this.intro;
         this.loop;
+        // Efectos de Sonido
+        this.change_options;
+        this.choose_options;
         // Opciones para los botones
         this.options;
     }// Fin preload
@@ -85,6 +90,8 @@ class MainMenu extends Phaser.Scene {
         this.intro.play({
             volume: this.vol
         });
+        this.change_options = this.sound.add("change_options");
+        this.choose_options = this.sound.add("choose_options");
         this.loop = this.sound.add("menu_loop");
         this.loop.play({
             loop : true,
@@ -105,18 +112,22 @@ class MainMenu extends Phaser.Scene {
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
+            this.change_options.play();
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>0){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
+            this.change_options.play();
         } 
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.localButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         if(this.options[1]){
             this.optionsButtonSelect.alpha = 1;
+            this.choose_options.play();
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){

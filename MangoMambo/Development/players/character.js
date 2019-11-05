@@ -21,7 +21,7 @@ class Character extends Phaser.GameObjects.Sprite{
         this.cursors;
         // Se añade a la escena al hacer el new
         scene.add.existing(this);
-
+        
         // Se activan las físicas de la escena y las colisiones con los bordes del lienzo
         if(this.physics){
             scene.physics.world.enable(this);
@@ -150,13 +150,14 @@ class Character extends Phaser.GameObjects.Sprite{
                 });
                 break;
         }// Fin switch 
+
         // Animaciones y propiedades
         switch (this.type.split("_")[0]) {
             case "palm":
                 this.colliderSize = [25, 42];
                 this.maxVelocity = 300;
                 this.acceleration = 600;
-                this.jumpHeight = 510;
+                this.jumpHeight = 550;
                 this.fallSpeed = 2000;
                 this.anim[0] = "palm_idle";
                 this.anim[1] = "palm_walk";
@@ -178,7 +179,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.colliderSize = [25, 64];
                 this.maxVelocity = 275;
                 this.acceleration = 3000;
-                this.jumpHeight = 510;
+                this.jumpHeight = 550;
                 this.fallSpeed = 0;
                 this.anim[0] = "dino_idle";
                 this.anim[1] = "dino_walk";
@@ -200,7 +201,7 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.colliderSize = [25, 42];
                 this.maxVelocity = 500;
                 this.acceleration = 1000;
-                this.jumpHeight = 510;
+                this.jumpHeight = 550;
                 this.fallSpeed = 0;
                 this.anim[0] = "lemur_idle";
                 this.anim[1] = "lemur_walk";

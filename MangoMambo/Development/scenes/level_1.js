@@ -88,6 +88,12 @@ class Level1 extends Phaser.Scene {
         // Se carga la música
         this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
         this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
+        this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
+        this.load.audio("mango_explosion", "./Design/Audio/SoundFX/mango_explosion.wav");
+        this.load.audio("dino_win", "./Design/Audio/SoundFX/dino_win.wav");
+        this.load.audio("palm_win", "./Design/Audio/SoundFX/palm_win.mp3");
+        this.load.audio("lemur_win", "./Design/Audio/SoundFX/lemur_win.mp3");
+        this.load.audio("toucan_win", "./Design/Audio/SoundFX/toucan_win.mp3");
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
         // Tecla de pausa
@@ -104,6 +110,13 @@ class Level1 extends Phaser.Scene {
         // Música
         this.intro;
         this.loop;
+        //Eectos de Sonido
+        this.hit;
+        this.mango_explosion;
+        this.dino_win;
+        this.palm_win;
+        this.lemur_win;
+        this.toucan_win;
         // Get the Mango
         this.getMango;
         // Texto del mango
@@ -220,6 +233,13 @@ class Level1 extends Phaser.Scene {
             delay : 6.87,
             volume: this.vol
         });
+        //Se crean los efectos de sonido
+        this.hit = this.sound.add("hit");
+        this.dino_win = this.sound.add("dino_win");
+        this.palm_win = this.sound.add("palm_win");
+        this.toucan_win = this.sound.add("toucan_win");
+        this.lemur_win = this.sound.add("lemur_win");
+        this.mango_explosion = this.sound.add("mango_explosion");
         // Get the Mango
         this.getMango = this.add.image(594, 53, "get_the_mango");
         // Movimiento
@@ -317,6 +337,7 @@ class Level1 extends Phaser.Scene {
                         break;
                 }
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
+                this.hit.play();
             }
         }
     }//Fin RobarMango
@@ -329,6 +350,21 @@ class Level1 extends Phaser.Scene {
                 //Quitar al personaje de la escena
                 this.characters[i].body.destroy();
                 this.characters[i].alpha = 0;
+
+                switch(character.type.split("_")[0]){
+                    case "palm":
+                        this.palm_win.play();
+                        break;
+                    case "dino":
+                            this.dino_win.play();
+                        break;
+                    case "toufat":
+                            this.toucan_win.play();
+                        break;
+                    case "lemur":
+                            this.lemur_win.play();
+                        break;
+                }
             }
         }
         this.numPlayers--;

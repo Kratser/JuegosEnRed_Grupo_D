@@ -53,6 +53,8 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("ready", "./Design/Objects/Text/ready.png");
         // Boton de escape
         this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
+        //sonido
+        this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         // Arrays para los textos
         this.names;
         this.habilities;
@@ -81,6 +83,10 @@ class ChooseCharacter extends Phaser.Scene {
         this.selector2;
         this.selector3;
         this.selector4;
+        // Efectos de Sonido
+        this.load.audio("return_button", "./Design/Audio/SoundFX/return_button.mp3");
+        this.return_button;
+        this.hit;
     }//Fin preload
 
     create() {
@@ -188,6 +194,9 @@ class ChooseCharacter extends Phaser.Scene {
         this.selector4 = 0;
         // Se crea la música
         this.sound.pauseOnBlur = false;
+        this.return_button = this.sound.add("return_button");
+        this.hit = this.sound.add("hit");
+        
     }//Fin create
 
     update() {
@@ -232,6 +241,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector1] = true;
                 this.players[0].selected = true;
                 this.ready1.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.hit.play();
             }
             // W para deseleccionar personaje (si ya ha seleccionado alguno)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors1[0]) && this.players[0].selected){
@@ -291,6 +301,8 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector2] = true;
                 this.players[1].selected = true;
                 this.ready2.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.hit.play();
+                
             }
             // I para deseleccionar personaje (Si no tiene uno seleccionado)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors2[0]) && this.players[1].selected){
@@ -350,6 +362,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector3] = true;
                 this.players[2].selected = true;
                 this.ready3.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.hit.play();
             }
             // UP para deseleccionar personaje (si no tiene uno seleccionado) 
             else if (Phaser.Input.Keyboard.JustUp(this.cursors3[0]) && this.players[2].selected){
@@ -409,6 +422,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector4] = true;
                 this.players[3].selected = true;
                 this.ready4.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.hit.play();
             }
             // NUMPAD_8 para deseleccionar personaje (Si ya tiene uno seleccionado)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors4[0]) && this.players[3].selected){
@@ -453,6 +467,7 @@ class ChooseCharacter extends Phaser.Scene {
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu", {volume: this.vol});
+            this.return_button.play();
             // Se para la música
             this.loop.stop();
             this.intro.stop();
@@ -462,24 +477,24 @@ class ChooseCharacter extends Phaser.Scene {
     changeCharacter(charactersArray, characterid, selector, names){
         switch(selector){
             case 0:
-                this.characterAux = new Character(this, characterid+1, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new Character(this, characterid + 1, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 1:
-                    this.characterAux = new Character(this, characterid+1, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
-                    this.characters[characterid].destroy();
-                    this.characters[characterid] = this.characterAux;
+                this.characterAux = new Character(this, characterid + 1, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characters[characterid].destroy();
+                this.characters[characterid] = this.characterAux;
                 break;
             case 2:
-                    this.characterAux = new Character(this, characterid+1, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
-                    this.characters[characterid].destroy();
-                    this.characters[characterid] = this.characterAux;
+                this.characterAux = new Character(this, characterid + 1, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characters[characterid].destroy();
+                this.characters[characterid] = this.characterAux;
                 break;
             case 3:
-                    this.characterAux = new Character(this, characterid+1, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
-                    this.characters[characterid].destroy();
-                    this.characters[characterid] = this.characterAux;
+                this.characterAux = new Character(this, characterid + 1, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characters[characterid].destroy();
+                this.characters[characterid] = this.characterAux;
                 break;
         }
 
