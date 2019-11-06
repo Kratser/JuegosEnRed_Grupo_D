@@ -191,6 +191,8 @@ Características visuales:
   *	**Jose Diplodo:** Un diplodocus con estilo playero que llevará como complementos: unas gafas de sol, un gorro, crema solar, un atuendo hawaiano y un cóctel. 
   *	**Chamán Neón:** Lémur que se moverá deprisa a cuatro patas y llevará una máscara tiki adornada con vistosos colores.
   *	**Tufat:** Tucán con sobrepeso que irá aleteando.
+  
+  ![Characters](https://user-images.githubusercontent.com/36482605/68346938-c298c200-00f5-11ea-91df-776c0e665cfd.png)
 
 ### **4.2. Escenarios**
 
