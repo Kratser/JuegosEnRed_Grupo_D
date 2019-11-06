@@ -84,6 +84,19 @@ quieran acceder, en un principio queremos desarrollar un juego sólido, en el qu
 puedan jugar algunas partidas, y más tarde ampliar con más contenido para dotarlo de
 más variedad.
 
+### **1.7. Historia introductoria**
+
+La tribu de la isla donde sucede el juego se ha quedado sin gurú. Dado que este no tenía sucesor,
+se disponen a buscar a alguien digno, así que emprenden una búsqueda por toda la isla para encontrar
+a cuatro contendientes y retarlos a superar distintas pruebas, en las que tendrán que competir entre
+ellos, para comprobar si son aptos para el liderazgo. Los elegidos son: una palmera a la que el chamán
+anterior le dio vida, un marginado de su tribu (que por fin tendrá la oportunidad de demostrar su valor),
+un tucán de elevado peso (le costaba demasiado salir huyendo) y un turista curioso que pasaba
+sus vacaciones en la isla.
+El único problema es que los elegidos no tienen ninguna intención en ser chamanes, así que tendrán una
+competición interna por saber quienes se libran de ganar el título.
+Es momento de descubrir quién es digno del título de chamán
+
 ## **2. Jugabilidad y mecánicas**
 
 ### **2.1. Jugabilidad**
