@@ -73,7 +73,7 @@ class Pause extends Phaser.Scene {
             this.cont++;
             this.options[this.cont] = true;
             this.change_options.play({
-                volume: this.vol
+                volume: this.data.scene.vol
             });
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.upKey1) || Phaser.Input.Keyboard.JustDown(this.upKey2)) && this.cont>=1){
@@ -81,24 +81,21 @@ class Pause extends Phaser.Scene {
             this.cont--;
             this.options[this.cont] = true;
             this.change_options.play({
-                volume: this.vol
+                volume: this.data.scene.vol
             });
         } 
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.resumeButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         if(this.options[1]){
             this.quitButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         // Si se pulsa el botón de resume o el escape
         if ((Phaser.Input.Keyboard.JustDown(this.resumeKey)) || (this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey))) {
+            this.choose_options.play({
+                volume: this.data.scene.vol
+            });
             this.data.scene.pauseKey.isDown = false;
             this.scene.resume(this.data.sceneKey);
             this.scene.remove("pause");
@@ -106,10 +103,14 @@ class Pause extends Phaser.Scene {
         }  
         // Si se pulsa el botón de salir
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.enterKey)) {
+            this.choose_options.play({
+                volume: this.data.scene.vol
+            });
             this.scene.remove("pause");
             // Se para la música
             this.data.scene.loop.stop();
             this.data.scene.intro.stop();
+            this.data.scene.birds.stop();
             this.data.scene.scene.start("main_menu", {volume: this.data.volume});
             this.options[1] = false;
         }
