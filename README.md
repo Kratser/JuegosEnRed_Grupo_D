@@ -125,6 +125,24 @@ llevará la mayor puntuación, mientras que los siguientes ganarán menos puntos
 forma que el último que quede vivo se quedará sin puntos.
 Además, cada personaje tendrá unas características únicas que le servirán durante los
 minijuegos.
+ya existentes, pero invirtiendo su flujo original. Además, cada personaje tendrá unas
+características únicas que le servirán durante los minijuegos.
+
+**Minijuegos que podremos encontrar:**
+
+  * Minijuego 1: se llevará a cabo en la selva y consistirá en una versión de la patata 
+caliente (pero con un mango), donde el jugador deberá aguantar con el mango hasta que explote,
+y el resto de jugadores deberán chocar con él para quitárselo. El primero en explotar se
+llevará la mayor puntuación. A continuación, este desaparece y si queda más de un jugador
+volverán a jugar entre ellos pero obtendrán menos puntos que el primero al que le explotó.
+Así hasta que solo queden 2 jugadores y quien se haya hecho con el mango no ganará puntos.
+
+  * Minijuego 2: se jugará en el interior de una cueva y estará basado en el juego
+  del escondite. En el escondite una persona es elegida para bucar al resto de jugadores
+  que se han escondido donde no se les vea para que no ser encontrados. En nuestro minijuego,
+  el jugador seleccionado tendrá un círculo de visión alrededor, y el resto de la pantalla estará 
+  a oscuras. El resto de jugadores deberán llegar hasta el jugador elegido y chocar con él para 
+  ganar. Si el jugador elegido consigue aguantar sin encontrar a nadie, sólo él se llevara puntos.
 
 ### **2.3. Personajes y habilidades**
 
@@ -194,11 +212,11 @@ El formato será “.wav”.
 #### **4.4.1. Efectos**
 
 *	Al seleccionar un botón de cualquier parte del juego.
-*	Salto.
+*	Al cambiar entre botones en cualquier parte del juego.
 *	Robo a otro jugador.
+*	Al seleccionar un personaje.
 *	Explosión del mango.
-*	Choque contra el suelo.
-*	Al ganar la partida, sonido de celebración.
+*	Al ganar la partida, sonido de celebración(uno distinto para cada personaje).
 
 ## **5. Referencias**
 
@@ -239,3 +257,11 @@ Jumpaii: https://frame-perfect.itch.io/jumpai
 Shot hot burn: https://store.steampowered.com/app/801750/Hot_Shot_Burn/ 
 
 ![ReferenceSHB](https://user-images.githubusercontent.com/36482605/66061986-d4a8a300-e540-11e9-90a3-8b92057d782d.jpg)
+
+* Referencias Sonoras
+
+Sonido de victoria del lémur, sonido de victoria del tucán, sonido de victoria de la palmera y sonido de ambiente durante la partida -> https://www.zapsplat.com
+
+Sonido de victoria del dinosaurio -> https://www.noiseforfun.com/waves/voice-and-speech/NFF-yahoo.wav
+
+Sonido para selección de personajes y al robar el mango en partida -> https://www.pacdv.com/sounds/miscellaneous_sounds/bottle_pop_2.wav
