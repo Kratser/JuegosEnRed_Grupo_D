@@ -243,5 +243,7 @@ Shot hot burn: https://store.steampowered.com/app/801750/Hot_Shot_Burn/
 * Referencias Sonoras
 
 Sonido de victoria del lémur, sonido de victoria del tucán, sonido de victoria de la palmera y sonido de ambiente durante la partida -> https://www.zapsplat.com
+
 Sonido de victoria del dinosaurio -> https://www.noiseforfun.com/waves/voice-and-speech/NFF-yahoo.wav
+
 Sonido para selección de personajes y al robar el mango en partida -> https://www.pacdv.com/sounds/miscellaneous_sounds/bottle_pop_2.wav
