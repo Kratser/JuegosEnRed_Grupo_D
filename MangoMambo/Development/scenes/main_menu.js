@@ -118,16 +118,22 @@ class MainMenu extends Phaser.Scene {
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         } 
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.localButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         if(this.options[1]){
             this.optionsButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
