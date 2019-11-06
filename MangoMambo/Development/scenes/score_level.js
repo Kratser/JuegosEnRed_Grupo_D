@@ -22,7 +22,7 @@ class ScoreLevel extends Phaser.Scene {
         this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
         this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
         // Botón next round
-        this.load.image("next_round", "./Design/Objects/Buttons/next_round_button.png");
+        this.load.image("next_level_button_selected", "./Design/Objects/Buttons/next_level_button_selected.png");
         // Se carga la música
         this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
         // Personas que se mueven
@@ -110,7 +110,7 @@ class ScoreLevel extends Phaser.Scene {
         // Array que contiene las coronas de los ganadores
         this.crowns = [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown];
         // Movimiento
-        var tweenCrown = this.tweens.add({
+        var tweenCrownDown = this.tweens.add({
             targets: [this.player1_crown, this.player2_crown, this.player3_crown, this.player4_crown],
             y: 55,
             ease: 'Sine.easeInOut',
@@ -218,7 +218,17 @@ class ScoreLevel extends Phaser.Scene {
         // Botón escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Botón enter
-        this.nextRound = this.add.image(1101.5, 31, "next_round");
+        this.nextRound = this.add.image(1101.5, 30, "next_level_button_selected");
+        // Movimiento
+        var tweenNextRound = this.tweens.add({
+            targets: [this.nextRound],
+            scaleX: 0.97,
+            scaleY: 0.97,
+            ease: 'Sine.easeInOut',
+            duration: 1500,
+            yoyo: true,
+            repeat: -1
+        });
         // Máxima puntuación que se puede alcanzar 
         this.maxScore = 10;
         // ESCAPE

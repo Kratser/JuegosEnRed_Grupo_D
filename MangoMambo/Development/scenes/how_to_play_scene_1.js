@@ -108,7 +108,7 @@ class HowToPlay extends Phaser.Scene {
         // Menú de detalles
         this.details = false;
         // Movimiento
-        var tween = this.tweens.add({
+        var tweenReadyButton = this.tweens.add({
             targets: [this.readyButton, this.readyButtonSelect],
             scaleX: 0.97,
             scaleY: 0.97,

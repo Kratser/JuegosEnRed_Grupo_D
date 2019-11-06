@@ -152,13 +152,12 @@ class ChooseCharacter extends Phaser.Scene {
         this.gkeys = this.add.image(169, 218, "press_g_key").setDepth(1);
         this.pkeys = this.add.image(457.38, 218, "press_p_key").setDepth(1);
         this.bkeys = this.add.image(746.48, 218, "press_b_key").setDepth(1);
-        this.ykeys = this.add.image(1035.23, 218, "press_y_key").setDepth(1);
+        this.ykeys = this.add.image(1035.07, 233.53, "press_y_key").setDepth(1);
         // Movimiento
         var tweenKeys = this.tweens.add({
             targets: [this.gkeys, this.pkeys, this.bkeys, this.ykeys],
             scaleX: 0.96,
             scaleY: 0.96,
-            y: 220,
             ease: 'Sine.easeInOut',
             duration: 1000,
             yoyo: true,
