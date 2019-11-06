@@ -88,6 +88,9 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("ready", "./Design/Objects/Text/ready.png");
         // Boton de escape
         this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
+        // Boton de ready para pasar a jugar
+        this.load.image("cc_ready_button", "./Design/Objects/Buttons/cc_ready_button.png");
+        this.load.image("cc_ready_button_selected", "./Design/Objects/Buttons/cc_ready_button_selected.png");
         //sonido
         this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         // Arrays para los textos
@@ -113,17 +116,36 @@ class ChooseCharacter extends Phaser.Scene {
         this.enterCursor;
         // ESCAPE
         this.escapeCursor;
+        // Contador de personajes seleccionados
+        this.readyPlayers;
+        // Ready
+        this.readyButton;
+        this.readySelectedButton;
         // Selector para cada jugador
         this.selectors;
         // Efectos de Sonido
-        this.load.audio("return_button", "./Design/Audio/SoundFX/return_button.mp3");
-        this.return_button;
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
+        this.choose_options;
         this.hit;
     }//Fin preload
 
     create() {
         // Fondo
         this.add.image(0, 0, "character_background").setOrigin(0,0);
+        // Ready botón
+        this.readyButton = this.add.image(1135.50, 568.50, "cc_ready_button").setDepth(1);
+        this.readySelectedButton = this.add.image(1135.50, 568.50, "cc_ready_button_selected").setDepth(2);
+        this.readySelectedButton.alpha = 0;
+        // Movimiento
+        var tweenReadySelected = this.tweens.add({
+            targets: [this.readySelectedButton],
+            scaleX: 0.95,
+            scaleY: 0.95,
+            ease: 'Sine.easeInOut',
+            duration: 900,
+            yoyo: true,
+            repeat: -1
+        });
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Texto e imagenes que aparecen si no te has unido a la partida
@@ -132,7 +154,7 @@ class ChooseCharacter extends Phaser.Scene {
         this.bkeys = this.add.image(746.48, 218, "press_b_key").setDepth(1);
         this.ykeys = this.add.image(1035.23, 218, "press_y_key").setDepth(1);
         // Movimiento
-        var tween = this.tweens.add({
+        var tweenKeys = this.tweens.add({
             targets: [this.gkeys, this.pkeys, this.bkeys, this.ykeys],
             scaleX: 0.96,
             scaleY: 0.96,
@@ -147,7 +169,7 @@ class ChooseCharacter extends Phaser.Scene {
         this.ready2 = this.add.image(457.50, 239.05, "ready").setDepth(1);
         this.ready3 = this.add.image(743.50, 239.05, "ready").setDepth(1);
         this.ready4 = this.add.image(1034.50, 239.05, "ready").setDepth(1);
-
+        // Para que no aparezcan de primeras
         this.ready1.alpha = 0;
         this.ready2.alpha = 0;
         this.ready3.alpha = 0;
@@ -157,16 +179,16 @@ class ChooseCharacter extends Phaser.Scene {
         this.player2_hab = this.add.image(455, 389.96, "palm_hab");
         this.player3_hab = this.add.image(744.28, 389.96, "palm_hab");
         this.player4_hab = this.add.image(1035.28, 389.96, "palm_hab");
+        //Array con habilidades
+        this.habilities = [{hab: this.player1_hab, img: "palm_hab"}, 
+        {hab: this.player2_hab, img: "dino_hab"}, 
+        {hab: this.player3_hab, img: "toufat_hab"}, 
+        {hab: this.player4_hab, img: "lemur_hab"}];
         // Para que no aparezcan de primeras
         this.player1_hab.alpha = 0;
         this.player2_hab.alpha = 0;
         this.player3_hab.alpha = 0;
         this.player4_hab.alpha = 0;
-
-        this.habilities = [{hab: this.player1_hab, img: "palm_hab"}, 
-        {hab: this.player2_hab, img: "dino_hab"}, 
-        {hab: this.player3_hab, img: "toufat_hab"}, 
-        {hab: this.player4_hab, img: "lemur_hab"}];
         // Texto nombres
         this.player1_name = this.add.image(167.28, 63, "palm_G_name");
         this.player2_name = this.add.image(459.28, 63, "palm_P_name");
@@ -219,11 +241,13 @@ class ChooseCharacter extends Phaser.Scene {
         this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         // ESCAPE
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Contador de personajes seleccionados
+        this.readyPlayers = 0;
         // Selector para cada jugador
         this.selectors = [0, 0, 0, 0];
         // Se crea la música
         this.sound.pauseOnBlur = false;
-        this.return_button = this.sound.add("return_button");
+        this.choose_options = this.sound.add("choose_options");
         this.hit = this.sound.add("hit");
         
     }//Fin create
@@ -276,6 +300,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[0]] = true;
                 this.players[0].selected = true;
                 this.ready1.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.readyPlayers++;
                 this.hit.play({
                     volume: this.vol
                 });
@@ -285,6 +310,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[0]] = false;
                 this.players[0].selected = false;
                 this.ready1.alpha = 0;
+                this.readyPlayers--;
             }
             // W para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors1[0]) && !this.players[0].selected){
@@ -344,6 +370,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[1]] = true;
                 this.players[1].selected = true;
                 this.ready2.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.readyPlayers++;
                 this.hit.play({
                     volume: this.vol
                 });
@@ -354,6 +381,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[1]] = false;
                 this.players[1].selected = false;
                 this.ready2.alpha = 0;
+                this.readyPlayers--;
             }
             // I para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors2[0]) && !this.players[1].selected){
@@ -413,6 +441,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[2]] = true;
                 this.players[2].selected = true;
                 this.ready3.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.readyPlayers++;
                 this.hit.play({
                     volume: this.vol
                 });
@@ -422,6 +451,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[2]] = false;
                 this.players[2].selected = false;
                 this.ready3.alpha = 0;
+                this.readyPlayers--;
             }
             // UP para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors3[0]) && !this.players[2].selected){
@@ -481,6 +511,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[3]] = true;
                 this.players[3].selected = true;
                 this.ready4.alpha = 1;// Personaje seleccionado, preparado para jugar
+                this.readyPlayers++;
                 this.hit.play({
                     volume: this.vol
                 });
@@ -490,6 +521,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selectors[3]] = false;
                 this.players[3].selected = false;
                 this.ready4.alpha = 0;
+                this.readyPlayers--;
             }
             // NUMPAD_8 para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors4[0]) && !this.players[3].selected){
@@ -503,13 +535,7 @@ class ChooseCharacter extends Phaser.Scene {
             }
         }//Fin jugador 4
         // ENTER para cambiar de escena
-        if (Phaser.Input.Keyboard.JustDown(this.enterCursor)) {
-            this.readyPlayers = 0;
-            for (var i = 0; i < this.players.length; i++) {
-                if (this.players[i].selected) {
-                    this.readyPlayers++;
-                }
-            }
+        if (Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.readyPlayers >= 2) {
             if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
                 for (var i = 0; i < this.characters.length; i++){
                     if (!this.players[i].selected){
@@ -523,11 +549,22 @@ class ChooseCharacter extends Phaser.Scene {
                 this.loop.stop();
                 this.intro.stop();
             }
+        }  
+        console.log("Ready" + this.readyPlayers);
+        // Cuando haya más de 2 jugadores seleccionados se muestra que ya se puede jugar
+        if (this.readyPlayers >= 2) {
+            this.readyButton.alpha = 0;
+            this.readySelectedButton.alpha = 1;
+        }else{
+            this.readyButton.alpha = 1;
+            this.readySelectedButton.alpha = 0;
         }
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu", {volume: this.vol});
-            this.return_button.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
             // Se para la música
             this.loop.stop();
             this.intro.stop();

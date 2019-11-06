@@ -175,6 +175,7 @@ class MainMenu extends Phaser.Scene {
             this.scene.start("choose_character", {loop: this.loop, intro: this.intro, volume: this.vol});
         }
         //Cambio de pantalla
+        // Código comentado por si falla el fadeOut
         // if(this.options[1] && this.cursors[4].isDown ){
         //     this.scene.start("options", {volume: this.vol});
         //     // Se para la música

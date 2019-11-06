@@ -55,12 +55,11 @@ class Options extends Phaser.Scene {
         //this.load.image("tutorial_button", "./Design/Objects/Buttons/tutorial_button.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("sound_button", "./Design/Objects/Buttons/sound_button.png");
         this.load.image("credits_button", "./Design/Objects/Buttons/credits_button.png");
-        this.load.image("back_button", "./Design/Objects/Buttons/back_button.png");
+        this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Selected buttons
         //this.load.image("tutorial_button_select", "./Design/Objects/Buttons/tutorial_button_select.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("sound_button_select", "./Design/Objects/Buttons/sound_button_select.png");
         this.load.image("credits_button_select", "./Design/Objects/Buttons/credits_button_select.png");
-        this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         // Imagenes para modificar el sonido
         this.load.image("volume_background", "./Design/Objects/volume_background.png");
         this.load.image("minus", "./Design/Objects/Buttons/minus.png");
@@ -106,11 +105,10 @@ class Options extends Phaser.Scene {
         //this.tutorialButton = this.add.image(900, 130, "tutorial_button").setDepth(1); NO SE INCLUYE EN ESTA FASE
         this.soundButton = this.add.image(900, 290, "sound_button").setDepth(1);
         this.creditsButton = this.add.image(900, 130, "credits_button").setDepth(1);
-        this.backButton = this.add.image(150, 500, "back_button").setDepth(1);
+        this.bigEsc = this.add.image(90.50, 538.50, "big_esc").setDepth(1);
         //this.tutorialButtonSelect = this.add.image(900, 130, "tutorial_button_select").setDepth(2); NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect = this.add.image(900, 290, "sound_button_select").setDepth(2);
         this.creditsButtonSelect = this.add.image(900, 130, "credits_button_select").setDepth(2);
-        this.backButtonSelect = this.add.image(150, 500, "back_button_select").setDepth(2);
         // Imagenes para modificar el sonido
         this.volumeBackground = this.add.image(900, 469, "volume_background").setDepth(0);
         this.volumeBackground.alpha = 0;
@@ -146,7 +144,7 @@ class Options extends Phaser.Scene {
         // Contador para el array de botones
         this.cont = 0;
         // Array de botones
-        this.options = [true, false, false];
+        this.options = [true, false];
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.change_options = this.sound.add("change_options");
@@ -165,9 +163,8 @@ class Options extends Phaser.Scene {
         //this.tutorialButtonSelect.alpha = 0; NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect.alpha = 0;
         this.creditsButtonSelect.alpha = 0;
-        this.backButtonSelect.alpha = 0;
         // Selección de botones
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=0){
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
@@ -175,7 +172,7 @@ class Options extends Phaser.Scene {
                 volume: this.vol
             });
         } 
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=0){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
@@ -186,14 +183,11 @@ class Options extends Phaser.Scene {
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.creditsButtonSelect.alpha = 1;
-            
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
         }
-        if(this.options[2]){
-            this.backButtonSelect.alpha = 1;
-        }
+
         // Aparece la configuración de sonido
         if (this.options[1]) {
             this.volumeBackground.alpha = 1;
@@ -244,7 +238,8 @@ class Options extends Phaser.Scene {
                 this.volumeStripes[i].alpha = 0;
             }
         }
-        // Cambio de pantalla
+        // Vuelta al menú de inicio
+        // Código comentado por si falla el fadeOut
         // if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
         //     this.choose_options.play({
         //         volume: this.vol
@@ -253,7 +248,7 @@ class Options extends Phaser.Scene {
         //     // Se para la música
         //     this.loop.stop();
         // }
-        if(this.options[2] && this.cursors[4].isDown || this.cursors[5].isDown){
+        if(this.cursors[5].isDown){
             this.choose_options.play({
                 volume: this.vol
             });
