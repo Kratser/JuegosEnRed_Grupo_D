@@ -4,6 +4,8 @@ class Intro extends Phaser.Scene {
     }// Fin constructor
 
     preload(){
+        // Imagen de fondo de carga
+        this.load.image("loading_background", "./Design/Stages/Backgrounds/loading_background.png");
         // Cargar las imágenes
         this.load.image("black", "./Design/Stages/Backgrounds/black.png");
         this.load.image("core_room_logo", "./Design/Objects/core_room_logo.png");
