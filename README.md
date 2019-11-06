@@ -19,6 +19,9 @@ estarán invertidas con respecto a los minijuegos clásicos ya existentes.
 | Mireya Funke Prieto | m.funke.2017@alumnos.urjc.es | mfpheras|
 | Sergio Cruz Serrano | s.cruzs.2017@alumnos.urjc.es | Sergypulga|
 
+## **Link de GitHub**
+https://github.com/Kratser/JuegosEnRed_Grupo_D
+
 ## **Link de Trello**
 https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mambo-grupo-d
 
@@ -29,6 +32,11 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * Aparte del GDD incluido en este README, este tag tiene adjunto un documento pdf (MangoMamboGDD_V01.pdf) donde se encuentra toda la información al completo y que se irá actualizando en cada fase junto con este README.  
 * También hemos incluido la presentación con la que introduciremos nuestro juego en la fase 1 (MangoMamboFase1.pptx).
 * Para clasificar los distintos elementos que vayamos a usar para el juego hay distintas carpetas creadas.
+
+# **Organización del tag fase2**
+
+* Aparte de lo comentado en el tag fase1, se adjunta un nuevo documento pdf (MangoMamboGDD_V02.pdf) donde se encuentra la información completa del Documento de Diseño actualizada de esta fase.
+* También se adjunta la presentación con la que mostraremos el avance del juego en la fase 2 (MangoMamboFase2.pptx).
 
 * * *
 
