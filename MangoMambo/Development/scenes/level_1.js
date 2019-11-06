@@ -435,7 +435,7 @@ class Level1 extends Phaser.Scene {
     EliminarPersonaje(character){ 
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
-                this.characters[i].score += this.numPlayers;
+                this.characters[i].score += this.numPlayers - 1;
                 //Quitar al personaje de la escena
                 this.characters[i].body.destroy();
                 this.characters[i].alpha = 0;

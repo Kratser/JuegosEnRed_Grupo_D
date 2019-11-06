@@ -523,8 +523,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.loop.stop();
                 this.intro.stop();
             }
-            
-        }  
+        }
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu", {volume: this.vol});
