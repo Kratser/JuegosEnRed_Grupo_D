@@ -6,7 +6,7 @@ class Level1 extends Phaser.Scene {
     init (data){
         this.characters = data.characters;
         this.numPlayers = this.characters.length; // Número de jugadores
-        if (data.volume){
+        if (data.volume != undefined){
             this.vol = data.volume;
         }else{
             this.vol = 1;
@@ -17,9 +17,9 @@ class Level1 extends Phaser.Scene {
 
     preload() {
         // Pantalla de Carga
-        var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0);
-        var progressBar = this.add.graphics();
-        var progressBox = this.add.graphics();
+        var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-5);
+        var progressBar = this.add.graphics().setDepth(-5);
+        var progressBox = this.add.graphics().setDepth(-5);
         progressBox.fillStyle(0x222222, 0.8);
         progressBox.fillRect(100, 500, 1000, 50);
         var percentText = this.make.text({
@@ -33,7 +33,7 @@ class Level1 extends Phaser.Scene {
                 fill: '#ffffff'
             }
         });
-        percentText.setOrigin(0.5, 0.5);
+        percentText.setOrigin(0.5, 0.5).setDepth(-5);
         this.load.on("progress", function(value){
             console.log(value);
             percentText.setText(parseInt(value * 100) + '%');
@@ -176,7 +176,7 @@ class Level1 extends Phaser.Scene {
 
     create() {
         // Se crea el fondo
-        this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
+        this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas

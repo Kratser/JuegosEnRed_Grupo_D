@@ -99,6 +99,7 @@ class Options extends Phaser.Scene {
     }// Fin preload
 
     create(){
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.background = this.add.image(0, 0, "options_background").setOrigin(0,0).setDepth(0);
         // Botones 
@@ -185,21 +186,13 @@ class Options extends Phaser.Scene {
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.creditsButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
+            
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         if(this.options[2]){
             this.backButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         // Aparece la configuración de sonido
         if (this.options[1]) {
@@ -252,13 +245,33 @@ class Options extends Phaser.Scene {
             }
         }
         // Cambio de pantalla
-        if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
-            this.scene.start("main_menu", {volume: this.vol});
-            // Se para la música
-            this.loop.stop();
+        // if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
+        //     this.choose_options.play({
+        //         volume: this.vol
+        //     });
+        //     this.scene.start("main_menu", {volume: this.vol});
+        //     // Se para la música
+        //     this.loop.stop();
+        // }
+        if(this.options[2] && this.cursors[4].isDown || this.cursors[5].isDown){
+            this.choose_options.play({
+                volume: this.vol
+            });
+            this.cameras.main.fadeOut(500);
+            this.scene.get("options").time.addEvent({
+                delay: 510, 
+                callback: function(){
+                    this.scene.start("main_menu", {volume: this.vol}); 
+                    this.loop.stop();
+                },
+                callbackScope: this, 
+            });
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("credits", {volume: this.vol});
             // Se para la música
             this.loop.stop();

@@ -86,6 +86,7 @@ class MainMenu extends Phaser.Scene {
     }// Fin preload
 
     create() {
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.background = this.add.image(0, 0, "menu_background").setOrigin(0,0).setDepth(0);
         // Título que se mueve
@@ -160,26 +161,38 @@ class MainMenu extends Phaser.Scene {
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.localButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         if(this.options[1]){
             this.optionsButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("choose_character", {loop: this.loop, intro: this.intro, volume: this.vol});
         }
         //Cambio de pantalla
+        // if(this.options[1] && this.cursors[4].isDown ){
+        //     this.scene.start("options", {volume: this.vol});
+        //     // Se para la música
+        //     this.intro.stop();
+        //     this.loop.stop();
+        // }
         if(this.options[1] && this.cursors[4].isDown ){
-            this.scene.start("options", {volume: this.vol});
-            // Se para la música
-            this.intro.stop();
-            this.loop.stop();
+            this.choose_options.play({
+                volume: this.vol
+            });
+            this.cameras.main.fadeOut(500);
+            this.scene.get("main_menu").time.addEvent({
+                delay: 510, 
+                callback: function(){
+                    this.scene.start("options", {volume: this.vol}); 
+                    this.intro.stop();
+                    this.loop.stop();
+                },
+                callbackScope: this, 
+            });
         }
     }// Fin update
 }// Fin clase MainMenu

@@ -82,7 +82,6 @@ class Credits extends Phaser.Scene {
         // local  online options
         this.options = [false];
         // Sonido
-        console.log(this.vol);
         this.sound.pauseOnBlur = false;
         this.loop = this.sound.add("hawaii");
         this.loop.play({
