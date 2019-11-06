@@ -51,7 +51,7 @@ class Credits extends Phaser.Scene {
         this.loop = this.sound.add("hawaii");
         this.loop.play({
             loop : true,
-            volume: 0.2
+            volume: 0.2 * this.vol
         });
     }// Fin create
 
