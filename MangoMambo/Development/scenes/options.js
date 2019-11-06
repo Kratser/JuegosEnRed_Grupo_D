@@ -239,28 +239,13 @@ class Options extends Phaser.Scene {
             }
         }
         // Vuelta al menú de inicio
-        // Código comentado por si falla el fadeOut
-        // if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
-        //     this.choose_options.play({
-        //         volume: this.vol
-        //     });
-        //     this.scene.start("main_menu", {volume: this.vol});
-        //     // Se para la música
-        //     this.loop.stop();
-        // }
-        if(this.cursors[5].isDown){
+        if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
             this.choose_options.play({
                 volume: this.vol
             });
-            this.cameras.main.fadeOut(500);
-            this.scene.get("options").time.addEvent({
-                delay: 510, 
-                callback: function(){
-                    this.scene.start("main_menu", {volume: this.vol}); 
-                    this.loop.stop();
-                },
-                callbackScope: this, 
-            });
+            this.scene.start("main_menu", {volume: this.vol});
+            // Se para la música
+            this.loop.stop();
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
