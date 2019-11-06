@@ -53,11 +53,10 @@ class HowToPlay extends Phaser.Scene {
         // Cargar botones
         this.load.image("ready_button", "./Design/Objects/Buttons/ready_button.png");
         this.load.image("details_button", "./Design/Objects/Buttons/details_button.png");
-        this.load.image("back_button", "./Design/Objects/Buttons/back_button.png");
+        this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Cargar botones seleccionados
         this.load.image("ready_button_select", "./Design/Objects/Buttons/ready_button_select.png");
         this.load.image("details_button_select", "./Design/Objects/Buttons/details_button_select.png");
-        this.load.image("back_button_select", "./Design/Objects/Buttons/back_button_select.png");
         // Cargar música
         this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
         // Sonido
@@ -72,8 +71,7 @@ class HowToPlay extends Phaser.Scene {
         this.detailsButton;
         this.readyButtonSelect;
         this.detailsButtonSelect;
-        this.backButton;
-        this.backButtonSelect;
+        this.bigEsc;
         // Menu de detalles
         this.details;
         // Teclas
@@ -103,26 +101,15 @@ class HowToPlay extends Phaser.Scene {
         // Botones
         this.readyButton = this.add.image(800, 500, "ready_button").setDepth(1);
         this.detailsButton = this.add.image(400, 490, "details_button").setDepth(1);
-        this.backButton = this.add.image(100, 50, "back_button");
-        this.backButton.alpha = 0;
+        this.bigEsc = this.add.image(100, 50, "big_esc");
+        this.bigEsc.alpha = 0;
         this.readyButtonSelect = this.add.image(800, 500, "ready_button_select").setDepth(2);
         this.detailsButtonSelect = this.add.image(400, 490, "details_button_select").setDepth(2);
-        this.backButtonSelect = this.add.image(100, 50, "back_button_select");
-        this.backButtonSelect.alpha = 0;
         // Menú de detalles
         this.details = false;
         // Movimiento
         var tween = this.tweens.add({
-            targets: this.readyButton,
-            scaleX: 0.97,
-            scaleY: 0.97,
-            ease: 'Sine.easeInOut',
-            duration: 3000,
-            yoyo: true,
-            repeat: -1
-        });
-        var tween = this.tweens.add({
-            targets: this.readyButtonSelect,
+            targets: [this.readyButton, this.readyButtonSelect],
             scaleX: 0.97,
             scaleY: 0.97,
             ease: 'Sine.easeInOut',
@@ -140,7 +127,7 @@ class HowToPlay extends Phaser.Scene {
         // Contador para el array de botones
         this.cont = 1;
         // Array de botones
-        this.options = [false, true, false];
+        this.options = [false, true];
         // Música
         this.sound.pauseOnBlur = false;
         this.loop = this.sound.add("how_to_play_song");
@@ -200,13 +187,12 @@ class HowToPlay extends Phaser.Scene {
                 duration: 200,
             });
             var tween = this.tweens.add({
-                targets: [this.howToPlayRockDetails, this.backButton],
+                targets: [this.howToPlayRockDetails, this.bigEsc],
                 alpha: 1,
                 ease: 'Sine.easeInOut',
                 duration: 200,
             });
             this.options[0] = false;
-            this.options[2] = true;
         }
         // Cambio de pantalla
         if(this.options[1] && this.enterKey.isDown){
@@ -215,7 +201,7 @@ class HowToPlay extends Phaser.Scene {
             this.loop.stop();
         }
         // Esconder los detalles
-        if((this.options[2] && Phaser.Input.Keyboard.JustDown(this.enterKey)) || (this.escKey.isDown && this.details)){
+        if(this.escKey.isDown && this.details){
             this.details = false;
             var tween = this.tweens.add({
                 targets: [this.howToPlayRock, this.detailsButton, this.detailsButtonSelect,
@@ -225,14 +211,13 @@ class HowToPlay extends Phaser.Scene {
                 duration: 200,
             });
             var tween = this.tweens.add({
-                targets: [this.howToPlayRockDetails, this.backButton],
+                targets: [this.howToPlayRockDetails, this.bigEsc],
                 alpha: 0,
                 ease: 'Sine.easeInOut',
                 duration: 200,
                 onComplete: function(){this.options[0] = true;}.bind(this)
             });
             this.options[0] = false;
-            this.options[2] = false;
         }
     }// Fin update
 }// Fin clase HowToPlayScene
