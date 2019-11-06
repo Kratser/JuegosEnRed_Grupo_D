@@ -11,7 +11,6 @@ class Level1 extends Phaser.Scene {
         }else{
             this.vol = 1;
         }
-        
         data = null;
     }// Fin init
 
@@ -135,11 +134,12 @@ class Level1 extends Phaser.Scene {
         this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
         this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
         this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
-        this.load.audio("mango_explosion", "./Design/Audio/SoundFX/mango_explosion.wav");
+        this.load.audio("mango_explosion", "./Design/Audio/SoundFX/mango_explosion.mp3");
         this.load.audio("dino_win", "./Design/Audio/SoundFX/dino_win.wav");
         this.load.audio("palm_win", "./Design/Audio/SoundFX/palm_win.mp3");
         this.load.audio("lemur_win", "./Design/Audio/SoundFX/lemur_win.mp3");
         this.load.audio("toucan_win", "./Design/Audio/SoundFX/toucan_win.mp3");
+        this.load.audio("birds", "./Design/Audio/SoundFX/birds.mp3");
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
         // Tecla de pausa
@@ -163,6 +163,7 @@ class Level1 extends Phaser.Scene {
         this.palm_win;
         this.lemur_win;
         this.toucan_win;
+        this.birds;
         // Get the Mango
         this.getMango;
         // Mango Mambo animation
@@ -291,6 +292,12 @@ class Level1 extends Phaser.Scene {
         this.toucan_win = this.sound.add("toucan_win");
         this.lemur_win = this.sound.add("lemur_win");
         this.mango_explosion = this.sound.add("mango_explosion");
+        this.birds = this.sound.add("birds");
+        this.birds.play({
+            loop : true,
+            delay : 4.87,
+            volume: this.vol * 0.1
+        });
         // Get the Mango
         this.getMango = this.add.image(594, 53, "get_the_mango");
         // Movimiento
@@ -370,13 +377,17 @@ class Level1 extends Phaser.Scene {
                 // Se para la música
                 this.intro.stop();
                 this.loop.stop();
+                this.birds.stop();
             }
             if (this.mango.explodeTime <= 10) {
                 this.loop.setRate(1.05);
+                this.birds.setRate(1.05);
             } if (this.mango.explodeTime <= 5) {
                 this.loop.setRate(1.15);
+                this.birds.setRate(1.15);
             } if (this.mango.explodeTime > 10) {
                 this.loop.setRate(1);
+                this.birds.setRate(1);
             }
         }
     }// Fin Update

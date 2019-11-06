@@ -124,8 +124,8 @@ class ChooseCharacter extends Phaser.Scene {
         // Selector para cada jugador
         this.selectors;
         // Efectos de Sonido
-        this.load.audio("return_button", "./Design/Audio/SoundFX/return_button.mp3");
-        this.return_button;
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
+        this.choose_options;
         this.hit;
     }//Fin preload
 
@@ -247,7 +247,7 @@ class ChooseCharacter extends Phaser.Scene {
         this.selectors = [0, 0, 0, 0];
         // Se crea la música
         this.sound.pauseOnBlur = false;
-        this.return_button = this.sound.add("return_button");
+        this.choose_options = this.sound.add("choose_options");
         this.hit = this.sound.add("hit");
         
     }//Fin create
@@ -562,7 +562,9 @@ class ChooseCharacter extends Phaser.Scene {
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
             this.scene.start("main_menu", {volume: this.vol});
-            this.return_button.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
             // Se para la música
             this.loop.stop();
             this.intro.stop();
