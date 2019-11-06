@@ -258,15 +258,16 @@ class Level1 extends Phaser.Scene {
         this.timeImage.setDepth(-1);
         // Texto que aparece en pantalla
         var tconfig = {
-            x: 577,
-            y: 7,
+            x: 565,
+            y: 6,
             text: this.FormatTime(this.mango.explodeTime),
             style: {
-              fontSize: '24px',
-              fontFamily: 'Arial',
-              color: '#aaff75',
+              fontSize: '30px',
+              fontFamily: 'Berlin Sans FB',
+              fontStyle: 'bold',
+              color: '#06c614',
               align: 'center',
-              strokeThickness: '3',
+              strokeThickness: '5',
               shadow: (5, 5, 'rgba(170,255,117,0.5)', 5)
             }
           };
