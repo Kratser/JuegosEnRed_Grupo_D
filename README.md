@@ -93,9 +93,9 @@ ellos, para comprobar si son aptos para el liderazgo. Los elegidos son: una palm
 anterior le dio vida, un marginado de su tribu (que por fin tendrá la oportunidad de demostrar su valor),
 un tucán de elevado peso (le costaba demasiado salir huyendo) y un turista curioso que pasaba
 sus vacaciones en la isla.
-El único problema es que los elegidos no tienen ninguna intención en ser chamanes, así que tendrán una
-competición interna por saber quienes se libran de ganar el título.
-Es momento de descubrir quién es digno del título de chamán
+Al tener que demostrar su valía, las pruebas se basarán en quién se sacrifica primero. En caso de negarse
+a competir serán prisioneros de la tribu de por vida.
+Es momento de descubrir quién es digno del título de chamán.
 
 ## **2. Jugabilidad y mecánicas**
 
