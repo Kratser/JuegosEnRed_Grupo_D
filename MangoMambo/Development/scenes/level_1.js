@@ -176,6 +176,7 @@ class Level1 extends Phaser.Scene {
     }// Fin preload
 
     create() {
+        this.cameras.main.fadeIn(500);
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
         // Se crean las plataformas como un grupo
@@ -435,7 +436,7 @@ class Level1 extends Phaser.Scene {
     EliminarPersonaje(character){ 
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
-                this.characters[i].score += this.numPlayers;
+                this.characters[i].score += this.numPlayers - 1;
                 //Quitar al personaje de la escena
                 this.characters[i].body.destroy();
                 this.characters[i].alpha = 0;

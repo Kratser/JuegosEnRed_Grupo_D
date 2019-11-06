@@ -10,45 +10,6 @@ class ScoreLevel extends Phaser.Scene {
     }// Fin init
 
     preload() {
-       // Cargar la imagen de fondo
-       this.load.image("score_level_background", "./Design/Stages/Backgrounds/score_level_background.png");
-        // Personas de fondo
-       this.load.image("people", "./Design/Stages/Backgrounds/people_end_level.png");
-        // Corona del ganador
-        this.load.image("crown", "./Design/Objects/crown.png");
-       // Totems
-       this.load.image("g_totem", "./Design/Objects/Totems/green_totem.png");
-        this.load.image("p_totem", "./Design/Objects/Totems/pink_totem.png");
-        this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
-        this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
-        // Botón next round
-        this.load.image("next_level_button_selected", "./Design/Objects/Buttons/next_level_button_selected.png");
-        // Se carga la música
-        this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
-        // Personas que se mueven
-        this.peopleMove;
-        // Totems
-        this.gTotem;
-        this.pTotem;
-        this.bTotem;
-        this.yTotem;
-        // Array que contiene las coronas de los ganadores
-        this.crowns;
-        // Botón escape
-        this.escapeButton;
-        // Botón enter
-        this.nextRound;
-        // Puntuación máxima
-        this.maxScore;
-        // ESCAPE
-        this.escapeCursor;
-        // ENTER
-        this.enterCursor;
-        // La canción loopeada
-        this.loop;
-    }// Fin preload
-
-    create() {
         // Pantalla de Carga
         var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0);
         var progressBar = this.add.graphics();
@@ -84,6 +45,48 @@ class ScoreLevel extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
+       // Cargar la imagen de fondo
+       this.load.image("score_level_background", "./Design/Stages/Backgrounds/score_level_background.png");
+        // Personas de fondo
+       this.load.image("people", "./Design/Stages/Backgrounds/people_end_level.png");
+        // Corona del ganador
+        this.load.image("crown", "./Design/Objects/crown.png");
+       // Totems
+       this.load.image("g_totem", "./Design/Objects/Totems/green_totem.png");
+        this.load.image("p_totem", "./Design/Objects/Totems/pink_totem.png");
+        this.load.image("b_totem", "./Design/Objects/Totems/blue_totem.png");
+        this.load.image("y_totem", "./Design/Objects/Totems/yellow_totem.png");
+        // Botón next round
+        this.load.image("next_level_button_selected", "./Design/Objects/Buttons/next_level_button_selected.png");
+        // Se carga la música
+        this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
+        // Personas que se mueven
+        this.peopleMove;
+        // Totems
+        this.gTotem;
+        this.pTotem;
+        this.bTotem;
+        this.yTotem;
+        // Array que contiene las coronas de los ganadores
+        this.crowns;
+        // Botón escape
+        this.escapeButton;
+        // Botón enter
+        this.nextRound;
+        // Puntuación máxima
+        this.maxScore;
+        // ESCAPE
+        this.escapeCursor;
+        // ENTER
+        this.enterCursor;
+        // Puntuaciones de los jugadores
+        this.scores;
+        // La canción loopeada
+        this.loop;
+    }// Fin preload
+
+    create() {
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.add.image(0, 0, "score_level_background").setOrigin(0,0);
         // Personas que se mueven
@@ -97,6 +100,8 @@ class ScoreLevel extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+        // Máxima puntuación que se puede alcanzar 
+        this.maxScore = 10;
         // Totems
         this.gTotem = this.add.image (161.50, 687, "g_totem");
         this.pTotem = this.add.image (448.00, 687, "p_totem");
@@ -143,13 +148,13 @@ class ScoreLevel extends Phaser.Scene {
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
-                        y: this.characters[i].y - this.characters[i].score * 21,
+                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
                         duration: 2500
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.gTotem,
-                        y: 687 - this.characters[i].score * 21,
+                        y: 687 - (this.characters[i].score / this.maxScore) * 210,
                         duration: 2500
                     });
                     break;
@@ -163,13 +168,13 @@ class ScoreLevel extends Phaser.Scene {
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
-                        y: this.characters[i].y - this.characters[i].score * 21,
+                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
                         duration: 2500
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.pTotem,
-                        y: 687 - this.characters[i].score * 21, // 430 max
+                        y: 687 - (this.characters[i].score / this.maxScore) * 210, // 430 max
                         duration: 2500
                     });
                     break;
@@ -183,13 +188,13 @@ class ScoreLevel extends Phaser.Scene {
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
-                        y: this.characters[i].y - this.characters[i].score * 21,
+                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
                         duration: 2500
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.bTotem,
-                        y: 687 - this.characters[i].score * 21,
+                        y: 687 - (this.characters[i].score / this.maxScore) * 210,
                         duration: 2500
                     });
                     break;
@@ -203,13 +208,13 @@ class ScoreLevel extends Phaser.Scene {
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
-                        y: this.characters[i].y - this.characters[i].score * 21,
+                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
                         duration: 2500
                     });
                     // Animación subida tótem
                     var tweenTot = this.tweens.add({
                         targets: this.yTotem,
-                        y: 687 - this.characters[i].score * 21, // 687 min
+                        y: 687 - (this.characters[i].score / this.maxScore) * 210, // 687 min
                         duration: 2500
                     });
                     break;
@@ -235,6 +240,30 @@ class ScoreLevel extends Phaser.Scene {
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER
         this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        // Puntuaciones de los jugadores
+        this.scores = [];
+        for (var i = 0; i < this.characters.length; i++){
+            this.scores[i] = this.make.text({
+                x: this.characters[i].x - 100,
+                y: this.characters[i].y - this.characters[i].height,
+                text: this.characters[i].score+" pts",
+                style: {
+                    fontSize: '30px',
+                    fontFamily: 'Berlin Sans FB',
+                    fontStyle: 'bold',
+                    color: '#06c614',
+                    align: 'center',
+                    strokeThickness: '5',
+                    shadow: (5, 5, 'rgba(170,255,117,0.5)', 5)
+                  }
+            });
+            this.scores[i].angle = 20;
+            var tween = this.tweens.add({
+                targets: this.scores[i],
+                y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210 - this.characters[i].height,
+                duration: 2500
+            });
+        }
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.loop = this.sound.add("score_level_music");
