@@ -125,6 +125,24 @@ llevará la mayor puntuación, mientras que los siguientes ganarán menos puntos
 forma que el último que quede vivo se quedará sin puntos.
 Además, cada personaje tendrá unas características únicas que le servirán durante los
 minijuegos.
+ya existentes, pero invirtiendo su flujo original. Además, cada personaje tendrá unas
+características únicas que le servirán durante los minijuegos.
+
+**Minijuegos que podremos encontrar:**
+
+  * Minijuego 1: se llevará a cabo en la selva y consistirá en una versión de la patata 
+caliente (pero con un mango), donde el jugador deberá aguantar con el mango hasta que explote,
+y el resto de jugadores deberán chocar con él para quitárselo. El primero en explotar se
+llevará la mayor puntuación. A continuación, este desaparece y si queda más de un jugador
+volverán a jugar entre ellos pero obtendrán menos puntos que el primero al que le explotó.
+Así hasta que solo queden 2 jugadores y quien se haya hecho con el mango no ganará puntos.
+
+  * Minijuego 2: se jugará en el interior de una cueva y estará basado en el juego
+  del escondite. En el escondite una persona es elegida para bucar al resto de jugadores
+  que se han escondido donde no se les vea para que no ser encontrados. En nuestro minijuego,
+  el jugador seleccionado tendrá un círculo de visión alrededor, y el resto de la pantalla estará 
+  a oscuras. El resto de jugadores deberán llegar hasta el jugador elegido y chocar con él para 
+  ganar. Si el jugador elegido consigue aguantar sin encontrar a nadie, sólo él se llevara puntos.
 
 ### **2.3. Personajes y habilidades**
 
