@@ -13,6 +13,12 @@ class Level1 extends Phaser.Scene {
     preload() {
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
+        // 3 2 1 mango mambo
+        this.load.spritesheet('3_2_1_mango_mambo', './Design/Objects/Text/3_2_1_mango_mambo.png',
+        {
+            frameWidth: 500,
+            frameHeight: 500 
+        });
         // Fondo contador
         this.load.image("cd_background", "./Design/Objects/countdown_background.png");
         // Get the mango
@@ -119,6 +125,10 @@ class Level1 extends Phaser.Scene {
         this.toucan_win;
         // Get the Mango
         this.getMango;
+        // Mango Mambo animation
+        this.mangoMamboAnim;
+        // Variable para actualizar el update
+        this.play;
         // Texto del mango
         this.text;
         this.timedEvent;
@@ -274,37 +284,49 @@ class Level1 extends Phaser.Scene {
         this.text = this.make.text(tconfig);
         this.text.alpha = 0;
         this.text.setDepth(-1);
+          // 3 2 1 mango mambo
+        this.mangoMamboAnim = this.add.sprite(600,300, "3_2_1_mango_mambo");
+        this.anims.create({
+            key: '3_2_1_mango_mambo',
+            frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 3 }),
+            frameRate: 1,
+        });
+        this.mangoMamboAnim.on("animationcomplete", this.AnimComplete, this);
+        this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
+        this.play = false;
     }// Fin Create
 
     update() {
-        // Update de los personajes y del mango
-        for (var i = 0; i < this.characters.length; i++){
-            this.characters[i].update();
-        }
-        this.mango.update();
-        // Pause
-        if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
-            if (!this.scene.get("pause")) {
-                this.scene.add("pause", new Pause, true, {scene: this, sceneKey: "level_1", volume: this.vol});
-                this.scene.pause("level_1");
+        if (this.play) {
+            // Update de los personajes y del mango
+            for (var i = 0; i < this.characters.length; i++) {
+                this.characters[i].update();
             }
-        }
-        // Refresh body de la plataforma que se mueve
-        this.upMovePlat.refreshBody();
-        // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
-        if (this.numPlayers <= 1){
-            this.scene.remove("pause");
-            this.scene.start("score_level", {characters: this.characters, volume: this.vol});
-            // Se para la música
-            this.intro.stop();
-            this.loop.stop();
-        }
-        if(this.mango.explodeTime <= 10){
-            this.loop.setRate(1.05);
-        }if(this.mango.explodeTime <= 5){
-            this.loop.setRate(1.15);
-        }if(this.mango.explodeTime > 10){
-            this.loop.setRate(1);
+            this.mango.update();
+            // Pause
+            if (Phaser.Input.Keyboard.JustDown(this.pauseKey)) {
+                if (!this.scene.get("pause")) {
+                    this.scene.add("pause", new Pause, true, { scene: this, sceneKey: "level_1", volume: this.vol });
+                    this.scene.pause("level_1");
+                }
+            }
+            // Refresh body de la plataforma que se mueve
+            this.upMovePlat.refreshBody();
+            // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
+            if (this.numPlayers <= 1) {
+                this.scene.remove("pause");
+                this.scene.start("score_level", { characters: this.characters, volume: this.vol });
+                // Se para la música
+                this.intro.stop();
+                this.loop.stop();
+            }
+            if (this.mango.explodeTime <= 10) {
+                this.loop.setRate(1.05);
+            } if (this.mango.explodeTime <= 5) {
+                this.loop.setRate(1.15);
+            } if (this.mango.explodeTime > 10) {
+                this.loop.setRate(1);
+            }
         }
     }// Fin Update
 
@@ -393,4 +415,9 @@ class Level1 extends Phaser.Scene {
         // Devuelve el tiempo formateado
         return `${minutes}:${partInSeconds}`;
     }// Fin FormatTime
+
+    AnimComplete(animation, frame){
+        this.play = true;
+        this.mangoMamboAnim.destroy();
+    }
 }// Fin clase Level1
