@@ -93,6 +93,7 @@ class HowToPlay extends Phaser.Scene {
     }// Fin preload
 
     create(){
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.howToPlay = this.add.image(0, 0, "how_to_play_scene_background").setOrigin(0, 0).setDepth(0);
         this.howToPlayRock = this.add.image(600, 300, "how_to_play_rock");

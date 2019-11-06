@@ -176,6 +176,7 @@ class Level1 extends Phaser.Scene {
     }// Fin preload
 
     create() {
+        this.cameras.main.fadeIn(500);
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
         // Se crean las plataformas como un grupo

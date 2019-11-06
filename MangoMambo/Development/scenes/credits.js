@@ -59,6 +59,7 @@ class Credits extends Phaser.Scene {
     }// Fin preload
 
     create(){
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.background = this.add.image(0, 0, "credits_background").setOrigin(0,0).setDepth(0);
         // Botones 

@@ -130,6 +130,7 @@ class ChooseCharacter extends Phaser.Scene {
     }//Fin preload
 
     create() {
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.add.image(0, 0, "character_background").setOrigin(0,0);
         // Ready botón
