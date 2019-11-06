@@ -49,7 +49,9 @@ class Mango extends Phaser.GameObjects.Sprite{
                 this.anims.play("mango_explosion", true);
                 this.tint = 0xffffff;
                 if (!this.scene.mango_explosion.isPlaying){
-                    this.scene.mango_explosion.play();
+                    this.scene.mango_explosion.play({
+                        volume: this.scene.vol
+                    });
                 }
             }
         }

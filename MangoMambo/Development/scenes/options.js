@@ -5,7 +5,7 @@ class Options extends Phaser.Scene {
 
     init(data){
         // Inicializamos vol
-        if(!data.volume){
+        if(data.volume == undefined){
             this.vol = 1;
         }else{
         this.vol = data.volume;
