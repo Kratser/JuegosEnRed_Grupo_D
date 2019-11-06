@@ -48,8 +48,9 @@ class Mango extends Phaser.GameObjects.Sprite{
                 this.y = this.character.y;
                 this.anims.play("mango_explosion", true);
                 this.tint = 0xffffff;
-                this.scene.mango_explosion.play();
-                this.explodeTime = this.time;
+                if (!this.scene.mango_explosion.isPlaying){
+                    this.scene.mango_explosion.play();
+                }
             }
         }
     }// Fin update
@@ -61,6 +62,7 @@ class Mango extends Phaser.GameObjects.Sprite{
     }
 
     AnimComplete(animation, frame) {
+        this.explodeTime = this.time;
         this.setTexture("mango", 0);
         this.x = 600;
         this.y = -10;
