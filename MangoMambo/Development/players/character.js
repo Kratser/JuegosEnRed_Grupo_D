@@ -187,13 +187,13 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.scene.anims.create({
                     key: 'dino_idle',
                     frames: this.scene.anims.generateFrameNumbers('dino_idle', { start: 0, end: 7 }),
-                    frameRate: 9,
+                    frameRate: 11,
                     repeat: -1
                 });
                 this.scene.anims.create({
                     key: 'dino_walk',
                     frames: this.scene.anims.generateFrameNumbers('dino_walk', { start: 0, end: 7 }),
-                    frameRate: 9,
+                    frameRate: 16,
                     repeat: -1
                 });
                 break;
@@ -209,13 +209,13 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.scene.anims.create({
                     key: 'lemur_idle',
                     frames: this.scene.anims.generateFrameNumbers('lemur_idle', { start: 0, end: 7 }),
-                    frameRate: 9,
+                    frameRate: 11,
                     repeat: -1
                 });
                 this.scene.anims.create({
                     key: 'lemur_walk',
                     frames: this.scene.anims.generateFrameNumbers('lemur_walk', { start: 0, end: 9 }),
-                    frameRate: 20,
+                    frameRate: 27,
                     repeat: -1
                 });
                 break;
@@ -231,13 +231,13 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.scene.anims.create({
                     key: 'toufat_idle',
                     frames: this.scene.anims.generateFrameNumbers('toufat_idle', { start: 0, end: 7 }),
-                    frameRate: 6,
+                    frameRate: 8,
                     repeat: -1
                 });
                 this.scene.anims.create({
                     key: 'toufat_walk',
                     frames: this.scene.anims.generateFrameNumbers('toufat_walk', { start: 0, end: 7 }),
-                    frameRate: 9,
+                    frameRate: 18,
                     repeat: -1
                 });
                 break;
