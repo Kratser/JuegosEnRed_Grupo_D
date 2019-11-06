@@ -291,8 +291,19 @@ class Level1 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 3 }),
             frameRate: 1,
         });
+        console.log(this.mangoMamboAnim)
         this.mangoMamboAnim.on("animationcomplete", this.AnimComplete, this);
         this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
+        this.mangoMamboAnim.setScale(0.5);
+        var tween = this.tweens.add({
+            targets: [this.mangoMamboAnim],
+            scaleY: 1,
+            scaleX: 1,
+            ease: 'Sine.easeInOut',
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
         this.play = false;
     }// Fin Create
 
