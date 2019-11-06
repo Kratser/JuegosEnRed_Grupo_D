@@ -6,11 +6,51 @@ class Level1 extends Phaser.Scene {
     init (data){
         this.characters = data.characters;
         this.numPlayers = this.characters.length; // Número de jugadores
-        this.vol = data.volume;
+        if (data.volume){
+            this.vol = data.volume;
+        }else{
+            this.vol = 1;
+        }
+        
         data = null;
     }// Fin init
 
     preload() {
+        // Pantalla de Carga
+        var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0);
+        var progressBar = this.add.graphics();
+        var progressBox = this.add.graphics();
+        progressBox.fillStyle(0x222222, 0.8);
+        progressBox.fillRect(100, 500, 1000, 50);
+        var percentText = this.make.text({
+            x: 600,
+            y: 525,
+            text: "0%",
+            style: {
+                fontSize: '25px',
+                fontFamily: 'Berlin Sans FB',
+                fontStyle: 'bold',
+                fill: '#ffffff'
+            }
+        });
+        percentText.setOrigin(0.5, 0.5);
+        this.load.on("progress", function(value){
+            console.log(value);
+            percentText.setText(parseInt(value * 100) + '%');
+            progressBar.clear();
+            progressBar.fillStyle(0x00ff00, 1);
+            progressBar.fillRect(110, 510, 980 * value, 30);
+        });
+        this.load.on("fileprogress", function(file){
+            console.log(file.src);
+        });
+        this.load.on("complete", function(){
+            console.log("Complete");
+            progressBar.destroy();
+            progressBox.destroy();
+            percentText.destroy();
+            loadingImg.destroy();
+        });
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
         // 3 2 1 mango mambo
@@ -136,7 +176,7 @@ class Level1 extends Phaser.Scene {
 
     create() {
         // Se crea el fondo
-        this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
+        this.add.image(0, 0, "lvl1_background").setOrigin(0,0);
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas
@@ -232,6 +272,7 @@ class Level1 extends Phaser.Scene {
         this.clock = new Phaser.Time.Clock(this);
         this.clock.start();
         // Se crea la música
+        console.log(this.vol);
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("minigame_begining");
         this.intro.play({
