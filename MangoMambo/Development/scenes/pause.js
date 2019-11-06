@@ -72,22 +72,30 @@ class Pause extends Phaser.Scene {
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.upKey1) || Phaser.Input.Keyboard.JustDown(this.upKey2)) && this.cont>=1){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         } 
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.resumeButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         if(this.options[1]){
             this.quitButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         // Si se pulsa el botón de resume o el escape
         if ((Phaser.Input.Keyboard.JustDown(this.resumeKey)) || (this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey))) {

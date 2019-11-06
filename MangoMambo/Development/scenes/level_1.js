@@ -327,12 +327,16 @@ class Level1 extends Phaser.Scene {
                 switch(this.mango.character.id){
                     case character1.id:
                         this.mango.character = character2;
-                        this.hit.play();
+                        this.hit.play({
+                            volume: this.vol
+                        });
                         break;
     
                     case character2.id:
                         this.mango.character = character1;
-                        this.hit.play();
+                        this.hit.play({
+                            volume: this.vol
+                        });
                         break;
                     default:
                         break;
@@ -353,16 +357,24 @@ class Level1 extends Phaser.Scene {
 
                 switch(character.type.split("_")[0]){
                     case "palm":
-                        this.palm_win.play();
+                        this.palm_win.play({
+                            volume: this.vol
+                        });
                         break;
                     case "dino":
-                            this.dino_win.play();
+                            this.dino_win.play({
+                                volume: this.vol
+                            });
                         break;
                     case "toufat":
-                            this.toucan_win.play();
+                            this.toucan_win.play({
+                                volume: this.vol
+                            });
                         break;
                     case "lemur":
-                            this.lemur_win.play();
+                            this.lemur_win.play({
+                                volume: this.vol
+                            });
                         break;
                 }
             }

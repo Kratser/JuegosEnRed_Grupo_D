@@ -241,7 +241,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector1] = true;
                 this.players[0].selected = true;
                 this.ready1.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.hit.play();
+                this.hit.play({
+                    volume: this.vol
+                });
             }
             // W para deseleccionar personaje (si ya ha seleccionado alguno)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors1[0]) && this.players[0].selected){
@@ -301,7 +303,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector2] = true;
                 this.players[1].selected = true;
                 this.ready2.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.hit.play();
+                this.hit.play({
+                    volume: this.vol
+                });
                 
             }
             // I para deseleccionar personaje (Si no tiene uno seleccionado)
@@ -362,7 +366,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector3] = true;
                 this.players[2].selected = true;
                 this.ready3.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.hit.play();
+                this.hit.play({
+                    volume: this.vol
+                });
             }
             // UP para deseleccionar personaje (si no tiene uno seleccionado) 
             else if (Phaser.Input.Keyboard.JustUp(this.cursors3[0]) && this.players[2].selected){
@@ -422,7 +428,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.charactersSelected[this.selector4] = true;
                 this.players[3].selected = true;
                 this.ready4.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.hit.play();
+                this.hit.play({
+                    volume: this.vol
+                });
             }
             // NUMPAD_8 para deseleccionar personaje (Si ya tiene uno seleccionado)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors4[0]) && this.players[3].selected){

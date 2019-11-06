@@ -135,26 +135,36 @@ class Options extends Phaser.Scene {
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         } 
         if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=1){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         }
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.creditsButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         if(this.options[2]){
             this.backButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         // Aparece la configuración de sonido
         if (this.options[1]) {
@@ -171,7 +181,9 @@ class Options extends Phaser.Scene {
             if ((Phaser.Input.Keyboard.JustDown(this.cursors[6]) || Phaser.Input.Keyboard.JustDown(this.cursors[8])) && this.cont2 >= 1) {
                 this.minus.alpha = 1;
                 this.cont2--;
-                this.change_options.play();
+                this.change_options.play({
+                    volume: this.vol
+                });
                 this.vol = this.cont2/8;
                 this.loop.setVolume(this.vol);
             } else {
@@ -181,7 +193,9 @@ class Options extends Phaser.Scene {
             if ((Phaser.Input.Keyboard.JustDown(this.cursors[7]) || Phaser.Input.Keyboard.JustDown(this.cursors[9])) && this.cont2 <= 7) {
                 this.plus.alpha = 1;
                 this.cont2++;
-                this.change_options.play();
+                this.change_options.play({
+                    volume: this.vol
+                });
                 this.vol = this.cont2/8;
                 // console.log(this.vol);
                 this.loop.setVolume(this.vol);

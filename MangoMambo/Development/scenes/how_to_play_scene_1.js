@@ -128,23 +128,31 @@ class HowToPlay extends Phaser.Scene {
             this.cont--;
             this.options[this.cont] = true;
             this.readyButton.alpha = 1;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         } 
         if (((Phaser.Input.Keyboard.JustDown(this.dKey) || Phaser.Input.Keyboard.JustDown(this.rightKey)) && this.cont<=0) && !this.details){
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
             this.readyButton.alpha = 0;
-            this.change_options.play();
+            this.change_options.play({
+                volume: this.vol
+            });
         } 
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.detailsButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         if(this.options[1]){
             this.readyButtonSelect.alpha = 1;
-            this.choose_options.play();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         // Mostrar detalles
         if(this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey)){
