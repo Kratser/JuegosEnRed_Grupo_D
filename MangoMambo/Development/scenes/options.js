@@ -14,6 +14,41 @@ class Options extends Phaser.Scene {
     }
 
     preload(){
+        // Pantalla de Carga
+        var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0);
+        var progressBar = this.add.graphics();
+        var progressBox = this.add.graphics();
+        progressBox.fillStyle(0x222222, 0.8);
+        progressBox.fillRect(100, 500, 1000, 50);
+        var percentText = this.make.text({
+            x: 600,
+            y: 525,
+            text: "0%",
+            style: {
+                fontSize: '25px',
+                fontFamily: 'Berlin Sans FB',
+                fontStyle: 'bold',
+                fill: '#ffffff'
+            }
+        });
+        percentText.setOrigin(0.5, 0.5);
+        this.load.on("progress", function(value){
+            console.log(value);
+            percentText.setText(parseInt(value * 100) + '%');
+            progressBar.clear();
+            progressBar.fillStyle(0x00ff00, 1);
+            progressBar.fillRect(110, 510, 980 * value, 30);
+        });
+        this.load.on("fileprogress", function(file){
+            console.log(file.src);
+        });
+        this.load.on("complete", function(){
+            console.log("Complete");
+            progressBar.destroy();
+            progressBox.destroy();
+            percentText.destroy();
+            loadingImg.destroy();
+        });
         // Cargar la imagen de fondo
         this.load.image("options_background", "./Design/Stages/Backgrounds/options_background.png");
         // Buttons
@@ -64,6 +99,7 @@ class Options extends Phaser.Scene {
     }// Fin preload
 
     create(){
+        this.cameras.main.fadeIn(500);
         // Fondo
         this.background = this.add.image(0, 0, "options_background").setOrigin(0,0).setDepth(0);
         // Botones 
@@ -150,21 +186,13 @@ class Options extends Phaser.Scene {
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.creditsButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
+            
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         if(this.options[2]){
             this.backButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         // Aparece la configuración de sonido
         if (this.options[1]) {
@@ -217,13 +245,33 @@ class Options extends Phaser.Scene {
             }
         }
         // Cambio de pantalla
-        if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
-            this.scene.start("main_menu", {volume: this.vol});
-            // Se para la música
-            this.loop.stop();
+        // if((this.options[2] && this.cursors[4].isDown) || this.cursors[5].isDown){
+        //     this.choose_options.play({
+        //         volume: this.vol
+        //     });
+        //     this.scene.start("main_menu", {volume: this.vol});
+        //     // Se para la música
+        //     this.loop.stop();
+        // }
+        if(this.options[2] && this.cursors[4].isDown || this.cursors[5].isDown){
+            this.choose_options.play({
+                volume: this.vol
+            });
+            this.cameras.main.fadeOut(500);
+            this.scene.get("options").time.addEvent({
+                delay: 510, 
+                callback: function(){
+                    this.scene.start("main_menu", {volume: this.vol}); 
+                    this.loop.stop();
+                },
+                callbackScope: this, 
+            });
         }
         // Cambio de pantalla
         if(this.options[0] && this.cursors[4].isDown){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("credits", {volume: this.vol});
             // Se para la música
             this.loop.stop();
