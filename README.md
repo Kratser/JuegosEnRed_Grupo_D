@@ -194,11 +194,11 @@ El formato será “.wav”.
 #### **4.4.1. Efectos**
 
 *	Al seleccionar un botón de cualquier parte del juego.
-*	Salto.
+*	Al cambiar entre botones en cualquier parte del juego.
 *	Robo a otro jugador.
+*	Al seleccionar un personaje.
 *	Explosión del mango.
-*	Choque contra el suelo.
-*	Al ganar la partida, sonido de celebración.
+*	Al ganar la partida, sonido de celebración(uno distinto para cada personaje).
 
 ## **5. Referencias**
 
@@ -239,3 +239,9 @@ Jumpaii: https://frame-perfect.itch.io/jumpai
 Shot hot burn: https://store.steampowered.com/app/801750/Hot_Shot_Burn/ 
 
 ![ReferenceSHB](https://user-images.githubusercontent.com/36482605/66061986-d4a8a300-e540-11e9-90a3-8b92057d782d.jpg)
+
+* Referencias Sonoras
+
+Sonido de victoria del lémur, sonido de victoria del tucán, sonido de victoria de la palmera y sonido de ambiente durante la partida -> https://www.zapsplat.com
+Sonido de victoria del dinosaurio -> https://www.noiseforfun.com/waves/voice-and-speech/NFF-yahoo.wav
+Sonido para selección de personajes y al robar el mango en partida -> https://www.pacdv.com/sounds/miscellaneous_sounds/bottle_pop_2.wav
