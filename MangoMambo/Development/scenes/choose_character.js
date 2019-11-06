@@ -79,10 +79,7 @@ class ChooseCharacter extends Phaser.Scene {
         // ESCAPE
         this.escapeCursor;
         // Selector para cada jugador
-        this.selector1;
-        this.selector2;
-        this.selector3;
-        this.selector4;
+        this.selectors;
         // Efectos de Sonido
         this.load.audio("return_button", "./Design/Audio/SoundFX/return_button.mp3");
         this.return_button;
@@ -188,10 +185,7 @@ class ChooseCharacter extends Phaser.Scene {
         // ESCAPE
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // Selector para cada jugador
-        this.selector1 = 0;
-        this.selector2 = 0;
-        this.selector3 = 0;
-        this.selector4 = 0;
+        this.selectors = [0, 0, 0, 0];
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.return_button = this.sound.add("return_button");
@@ -207,38 +201,44 @@ class ChooseCharacter extends Phaser.Scene {
                 this.characters[0] = new Character(this, 1, "palm_choose", false, 163, 224.5);
                 this.players[0].active = true;
                 this.numPlayers++;
-                this.ChangeText(this.selector1, 0);// Que aparezca la habilidad/nombre al empezar a seleccionar
                 this.gkeys.alpha = 0;// Desaparecen las teclas
+                for (var i = 0; i < this.players.length; i++){
+                    if (!this.charactersSelected[i]){
+                        this.selectors[0] = i;
+                    }
+                }
+                this.changeCharacter(this.characters, 0, this.selectors[0]);
+                this.ChangeText(this.selectors[0], 0);// Que aparezca la habilidad/nombre al empezar a seleccionar
             }
         }else {// Si el jugador 1 ya se encuentra activo
             // A para cambiar de personaje
             if(Phaser.Input.Keyboard.JustDown(this.cursors1[1]) && !this.players[0].selected) {
-                this.selector1 = (this.selector1-1)%4;
-                if (this.selector1 < 0){
-                    this.selector1 = 3;
+                this.selectors[0] = (this.selectors[0]-1)%4;
+                if (this.selectors[0] < 0){
+                    this.selectors[0] = 3;
                 }
-                while(this.charactersSelected[this.selector1]){
-                    this.selector1--;
-                    if (this.selector1 < 0){
-                        this.selector1 = 3;
+                while(this.charactersSelected[this.selectors[0]]){
+                    this.selectors[0]--;
+                    if (this.selectors[0] < 0){
+                        this.selectors[0] = 3;
                     }
                 }
-                this.changeCharacter(this.characters, 0, this.selector1);
+                this.changeCharacter(this.characters, 0, this.selectors[0]);
             }
             //D para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors1[3]) && !this.players[0].selected){
-                this.selector1 = (this.selector1+1)%4;
-                while(this.charactersSelected[this.selector1]){
-                    this.selector1++;
-                    if (this.selector1 > 3){
-                        this.selector1 = 0;
+                this.selectors[0] = (this.selectors[0]+1)%4;
+                while(this.charactersSelected[this.selectors[0]]){
+                    this.selectors[0]++;
+                    if (this.selectors[0] > 3){
+                        this.selectors[0] = 0;
                     }
                 }
-                this.changeCharacter(this.characters, 0, this.selector1);
+                this.changeCharacter(this.characters, 0, this.selectors[0]);
             }
             // S para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors1[2]) && !this.charactersSelected[this.selector1]){
-                this.charactersSelected[this.selector1] = true;
+            else if (Phaser.Input.Keyboard.JustDown(this.cursors1[2]) && !this.charactersSelected[this.selectors[0]]){
+                this.charactersSelected[this.selectors[0]] = true;
                 this.players[0].selected = true;
                 this.ready1.alpha = 1;// Personaje seleccionado, preparado para jugar
                 this.hit.play({
@@ -247,7 +247,7 @@ class ChooseCharacter extends Phaser.Scene {
             }
             // W para deseleccionar personaje (si ya ha seleccionado alguno)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors1[0]) && this.players[0].selected){
-                this.charactersSelected[this.selector1] = false;
+                this.charactersSelected[this.selectors[0]] = false;
                 this.players[0].selected = false;
                 this.ready1.alpha = 0;
             }
@@ -256,7 +256,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.numPlayers--;
                 this.characters[0].destroy();
                 this.players[0].active = false;
-                this.selector1 = 0;
+                this.selectors[0] = 0;
                 this.habilities[0].hab.alpha = 0;// Ocultar habilidad
                 this.names[0].name.alpha = 0;// Ocultar nombre
                 this.gkeys.alpha = 1;// Aparecen las teclas
@@ -269,38 +269,44 @@ class ChooseCharacter extends Phaser.Scene {
                 this.characters[1] = new Character(this, 2, "palm_choose", false, 453, 224.5);
                 this.players[1].active = true;
                 this.numPlayers++;
-                this.ChangeText(this.selector2, 1);// Que aparezca la habilidad/nombre al empezar a seleccionar
                 this.pkeys.alpha = 0;// Desaparecen las teclas
+                for (var i = 0; i < this.players.length; i++){
+                    if (!this.charactersSelected[i]){
+                        this.selectors[1] = i;
+                    }
+                }
+                this.changeCharacter(this.characters, 1, this.selectors[1]);
+                this.ChangeText(this.selectors[1], 1);// Que aparezca la habilidad/nombre al empezar a seleccionar
             }
         }else {
             // J para cambiar de personaje
             if(Phaser.Input.Keyboard.JustDown(this.cursors2[1]) && !this.players[1].selected) {
-                this.selector2 = (this.selector2-1)%4;
-                if (this.selector2 < 0){
-                    this.selector2 = 3;
+                this.selectors[1] = (this.selectors[1]-1)%4;
+                if (this.selectors[1] < 0){
+                    this.selectors[1] = 3;
                 }
-                while(this.charactersSelected[this.selector2]){
-                    this.selector2--;
-                    if (this.selector2 < 0){
-                        this.selector2 = 3;
+                while(this.charactersSelected[this.selectors[1]]){
+                    this.selectors[1]--;
+                    if (this.selectors[1] < 0){
+                        this.selectors[1] = 3;
                     }
                 }
-                this.changeCharacter(this.characters, 1, this.selector2);
+                this.changeCharacter(this.characters, 1, this.selectors[1]);
             }
             // L para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors2[3]) && !this.players[1].selected){
-                this.selector2 = (this.selector2+1)%4;
-                while(this.charactersSelected[this.selector2]){
-                    this.selector2++;
-                    if (this.selector2 > 3){
-                        this.selector2 = 0;
+                this.selectors[1] = (this.selectors[1]+1)%4;
+                while(this.charactersSelected[this.selectors[1]]){
+                    this.selectors[1]++;
+                    if (this.selectors[1] > 3){
+                        this.selectors[1] = 0;
                     }
                 }
-                this.changeCharacter(this.characters, 1, this.selector2);
+                this.changeCharacter(this.characters, 1, this.selectors[1]);
             }
             // K para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors2[2]) && !this.charactersSelected[this.selector2]){
-                this.charactersSelected[this.selector2] = true;
+            else if (Phaser.Input.Keyboard.JustDown(this.cursors2[2]) && !this.charactersSelected[this.selectors[1]]){
+                this.charactersSelected[this.selectors[1]] = true;
                 this.players[1].selected = true;
                 this.ready2.alpha = 1;// Personaje seleccionado, preparado para jugar
                 this.hit.play({
@@ -310,7 +316,7 @@ class ChooseCharacter extends Phaser.Scene {
             }
             // I para deseleccionar personaje (Si no tiene uno seleccionado)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors2[0]) && this.players[1].selected){
-                this.charactersSelected[this.selector2] = false;
+                this.charactersSelected[this.selectors[1]] = false;
                 this.players[1].selected = false;
                 this.ready2.alpha = 0;
             }
@@ -319,7 +325,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.numPlayers--;
                 this.characters[1].destroy();
                 this.players[1].active = false;
-                this.selector2 = 0;
+                this.selectors[1] = 0;
                 this.habilities[1].hab.alpha = 0; // Ocultar habilidad
                 this.names[1].name.alpha = 0; // Ocultar nombre
                 this.pkeys.alpha = 1;// Aparecen las teclas
@@ -332,38 +338,44 @@ class ChooseCharacter extends Phaser.Scene {
                 this.characters[2] = new Character(this, 3, "palm_choose", false, 740.50, 224.5);
                 this.players[2].active = true;
                 this.numPlayers++;
-                this.ChangeText(this.selector3, 2);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                for (var i = 0; i < this.players.length; i++){
+                    if (!this.charactersSelected[i]){
+                        this.selectors[2] = i;
+                    }
+                }
+                this.changeCharacter(this.characters, 2, this.selectors[2]);
+                this.ChangeText(this.selectors[2], 2);// Que aparezca la habilidad/nombre al empezar a seleccionar
                 this.bkeys.alpha = 0;// Desaparecen las teclas
             }
         }else {
             // LEFT para cambiar de personaje
             if(Phaser.Input.Keyboard.JustDown(this.cursors3[1]) && !this.players[2].selected) {
-                this.selector3 = (this.selector3-1)%4;
-                if (this.selector3 < 0){
-                    this.selector3 = 3;
+                this.selectors[2] = (this.selectors[2]-1)%4;
+                if (this.selectors[2] < 0){
+                    this.selectors[2] = 3;
                 }
-                while(this.charactersSelected[this.selector3]){
-                    this.selector3--;
-                    if (this.selector3 < 0){
-                        this.selector3 = 3;
+                while(this.charactersSelected[this.selectors[2]]){
+                    this.selectors[2]--;
+                    if (this.selectors[2] < 0){
+                        this.selectors[2] = 3;
                     }
                 }
-                this.changeCharacter(this.characters, 2, this.selector3);
+                this.changeCharacter(this.characters, 2, this.selectors[2]);
             }
             // RIGHT para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors3[3]) && !this.players[2].selected){
-                this.selector3 = (this.selector3+1)%4;
-                while(this.charactersSelected[this.selector3]){
-                    this.selector3++;
-                    if (this.selector3 > 3){
-                        this.selector3 = 0;
+                this.selectors[2] = (this.selectors[2]+1)%4;
+                while(this.charactersSelected[this.selectors[2]]){
+                    this.selectors[2]++;
+                    if (this.selectors[2] > 3){
+                        this.selectors[2] = 0;
                     }
                 }
-                this.changeCharacter(this.characters, 2, this.selector3);
+                this.changeCharacter(this.characters, 2, this.selectors[2]);
             }
             // DOWN para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors3[2]) && !this.charactersSelected[this.selector3]){
-                this.charactersSelected[this.selector3] = true;
+            else if (Phaser.Input.Keyboard.JustDown(this.cursors3[2]) && !this.charactersSelected[this.selectors[2]]){
+                this.charactersSelected[this.selectors[2]] = true;
                 this.players[2].selected = true;
                 this.ready3.alpha = 1;// Personaje seleccionado, preparado para jugar
                 this.hit.play({
@@ -372,7 +384,7 @@ class ChooseCharacter extends Phaser.Scene {
             }
             // UP para deseleccionar personaje (si no tiene uno seleccionado) 
             else if (Phaser.Input.Keyboard.JustUp(this.cursors3[0]) && this.players[2].selected){
-                this.charactersSelected[this.selector3] = false;
+                this.charactersSelected[this.selectors[2]] = false;
                 this.players[2].selected = false;
                 this.ready3.alpha = 0;
             }
@@ -381,7 +393,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.numPlayers--;
                 this.characters[2].destroy();
                 this.players[2].active = false;
-                this.selector3 = 0;
+                this.selectors[2] = 0;
                 this.habilities[2].hab.alpha = 0;// Ocultar habilidad
                 this.names[2].name.alpha = 0;// Ocultar nombre
                 this.bkeys.alpha = 1;// Aparecen las teclas
@@ -394,38 +406,44 @@ class ChooseCharacter extends Phaser.Scene {
                 this.characters[3] = new Character(this, 4, "palm_choose", false, 1022, 224.5);
                 this.players[3].active = true;
                 this.numPlayers++;
-                this.ChangeText(this.selector4, 3);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                for (var i = 0; i < this.players.length; i++){
+                    if (!this.charactersSelected[i]){
+                        this.selectors[3] = i;
+                    }
+                }
+                this.changeCharacter(this.characters, 3, this.selectors[3]);
+                this.ChangeText(this.selectors[3], 3);// Que aparezca la habilidad/nombre al empezar a seleccionar
                 this.ykeys.alpha = 0;// Desaparecen las teclas
             }
         }else {
             // NUMPAD_4 para cambiar de personaje
             if(Phaser.Input.Keyboard.JustDown(this.cursors4[1]) && !this.players[3].selected) {
-                this.selector4 = (this.selector4-1)%4;
-                if (this.selector4 < 0){
-                    this.selector4 = 3;
+                this.selectors[3] = (this.selectors[3]-1)%4;
+                if (this.selectors[3] < 0){
+                    this.selectors[3] = 3;
                 }
-                while(this.charactersSelected[this.selector4]){
-                    this.selector4--;
-                    if (this.selector4 < 0){
-                        this.selector4 = 3;
+                while(this.charactersSelected[this.selectors[3]]){
+                    this.selectors[3]--;
+                    if (this.selectors[3] < 0){
+                        this.selectors[3] = 3;
                     }
                 }
-                this.changeCharacter(this.characters, 3, this.selector4);
+                this.changeCharacter(this.characters, 3, this.selectors[3]);
             }
             // NUMPAD_6 para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors4[3]) && !this.players[3].selected){
-                this.selector4 = (this.selector4+1)%4;
-                while(this.charactersSelected[this.selector4]){
-                    this.selector4++;
-                    if (this.selector4 > 3){
-                        this.selector4 = 0;
+                this.selectors[3] = (this.selectors[3]+1)%4;
+                while(this.charactersSelected[this.selectors[3]]){
+                    this.selectors[3]++;
+                    if (this.selectors[3] > 3){
+                        this.selectors[3] = 0;
                     }
                 }
-                this.changeCharacter(this.characters, 3, this.selector4);
+                this.changeCharacter(this.characters, 3, this.selectors[3]);
             }
             // NUMPAD_5 para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors4[2]) && !this.charactersSelected[this.selector4]){
-                this.charactersSelected[this.selector4] = true;
+            else if (Phaser.Input.Keyboard.JustDown(this.cursors4[2]) && !this.charactersSelected[this.selectors[3]]){
+                this.charactersSelected[this.selectors[3]] = true;
                 this.players[3].selected = true;
                 this.ready4.alpha = 1;// Personaje seleccionado, preparado para jugar
                 this.hit.play({
@@ -434,7 +452,7 @@ class ChooseCharacter extends Phaser.Scene {
             }
             // NUMPAD_8 para deseleccionar personaje (Si ya tiene uno seleccionado)
             else if (Phaser.Input.Keyboard.JustUp(this.cursors4[0]) && this.players[3].selected){
-                this.charactersSelected[this.selector4] = false;
+                this.charactersSelected[this.selectors[3]] = false;
                 this.players[3].selected = false;
                 this.ready4.alpha = 0;
             }
@@ -443,7 +461,7 @@ class ChooseCharacter extends Phaser.Scene {
                 this.numPlayers--;
                 this.characters[3].destroy();
                 this.players[3].active = false;
-                this.selector4 = 0;
+                this.selectors[3] = 0;
                 this.habilities[3].hab.alpha = 0;// Ocultar habilidad
                 this.names[3].name.alpha = 0;// Ocultar nombre
                 this.ykeys.alpha = 1;// Aparecen las teclas
