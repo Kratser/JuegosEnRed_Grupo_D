@@ -105,8 +105,6 @@ Al tener que demostrar su valía, las pruebas se basarán en quién se sacrifica
 a competir serán prisioneros de la tribu de por vida.
 Es momento de descubrir quién es digno del título de chamán.
 
-![Introduccion_Historia](https://user-images.githubusercontent.com/55460661/68350720-8b301280-0101-11ea-8d2e-e28021b5d2ea.png)
-
 ## **2. Jugabilidad y mecánicas**
 
 ### **2.1. Jugabilidad**
@@ -173,9 +171,78 @@ Tanto en el menú principal como en los propios niveles buscamos
 una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 
 ### **3.1. Diagrama de flujo**
+
+Pantallas a lo largo del juego e interacción entre ellas:
+
 ![Diagrama de Flujo](https://user-images.githubusercontent.com/55460661/68350203-e103bb00-00ff-11ea-8f7f-d31ff19426c4.png)
 
-**Las imágenes que ilustran este apartado se encuentran en el PDF del GDD adjuntado.**
+### **3.2. Pantalla de grupo**
+
+Una breve introducción al juego donde se muestran el nombre y logo del equipo. Se le pide al jugador que presione la tecla ENTER para pasar de pantalla.
+
+![CoreRoomIntro](https://user-images.githubusercontent.com/36482605/68355603-0c8ea180-0110-11ea-800e-7808189e90be.png)
+
+### **3.3. Pantalla de introducción**
+
+En esta se narra de forma introductoria el contexto del videojuego y se presentan los personajes. Se puede saltar en cualquier momento pulsando de nuevo la tecla ENTER.
+
+![Introduccion_Historia](https://user-images.githubusercontent.com/55460661/68350720-8b301280-0101-11ea-8d2e-e28021b5d2ea.png)
+
+### **3.4. Menú principal**
+
+Es la "pantalla central", ya que desde ella podremos acceder al juego en sí y a las opciones.
+
+![MainMenu](https://user-images.githubusercontent.com/36482605/68355483-c0436180-010f-11ea-88b3-c9f4600b3cf3.png)
+
+### **3.5. Selección de personajes**
+
+En esta pantalla se podrán seleccionar los distintos personajes, también se determinará cuántos jugadores van a jugar.
+
+![SelectCharacter](https://user-images.githubusercontent.com/36482605/68355517-cd605080-010f-11ea-9e56-40c05231da62.png)
+
+### **3.6. Detalles del minijuego**
+
+Aquí se muestra un breve esquema que explica cómo jugar al minijuego. También se podrá expandir para una explicación más detallada.
+
+![HowToPlay](https://user-images.githubusercontent.com/36482605/68355659-39db4f80-0110-11ea-9f9d-4af05f59e00f.png)
+
+![HowToPlayDetails](https://user-images.githubusercontent.com/36482605/68355676-45c71180-0110-11ea-8ea8-8228132a4356.png)
+
+### **3.7. Minijuego 1**
+
+Donde tiene lugar el Minijuego 1, en el que los jugadores tendrán que obtener el mango y mantenerlo hasta que explote.
+
+![Level_1](https://user-images.githubusercontent.com/55460661/68350296-258f5680-0100-11ea-92cd-307683f93166.png)
+
+### **3.8. Menú de pausa**
+
+Dicha pantalla se abre al pulsar la tecla Escape durante el Minijuego 1. Pausará el juego y nos permitirá regresar al menú principal y reanudar el minijuego.
+
+![Pause](https://user-images.githubusercontent.com/36482605/68355690-524b6a00-0110-11ea-8cfa-446ea3591d3c.png)
+
+### **3.9. Fin de nivel**
+
+Esta es la pantalla final, donde se mostrará el progreso de puntuación de cada jugador. También se podrá volver a jugar, acumulando así los puntos, o volver al menú principal si se desea.
+
+![ScoreLevel](https://user-images.githubusercontent.com/36482605/68355711-62fbe000-0110-11ea-8b64-90e77d81898a.png)
+
+### **3.10. Menú de opciones**
+
+Desde esta pantalla podremos pasar a los créditos y regular el sonido del juego.
+
+![Options](https://user-images.githubusercontent.com/36482605/68355574-f4b71d80-010f-11ea-9e2a-261aa5b9459d.png)
+
+### **3.11. Pantalla de carga**
+
+Esta aparece en las transiciones entre pantallas, mostrando el progreso de carga de dichas pantallas.
+
+![Loading](https://user-images.githubusercontent.com/36482605/68355778-95a5d880-0110-11ea-8c81-8bc65b502430.png)
+
+### **3.12. Créditos**
+
+Aquí visionaremos los créditos del juego.
+
+![Credits](https://user-images.githubusercontent.com/36482605/68355555-e537d480-010f-11ea-8214-cced3f605211.PNG)
 
 ## **4. Arte**
 
@@ -207,9 +274,6 @@ Características visuales:
 
 El diseño visual de los escenarios cambiará dependiendo de en que nivel nos encontremos, pero siempre manteniendo la ambientación tropical. Para su composición, se hará uso de una superposición de capas de colores planos y con las mismas tonalidades, pero con diferente brillo para dar sensación de profundidad.
 Por otro lado, las plataformas que se superpondrán al fondo mantendrán la estética cartoon y los colores cálidos e intensos.
-
-Imagen del Minijuego 1:
-![Level_1](https://user-images.githubusercontent.com/55460661/68350296-258f5680-0100-11ea-92cd-307683f93166.png)
 
 ### **4.3. Objetos**
 
