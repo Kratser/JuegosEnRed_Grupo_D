@@ -46,12 +46,16 @@ class Credits extends Phaser.Scene {
         });
         // Cargar la imagen de fondo
         this.load.image("credits_background", "./Design/Stages/Backgrounds/credits_background.png");
+        // Cargar texto de créditos
+        this.load.image("credits_text", "./Design/Objects/Text/credits_text.png");
         // Buttons
         this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Se carga la música
         this.load.audio("hawaii", "./Design/Audio/CreditsSong/ZitronSound - Hula Lemon.mp3");
         // Fondo
         this.background;
+        // Texto
+        this.creditsText;
         // Botones
         this.bigEsc;
         // La canción loopeada
@@ -62,6 +66,13 @@ class Credits extends Phaser.Scene {
         this.cameras.main.fadeIn(500);
         // Fondo
         this.background = this.add.image(0, 0, "credits_background").setOrigin(0,0).setDepth(0);
+        // Texto
+        this.creditsText = this.add.image(600, 200, "credits_text").setOrigin(0.5,0).setDepth(1);
+        var tweenScroll = this.tweens.add({
+            targets: [this.creditsText],
+            y: -650,
+            duration: 15100
+        });
         // Botones 
         this.bigEsc = this.add.image(80, 50, "big_esc").setDepth(1);
         // Array de teclas
