@@ -249,7 +249,7 @@ class Level1 extends Phaser.Scene {
             this.characters[i].create();
         }
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 260, 2);
+        this.mango = new Mango(this, "mango", 600, 260, 30);
         this.mango.preload();
         this.mango.create();
         // Se crea la colisión entre los personajes y las plataformas

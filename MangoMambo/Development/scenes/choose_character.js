@@ -548,6 +548,9 @@ class ChooseCharacter extends Phaser.Scene {
                 // Se para la música
                 this.loop.stop();
                 this.intro.stop();
+                this.choose_options.play({
+                    volume: this.vol
+                });
             }
         }  
         console.log("Ready" + this.readyPlayers);
