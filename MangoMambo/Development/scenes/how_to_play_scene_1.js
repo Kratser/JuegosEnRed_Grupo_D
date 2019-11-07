@@ -167,15 +167,9 @@ class HowToPlay extends Phaser.Scene {
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.detailsButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         if(this.options[1]){
             this.readyButtonSelect.alpha = 1;
-            this.choose_options.play({
-                volume: this.vol
-            });
         }
         // Mostrar detalles
         if(this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey)){
@@ -194,15 +188,24 @@ class HowToPlay extends Phaser.Scene {
                 duration: 200,
             });
             this.options[0] = false;
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         // Cambio de pantalla
         if(this.options[1] && this.enterKey.isDown){
             this.scene.start("level_1", {characters: this.characters, volume: this.vol});
             // Se para la música
             this.loop.stop();
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
         // Esconder los detalles
         if(this.escKey.isDown && this.details){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.details = false;
             var tween = this.tweens.add({
                 targets: [this.howToPlayRock, this.detailsButton, this.detailsButtonSelect,
@@ -219,6 +222,9 @@ class HowToPlay extends Phaser.Scene {
                 onComplete: function(){this.options[0] = true;}.bind(this)
             });
             this.options[0] = false;
+            this.choose_options.play({
+                volume: this.vol
+            });
         }
     }// Fin update
 }// Fin clase HowToPlayScene

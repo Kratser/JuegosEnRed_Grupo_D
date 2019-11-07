@@ -172,7 +172,7 @@ class Options extends Phaser.Scene {
                 volume: this.vol
             });
         } 
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>=0){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[0]) || Phaser.Input.Keyboard.JustDown(this.cursors[2])) && this.cont>0){
             this.options[this.cont] = false;
             this.cont--;
             this.options[this.cont] = true;
