@@ -19,6 +19,9 @@ estarán invertidas con respecto a los minijuegos clásicos ya existentes.
 | Mireya Funke Prieto | m.funke.2017@alumnos.urjc.es | mfpheras|
 | Sergio Cruz Serrano | s.cruzs.2017@alumnos.urjc.es | Sergypulga|
 
+## **Link de GitHub**
+https://github.com/Kratser/JuegosEnRed_Grupo_D
+
 ## **Link de Trello**
 https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mambo-grupo-d
 
@@ -29,6 +32,12 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * Aparte del GDD incluido en este README, este tag tiene adjunto un documento pdf (MangoMamboGDD_V01.pdf) donde se encuentra toda la información al completo y que se irá actualizando en cada fase junto con este README.  
 * También hemos incluido la presentación con la que introduciremos nuestro juego en la fase 1 (MangoMamboFase1.pptx).
 * Para clasificar los distintos elementos que vayamos a usar para el juego hay distintas carpetas creadas.
+
+# **Organización del tag fase2**
+
+* Aparte de lo comentado en el tag fase1, se adjunta un nuevo documento pdf (MangoMamboGDD_V02.pdf) donde se encuentra la información completa del Documento de Diseño actualizada de esta fase.
+* También se adjunta la presentación con la que mostraremos el avance del juego en la fase 2 (MangoMamboFase2.pptx).
+* Además, el contenido de este README también ha sido actualizado según el progreso realizado.
 
 * * *
 
@@ -41,10 +50,9 @@ como online, desarrollado en JavaScript y Java con ayuda del framework Phaser 3.
 
 ### **1.1. Concepto del juego**
 
-Mango Mambo es un juego festivo de plataformas basado en minijuegos de hasta 4
-jugadores en el que podremos controlar a distintos personajes con características
-distintas, para poder ganar los minijuegos, obtener puntos y superar a los otros
-jugadores.
+Mango Mambo es un juego festivo de plataformas con físicas arcade basado en minijuegos de hasta 4 
+jugadores en el que podremos controlar a distintos personajes con características distintas, para 
+poder ganar los minijuegos, obtener puntos y superar a los otros jugadores.
 
 ### **1.2. Características principales**
 
@@ -97,6 +105,8 @@ Al tener que demostrar su valía, las pruebas se basarán en quién se sacrifica
 a competir serán prisioneros de la tribu de por vida.
 Es momento de descubrir quién es digno del título de chamán.
 
+![Introduccion_Historia](https://user-images.githubusercontent.com/55460661/68350720-8b301280-0101-11ea-8d2e-e28021b5d2ea.png)
+
 ## **2. Jugabilidad y mecánicas**
 
 ### **2.1. Jugabilidad**
@@ -118,42 +128,38 @@ Cada nivel del juego consistirá en un minijuego diferente en el que tendrán qu
 todos los jugadores entre ellos. Las mecánicas irán variando en función del minijuego
 elegido, pero, la mecánica principal en la que se basa el juego es el uso de minijuegos
 ya existentes, pero invirtiendo su flujo original.
-Por ejemplo, el minijuego pensado, consistirá en una versión de la patata caliente (pero
-con un mango), donde el jugador deberá aguantar con el mango hasta que explote, y el
-resto de jugadores deberán chocar con él para quitárselo. El primero en explotar se
-llevará la mayor puntuación, mientras que los siguientes ganarán menos puntos, de tal
-forma que el último que quede vivo se quedará sin puntos.
-Además, cada personaje tendrá unas características únicas que le servirán durante los
-minijuegos.
-ya existentes, pero invirtiendo su flujo original. Además, cada personaje tendrá unas
-características únicas que le servirán durante los minijuegos.
 
 **Minijuegos que podremos encontrar:**
 
   * Minijuego 1: se llevará a cabo en la selva y consistirá en una versión de la patata 
-caliente (pero con un mango), donde el jugador deberá aguantar con el mango hasta que explote,
-y el resto de jugadores deberán chocar con él para quitárselo. El primero en explotar se
-llevará la mayor puntuación. A continuación, este desaparece y si queda más de un jugador
-volverán a jugar entre ellos pero obtendrán menos puntos que el primero al que le explotó.
-Así hasta que solo queden 2 jugadores y quien se haya hecho con el mango no ganará puntos.
+  caliente (pero con un mango), donde el jugador deberá aguantar con el mango hasta que explote, 
+  y el resto de los jugadores deberán chocar con él para quitárselo. El primero en explotar se llevará 
+  la mayor puntuación. A continuación, este desaparece y si queda más de un jugador volverán a jugar 
+  entre ellos, pero obtendrán menos puntos que el primero al que le explotó. Así hasta que solo queden 
+  2 jugadores y quien se haya hecho con el mango no ganará puntos.
 
-  * Minijuego 2: se jugará en el interior de una cueva y estará basado en el juego
-  del escondite. En el escondite una persona es elegida para bucar al resto de jugadores
-  que se han escondido donde no se les vea para que no ser encontrados. En nuestro minijuego,
-  el jugador seleccionado tendrá un círculo de visión alrededor, y el resto de la pantalla estará 
-  a oscuras. El resto de jugadores deberán llegar hasta el jugador elegido y chocar con él para 
-  ganar. Si el jugador elegido consigue aguantar sin encontrar a nadie, sólo él se llevara puntos.
+  * Minijuego 2: se jugará en el interior de una cueva y estará basado en el juego del escondite. En el 
+  escondite una persona es elegida para buscar al resto de jugadores que se han escondido donde no se les 
+  vea para que no ser encontrados. En nuestro minijuego, el jugador seleccionado tendrá un círculo de visión 
+  alrededor, y el resto de la pantalla estará a oscuras. El resto de los jugadores deberán llegar hasta el jugador 
+  elegido y chocar con él para ganar. Si el jugador elegido consigue aguantar sin encontrar a nadie, sólo él se 
+  llevará puntos.
+  
+   * Minijuego 3: ambientado en la cima de un volcán en erupción. Se basa en un minijuego de trepar por unas plataformas
+   para evitar caer al fondo del mapa. En nuestra versión, los jugadores deberán sacrificarse entrando por el cráter
+   del volcán, evitando las rocas que expulsa, ya que éstas los empujarán hacia fuera. El primer jugador en caer al interior
+   obtendrá la mayor puntuación.
 
 ### **2.3. Personajes y habilidades**
 
 A continuación, se van a nombrar y mostrar todos los personajes que el jugador tiene
 disponibles durante la selección de personajes junto con sus características especiales:
-  * **Congalmera:** La habilidad única de la palmera será caer de forma rápida
+  * **Palm:** La habilidad única de la palmera será caer de forma rápida
 siempre y cuando al jugador le interese.
-  * **Jose Diplodo:** La característica principal del dinosaurio será tener una esquiva.
-  * **Chamán Neón:** El lémur tendrá una aceleración y velocidad máxima superior al
+  * **Dino:** La característica principal del dinosaurio será tener una esquiva.
+  * **Lemur:** El lémur tendrá una aceleración y velocidad máxima superior al
 resto de personajes.
-  * **Tufat:** El tucán podrá dar saltos mucho mayores a los del resto.
+  * **Toufat:** El tucán podrá dar saltos mucho mayores a los del resto.
   
 ### **2.4. Condiciones de victoria**
  
@@ -165,6 +171,9 @@ ganará la partida.
 
 Tanto en el menú principal como en los propios niveles buscamos
 una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
+
+### **3.1. Diagrama de flujo**
+![Diagrama de Flujo](https://user-images.githubusercontent.com/55460661/68350203-e103bb00-00ff-11ea-8f7f-d31ff19426c4.png)
 
 **Las imágenes que ilustran este apartado se encuentran en el PDF del GDD adjuntado.**
 
@@ -187,19 +196,26 @@ Estos colores neón también servirán para diferenciar a los jugadores en la in
 El formato de los personajes será una imagen PNG de 600x600, aunque luego la altura y la anchura de los personajes podrá variar en función de las características de estos, siempre y cuando no se salgan el tamaño establecido para la imagen.
 
 Características visuales:
-  *	**Congalmera:** Palmera pequeña y con aspecto “mono” que se encuentra metida en una maceta y se moverá dando saltitos.
-  *	**Jose Diplodo:** Un diplodocus con estilo playero que llevará como complementos: unas gafas de sol, un gorro, crema solar, un atuendo hawaiano y un cóctel. 
-  *	**Chamán Neón:** Lémur que se moverá deprisa a cuatro patas y llevará una máscara tiki adornada con vistosos colores.
-  *	**Tufat:** Tucán con sobrepeso que irá aleteando.
+  *	**Palm:** Palmera pequeña y con aspecto “mono” que se encuentra metida en una maceta y se moverá dando saltitos.
+  *	**Dino:** Un diplodocus con estilo playero que llevará como complementos: unas gafas de sol, un gorro, crema solar, un atuendo hawaiano y un cóctel. 
+  *	**Lemur:** Lémur que se moverá deprisa a cuatro patas y llevará una máscara tiki adornada con vistosos colores.
+  *	**Toufat:** Tucán con sobrepeso que irá aleteando.
+  
+  ![Characters](https://user-images.githubusercontent.com/36482605/68346938-c298c200-00f5-11ea-91df-776c0e665cfd.png)
 
 ### **4.2. Escenarios**
 
 El diseño visual de los escenarios cambiará dependiendo de en que nivel nos encontremos, pero siempre manteniendo la ambientación tropical. Para su composición, se hará uso de una superposición de capas de colores planos y con las mismas tonalidades, pero con diferente brillo para dar sensación de profundidad.
 Por otro lado, las plataformas que se superpondrán al fondo mantendrán la estética cartoon y los colores cálidos e intensos.
 
+Imagen del Minijuego 1:
+![Level_1](https://user-images.githubusercontent.com/55460661/68350296-258f5680-0100-11ea-92cd-307683f93166.png)
+
 ### **4.3. Objetos**
 
 Mango explosivo: Su diseño irá acorde con la estética cartoon.
+
+![mango](https://user-images.githubusercontent.com/55460661/68350625-4310f000-0101-11ea-8ee4-6571b598b1a2.png)
 
 ### **4.4. Audio**
 
@@ -207,13 +223,14 @@ Mango explosivo: Su diseño irá acorde con la estética cartoon.
 
 Usaremos un estilo que recuerde a lo hawaino, con instrumentos como la marimba y con ritmos rápidos y marcados, usando armonías alegres en modo mayor. 
 Según se va acabando el tiempo en los niveles el ritmo de la música aumenta.
-El formato será “.wav”.
+Para generar la música del juego utilizaremos la herramienta SoundMaker. 
+El formato será “.wav” y ".mp3".
 
 #### **4.4.1. Efectos**
 
 *	Al seleccionar un botón de cualquier parte del juego.
 *	Al cambiar entre botones en cualquier parte del juego.
-*	Robo a otro jugador.
+*	Al robar el mango a otro jugador.
 *	Al seleccionar un personaje.
 *	Explosión del mango.
 *	Al ganar la partida, sonido de celebración(uno distinto para cada personaje).
@@ -258,10 +275,23 @@ Shot hot burn: https://store.steampowered.com/app/801750/Hot_Shot_Burn/
 
 ![ReferenceSHB](https://user-images.githubusercontent.com/36482605/66061986-d4a8a300-e540-11e9-90a3-8b92057d782d.jpg)
 
-* Referencias Sonoras
+* Referencias de efectos de sonido:
 
-Sonido de victoria del lémur, sonido de victoria del tucán, sonido de victoria de la palmera y sonido de ambiente durante la partida -> https://www.zapsplat.com
+Sonido de victoria del lémur, sonido de victoria del tucán, sonido de victoria de la palmera y sonido de ambiente durante la partida: https://www.zapsplat.com
 
-Sonido de victoria del dinosaurio -> https://www.noiseforfun.com/waves/voice-and-speech/NFF-yahoo.wav
+Sonido de victoria del dinosaurio: https://www.noiseforfun.com/waves/voice-and-speech/NFF-yahoo.wav
 
-Sonido para selección de personajes y al robar el mango en partida -> https://www.pacdv.com/sounds/miscellaneous_sounds/bottle_pop_2.wav
+Sonido para selección de personajes y al robar el mango en partida: https://www.pacdv.com/sounds/miscellaneous_sounds/bottle_pop_2.wav
+
+* Canción de pantalla de créditos:
+
+https://zitronsound.bandcamp.com/track/hula-lemon
+
+* Fuentes usadas dentro del juego:
+
+Página web: https://www.dafont.com/mtheme.php?id=5
+
+Título del juego y “Get the Mango”: https://www.dafont.com/tiki-tako.font
+
+Resto de fuentes: https://www.dafont.com/cartoonlings.font
+
