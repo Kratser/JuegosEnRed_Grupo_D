@@ -69,11 +69,11 @@ class Credits extends Phaser.Scene {
         // Fondo
         this.background = this.add.image(0, 0, "credits_background").setOrigin(0,0).setDepth(0);
         // Texto
-        this.creditsText = this.add.image(600, 200, "credits_text").setOrigin(0.5,0).setDepth(1);
+        this.creditsText = this.add.image(600, 600, "credits_text").setOrigin(0.5,0).setDepth(1);
         var tweenScroll = this.tweens.add({
             targets: [this.creditsText],
-            y: -650,
-            duration: 15100
+            y: -1600,
+            duration: 22000
         });
         // Botones 
         this.bigEsc = this.add.image(80, 50, "big_esc").setDepth(1);
