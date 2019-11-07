@@ -60,6 +60,8 @@ class ScoreLevel extends Phaser.Scene {
         this.load.image("next_level_button_selected", "./Design/Objects/Buttons/next_level_button_selected.png");
         // Se carga la música
         this.load.audio("score_level_music", "./Design/Audio/ScoreLevelSong/score_level_music.wav");
+        // Se carga el efecto
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Personas que se mueven
         this.peopleMove;
         // Totems
@@ -266,6 +268,7 @@ class ScoreLevel extends Phaser.Scene {
         }
         // Se crea la música
         this.sound.pauseOnBlur = false;
+        this.choose_options = this.sound.add("choose_options");
         this.loop = this.sound.add("score_level_music");
         this.loop.play({
             loop: true,
@@ -281,6 +284,9 @@ class ScoreLevel extends Phaser.Scene {
                 this.nextRound.alpha = 0;
                 this.crowns[this.characters[i].id - 1].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
+                    this.choose_options.play({
+                        volume: this.vol
+                    });
                     this.scene.start("main_menu", {volume: this.vol});
                     // Se para la música
                     this.loop.stop();
@@ -289,12 +295,18 @@ class ScoreLevel extends Phaser.Scene {
         }// Fin for
          // ESCAPE para salir al menú principal
          if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("main_menu", {volume: this.vol});
             // Se para la música
             this.loop.stop();
          }
          // ENTER para pasar a la siguiente ronda
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("level_1", {characters: this.characters, volume: this.vol});//, {characters: this.characters}
             // Se para la música
             this.loop.stop();

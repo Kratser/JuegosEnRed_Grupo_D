@@ -50,6 +50,8 @@ class Credits extends Phaser.Scene {
         this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Se carga la música
         this.load.audio("hawaii", "./Design/Audio/CreditsSong/ZitronSound - Hula Lemon.mp3");
+        // Se carga el efecto
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Fondo
         this.background;
         // Botones
@@ -68,6 +70,7 @@ class Credits extends Phaser.Scene {
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // Sonido
         this.sound.pauseOnBlur = false;
+        this.choose_options = this.sound.add("choose_options");
         this.loop = this.sound.add("hawaii");
         this.loop.play({
             loop : true,
@@ -78,8 +81,10 @@ class Credits extends Phaser.Scene {
     update(){
         //Cambio de pantalla
         if(this.escKey.isDown){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("options", {volume: this.vol});
-            // this.scene.add(testingScene, new TestingScene);
             // Se para la música
             this.loop.stop();
         }

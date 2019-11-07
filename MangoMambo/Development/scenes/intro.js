@@ -25,7 +25,7 @@ class Intro extends Phaser.Scene {
         // Título que se mueve
         this.logo = this.add.image (600, 300, "core_room_logo");
         // Crear texto
-        this.texto = this.add.text(500, 250, "Press ENTER", { fontFamily: '"Bauhaus 93"', fontSize: 40 });
+        this.texto = this.add.text(500, 250, "Press ENTER", { fontFamily: 'Berlin Sans FB', fontSize: 40, fontStyle: 'Bold' });
         this.logo.alpha = 0;
         this.texto.alpha = 0;
         // Movimiento
@@ -60,7 +60,7 @@ class Intro extends Phaser.Scene {
     update(){
         // Cambio de pantalla
         if(this.enterKey.isDown){
-            this.scene.start("main_menu");
+            this.scene.start("story");
         }
     }// Fin update
 }    

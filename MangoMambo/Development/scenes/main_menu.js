@@ -176,6 +176,9 @@ class MainMenu extends Phaser.Scene {
         }
         //Cambio de pantalla
         if(this.options[1] && this.cursors[4].isDown ){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("options", {volume: this.vol});
             // Se para la música
             this.intro.stop();

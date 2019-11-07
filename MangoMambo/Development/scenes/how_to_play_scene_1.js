@@ -203,6 +203,9 @@ class HowToPlay extends Phaser.Scene {
         }
         // Esconder los detalles
         if(this.escKey.isDown && this.details){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.details = false;
             var tween = this.tweens.add({
                 targets: [this.howToPlayRock, this.detailsButton, this.detailsButtonSelect,

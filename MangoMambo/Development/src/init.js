@@ -12,6 +12,7 @@ var config = {
     },
     scene: [
         Intro,
+        Story,
         MainMenu,
         ChooseCharacter,
         Level1,
