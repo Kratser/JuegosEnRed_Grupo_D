@@ -19,6 +19,9 @@ estarán invertidas con respecto a los minijuegos clásicos ya existentes.
 | Mireya Funke Prieto | m.funke.2017@alumnos.urjc.es | mfpheras|
 | Sergio Cruz Serrano | s.cruzs.2017@alumnos.urjc.es | Sergypulga|
 
+## **Link de GitHub**
+https://github.com/Kratser/JuegosEnRed_Grupo_D
+
 ## **Link de Trello**
 https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mambo-grupo-d
 
@@ -29,6 +32,11 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * Aparte del GDD incluido en este README, este tag tiene adjunto un documento pdf (MangoMamboGDD_V01.pdf) donde se encuentra toda la información al completo y que se irá actualizando en cada fase junto con este README.  
 * También hemos incluido la presentación con la que introduciremos nuestro juego en la fase 1 (MangoMamboFase1.pptx).
 * Para clasificar los distintos elementos que vayamos a usar para el juego hay distintas carpetas creadas.
+
+# **Organización del tag fase2**
+
+* Aparte de lo comentado en el tag fase1, se adjunta un nuevo documento pdf (MangoMamboGDD_V02.pdf) donde se encuentra la información completa del Documento de Diseño actualizada de esta fase.
+* También se adjunta la presentación con la que mostraremos el avance del juego en la fase 2 (MangoMamboFase2.pptx).
 
 * * *
 
@@ -93,9 +101,9 @@ ellos, para comprobar si son aptos para el liderazgo. Los elegidos son: una palm
 anterior le dio vida, un marginado de su tribu (que por fin tendrá la oportunidad de demostrar su valor),
 un tucán de elevado peso (le costaba demasiado salir huyendo) y un turista curioso que pasaba
 sus vacaciones en la isla.
-El único problema es que los elegidos no tienen ninguna intención en ser chamanes, así que tendrán una
-competición interna por saber quienes se libran de ganar el título.
-Es momento de descubrir quién es digno del título de chamán
+Al tener que demostrar su valía, las pruebas se basarán en quién se sacrifica primero. En caso de negarse
+a competir serán prisioneros de la tribu de por vida.
+Es momento de descubrir quién es digno del título de chamán.
 
 ## **2. Jugabilidad y mecánicas**
 
@@ -191,6 +199,8 @@ Características visuales:
   *	**Jose Diplodo:** Un diplodocus con estilo playero que llevará como complementos: unas gafas de sol, un gorro, crema solar, un atuendo hawaiano y un cóctel. 
   *	**Chamán Neón:** Lémur que se moverá deprisa a cuatro patas y llevará una máscara tiki adornada con vistosos colores.
   *	**Tufat:** Tucán con sobrepeso que irá aleteando.
+  
+  ![Characters](https://user-images.githubusercontent.com/36482605/68346938-c298c200-00f5-11ea-91df-776c0e665cfd.png)
 
 ### **4.2. Escenarios**
 
