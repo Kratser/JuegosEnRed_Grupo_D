@@ -53,8 +53,13 @@ class Connecting extends Phaser.Scene{
         this.connectingIcon;
         // Teclas
         this.cursors;
+        // Se carga la música
+        this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
+        // Sonidos
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
     }
     create(){
+        this.cameras.main.fadeIn(500);
         // Se pasa la imagen de fondo a profundidad 0 para que la barra de carga quede por detrás
         this.loadingImg.setDepth(0);
         this.add.image(80, 50, "big_esc");
@@ -71,10 +76,23 @@ class Connecting extends Phaser.Scene{
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.connectToServer();
+        // Se crea la música
+        this.sound.pauseOnBlur = false;
+        this.choose_options = this.sound.add("choose_options");
+        this.loop = this.sound.add("how_to_play_song");
+        this.loop.play({
+            loop : true,
+            volume: this.vol
+        });
     }
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("main_menu", {volume: this.vol});
+            // Se para la música
+            this.loop.stop();
         }
     }
     connectToServer(){
