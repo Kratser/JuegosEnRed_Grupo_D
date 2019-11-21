@@ -550,7 +550,6 @@ class ChooseCharacter extends Phaser.Scene {
                 });
             }
         }  
-        console.log("Ready" + this.readyPlayers);
         // Cuando haya más de 2 jugadores seleccionados se muestra que ya se puede jugar
         if (this.readyPlayers >= 2) {
             this.readyButton.alpha = 0;
