@@ -33,19 +33,36 @@ class Connecting extends Phaser.Scene{
             progressBar.fillStyle(0x00ff00, 1);
             progressBar.fillRect(110, 510, 980 * value, 30);
         });
-        this.load.on("fileprogress", function(file){
-            console.log(file.src);
-        });
         this.load.on("complete", function(){
             console.log("Complete");
             progressBar.destroy();
             progressBox.destroy();
             percentText.destroy();
-            loadingImg.destroy();
         });
+        // Se carga la imagen del icono de conectar
+        this.load.image("connecting_icon", "./Design/Objects/connecting_icon.png");
+        this.load.image("connecting_rock", "./Design/Objects/connecting_rock.png");
+
+        this.connecting_rock;
+        this.connectingIcon;
     }
     create(){
-
+        this.connecting_rock = this.add.image(600,300,"connecting_rock");
+        this.connectingIcon = this.add.image(600,300, "connecting_icon");
+        var tweenConnecting = this.tweens.add({
+            targets: this.connectingIcon,
+            angle: 360,
+            duration: 2000,
+            repeat: -1
+        });
+        /**
+        $.ajax({
+            method: "GET",
+            url: "http://10.10.106.34:8080/mango-mambo"
+        }).done(function(data){
+            console.log(data);
+        });
+        /**/
     }
     update(){
 

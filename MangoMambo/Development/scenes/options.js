@@ -39,9 +39,6 @@ class Options extends Phaser.Scene {
             progressBar.fillStyle(0x00ff00, 1);
             progressBar.fillRect(110, 510, 980 * value, 30);
         });
-        this.load.on("fileprogress", function(file){
-            console.log(file.src);
-        });
         this.load.on("complete", function(){
             console.log("Complete");
             progressBar.destroy();
