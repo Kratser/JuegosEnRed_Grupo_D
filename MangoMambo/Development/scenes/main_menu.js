@@ -34,9 +34,9 @@ class MainMenu extends Phaser.Scene {
             progressBar.fillStyle(0x00ff00, 1);
             progressBar.fillRect(110, 510, 980 * value, 30);
         });
-        this.load.on("fileprogress", function(file){
+        /*this.load.on("fileprogress", function(file){
             console.log(file.src);
-        });
+        });*/
         this.load.on("complete", function(){
             console.log("Complete");
             progressBar.destroy();
@@ -179,12 +179,7 @@ class MainMenu extends Phaser.Scene {
         }
         // Cambio de pantalla "Online"
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.cursors[4])){
-            $.ajax({
-                method: "GET",
-                url: "http://10.10.106.34:8080/mango-mambo"
-            }).done(function(data){
-                console.log(data);
-            });
+            this.scene.start("connecting", {volume: this.vol});
         }
         // Cambio de pantalla "Opciones"
         if(this.options[2] && this.cursors[4].isDown){
