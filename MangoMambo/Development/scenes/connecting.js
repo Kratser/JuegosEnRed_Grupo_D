@@ -1,8 +1,7 @@
 class Connecting extends Phaser.Scene{
     constructor(){
         super({key: "connecting"})
-    }
-
+    }// Fin constructor
     init(data){
         this.vol = data.volume;
         data = null; 
@@ -96,11 +95,12 @@ class Connecting extends Phaser.Scene{
         }
     }
     connectToServer(){
-        console.log(this);
+        var ip1 = 0;
+        var ip2 = 0;
         var that = this;
         var getInfo = $.ajax({
             method: "GET",
-            url: "http://10.10.106.34:8080/mango-mambo"
+            url: "http://10.10.105.197:8080/mango-mambo"
         });
         getInfo.done(function(data){
             // Conexión establecida
@@ -109,8 +109,9 @@ class Connecting extends Phaser.Scene{
                 console.log("Entrando en sala");
                 $.ajax({
                 	method: "POST",
-                	url: "http://10.10.106.34:8080/mango-mambo"
+                	url: "http://10.10.105.197:8080/mango-mambo"
                 });
+                that.scene.start("online_lobby", {volume: that.vol, players: data});
             }
             // Si no hay espacios disponibles
             else{
