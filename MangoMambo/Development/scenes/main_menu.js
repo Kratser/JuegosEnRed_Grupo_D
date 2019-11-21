@@ -170,15 +170,25 @@ class MainMenu extends Phaser.Scene {
         if(this.options[2]){
             this.optionsButtonSelect.alpha = 1;
         }
-        // Cambio de pantalla
+        // Cambio de pantalla "Local"
         if(this.options[0] && this.cursors[4].isDown){
             this.choose_options.play({
                 volume: this.vol
             });
             this.scene.start("choose_character", {loop: this.loop, intro: this.intro, volume: this.vol});
         }
-        //Cambio de pantalla
-        if(this.options[2] && this.cursors[4].isDown ){
+        // Cambio de pantalla "Online"
+        if (this.options[1] && this.cursors[4].isDown){
+            $.ajax({
+                method: "GET",
+                url: "http://10.10.106.34:8080/mango-mambo"
+            }).done(function(data){
+                console.log("Petición realizada");
+                console.log(data);
+            });
+        }
+        // Cambio de pantalla "Opciones"
+        if(this.options[2] && this.cursors[4].isDown){
             this.choose_options.play({
                 volume: this.vol
             });
