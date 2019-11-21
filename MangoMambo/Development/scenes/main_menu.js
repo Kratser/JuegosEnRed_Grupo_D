@@ -178,12 +178,11 @@ class MainMenu extends Phaser.Scene {
             this.scene.start("choose_character", {loop: this.loop, intro: this.intro, volume: this.vol});
         }
         // Cambio de pantalla "Online"
-        if (this.options[1] && this.cursors[4].isDown){
+        if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.cursors[4])){
             $.ajax({
                 method: "GET",
                 url: "http://10.10.106.34:8080/mango-mambo"
             }).done(function(data){
-                console.log("Petición realizada");
                 console.log(data);
             });
         }

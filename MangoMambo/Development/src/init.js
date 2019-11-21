@@ -20,6 +20,7 @@ var config = {
         Options,
         Credits,
         HowToPlay,
+        Connecting
     ]
 };
 
