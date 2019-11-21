@@ -40,11 +40,15 @@ class Connecting extends Phaser.Scene{
             progressBox.destroy();
             percentText.destroy();
         });
-        // Se carga la imagen del icono de conectar
+        // Se carga la imágenes de los iconos de conectar
         this.load.image("connecting_icon", "./Design/Objects/connecting_icon.png");
         this.load.image("connecting_rock", "./Design/Objects/connecting_rock.png");
+        // Se carga la imagen del botón de escape
         this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
-        // Imágenes de conexión
+        // Se cargan las imágenes de conexión
+        this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
+        this.load.image("server_full_rock", "./Design/Objects/server_full_rock.png");
+        // Imágenes de los iconos de conectar
         this.connecting_rock;
         this.connectingIcon;
         // Teclas
@@ -74,11 +78,13 @@ class Connecting extends Phaser.Scene{
         }
     }
     connectToServer(){
+        console.log(this);
+        var that = this;
         var getInfo = $.ajax({
             method: "GET",
             url: "http://10.10.106.34:8080/mango-mambo"
         });
-        getInfo.done(function(data, status){
+        getInfo.done(function(data){
             // Conexión establecida
             // Si hay espacios disponibles
             if (data.length < 4){
@@ -91,11 +97,13 @@ class Connecting extends Phaser.Scene{
             // Si no hay espacios disponibles
             else{
                 console.log("Sorry, the server is full, please try again later");
+                that.add.image(600,300, "server_full_rock");
             }
         });
         getInfo.error(function(){
             // Error de conexión al servidor
             console.log("Server Connection failed, please try again later");
+            that.add.image(600,300, "connection_failed_rock");
         });
     }
 }
