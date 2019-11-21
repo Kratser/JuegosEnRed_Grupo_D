@@ -48,11 +48,11 @@ class Connecting extends Phaser.Scene{
     }
     create(){
         this.connecting_rock = this.add.image(600,300,"connecting_rock");
-        this.connectingIcon = this.add.image(600,300, "connecting_icon");
+        this.connectingIcon = this.add.image(600,275, "connecting_icon");
         var tweenConnecting = this.tweens.add({
             targets: this.connectingIcon,
-            angle: 360,
-            duration: 2000,
+            angle: -360,
+            duration: 8000,
             repeat: -1
         });
         /**
