@@ -9,7 +9,7 @@ class OnlineLobby extends Phaser.Scene{
     }
     preload(){
         // Pantalla de Carga
-        this.loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-1);
+        var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-1);
         var progressBar = this.add.graphics().setDepth(-1);
         var progressBox = this.add.graphics().setDepth(-1);
         progressBox.fillStyle(0x222222, 0.8);
@@ -42,10 +42,10 @@ class OnlineLobby extends Phaser.Scene{
             loadingImg.destroy();
         });
         // Se carga la imagen de fondo
-        this.load.image("character_background", "./Design/Stages/Backgrounds/choose_character_background.png");
+        this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
     }
     create(){
-        this.add.image(0, 0, "character_background").setOrigin(0, 0);
+        this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
         console.log(this.players);
     }
     update(){

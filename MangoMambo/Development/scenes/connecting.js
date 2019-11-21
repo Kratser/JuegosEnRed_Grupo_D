@@ -95,21 +95,23 @@ class Connecting extends Phaser.Scene{
         }
     }
     connectToServer(){
-        var ip1 = 0;
-        var ip2 = 0;
+        var ip = window.location.host;
         var that = this;
         var getInfo = $.ajax({
             method: "GET",
-            url: "http://10.10.105.197:8080/mango-mambo"
+            url: "http://"+ip+"/mango-mambo"
         });
         getInfo.done(function(data){
             // Conexión establecida
             // Si hay espacios disponibles
             if (data.length < 4){
+                var myPlayer;
                 console.log("Entrando en sala");
                 $.ajax({
                 	method: "POST",
-                	url: "http://10.10.105.197:8080/mango-mambo"
+                	url: "http://"+ip+"/mango-mambo"
+                }).done(function(data){
+                    console.log(data);
                 });
                 that.scene.start("online_lobby", {volume: that.vol, players: data});
             }
@@ -119,8 +121,8 @@ class Connecting extends Phaser.Scene{
                 that.add.image(600,300, "server_full_rock");
             }
         });
+        // Error de conexión al servidor
         getInfo.error(function(){
-            // Error de conexión al servidor
             console.log("Server Connection failed, please try again later");
             that.add.image(600,300, "connection_failed_rock");
         });
