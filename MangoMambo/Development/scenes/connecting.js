@@ -101,8 +101,9 @@ class Connecting extends Phaser.Scene{
             method: "GET",
             url: "http://"+ip+"/mango-mambo"
         });
+        // Conexión establecida
         getInfo.done(function(data){
-            // Conexión establecida
+            var playersData = data;
             // Si hay espacios disponibles
             if (data.length < 4){
                 var myPlayer;
@@ -111,9 +112,9 @@ class Connecting extends Phaser.Scene{
                 	method: "POST",
                 	url: "http://"+ip+"/mango-mambo"
                 }).done(function(data){
-                    console.log(data);
-                });
-                that.scene.start("online_lobby", {volume: that.vol, players: data});
+                    myPlayer = data;
+                    that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer});
+                });  
             }
             // Si no hay espacios disponibles
             else{
@@ -122,7 +123,8 @@ class Connecting extends Phaser.Scene{
             }
         });
         // Error de conexión al servidor
-        getInfo.error(function(){
+        getInfo.error(function(status){
+            console.log(status.status);
             console.log("Server Connection failed, please try again later");
             that.add.image(600,300, "connection_failed_rock");
         });

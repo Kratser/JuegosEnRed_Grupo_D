@@ -4,6 +4,7 @@ class OnlineLobby extends Phaser.Scene{
     }// Fin constructor
     init(data){
         this.players = data.players;
+        this.myPlayer = data.client;
         this.vol = data.volume;
         data = null; 
     }
@@ -46,7 +47,6 @@ class OnlineLobby extends Phaser.Scene{
     }
     create(){
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
-        console.log(this.players);
     }
     update(){
 
