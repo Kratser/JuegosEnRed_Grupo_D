@@ -5,6 +5,7 @@ class OnlineLobby extends Phaser.Scene{
     init(data){
         this.players = data.players;
         this.myPlayer = data.client;
+        this.ip = data.url;
         this.vol = data.volume;
         data = null; 
     }
@@ -44,11 +45,33 @@ class OnlineLobby extends Phaser.Scene{
         });
         // Se carga la imagen de fondo
         this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
+        // Teclas
+        this.cursors;
     }
     create(){
+        // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
+        // Teclas
+        this.cursors = [];
+        this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        // Se añade el cliente a la lista de jugadores
+        this.players[this.myPlayer.id] = this.myPlayer;
+        console.log(this.players);
     }
     update(){
-
+        // Si se pulsa la tecla ESC
+        if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
+            // Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
+            $.ajax({
+                method: "DELETE",
+                url: "http://"+ip+"/mango-mambo/" + this.myPlayer.id
+            }).done(function(data){
+                this.players[data.id] = null;
+                this.scene.start("main_menu", {volume: this.vol});
+            });
+        }
     }
 }

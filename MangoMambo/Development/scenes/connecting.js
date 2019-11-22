@@ -71,6 +71,7 @@ class Connecting extends Phaser.Scene{
             duration: 8000,
             repeat: -1
         });
+        // Teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -85,6 +86,7 @@ class Connecting extends Phaser.Scene{
         });
     }
     update(){
+        // Si se pulsa la tecla ESC se vuelve al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
             this.choose_options.play({
                 volume: this.vol
@@ -113,7 +115,7 @@ class Connecting extends Phaser.Scene{
                 	url: "http://"+ip+"/mango-mambo"
                 }).done(function(data){
                     myPlayer = data;
-                    that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer});
+                    that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, url: ip});
                 });  
             }
             // Si no hay espacios disponibles
