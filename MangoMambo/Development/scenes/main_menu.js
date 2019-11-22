@@ -59,6 +59,7 @@ class MainMenu extends Phaser.Scene {
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
+        // Sonidos
         this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
         this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         // Fondo
@@ -179,7 +180,13 @@ class MainMenu extends Phaser.Scene {
         }
         // Cambio de pantalla "Online"
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.cursors[4])){
+            this.choose_options.play({
+                volume: this.vol
+            });
             this.scene.start("connecting", {volume: this.vol});
+            // Se para la música
+            this.intro.stop();
+            this.loop.stop();
         }
         // Cambio de pantalla "Opciones"
         if(this.options[2] && this.cursors[4].isDown){
