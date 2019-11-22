@@ -27,7 +27,7 @@ class Connecting extends Phaser.Scene{
         });
         percentText.setOrigin(0.5, 0.5);
         this.load.on("progress", function(value){
-            console.log("Cargado: " + value);
+            console.log(value);
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0x00ff00, 1);

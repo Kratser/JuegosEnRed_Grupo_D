@@ -30,7 +30,7 @@ class OnlineLobby extends Phaser.Scene{
         });
         percentText.setOrigin(0.5, 0.5);
         this.load.on("progress", function (value) {
-            console.log("Cargado: " + value);
+            console.log(value);
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0x00ff00, 1);
@@ -59,19 +59,32 @@ class OnlineLobby extends Phaser.Scene{
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         // Se añade el cliente a la lista de jugadores
         this.players[this.myPlayer.id] = this.myPlayer;
-        console.log(this.players);
+        // Temporizador para comprobar el estado de los jugadores
+        //this.time.addEvent({ delay: 5000, callback: this.checkPlayers, callbackScope: this, repeat: -1});
     }
     update(){
         // Si se pulsa la tecla ESC
         if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
+            var that = this;
             // Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
             $.ajax({
                 method: "DELETE",
-                url: "http://"+ip+"/mango-mambo/" + this.myPlayer.id
+                url: "http://"+ this.ip +"/mango-mambo/" + this.myPlayer.id
             }).done(function(data){
-                this.players[data.id] = null;
-                this.scene.start("main_menu", {volume: this.vol});
+                that.players[data.id] = null;
+                that.scene.start("main_menu", {volume: this.vol});
             });
         }
     }
+    // Función que comprueba el estado de los jugadores y lo actualiza
+    /*checkPlayers(){
+        var that = this;
+        $.ajax({
+            method: "GET",
+            url: "http://"+ this.ip +"/mango-mambo"
+        }).done(function(data){
+            that.players = data;
+            console.log(that.players);
+        });
+    }*/
 }
