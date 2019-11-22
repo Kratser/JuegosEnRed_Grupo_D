@@ -49,6 +49,8 @@ class Level1 extends Phaser.Scene {
         });
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
+        // Botón de pausa
+        this.load.image("pause_button", "./Design/Objects/Buttons/pause_button.png");
         // 3 2 1 mango mambo
         this.load.spritesheet('3_2_1_mango_mambo', './Design/Objects/Text/3_2_1_mango_mambo.png',
         {
@@ -176,6 +178,9 @@ class Level1 extends Phaser.Scene {
         this.cameras.main.fadeIn(500);
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
+        //Botón de pausa
+        this.pauseButton = this.add.image (60, 565, "pause_button").setDepth(1);
+       
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas
