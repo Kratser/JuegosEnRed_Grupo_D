@@ -46,28 +46,36 @@ class OnlineLobby extends Phaser.Scene{
         // Se carga la imagen de fondo
         this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
         // Jugadores
-        this.load.image("player1", "./Design/player1.png");
+        /*this.load.image("player1", "./Design/player1.png");
         this.load.image("player2", "./Design/player2.png");
         this.load.image("player3", "./Design/player3.png");
-        this.load.image("player4", "./Design/player4.png");
+        this.load.image("player4", "./Design/player4.png");*/
+        this.load.image("palm_G_name", "./Design/Objects/Text/palm_G_name.png");
+        this.load.image("dino_P_name", "./Design/Objects/Text/dino_P_name.png");
+        this.load.image("toufat_B_name", "./Design/Objects/Text/toufat_B_name.png");
+        this.load.image("lemur_Y_name", "./Design/Objects/Text/lemur_Y_name.png");
         this.player1;
         this.player2;
         this.player3;
         this.player4;
         // Teclas
         this.cursors;
+        // Estado del servidor
+        this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
+        this.serverStatusImg;
+        this.serverStatus;
     }
     create(){
         // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
         // Jugadores
-        this.player1 = this.add.image(0, 0, "player1");
+        this.player1 = this.add.image(0, 0, "palm_G_name");
         this.player1.setAlpha(0);
-        this.player2 = this.add.image(0, 20, "player2");
+        this.player2 = this.add.image(0, 20, "dino_P_name");
         this.player2.setAlpha(0);
-        this.player3 = this.add.image(0, 40, "player3");
+        this.player3 = this.add.image(0, 40, "toufat_B_name");
         this.player3.setAlpha(0);
-        this.player4 = this.add.image(0, 60, "player4");
+        this.player4 = this.add.image(0, 60, "lemur_Y_name");
         this.player4.setAlpha(0);
         // Teclas
         this.cursors = [];
@@ -79,51 +87,88 @@ class OnlineLobby extends Phaser.Scene{
         this.players[this.myPlayer.id] = this.myPlayer;
         // Temporizador para comprobar el estado de los jugadores
         this.time.addEvent({ delay: 5000, callback: this.checkPlayers, callbackScope: this, repeat: -1});
+        // Imagen del estado del servidor
+        this.serverStatus = true;
+        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
+        this.serverStatusImg.setAlpha(0);
     }
     update(){
-        // Mostrar a los jugadores si entran en el lobby
-        if (this.players[0].connected){
-            this.player1.setAlpha(1);
-        }else{
-            this.player1.setAlpha(0);
-        }
-        if (this.players[1].connected){
-            this.player2.setAlpha(1);
-        }else{
-            this.player2.setAlpha(0);
-        }
-        if (this.players[2].connected){
-            this.player3.setAlpha(1);
-        }else{
-            this.player3.setAlpha(0);
-        }
-        if (this.players[3].connected){
-            this.player4.setAlpha(1);
-        }else{
-            this.player4.setAlpha(0);
-        }
-        // Si se pulsa la tecla ESC
-        if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
-            var that = this;
-            // Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
-            $.ajax({
-                method: "DELETE",
-                url: "http://"+ this.ip +"/mango-mambo/" + this.myPlayer.id
-            }).done(function(data){
-                that.players[data.id] = null;
-                that.scene.start("main_menu", {volume: this.vol});
-            });
+        // Si el servidor está activo
+        if (this.serverStatus){
+            this.serverStatusImg.setAlpha(0);
+            // Mostrar a los jugadores si entran en el lobby
+            if (this.players[0] && this.players[0].isConnected) {
+                this.player1.setAlpha(1);
+            } else {
+                this.player1.setAlpha(0);
+            }
+            if (this.players[1] && this.players[1].isConnected) {
+                this.player2.setAlpha(1);
+            } else {
+                this.player2.setAlpha(0);
+            }
+            if (this.players[2] && this.players[2].isConnected) {
+                this.player3.setAlpha(1);
+            } else {
+                this.player3.setAlpha(0);
+            }
+            if (this.players[3] && this.players[3].isConnected) {
+                this.player4.setAlpha(1);
+            } else {
+                this.player4.setAlpha(0);
+            }
+            // Si se pulsa la tecla ESC
+            if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
+                var that = this;
+                // Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
+                var deletePlayer = $.ajax({
+                    method: "DELETE",
+                    url: "http://" + this.ip + "/mango-mambo/" + this.myPlayer.id
+                });
+                deletePlayer.done(function (data) {
+                    that.players[data.id] = data;
+                    that.scene.start("main_menu", { volume: this.vol });
+                });
+                deletePlayer.error(function (data) {
+                    console.log("Error de conexión");
+                    that.serverStatus = false;
+                });
+            }// Fin if se pulsa la tecla ESC
+        }// Fin if(serverStatus)
+        else{ // Si el servidor no está activo
+            this.serverStatusImg.setAlpha(1);
+            if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
+                this.scene.start("main_menu", { volume: this.vol });
+            }
         }
     }
     // Función que comprueba el estado de los jugadores y lo actualiza
     checkPlayers(){
         var that = this;
-        $.ajax({
+        var checkStatus = $.ajax({
             method: "GET",
             url: "http://"+ this.ip +"/mango-mambo"
-        }).done(function(data){
+        });
+        checkStatus.done(function(data){
             that.players = data;
             console.log(that.players);
+            that.serverStatus = true;
+            that.myPlayer.isConnected = true;
+            $.ajax({
+            	method: "PUT",
+            	url: "http://"+ that.ip +"/mango-mambo/" + that.myPlayer.id,
+            	data: JSON.stringify(that.myPlayer),
+            	processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).done(function(data){
+                that.players[data.id] = data;
+            });
+        });
+        checkStatus.error(function(data){
+            console.log("Error de conexión");
+            that.serverStatus = false;
         });
     }
 }

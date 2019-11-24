@@ -105,9 +105,15 @@ class Connecting extends Phaser.Scene{
         });
         // Conexión establecida
         getInfo.done(function(data){
+            var numPlayersConnected = 0;
             var playersData = data;
+            for (var i = 0; i < data.length; i++){
+                if (data[i].isConnected){
+                    numPlayersConnected++;
+                }
+            }
             // Si hay espacios disponibles
-            if (data.length < 4){
+            if (numPlayersConnected < 4){
                 var myPlayer;
                 console.log("Entrando en sala");
                 $.ajax({
