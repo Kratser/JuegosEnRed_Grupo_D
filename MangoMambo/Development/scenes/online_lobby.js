@@ -45,12 +45,30 @@ class OnlineLobby extends Phaser.Scene{
         });
         // Se carga la imagen de fondo
         this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
+        // Jugadores
+        this.load.image("player1", "./Design/player1.png");
+        this.load.image("player2", "./Design/player2.png");
+        this.load.image("player3", "./Design/player3.png");
+        this.load.image("player4", "./Design/player4.png");
+        this.player1;
+        this.player2;
+        this.player3;
+        this.player4;
         // Teclas
         this.cursors;
     }
     create(){
         // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
+        // Jugadores
+        this.player1 = this.add.image(0, 0, "player1");
+        this.player1.setAlpha(0);
+        this.player2 = this.add.image(0, 20, "player2");
+        this.player2.setAlpha(0);
+        this.player3 = this.add.image(0, 40, "player3");
+        this.player3.setAlpha(0);
+        this.player4 = this.add.image(0, 60, "player4");
+        this.player4.setAlpha(0);
         // Teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -60,9 +78,30 @@ class OnlineLobby extends Phaser.Scene{
         // Se añade el cliente a la lista de jugadores
         this.players[this.myPlayer.id] = this.myPlayer;
         // Temporizador para comprobar el estado de los jugadores
-        //this.time.addEvent({ delay: 5000, callback: this.checkPlayers, callbackScope: this, repeat: -1});
+        this.time.addEvent({ delay: 5000, callback: this.checkPlayers, callbackScope: this, repeat: -1});
     }
     update(){
+        // Mostrar a los jugadores si entran en el lobby
+        if (this.players[0].connected){
+            this.player1.setAlpha(1);
+        }else{
+            this.player1.setAlpha(0);
+        }
+        if (this.players[1].connected){
+            this.player2.setAlpha(1);
+        }else{
+            this.player2.setAlpha(0);
+        }
+        if (this.players[2].connected){
+            this.player3.setAlpha(1);
+        }else{
+            this.player3.setAlpha(0);
+        }
+        if (this.players[3].connected){
+            this.player4.setAlpha(1);
+        }else{
+            this.player4.setAlpha(0);
+        }
         // Si se pulsa la tecla ESC
         if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
             var that = this;
@@ -77,7 +116,7 @@ class OnlineLobby extends Phaser.Scene{
         }
     }
     // Función que comprueba el estado de los jugadores y lo actualiza
-    /*checkPlayers(){
+    checkPlayers(){
         var that = this;
         $.ajax({
             method: "GET",
@@ -86,5 +125,5 @@ class OnlineLobby extends Phaser.Scene{
             that.players = data;
             console.log(that.players);
         });
-    }*/
+    }
 }
