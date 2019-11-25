@@ -27,7 +27,7 @@ class Connecting extends Phaser.Scene{
         });
         percentText.setOrigin(0.5, 0.5);
         this.load.on("progress", function(value){
-            console.log("Cargado: " + value);
+            console.log(value);
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0x00ff00, 1);
@@ -71,6 +71,7 @@ class Connecting extends Phaser.Scene{
             duration: 8000,
             repeat: -1
         });
+        // Teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -85,6 +86,7 @@ class Connecting extends Phaser.Scene{
         });
     }
     update(){
+        // Si se pulsa la tecla ESC se vuelve al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
             this.choose_options.play({
                 volume: this.vol
@@ -101,19 +103,26 @@ class Connecting extends Phaser.Scene{
             method: "GET",
             url: "http://"+ip+"/mango-mambo"
         });
+        // Conexión establecida
         getInfo.done(function(data){
-            // Conexión establecida
+            var numPlayersConnected = 0;
+            var playersData = data;
+            for (var i = 0; i < data.length; i++){
+                if (data[i].isConnected){
+                    numPlayersConnected++;
+                }
+            }
             // Si hay espacios disponibles
-            if (data.length < 4){
+            if (numPlayersConnected < 4){
                 var myPlayer;
                 console.log("Entrando en sala");
                 $.ajax({
                 	method: "POST",
                 	url: "http://"+ip+"/mango-mambo"
                 }).done(function(data){
-                    console.log(data);
-                });
-                that.scene.start("online_lobby", {volume: that.vol, players: data});
+                    myPlayer = data;
+                    that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, url: ip});
+                });  
             }
             // Si no hay espacios disponibles
             else{
@@ -122,7 +131,8 @@ class Connecting extends Phaser.Scene{
             }
         });
         // Error de conexión al servidor
-        getInfo.error(function(){
+        getInfo.error(function(status){
+            console.log(status.status);
             console.log("Server Connection failed, please try again later");
             that.add.image(600,300, "connection_failed_rock");
         });
