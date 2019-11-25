@@ -62,6 +62,11 @@ class OnlineLobby extends Phaser.Scene{
         this.load.image("U_arrow_Y", "./Design/Objects/Buttons/U_arrow_Y.png");
         this.upArrows;
         this.downArrows;
+        this.load.image("you_G_player", "./Design/Objects/you_G_player.png");
+        this.load.image("you_P_player", "./Design/Objects/you_P_player.png");
+        this.load.image("you_B_player", "./Design/Objects/you_B_player.png");
+        this.load.image("you_Y_player", "./Design/Objects/you_Y_player.png");
+        this.myPlayerImg;
         // Imagen de los checks de preparado
         this.load.image("tick", "./Design/Objects/tick.png");
         this.ticks;
@@ -123,10 +128,25 @@ class OnlineLobby extends Phaser.Scene{
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         // Se añade el cliente a la lista de jugadores
         this.players[this.myPlayer.id] = this.myPlayer;
+        switch(this.myPlayer.id){
+            case 0:
+                this.myPlayerImg = this.add.image(74.50, 138, "you_G_player");
+                break;
+            case 1:
+                this.myPlayerImg = this.add.image(74.50, 238, "you_P_player");
+                break;
+            case 2:
+                this.myPlayerImg = this.add.image(74.50, 344, "you_B_player");
+                break;
+            case 3:
+                this.myPlayerImg = this.add.image(74.50, 443, "you_Y_player");
+                break;
+        }
         // Tween de la imagen del jugador
         var tweenPlayer = this.tweens.add({
-            targets: this.playersImg[this.myPlayer.id],
+            targets: this.myPlayerImg,
             alpha: { from: 0.35, to: 1 },
+            x: 70.50,
             duration: 700,
             ease: 'Sine.easeInOut',
             yoyo: true,
