@@ -87,23 +87,24 @@ class OnlineLobby extends Phaser.Scene{
         this.playersImg[3].setAlpha(0);
         // Imágenes de flechas de selección 
         this.upArrows = [];
-        this.upArrows[0] = this.add.image(416.03, 141.63, "U_arrow_G");
+        this.upArrows[0] = this.add.image(416.55, 138.95, "U_arrow_G");
         this.upArrows[0].setAlpha(0);
-        this.upArrows[1] = this.add.image(416.03, 241.63, "U_arrow_P");
+        this.upArrows[1] = this.add.image(416.55, 238.50, "U_arrow_P");
         this.upArrows[1].setAlpha(0);
-        this.upArrows[2] = this.add.image(416.03, 345.63, "U_arrow_B");
+        this.upArrows[2] = this.add.image(416.55, 341.19, "U_arrow_B");
         this.upArrows[2].setAlpha(0);
-        this.upArrows[3] = this.add.image(416.03, 446.63, "U_arrow_Y");
+        this.upArrows[3] = this.add.image(416.55, 442.83, "U_arrow_Y");
         this.upArrows[3].setAlpha(0);
         this.downArrows = [];
-        this.downArrows[0] = this.add.image(416.03, 141.63, "D_arrow_G");
+        this.downArrows[0] = this.add.image(416.55, 141.80, "D_arrow_G");
         this.downArrows[0].setAlpha(0);
-        this.downArrows[1] = this.add.image(416.03, 241.63, "D_arrow_P");
+        this.downArrows[1] = this.add.image(416.55, 238.50, "D_arrow_P");
         this.downArrows[1].setAlpha(0);
-        this.downArrows[2] = this.add.image(416.03, 345.63, "D_arrow_B");
+        this.downArrows[2] = this.add.image(416.55, 341.19, "D_arrow_B");
         this.downArrows[2].setAlpha(0);
-        this.downArrows[3] = this.add.image(416.03, 446.63, "D_arrow_Y");
+        this.downArrows[3] = this.add.image(416.55, 442.83, "D_arrow_Y");
         this.downArrows[3].setAlpha(0);
+        this.downArrows[this.myPlayer.id].setAlpha(1);
         // Imagen de los checks de preparado
         this.ticks = [];
         this.ticks[0] = this.add.image(488.50, 137, "tick");
@@ -202,69 +203,23 @@ class OnlineLobby extends Phaser.Scene{
             that.myPlayer.isConnected = true;
             that.updatePlayer();
             // Mostrar a los jugadores si entran en el lobby
-            if (that.players[0] && that.players[0].isConnected && that.players[0].isReady) {
-                that.playersImg[0].setAlpha(1);
-                that.upArrows[0].setAlpha(1);
-                that.downArrows[0].setAlpha(0);
-                that.ticks[0].setAlpha(1);
-            } else if(that.players[0] && that.players[0].isConnected && !that.players[0].isReady){
-                that.playersImg[0].setAlpha(0.6);
-                that.upArrows[0].setAlpha(0);
-                that.downArrows[0].setAlpha(1);
-                that.ticks[0].setAlpha(0);
-            } else {
-                that.playersImg[0].setAlpha(0);
-                that.upArrows[0].setAlpha(0);
-                that.downArrows[0].setAlpha(0);
-                that.ticks[0].setAlpha(0);
-            }
-            if (that.players[1] && that.players[1].isConnected && that.players[1].isReady) {
-                that.playersImg[1].setAlpha(1);
-                that.upArrows[1].setAlpha(1);
-                that.downArrows[1].setAlpha(0);
-                that.ticks[1].setAlpha(1);
-            } else if (that.players[1] && that.players[1].isConnected && !that.players[1].isReady){
-                that.playersImg[1].setAlpha(0.6);
-                that.upArrows[1].setAlpha(0);
-                that.downArrows[1].setAlpha(1);
-                that.ticks[1].setAlpha(0);
-            } else {
-                that.playersImg[1].setAlpha(0);
-                that.upArrows[1].setAlpha(1);
-                that.downArrows[1].setAlpha(1);
-                that.ticks[1].setAlpha(0);
-            }
-            if (that.players[2] && that.players[2].isConnected && that.players[2].isReady) {
-                that.playersImg[2].setAlpha(1);
-                that.upArrows[2].setAlpha(1);
-                that.downArrows[2].setAlpha(0);
-                that.ticks[2].setAlpha(1);
-            } else if (that.players[2] && that.players[2].isConnected && !that.players[2].isReady){
-                that.playersImg[2].setAlpha(0.6);
-                that.upArrows[2].setAlpha(0);
-                that.downArrows[2].setAlpha(1);
-                that.ticks[2].setAlpha(0);
-            } else {
-                that.playersImg[2].setAlpha(0);
-                that.upArrows[2].setAlpha(0);
-                that.downArrows[2].setAlpha(0);
-                that.ticks[2].setAlpha(0);
-            }
-            if (that.players[3] && that.players[3].isConnected && that.players[3].isReady) {
-                that.playersImg[3].setAlpha(1);
-                that.upArrows[3].setAlpha(1);
-                that.downArrows[3].setAlpha(0);
-                that.ticks[3].setAlpha(1);
-            } else if(that.players[3] && that.players[3].isConnected && !that.players[3].isReady){
-                that.playersImg[3].setAlpha(0.6);
-                that.upArrows[3].setAlpha(0);
-                that.downArrows[3].setAlpha(1);
-                that.ticks[3].setAlpha(0);
-            } else {
-                that.playersImg[3].setAlpha(0);
-                that.upArrows[3].setAlpha(3);
-                that.downArrows[3].setAlpha(0);
-                that.ticks[3].setAlpha(0);
+            for (var i = 0; i < that.players.length; i++){
+                if (that.players[i].isConnected && that.players[i].isReady) {
+                    that.playersImg[i].setAlpha(1);
+                    that.upArrows[i].setAlpha(1);
+                    that.downArrows[i].setAlpha(0);
+                    that.ticks[i].setAlpha(1);
+                } else if(that.players[i].isConnected && !that.players[i].isReady){
+                    that.playersImg[i].setAlpha(0.6);
+                    that.upArrows[i].setAlpha(0);
+                    that.downArrows[i].setAlpha(1);
+                    that.ticks[i].setAlpha(0);
+                } else {
+                    that.playersImg[i].setAlpha(0);
+                    that.upArrows[i].setAlpha(0);
+                    that.downArrows[i].setAlpha(0);
+                    that.ticks[i].setAlpha(0);
+                }
             }
         });
         // Si no se puede establecer conexión
@@ -278,7 +233,7 @@ class OnlineLobby extends Phaser.Scene{
         $.ajax({
             method: "PUT",
             url: "http://"+ that.ip +"/mango-mambo/" + that.myPlayer.id,
-            data: JSON.stringify(that.myPlayer),
+            data: JSON.stringify(that.players[that.myPlayer.id]),
             processData: false,
             headers: {
                 "Content-Type": "application/json"
