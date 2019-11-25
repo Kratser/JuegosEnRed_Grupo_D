@@ -163,6 +163,25 @@ class OnlineLobby extends Phaser.Scene{
         // Si el servidor está activo
         if (this.serverStatus){
             this.serverStatusImg.setAlpha(0);
+            // Mostrar a los jugadores si entran en el lobby
+            for (var i = 0; i < this.players.length; i++){
+                if (this.players[i].isConnected && this.players[i].isReady) {
+                    this.playersImg[i].setAlpha(1);
+                    this.upArrows[i].setAlpha(1);
+                    this.downArrows[i].setAlpha(0);
+                    this.ticks[i].setAlpha(1);
+                } else if(this.players[i].isConnected && !this.players[i].isReady){
+                    this.playersImg[i].setAlpha(0.6);
+                    this.upArrows[i].setAlpha(0);
+                    this.downArrows[i].setAlpha(1);
+                    this.ticks[i].setAlpha(0);
+                } else {
+                    this.playersImg[i].setAlpha(0);
+                    this.upArrows[i].setAlpha(0);
+                    this.downArrows[i].setAlpha(0);
+                    this.ticks[i].setAlpha(0);
+                }
+            }
             // Si se pulsa el cursor hacia arriba
             if (Phaser.Input.Keyboard.JustDown(this.cursors[2])){
                 if (this.players[this.myPlayer.id].isReady){
@@ -222,25 +241,6 @@ class OnlineLobby extends Phaser.Scene{
             that.serverStatus = true;
             that.myPlayer.isConnected = true;
             that.updatePlayer();
-            // Mostrar a los jugadores si entran en el lobby
-            for (var i = 0; i < that.players.length; i++){
-                if (that.players[i].isConnected && that.players[i].isReady) {
-                    that.playersImg[i].setAlpha(1);
-                    that.upArrows[i].setAlpha(1);
-                    that.downArrows[i].setAlpha(0);
-                    that.ticks[i].setAlpha(1);
-                } else if(that.players[i].isConnected && !that.players[i].isReady){
-                    that.playersImg[i].setAlpha(0.6);
-                    that.upArrows[i].setAlpha(0);
-                    that.downArrows[i].setAlpha(1);
-                    that.ticks[i].setAlpha(0);
-                } else {
-                    that.playersImg[i].setAlpha(0);
-                    that.upArrows[i].setAlpha(0);
-                    that.downArrows[i].setAlpha(0);
-                    that.ticks[i].setAlpha(0);
-                }
-            }
         });
         // Si no se puede establecer conexión
         checkStatus.error(function(data){
