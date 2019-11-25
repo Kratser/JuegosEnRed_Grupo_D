@@ -145,11 +145,21 @@ class OnlineLobby extends Phaser.Scene{
         // Tween de la imagen del jugador
         var tweenPlayer = this.tweens.add({
             targets: this.myPlayerImg,
-            alpha: { from: 0.35, to: 1 },
-            x: 70.50,
-            duration: 700,
+            props: {
+            	x: {
+            		value: 50.50,
+            		duration: 500,
+            		yoyo: true,
+            		hold: 500
+            	},
+            	angle: {
+            		value: 360,
+            		duration: 500,
+            		delay: 500,
+            		repeatDelay: 1000
+            	}
+            },
             ease: 'Sine.easeInOut',
-            yoyo: true,
             repeat: -1
         });
         // Temporizador para comprobar el estado de los jugadores
