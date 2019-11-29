@@ -162,13 +162,93 @@ class OnlineLobby extends Phaser.Scene{
             ease: 'Sine.easeInOut',
             repeat: -1
         });
-        // Temporizador para comprobar el estado de los jugadores
-        this.time.addEvent({ delay: 5000, callback: this.checkPlayers, callbackScope: this, repeat: -1});
-        // Imagen del estado del servidor
-        this.serverStatus = true;
-        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
-        this.serverStatusImg.setAlpha(0);
+        
+        /*
+        //CHAT
+        var x = document.getElementById("TEXTAREA");
+
+        this.formUtil = new FormUtil({
+            scene: this,
+            rows: 11,
+            cols: 11
+        });
+        this.formUtil.showNumbers();
+        //
+        //
+        //
+        this.formUtil.scaleToGameW("TEXTAREA", .3);
+        this.formUtil.placeElementAt(16, 'TEXTAREA', true);
+        //
+        //
+        //
+        this.formUtil.scaleToGameW("TEXTAREA", .8);
+        this.formUtil.scaleToGameH("TEXTAREA", .5);
+        this.formUtil.placeElementAt(60, "TEXTAREA", true, true);
+        this.formUtil.addChangeCallback("TEXTAREA", this.textAreaChanged, this);
+        //
+        //
+        //
+        */
+        
+       // Temporizador para comprobar el estado de los jugadores
+       this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1});
+       // Imagen del estado del servidor
+       this.serverStatus = true;
+       this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
+       this.serverStatusImg.setAlpha(0);
+       // Texto del chat
+       var textChat = this.make.text({
+    	   x: 580,
+           y: 522,
+           text: "Texto",
+           style: {
+               fontSize: '25px',
+               fontFamily: 'Berlin Sans FB',
+               color: '#ffffff',
+               align: 'left',
+               strokeThickness: '1'
+             }
+       });
+       textChat.text = "";
+       var text = [];
+       var contLines = 0;
+       this.input.keyboard.on("keydown", function(event){ 
+    	   if(event.keyCode == 8){
+    		   if (textChat.text.length == 0){
+    			   if (contLines > 0){
+    				   textChat.text = text[contLines-1];
+        			   contLines--;
+    			   }
+    		   }else{
+    			   var lastElem = textChat.text.length - 1;
+        		   var textDelete = [];
+        		   for (var i = 0; i < textChat.text.length-1; i++){
+        			   textDelete += textChat.text[i];
+        		   }
+        		   textChat.text = textDelete;
+    		   }
+    	   }
+    	   else if (textChat.width < 1468){
+    		   if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
+    			   textChat.text += event.key;
+        	   }
+        	   else if(event.keyCode == 32){
+        		   textChat.text += " ";
+        	   }
+    	   }
+    	   else{
+    		   text[contLines] = textChat.text;
+    		   contLines++;
+    		   textChat.text = "";
+    	   }
+       });
     }
+    /*
+    textAreaChanged() {
+        var text = this.formUtil.getTextAreaValue("TEXTAREA");
+        console.log(text);
+    }
+    */
     update(){
         // Si el servidor está activo
         if (this.serverStatus){
@@ -195,39 +275,33 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia arriba
             if (Phaser.Input.Keyboard.JustDown(this.cursors[2])){
                 if (this.players[this.myPlayer.id].isReady){
-                    this.players[this.myPlayer.id].isReady = false;
-                    this.upArrows[this.myPlayer.id].setAlpha(0);
+                	this.upArrows[this.myPlayer.id].setAlpha(0);
                     this.downArrows[this.myPlayer.id].setAlpha(1);
                     this.ticks[this.myPlayer.id].setAlpha(0);
+                    this.myPlayer.isReady = false;
+                    this.players[this.myPlayer.id] = this.myPlayer;
                     this.updatePlayer();
                 }
             }
             // Si se pulsa el cursor hacia abajo
             if (Phaser.Input.Keyboard.JustDown(this.cursors[3])){
                 if (!this.players[this.myPlayer.id].isReady){
-                    this.players[this.myPlayer.id].isReady = true;
-                    this.upArrows[this.myPlayer.id].setAlpha(1);
+                	this.upArrows[this.myPlayer.id].setAlpha(1);
                     this.downArrows[this.myPlayer.id].setAlpha(0);
                     this.ticks[this.myPlayer.id].setAlpha(1);
+                    this.myPlayer.isReady = true;
+                    this.players[this.myPlayer.id] = this.myPlayer;
                     this.updatePlayer();
                 }
             }
             // Si se pulsa la tecla ESC
             if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
-                var that = this;
-                // Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
-                var deletePlayer = $.ajax({
-                    method: "DELETE",
-                    url: "http://" + this.ip + "/mango-mambo/" + this.myPlayer.id
-                });
-                deletePlayer.done(function (data) {
-                    that.players[data.id] = data;
-                    that.scene.start("main_menu", { volume: this.vol });
-                });
-                deletePlayer.error(function (data) {
-                    console.log("Error de conexión");
-                    that.serverStatus = false;
-                });
+            	// Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
+                this.myPlayer.isReady = false;
+                this.myPlayer.isConnected = false;
+                this.players[this.myPlayer.id] = this.myPlayer;
+                this.updatePlayer();
+                this.scene.start("main_menu", { volume: this.vol });
             }// Fin if se pulsa la tecla ESC
         }// Fin if(serverStatus)
         else{ // Si el servidor no está activo
@@ -247,9 +321,10 @@ class OnlineLobby extends Phaser.Scene{
         // Si establece conexión con el servidor se actualizan los jugadores
         checkStatus.done(function(data){
             that.players = data;
+            that.players[that.myPlayer.id] = that.myPlayer;
             console.log(that.players);
             that.serverStatus = true;
-            that.myPlayer.isConnected = true;
+            that.players[that.myPlayer.id] = that.myPlayer;
             that.updatePlayer();
         });
         // Si no se puede establecer conexión
@@ -260,7 +335,7 @@ class OnlineLobby extends Phaser.Scene{
     }
     updatePlayer(){
         var that = this;
-        $.ajax({
+        var playerUpdate = $.ajax({
             method: "PUT",
             url: "http://"+ that.ip +"/mango-mambo/" + that.myPlayer.id,
             data: JSON.stringify(that.players[that.myPlayer.id]),
@@ -268,8 +343,13 @@ class OnlineLobby extends Phaser.Scene{
             headers: {
                 "Content-Type": "application/json"
             }
-        }).done(function(data){
+        });
+        playerUpdate.done(function(data){
             that.players[data.id] = data;
+        });
+        playerUpdate.error(function(data){
+            console.log("Error de conexión");
+            that.serverStatus = false;
         });
     }
 }
