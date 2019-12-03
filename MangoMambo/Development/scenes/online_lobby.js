@@ -64,6 +64,7 @@ class OnlineLobby extends Phaser.Scene{
         // Teclas
         this.cursors;
         // Estado del servidor
+        this.refresh;
         this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
         this.serverStatusImg;
         this.serverStatus;
@@ -76,7 +77,7 @@ class OnlineLobby extends Phaser.Scene{
         // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
         // Boton escape
-        this.escapeButton = this.add.image(45, 20, "escape_button");
+        this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(1);
         // Jugadores
         this.playersImg = [];
         this.playersImg[0] = this.add.image(169.09, 67, "player1_online");
@@ -232,7 +233,7 @@ class OnlineLobby extends Phaser.Scene{
            });
        }
        // Temporizador para comprobar el estado de los jugadores
-       this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1});
+       this.refresh = this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1});
        // Imagen del estado del servidor
        this.serverStatus = true;
        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
@@ -286,12 +287,16 @@ class OnlineLobby extends Phaser.Scene{
                 this.myPlayer.isConnected = false;
                 this.players[this.myPlayer.id] = this.myPlayer;
                 this.updatePlayer();
+                this.refresh.pause;
                 this.scene.start("main_menu", { volume: this.vol });
             }// Fin if se pulsa la tecla ESC
         }// Fin if(serverStatus)
         else{ // Si el servidor no está activo
             this.serverStatusImg.setAlpha(1);
             if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
+            	this.myPlayer.isReady = false;
+                this.myPlayer.isConnected = false;
+                this.players[this.myPlayer.id] = this.myPlayer;
                 this.scene.start("main_menu", { volume: this.vol });
             }
         }
@@ -309,7 +314,6 @@ class OnlineLobby extends Phaser.Scene{
             that.players[that.myPlayer.id] = that.myPlayer;
             console.log(that.players);
             that.serverStatus = true;
-            that.players[that.myPlayer.id] = that.myPlayer;
             that.updatePlayer();
         });
         // Si no se puede establecer conexión
@@ -327,7 +331,6 @@ class OnlineLobby extends Phaser.Scene{
         	for (var i = 0; i < that.chat.length; i++){
         		that.chatMessages[i].text = that.chat[i];
         	}
-        	console.log(data);
         });
         // Si falla la conexión
         checkChatStatus.error(function(data){
@@ -340,7 +343,7 @@ class OnlineLobby extends Phaser.Scene{
         var playerUpdate = $.ajax({
             method: "PUT",
             url: "http://"+ that.ip +"/mango-mambo/" + that.myPlayer.id,
-            data: JSON.stringify(that.players[that.myPlayer.id]),
+            data: JSON.stringify(that.myPlayer),
             processData: false,
             headers: {
                 "Content-Type": "application/json"
