@@ -205,7 +205,7 @@ Es la "pantalla central", ya que desde ella podremos acceder al juego en sí y a
 
 En esta pantalla se podrán seleccionar los distintos personajes, también se determinará cuántos jugadores van a jugar.
 
-![SelectCharacter](https://user-images.githubusercontent.com/36482605/68355517-cd605080-010f-11ea-9e56-40c05231da62.png)
+![select_characters_updated](https://user-images.githubusercontent.com/36482605/70087708-17f0c200-1615-11ea-9ca7-05a8fd7bd77e.PNG)
 
 ### **3.6. Detalles del minijuego**
 
@@ -219,7 +219,7 @@ Aquí se muestra un breve esquema que explica cómo jugar al minijuego. También
 
 Donde tiene lugar el Minijuego 1, en el que los jugadores tendrán que obtener el mango y mantenerlo hasta que explote.
 
-![Level_1](https://user-images.githubusercontent.com/55460661/68350296-258f5680-0100-11ea-92cd-307683f93166.png)
+![level_1](https://user-images.githubusercontent.com/36482605/70087650-fee81100-1614-11ea-9edf-53e46c6e8940.png)
 
 ### **3.8. Menú de pausa**
 
@@ -273,7 +273,7 @@ Cuando los jugadores entran a online pasan a esta sala en la que pueden chatear 
 
 Aquí visionaremos los créditos del juego.
 
-![Credits](https://user-images.githubusercontent.com/36482605/68355555-e537d480-010f-11ea-8214-cced3f605211.PNG)
+![credits_updated](https://user-images.githubusercontent.com/36482605/70087787-3c4c9e80-1615-11ea-94f5-1ec151650c61.PNG)
 
 ## **4. Arte**
 
