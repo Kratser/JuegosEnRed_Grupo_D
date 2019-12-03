@@ -53,17 +53,6 @@ class OnlineLobby extends Phaser.Scene{
         this.load.image("player3_online", "./Design/Objects/Text/player3_online.png");
         this.load.image("player4_online", "./Design/Objects/Text/player4_online.png");
         this.playersImg;
-        // Imágenes de flechas de selección
-        this.load.image("D_arrow_G", "./Design/Objects/Buttons/D_arrow_G.png");
-        this.load.image("U_arrow_G", "./Design/Objects/Buttons/U_arrow_G.png");
-        this.load.image("D_arrow_P", "./Design/Objects/Buttons/D_arrow_P.png");
-        this.load.image("U_arrow_P", "./Design/Objects/Buttons/U_arrow_P.png");
-        this.load.image("D_arrow_B", "./Design/Objects/Buttons/D_arrow_B.png");
-        this.load.image("U_arrow_B", "./Design/Objects/Buttons/U_arrow_B.png");
-        this.load.image("D_arrow_Y", "./Design/Objects/Buttons/D_arrow_Y.png");
-        this.load.image("U_arrow_Y", "./Design/Objects/Buttons/U_arrow_Y.png");
-        this.upArrows;
-        this.downArrows;
         this.load.image("you_G_player", "./Design/Objects/you_G_player.png");
         this.load.image("you_P_player", "./Design/Objects/you_P_player.png");
         this.load.image("you_B_player", "./Design/Objects/you_B_player.png");
@@ -89,43 +78,23 @@ class OnlineLobby extends Phaser.Scene{
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Jugadores
         this.playersImg = [];
-        this.playersImg[0] = this.add.image(273.20, 138.95, "player1_online");
+        this.playersImg[0] = this.add.image(169.09, 67, "player1_online");
         this.playersImg[0].setAlpha(0);
-        this.playersImg[1] = this.add.image(273.20, 238.50, "player2_online");
+        this.playersImg[1] = this.add.image(454.08, 67, "player2_online");// Y: 66.06
         this.playersImg[1].setAlpha(0);
-        this.playersImg[2] = this.add.image(273.20, 341.19, "player3_online");
+        this.playersImg[2] = this.add.image(740.78, 67, "player3_online");// Y: 66.16
         this.playersImg[2].setAlpha(0);
-        this.playersImg[3] = this.add.image(273.20, 442.83, "player4_online");
+        this.playersImg[3] = this.add.image(1030.02, 67, "player4_online");// Y:66.14
         this.playersImg[3].setAlpha(0);
-        // Imágenes de flechas de selección 
-        this.upArrows = [];
-        this.upArrows[0] = this.add.image(416.55, 138.95, "U_arrow_G");
-        this.upArrows[0].setAlpha(0);
-        this.upArrows[1] = this.add.image(416.55, 238.50, "U_arrow_P");
-        this.upArrows[1].setAlpha(0);
-        this.upArrows[2] = this.add.image(416.55, 341.19, "U_arrow_B");
-        this.upArrows[2].setAlpha(0);
-        this.upArrows[3] = this.add.image(416.55, 442.83, "U_arrow_Y");
-        this.upArrows[3].setAlpha(0);
-        this.downArrows = [];
-        this.downArrows[0] = this.add.image(416.55, 141.80, "D_arrow_G");
-        this.downArrows[0].setAlpha(0);
-        this.downArrows[1] = this.add.image(416.55, 238.50, "D_arrow_P");
-        this.downArrows[1].setAlpha(0);
-        this.downArrows[2] = this.add.image(416.55, 341.19, "D_arrow_B");
-        this.downArrows[2].setAlpha(0);
-        this.downArrows[3] = this.add.image(416.55, 442.83, "D_arrow_Y");
-        this.downArrows[3].setAlpha(0);
-        this.downArrows[this.myPlayer.id].setAlpha(1);
         // Imagen de los checks de preparado
         this.ticks = [];
-        this.ticks[0] = this.add.image(488.50, 137, "tick");
+        this.ticks[0] = this.add.image(258.50, 66.50, "tick");
         this.ticks[0].setAlpha(0);
-        this.ticks[1] = this.add.image(488.50, 237, "tick");
+        this.ticks[1] = this.add.image(543.50, 66.50, "tick");
         this.ticks[1].setAlpha(0);
-        this.ticks[2] = this.add.image(488.50, 341, "tick");
+        this.ticks[2] = this.add.image(830.50, 66.50, "tick");
         this.ticks[2].setAlpha(0);
-        this.ticks[3] = this.add.image(488.50, 441, "tick");
+        this.ticks[3] = this.add.image(1119.50, 66.50, "tick");
         this.ticks[3].setAlpha(0);
         // Teclas
         this.cursors = [];
@@ -137,38 +106,18 @@ class OnlineLobby extends Phaser.Scene{
         this.players[this.myPlayer.id] = this.myPlayer;
         switch(this.myPlayer.id){
             case 0:
-                this.myPlayerImg = this.add.image(74.50, 138, "you_G_player");
+                this.myPlayerImg = this.add.image(169.50, 81.88, "you_G_player");
                 break;
             case 1:
-                this.myPlayerImg = this.add.image(74.50, 238, "you_P_player");
+                this.myPlayerImg = this.add.image(454.50, 81.88, "you_P_player");
                 break;
             case 2:
-                this.myPlayerImg = this.add.image(74.50, 344, "you_B_player");
+                this.myPlayerImg = this.add.image(741.50, 81.88, "you_B_player");
                 break;
             case 3:
-                this.myPlayerImg = this.add.image(74.50, 443, "you_Y_player");
+                this.myPlayerImg = this.add.image(1029.50, 81.88, "you_Y_player");
                 break;
         }
-        // Tween de la imagen del jugador
-        var tweenPlayer = this.tweens.add({
-            targets: this.myPlayerImg,
-            props: {
-            	x: {
-            		value: 50.50,
-            		duration: 500,
-            		yoyo: true,
-            		hold: 500
-            	},
-            	angle: {
-            		value: 360,
-            		duration: 500,
-            		delay: 500,
-            		repeatDelay: 1000
-            	}
-            },
-            ease: 'Sine.easeInOut',
-            repeat: -1
-        });
         
         /*
         //CHAT
@@ -288,26 +237,18 @@ class OnlineLobby extends Phaser.Scene{
             for (var i = 0; i < this.players.length; i++){
                 if (this.players[i].isConnected && this.players[i].isReady) {
                     this.playersImg[i].setAlpha(1);
-                    this.upArrows[i].setAlpha(1);
-                    this.downArrows[i].setAlpha(0);
                     this.ticks[i].setAlpha(1);
                 } else if(this.players[i].isConnected && !this.players[i].isReady){
                     this.playersImg[i].setAlpha(0.6);
-                    this.upArrows[i].setAlpha(0);
-                    this.downArrows[i].setAlpha(1);
                     this.ticks[i].setAlpha(0);
                 } else {
                     this.playersImg[i].setAlpha(0);
-                    this.upArrows[i].setAlpha(0);
-                    this.downArrows[i].setAlpha(0);
                     this.ticks[i].setAlpha(0);
                 }
             }
             // Si se pulsa el cursor hacia arriba
             if (Phaser.Input.Keyboard.JustDown(this.cursors[2])){
                 if (this.players[this.myPlayer.id].isReady){
-                	this.upArrows[this.myPlayer.id].setAlpha(0);
-                    this.downArrows[this.myPlayer.id].setAlpha(1);
                     this.ticks[this.myPlayer.id].setAlpha(0);
                     this.myPlayer.isReady = false;
                     this.players[this.myPlayer.id] = this.myPlayer;
@@ -317,8 +258,6 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia abajo
             if (Phaser.Input.Keyboard.JustDown(this.cursors[3])){
                 if (!this.players[this.myPlayer.id].isReady){
-                	this.upArrows[this.myPlayer.id].setAlpha(1);
-                    this.downArrows[this.myPlayer.id].setAlpha(0);
                     this.ticks[this.myPlayer.id].setAlpha(1);
                     this.myPlayer.isReady = true;
                     this.players[this.myPlayer.id] = this.myPlayer;
