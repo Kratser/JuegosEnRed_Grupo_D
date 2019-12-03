@@ -45,6 +45,8 @@ class OnlineLobby extends Phaser.Scene{
         });
         // Se carga la imagen de fondo
         this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
+        // Boton de escape
+        this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
         // Jugadores
         this.load.image("player1_online", "./Design/Objects/Text/player1_online.png");
         this.load.image("player2_online", "./Design/Objects/Text/player2_online.png");
@@ -83,6 +85,8 @@ class OnlineLobby extends Phaser.Scene{
     create(){
         // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
+        // Boton escape
+        this.escapeButton = this.add.image(45, 20, "escape_button");
         // Jugadores
         this.playersImg = [];
         this.playersImg[0] = this.add.image(273.20, 138.95, "player1_online");
