@@ -39,6 +39,13 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * También se adjunta la presentación con la que mostraremos el avance del juego en la fase 2 (MangoMamboFase2.pptx).
 * Además, el contenido de este README también ha sido actualizado según el progreso realizado.
 
+# **Organización del tag fase3**
+
+* Aparte de lo comentado en el tag fase1 y fase2, se adjunta un nuevo documento pdf (MangoMamboGDD_V03.pdf) donde se encuentra el documento de diseño actualizado.
+* También se adjunta la presentación con la que mostraremos el trabajo de la fase 3 (MangoMamboFase3.pptx).
+* En este README y en el GDD hemos actualizado las imágenes del diagrama de flujo y el menú principal. Además hemos añadido todas las imágenes relacionadas con la parte Online. 
+* Hay un nuevo apartado que explica la parte de APIRest.
+
 * * *
 
 # **GDD**
