@@ -174,7 +174,7 @@ una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 
 Pantallas a lo largo del juego e interacción entre ellas:
 
-![Diagrama de Flujo](https://user-images.githubusercontent.com/55460661/68350203-e103bb00-00ff-11ea-8f7f-d31ff19426c4.png)
+![flowchart](https://user-images.githubusercontent.com/36482605/70080236-7bbfbe80-1606-11ea-9e4c-bd89f2c01c53.PNG)
 
 ### **3.2. Pantalla de grupo**
 
@@ -192,7 +192,7 @@ En esta se narra de forma introductoria el contexto del videojuego y se presenta
 
 Es la "pantalla central", ya que desde ella podremos acceder al juego en sí y a las opciones.
 
-![MainMenu](https://user-images.githubusercontent.com/36482605/68355483-c0436180-010f-11ea-88b3-c9f4600b3cf3.png)
+![main_menu](https://user-images.githubusercontent.com/36482605/70080280-8e39f800-1606-11ea-934f-ab73f9d59fd9.PNG)
 
 ### **3.5. Selección de personajes**
 
@@ -238,7 +238,31 @@ Esta aparece en las transiciones entre pantallas, mostrando el progreso de carga
 
 ![Loading](https://user-images.githubusercontent.com/36482605/68355778-95a5d880-0110-11ea-8c81-8bc65b502430.png)
 
-### **3.12. Créditos**
+### **3.12. Pantalla de carga del servidor**
+
+Al entrar a local aparece una pantalla de carga con un icono que se actualiza mientras se esté realizando la conexión al servidor.
+
+![loading_server](https://user-images.githubusercontent.com/36482605/70080469-e40ea000-1606-11ea-8e61-20581de639a4.png)
+
+### **3.13. Mensaje de conexión fallida del servidor**
+
+Si las peticiones no llegan, el servidor no responde o se ha producido un error, aparece esta imagen notificando lo que ha ocurrido.
+
+![connection_failed](https://user-images.githubusercontent.com/36482605/70080523-00aad800-1607-11ea-8bf3-fe9ef2d6de12.PNG)
+
+### **3.14. Servidor lleno**
+
+Cuando hay cuatro jugadores en el servidor, si eres el quinto e intentas acceder no puedes y aparece esta imagen emergente.
+
+![full_server](https://user-images.githubusercontent.com/36482605/70080584-1e783d00-1607-11ea-9beb-fc8903855156.PNG)
+
+### **3.15. Lobby del servidor**
+
+Cuando los jugadores entran a online pasan a esta sala en la que pueden chatear y ver su estado y el de otros jugadores (conectados al servidor o preparados para jugar).
+
+![lobby_server](https://user-images.githubusercontent.com/36482605/70080681-45cf0a00-1607-11ea-9be7-dad7fcbf6ced.png)
+
+### **3.16. Créditos**
 
 Aquí visionaremos los créditos del juego.
 
