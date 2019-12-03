@@ -76,6 +76,9 @@ class OnlineLobby extends Phaser.Scene{
         this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
         this.serverStatusImg;
         this.serverStatus;
+        // Chat
+        this.textChat;
+        this.chat;
     }
     create(){
         // Se crea la imagen de fondo
@@ -197,49 +200,73 @@ class OnlineLobby extends Phaser.Scene{
        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
        this.serverStatusImg.setAlpha(0);
        // Texto del chat
-       var textChat = this.make.text({
+       this.textChat = this.make.text({
     	   x: 580,
-           y: 522,
+           y: 524,
            text: "Texto",
            style: {
                fontSize: '25px',
                fontFamily: 'Berlin Sans FB',
                color: '#ffffff',
-               align: 'left',
-               strokeThickness: '1'
+               align: 'left'
              }
        });
-       textChat.text = "";
+       this.textChat.text = "";
        var text = [];
        var contLines = 0;
        this.input.keyboard.on("keydown", function(event){ 
+    	   var that = this.scene;
     	   if(event.keyCode == 8){
-    		   if (textChat.text.length == 0){
+    		   if (that.textChat.text.length == 0){
     			   if (contLines > 0){
-    				   textChat.text = text[contLines-1];
+    				   that.textChat.text = text[contLines-1];
         			   contLines--;
     			   }
     		   }else{
-    			   var lastElem = textChat.text.length - 1;
         		   var textDelete = [];
-        		   for (var i = 0; i < textChat.text.length-1; i++){
-        			   textDelete += textChat.text[i];
+        		   for (var i = 0; i < that.textChat.text.length-1; i++){
+        			   textDelete += that.textChat.text[i];
         		   }
-        		   textChat.text = textDelete;
+        		   that.textChat.text = textDelete;
     		   }
     	   }
-    	   else if (textChat.width < 1468){
+    	   else if (event.keyCode == 13 && that.textChat.text.length > 0) {
+    		   text[contLines] = that.textChat.text;
+    		   contLines = 0;
+    		   that.textChat.text = "";
+    		   var newMessage = $.ajax({
+    			   method: "POST",
+    			   url: "http://"+ that.ip +"/mango-mambo/chat/" + that.myPlayer.id,
+    	           data: JSON.stringify(text),
+    	           processData: false,
+    	           headers: {
+    	               "Content-Type": "application/json"
+    	           }
+    		   });
+    		   newMessage.done(function(data){
+    			   text = [];
+    			   console.log(data);
+    			   that.chat = data;
+    		   });
+    		   newMessage.error(function(data){
+    			   console.log("Error de conexión");
+    			   that.serverStatus = false;
+    			   contLines = text.length-1;
+    			   that.textChat.text = text[contLines];
+    		   });
+    	   }
+    	   else if (that.textChat.width < 1468){
     		   if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
-    			   textChat.text += event.key;
+    			   that.textChat.text += event.key;
         	   }
         	   else if(event.keyCode == 32){
-        		   textChat.text += " ";
+        		   that.textChat.text += " ";
         	   }
     	   }
     	   else{
-    		   text[contLines] = textChat.text;
+    		   text[contLines] = that.textChat.text;
     		   contLines++;
-    		   textChat.text = "";
+    		   that.textChat.text = "";
     	   }
        });
     }
@@ -314,12 +341,12 @@ class OnlineLobby extends Phaser.Scene{
     // Función que comprueba el estado de los jugadores y lo actualiza
     checkPlayers(){
         var that = this;
-        var checkStatus = $.ajax({
+        var checkPlayerStatus = $.ajax({
             method: "GET",
             url: "http://"+ this.ip +"/mango-mambo"
         });
         // Si establece conexión con el servidor se actualizan los jugadores
-        checkStatus.done(function(data){
+        checkPlayerStatus.done(function(data){
             that.players = data;
             that.players[that.myPlayer.id] = that.myPlayer;
             console.log(that.players);
@@ -328,8 +355,22 @@ class OnlineLobby extends Phaser.Scene{
             that.updatePlayer();
         });
         // Si no se puede establecer conexión
-        checkStatus.error(function(data){
+        checkPlayerStatus.error(function(data){
             console.log("Error de conexión");
+            that.serverStatus = false;
+        });
+        var checkChatStatus = $.ajax({
+            method: "GET",
+            url: "http://"+ this.ip +"/mango-mambo/chat"
+        });
+        // Si se establece conexión, se actualiza el chat
+        checkChatStatus.done(function(data){
+        	that.chat = data;
+        	console.log(data);
+        });
+        // Si falla la conexión
+        checkChatStatus.error(function(data){
+        	console.log("Error de conexión");
             that.serverStatus = false;
         });
     }
