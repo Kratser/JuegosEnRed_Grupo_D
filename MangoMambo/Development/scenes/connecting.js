@@ -42,11 +42,11 @@ class Connecting extends Phaser.Scene{
         // Se carga la imágenes de los iconos de conectar
         this.load.image("connecting_icon", "./Design/Objects/connecting_icon.png");
         this.load.image("connecting_rock", "./Design/Objects/connecting_rock.png");
-        // Se carga la imagen del botón de escape
-        this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Se cargan las imágenes de conexión
         this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
         this.load.image("server_full_rock", "./Design/Objects/server_full_rock.png");
+        // Se carga la imagen del botón de escape
+        this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Imágenes de los iconos de conectar
         this.connecting_rock;
         this.connectingIcon;
@@ -61,7 +61,7 @@ class Connecting extends Phaser.Scene{
         this.cameras.main.fadeIn(500);
         // Se pasa la imagen de fondo a profundidad 0 para que la barra de carga quede por detrás
         this.loadingImg.setDepth(0);
-        this.add.image(80, 50, "big_esc");
+        this.add.image(80, 50, "big_esc").setDepth(1);
         this.connecting_rock = this.add.image(600,300,"connecting_rock");
         this.connectingIcon = this.add.image(600,275, "connecting_icon");
         // Animación del icono

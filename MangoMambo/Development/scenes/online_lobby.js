@@ -70,6 +70,7 @@ class OnlineLobby extends Phaser.Scene{
         // Chat
         this.textChat;
         this.chat;
+        this.chatMessages;
     }
     create(){
         // Se crea la imagen de fondo
@@ -146,16 +147,10 @@ class OnlineLobby extends Phaser.Scene{
         //
         */
         
-       // Temporizador para comprobar el estado de los jugadores
-       this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1});
-       // Imagen del estado del servidor
-       this.serverStatus = true;
-       this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
-       this.serverStatusImg.setAlpha(0);
        // Texto del chat
        this.textChat = this.make.text({
-    	   x: 580,
-           y: 524,
+    	   x: 94.60,
+           y: 473,
            text: "Texto",
            style: {
                fontSize: '25px',
@@ -208,7 +203,7 @@ class OnlineLobby extends Phaser.Scene{
     			   that.textChat.text = text[contLines];
     		   });
     	   }
-    	   else if (that.textChat.width < 1468){
+    	   else if (that.textChat.width < 940){
     		   if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
     			   that.textChat.text += event.key;
         	   }
@@ -222,6 +217,26 @@ class OnlineLobby extends Phaser.Scene{
     		   that.textChat.text = "";
     	   }
        });
+       this.chatMessages = [];
+       for (var i = 0; i < 9; i++){
+    	   this.chatMessages[i] = this.make.text({
+        	   x: 106,
+               y: 162.41 + (27 * i),
+               text: "",
+               style: {
+                   fontSize: '18px',
+                   fontFamily: 'Berlin Sans FB',
+                   color: '#ffffff',
+                   align: 'left'
+                 }
+           });
+       }
+       // Temporizador para comprobar el estado de los jugadores
+       this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1});
+       // Imagen del estado del servidor
+       this.serverStatus = true;
+       this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
+       this.serverStatusImg.setAlpha(0);
     }
     /*
     textAreaChanged() {
@@ -309,6 +324,9 @@ class OnlineLobby extends Phaser.Scene{
         // Si se establece conexión, se actualiza el chat
         checkChatStatus.done(function(data){
         	that.chat = data;
+        	for (var i = 0; i < that.chat.length; i++){
+        		that.chatMessages[i].text = that.chat[i];
+        	}
         	console.log(data);
         });
         // Si falla la conexión
