@@ -1,16 +1,15 @@
-class OnlineLobby extends Phaser.Scene{
-    constructor(){
-        super({key: "online_lobby"});
+class OnlineLobby extends Phaser.Scene {
+    constructor() {
+        super({ key: "online_lobby" });
     }// Fin constructor
-    init(data){
+    init(data) {
         this.players = data.players;
         this.myPlayer = data.client;
         this.ip = data.url;
         this.vol = data.volume;
         data = null;
     }
-    
-    preload(){
+    preload() {
         // Pantalla de Carga
         var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-1);
         var progressBar = this.add.graphics().setDepth(-1);
@@ -83,20 +82,20 @@ class OnlineLobby extends Phaser.Scene{
         this.chat;
         this.chatMessages;
     }
-    create(){
+    create() {
         // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(1);
-         // Flecha que señala dónde se escribe
+        // Flecha que señala dónde se escribe
         this.startMsg = this.add.image(184, 486, "start_msg");
         // Movimiento
         var tweenStart = this.tweens.add({
             targets: this.startMsg,
-            scaleX: 0.93,
-            scaleY: 0.93,
+            scaleX: 1.5,
+            scaleY: 1.5,
             ease: 'Sine.easeInOut',
-            duration: 2000,
+            duration: 1000,
             yoyo: true,
             repeat: -1
         });
@@ -128,7 +127,7 @@ class OnlineLobby extends Phaser.Scene{
         this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         // Se añade el cliente a la lista de jugadores
         this.players[this.myPlayer.id] = this.myPlayer;
-        switch(this.myPlayer.id){
+        switch (this.myPlayer.id) {
             case 0:
                 this.myPlayerImg = this.add.image(169.50, 81.88, "you_G_player");
                 break;
@@ -142,120 +141,120 @@ class OnlineLobby extends Phaser.Scene{
                 this.myPlayerImg = this.add.image(1029.50, 81.88, "you_Y_player");
                 break;
         }
- 
-       // Texto del chat
-       this.textChat = this.make.text({
-    	   x: 94.60,
-           y: 473,
-           text: "Texto",
-           style: {
-               fontSize: '25px',
-               fontFamily: 'Berlin Sans FB',
-               color: '#ffffff',
-               align: 'left'
-             }
-       });
-       this.textChat.text = "";
-       var text = [];
-       var contLines = 0;
-       this.input.keyboard.on("keydown", function(event){ 
-    	   var that = this.scene;
-    	   if(event.keyCode == 8){
-    		   if (that.textChat.text.length == 0){
-    			   if (contLines > 0){
-    				   that.textChat.text = text[contLines-1];
-        			   contLines--;
-    			   }
-    		   }else{
-        		   var textDelete = [];
-        		   for (var i = 0; i < that.textChat.text.length-1; i++){
-        			   textDelete += that.textChat.text[i];
-        		   }
-        		   that.textChat.text = textDelete;
-    		   }
-    	   }
-    	   else if (event.keyCode == 13 && that.textChat.text.length > 0) {
+        this.hit = this.sound.add("hit");
+        // Texto del chat
+        this.textChat = this.make.text({
+            x: 202,
+            y: 473,
+            text: "Texto",
+            style: {
+                fontSize: '25px',
+                fontFamily: 'Berlin Sans FB',
+                color: '#ffffff',
+                align: 'left'
+            }
+        });
+        this.textChat.text = "";
+        var text = [];
+        var contLines = 0;
+        this.input.keyboard.on("keydown", function (event) {
+            var that = this.scene;
+            if (event.keyCode == 8) {
+                if (that.textChat.text.length == 0) {
+                    if (contLines > 0) {
+                        that.textChat.text = text[contLines - 1];
+                        contLines--;
+                    }
+                } else {
+                    var textDelete = [];
+                    for (var i = 0; i < that.textChat.text.length - 1; i++) {
+                        textDelete += that.textChat.text[i];
+                    }
+                    that.textChat.text = textDelete;
+                }
+            }
+            else if (event.keyCode == 13 && that.textChat.text.length > 0) {
                 that.hit.play({
                     volume: that.vol
                 });
-    		   text[contLines] = that.textChat.text;
-    		   contLines = 0;
-    		   that.textChat.text = "";
-    		   var newMessage = $.ajax({
-    			   method: "POST",
-    			   url: "http://"+ that.ip +"/mango-mambo/chat/" + that.myPlayer.id,
-    	           data: JSON.stringify(text),
-    	           processData: false,
-    	           headers: {
-    	               "Content-Type": "application/json"
-    	           }
-    		   });
-    		   newMessage.done(function(data){
-    			   text = [];
-    			   console.log(data);
-    			   that.chat = data;
-    		   });
-    		   newMessage.error(function(data){
-    			   console.log("Error de conexión");
-    			   that.serverStatus = false;
-    			   contLines = text.length-1;
-    			   that.textChat.text = text[contLines];
-    		   });
-    	   }
-    	   else if (that.textChat.width < 940){
-    		   if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
-    			   that.textChat.text += event.key;
-        	   }
-        	   else if(event.keyCode == 32){
-        		   that.textChat.text += " ";
-        	   }
-    	   }
-    	   else{
-    		   text[contLines] = that.textChat.text;
-    		   contLines++;
-    		   that.textChat.text = "";
-    	   }
-       });
-       this.chatMessages = [];
-       for (var i = 0; i < 9; i++){
-    	   this.chatMessages[i] = this.make.text({
-        	   x: 106,
-               y: 162.41 + (27 * i),
-               text: "",
-               style: {
-                   fontSize: '18px',
-                   fontFamily: 'Berlin Sans FB',
-                   color: '#ffffff',
-                   align: 'left'
-                 }
-           });
-       }
-       // Temporizador para comprobar el estado de los jugadores
-       this.refresh = this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1});
-       // Imagen del estado del servidor
-       this.serverStatus = true;
-       this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
-       this.serverStatusImg.setAlpha(0);
-       // Se crea la música
-       this.sound.pauseOnBlur = false;
-       this.change_options = this.sound.add("change_options");
-       this.choose_options = this.sound.add("choose_options");
-       this.loop = this.sound.add("lobby_music");
-       this.loop.play({
-    	   loop: true,
-    	   volume: this.vol
-       });
+                text[contLines] = that.textChat.text;
+                contLines = 0;
+                that.textChat.text = "";
+                var newMessage = $.ajax({
+                    method: "POST",
+                    url: "http://" + that.ip + "/mango-mambo/chat/" + that.myPlayer.id,
+                    data: JSON.stringify(text),
+                    processData: false,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                newMessage.done(function (data) {
+                    text = [];
+                    console.log(data);
+                    that.chat = data;
+                });
+                newMessage.error(function (data) {
+                    console.log("Error de conexión");
+                    that.serverStatus = false;
+                    contLines = text.length - 1;
+                    that.textChat.text = text[contLines];
+                });
+            }
+            else if (that.textChat.width < 749) {
+                if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
+                    that.textChat.text += event.key;
+                }
+                else if (event.keyCode == 32) {
+                    that.textChat.text += " ";
+                }
+            }
+            else {
+                text[contLines] = that.textChat.text;
+                contLines++;
+                that.textChat.text = "";
+            }
+        });
+        this.chatMessages = [];
+        for (var i = 0; i < 9; i++) {
+            this.chatMessages[i] = this.make.text({
+                x: 195,
+                y: 162.41 + (27 * i),
+                text: "",
+                style: {
+                    fontSize: '23px',
+                    fontFamily: 'Berlin Sans FB',
+                    color: '#ffffff',
+                    align: 'left'
+                }
+            });
+        }
+        // Temporizador para comprobar el estado de los jugadores
+        this.refresh = this.time.addEvent({ delay: 100, callback: this.checkPlayers, callbackScope: this, repeat: -1 });
+        // Imagen del estado del servidor
+        this.serverStatus = true;
+        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
+        this.serverStatusImg.setAlpha(0);
+        // Se crea la música
+        this.sound.pauseOnBlur = false;
+        this.change_options = this.sound.add("change_options");
+        this.choose_options = this.sound.add("choose_options");
+        this.loop = this.sound.add("lobby_music");
+        this.loop.play({
+            loop: true,
+            volume: this.vol
+        });
     }
-    update(){
+    update() {
         // Si el servidor está activo
-        if (this.serverStatus){
+        if (this.serverStatus) {
             this.serverStatusImg.setAlpha(0);
             // Mostrar a los jugadores si entran en el lobby
-            for (var i = 0; i < this.players.length; i++){
+            for (var i = 0; i < this.players.length; i++) {
                 if (this.players[i].isConnected && this.players[i].isReady) {
                     this.playersImg[i].setAlpha(1);
                     this.ticks[i].setAlpha(1);
-                } else if(this.players[i].isConnected && !this.players[i].isReady){
+                } else if (this.players[i].isConnected && !this.players[i].isReady) {
                     this.playersImg[i].setAlpha(0.6);
                     this.ticks[i].setAlpha(0);
                 } else {
@@ -264,8 +263,8 @@ class OnlineLobby extends Phaser.Scene{
                 }
             }
             // Si se pulsa el cursor hacia arriba
-            if (Phaser.Input.Keyboard.JustDown(this.cursors[2])){
-                if (this.players[this.myPlayer.id].isReady){
+            if (Phaser.Input.Keyboard.JustDown(this.cursors[2])) {
+                if (this.players[this.myPlayer.id].isReady) {
                     this.change_options.play({
                         volume: this.vol
                     });
@@ -276,8 +275,8 @@ class OnlineLobby extends Phaser.Scene{
                 }
             }
             // Si se pulsa el cursor hacia abajo
-            if (Phaser.Input.Keyboard.JustDown(this.cursors[3])){
-                if (!this.players[this.myPlayer.id].isReady){
+            if (Phaser.Input.Keyboard.JustDown(this.cursors[3])) {
+                if (!this.players[this.myPlayer.id].isReady) {
                     this.hit.play({
                         volume: this.vol
                     });
@@ -292,7 +291,7 @@ class OnlineLobby extends Phaser.Scene{
                 this.choose_options.play({
                     volume: this.vol
                 });
-            	// Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
+                // Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
                 this.myPlayer.isReady = false;
                 this.myPlayer.isConnected = false;
                 this.players[this.myPlayer.id] = this.myPlayer;
@@ -303,10 +302,10 @@ class OnlineLobby extends Phaser.Scene{
                 this.loop.stop();
             }// Fin if se pulsa la tecla ESC
         }// Fin if(serverStatus)
-        else{ // Si el servidor no está activo
+        else { // Si el servidor no está activo
             this.serverStatusImg.setAlpha(1);
             if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
-            	this.myPlayer.isReady = false;
+                this.myPlayer.isReady = false;
                 this.myPlayer.isConnected = false;
                 this.players[this.myPlayer.id] = this.myPlayer;
                 this.scene.start("main_menu", { volume: this.vol });
@@ -316,14 +315,14 @@ class OnlineLobby extends Phaser.Scene{
         }
     }
     // Función que comprueba el estado de los jugadores y lo actualiza
-    checkPlayers(){
+    checkPlayers() {
         var that = this;
         var checkPlayerStatus = $.ajax({
             method: "GET",
-            url: "http://"+ this.ip +"/mango-mambo"
+            url: "http://" + this.ip + "/mango-mambo"
         });
         // Si establece conexión con el servidor se actualizan los jugadores
-        checkPlayerStatus.done(function(data){
+        checkPlayerStatus.done(function (data) {
             that.players = data;
             that.players[that.myPlayer.id] = that.myPlayer;
             console.log(that.players);
@@ -331,56 +330,56 @@ class OnlineLobby extends Phaser.Scene{
             that.updatePlayer();
         });
         // Si no se puede establecer conexión
-        checkPlayerStatus.error(function(data){
+        checkPlayerStatus.error(function (data) {
             console.log("Error de conexión");
             that.serverStatus = false;
         });
         var checkChatStatus = $.ajax({
             method: "GET",
-            url: "http://"+ this.ip +"/mango-mambo/chat"
+            url: "http://" + this.ip + "/mango-mambo/chat"
         });
         // Si se establece conexión, se actualiza el chat
-        checkChatStatus.done(function(data){
-        	that.chat = data;
-        	for (var i = 0; i < that.chat.length; i++){
-        		that.chatMessages[i].text = that.chat[i];
-          	   switch(that.chatMessages[i].text[7]){
-          	   case "1":
-          		 that.chatMessages[i].tint = 0x02ff0a;
-          		 break;
-          	   case "2":
-          		 that.chatMessages[i].tint = 0xf800ff;
-          		 break;
-          	   case "3":
-          		 that.chatMessages[i].tint = 0x00fff5;
-          		 break;
-          	   case "4":
-          		 that.chatMessages[i].tint = 0xffff00;
-          		 break;
-          	   }
-        	}
+        checkChatStatus.done(function (data) {
+            that.chat = data;
+            for (var i = 0; i < that.chat.length; i++) {
+                that.chatMessages[i].text = that.chat[i];
+                switch (that.chatMessages[i].text[7]) {
+                    case "1":
+                        that.chatMessages[i].tint = 0x02ff0a;
+                        break;
+                    case "2":
+                        that.chatMessages[i].tint = 0xf800ff;
+                        break;
+                    case "3":
+                        that.chatMessages[i].tint = 0x00fff5;
+                        break;
+                    case "4":
+                        that.chatMessages[i].tint = 0xffff00;
+                        break;
+                }
+            }
         });
         // Si falla la conexión
-        checkChatStatus.error(function(data){
-        	console.log("Error de conexión");
+        checkChatStatus.error(function (data) {
+            console.log("Error de conexión");
             that.serverStatus = false;
         });
     }
-    updatePlayer(){
+    updatePlayer() {
         var that = this;
         var playerUpdate = $.ajax({
             method: "PUT",
-            url: "http://"+ that.ip +"/mango-mambo/" + that.myPlayer.id,
+            url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
             data: JSON.stringify(that.myPlayer),
             processData: false,
             headers: {
                 "Content-Type": "application/json"
             }
         });
-        playerUpdate.done(function(data){
+        playerUpdate.done(function (data) {
             that.players[data.id] = data;
         });
-        playerUpdate.error(function(data){
+        playerUpdate.error(function (data) {
             console.log("Error de conexión");
             that.serverStatus = false;
         });
