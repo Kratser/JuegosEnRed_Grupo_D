@@ -344,6 +344,20 @@ class OnlineLobby extends Phaser.Scene{
         	that.chat = data;
         	for (var i = 0; i < that.chat.length; i++){
         		that.chatMessages[i].text = that.chat[i];
+          	   switch(that.chatMessages[i].text[7]){
+          	   case "1":
+          		 that.chatMessages[i].tint = 0x02ff0a;
+          		 break;
+          	   case "2":
+          		 that.chatMessages[i].tint = 0xf800ff;
+          		 break;
+          	   case "3":
+          		 that.chatMessages[i].tint = 0x00fff5;
+          		 break;
+          	   case "4":
+          		 that.chatMessages[i].tint = 0xffff00;
+          		 break;
+          	   }
         	}
         });
         // Si falla la conexión
