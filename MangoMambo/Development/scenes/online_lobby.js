@@ -7,8 +7,9 @@ class OnlineLobby extends Phaser.Scene{
         this.myPlayer = data.client;
         this.ip = data.url;
         this.vol = data.volume;
-        data = null; 
+        data = null;
     }
+    
     preload(){
         // Pantalla de Carga
         var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-1);
@@ -47,6 +48,8 @@ class OnlineLobby extends Phaser.Scene{
         this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
         // Boton de escape
         this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
+        // Flecha que señala dónde se escribe
+        this.load.image("start_msg", "./Design/Objects/start_msg.png");
         // Jugadores
         this.load.image("player1_online", "./Design/Objects/Text/player1_online.png");
         this.load.image("player2_online", "./Design/Objects/Text/player2_online.png");
@@ -71,6 +74,10 @@ class OnlineLobby extends Phaser.Scene{
         // Música
         this.load.audio("lobby_music", "./Design/Audio/LobbySong/lobby_music.wav");
         this.loop;
+        // Sonidos
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
+        this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         // Chat
         this.textChat;
         this.chat;
@@ -81,6 +88,18 @@ class OnlineLobby extends Phaser.Scene{
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(1);
+         // Flecha que señala dónde se escribe
+        this.startMsg = this.add.image(184, 486, "start_msg");
+        // Movimiento
+        var tweenStart = this.tweens.add({
+            targets: this.startMsg,
+            scaleX: 0.93,
+            scaleY: 0.93,
+            ease: 'Sine.easeInOut',
+            duration: 2000,
+            yoyo: true,
+            repeat: -1
+        });
         // Jugadores
         this.playersImg = [];
         this.playersImg[0] = this.add.image(169.09, 67, "player1_online");
@@ -123,34 +142,7 @@ class OnlineLobby extends Phaser.Scene{
                 this.myPlayerImg = this.add.image(1029.50, 81.88, "you_Y_player");
                 break;
         }
-        
-        /*
-        //CHAT
-        var x = document.getElementById("TEXTAREA");
-
-        this.formUtil = new FormUtil({
-            scene: this,
-            rows: 11,
-            cols: 11
-        });
-        this.formUtil.showNumbers();
-        //
-        //
-        //
-        this.formUtil.scaleToGameW("TEXTAREA", .3);
-        this.formUtil.placeElementAt(16, 'TEXTAREA', true);
-        //
-        //
-        //
-        this.formUtil.scaleToGameW("TEXTAREA", .8);
-        this.formUtil.scaleToGameH("TEXTAREA", .5);
-        this.formUtil.placeElementAt(60, "TEXTAREA", true, true);
-        this.formUtil.addChangeCallback("TEXTAREA", this.textAreaChanged, this);
-        //
-        //
-        //
-        */
-        
+ 
        // Texto del chat
        this.textChat = this.make.text({
     	   x: 94.60,
@@ -183,6 +175,9 @@ class OnlineLobby extends Phaser.Scene{
     		   }
     	   }
     	   else if (event.keyCode == 13 && that.textChat.text.length > 0) {
+                thit.hit.play({
+                    volume: that.vol
+                });
     		   text[contLines] = that.textChat.text;
     		   contLines = 0;
     		   that.textChat.text = "";
@@ -243,6 +238,8 @@ class OnlineLobby extends Phaser.Scene{
        this.serverStatusImg.setAlpha(0);
        // Se crea la música
        this.sound.pauseOnBlur = false;
+       this.change_options = this.sound.add("change_options");
+       this.choose_options = this.sound.add("choose_options");
        this.loop = this.sound.add("lobby_music");
        this.loop.play({
     	   loop: true,
@@ -275,6 +272,9 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia arriba
             if (Phaser.Input.Keyboard.JustDown(this.cursors[2])){
                 if (this.players[this.myPlayer.id].isReady){
+                    this.change_options.play({
+                        volume: this.vol
+                    });
                     this.ticks[this.myPlayer.id].setAlpha(0);
                     this.myPlayer.isReady = false;
                     this.players[this.myPlayer.id] = this.myPlayer;
@@ -284,6 +284,9 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia abajo
             if (Phaser.Input.Keyboard.JustDown(this.cursors[3])){
                 if (!this.players[this.myPlayer.id].isReady){
+                    this.choose_options.play({
+                        volume: this.vol
+                    });
                     this.ticks[this.myPlayer.id].setAlpha(1);
                     this.myPlayer.isReady = true;
                     this.players[this.myPlayer.id] = this.myPlayer;
@@ -292,6 +295,9 @@ class OnlineLobby extends Phaser.Scene{
             }
             // Si se pulsa la tecla ESC
             if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
+                this.choose_options.play({
+                    volume: this.vol
+                });
             	// Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
                 this.myPlayer.isReady = false;
                 this.myPlayer.isConnected = false;

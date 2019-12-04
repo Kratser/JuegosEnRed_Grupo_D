@@ -90,6 +90,7 @@ class ChooseCharacter extends Phaser.Scene {
         this.load.image("cc_ready_button_selected", "./Design/Objects/Buttons/cc_ready_button_selected.png");
         //sonido
         this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
         // Arrays para los textos
         this.names;
         this.habilities;
@@ -245,6 +246,7 @@ class ChooseCharacter extends Phaser.Scene {
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.choose_options = this.sound.add("choose_options");
+        this.change_options = this.sound.add("change_options");
         this.hit = this.sound.add("hit");
         
     }//Fin create
@@ -265,6 +267,9 @@ class ChooseCharacter extends Phaser.Scene {
                 }
                 this.changeCharacter(this.characters, 0, this.selectors[0]);
                 this.ChangeText(this.selectors[0], 0);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }else {// Si el jugador 1 ya se encuentra activo
             // A para cambiar de personaje
@@ -280,6 +285,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 0, this.selectors[0]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             //D para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors1[3]) && !this.players[0].selected){
@@ -291,6 +299,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 0, this.selectors[0]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // S para seleccionar personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors1[2]) && !this.charactersSelected[this.selectors[0]]){
@@ -308,6 +319,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[0].selected = false;
                 this.ready1.alpha = 0;
                 this.readyPlayers--;
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // W para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors1[0]) && !this.players[0].selected){
@@ -318,6 +332,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.habilities[0].hab.alpha = 0;// Ocultar habilidad
                 this.names[0].name.alpha = 0;// Ocultar nombre
                 this.gkeys.alpha = 1;// Aparecen las teclas
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }// Fin jugador 1
         // Creación y cambio del personaje del jugador 2
@@ -335,6 +352,9 @@ class ChooseCharacter extends Phaser.Scene {
                 }
                 this.changeCharacter(this.characters, 1, this.selectors[1]);
                 this.ChangeText(this.selectors[1], 1);// Que aparezca la habilidad/nombre al empezar a seleccionar
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }else {
             // J para cambiar de personaje
@@ -350,6 +370,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 1, this.selectors[1]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // L para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors2[3]) && !this.players[1].selected){
@@ -361,6 +384,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 1, this.selectors[1]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // K para seleccionar personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors2[2]) && !this.charactersSelected[this.selectors[1]]){
@@ -379,6 +405,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[1].selected = false;
                 this.ready2.alpha = 0;
                 this.readyPlayers--;
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // I para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors2[0]) && !this.players[1].selected){
@@ -389,6 +418,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.habilities[1].hab.alpha = 0; // Ocultar habilidad
                 this.names[1].name.alpha = 0; // Ocultar nombre
                 this.pkeys.alpha = 1;// Aparecen las teclas
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }//Fin jugador 2
         // Creación y cambio del personaje del jugador 3
@@ -406,6 +438,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.changeCharacter(this.characters, 2, this.selectors[2]);
                 this.ChangeText(this.selectors[2], 2);// Que aparezca la habilidad/nombre al empezar a seleccionar
                 this.bkeys.alpha = 0;// Desaparecen las teclas
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }else {
             // LEFT para cambiar de personaje
@@ -421,6 +456,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 2, this.selectors[2]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // RIGHT para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors3[3]) && !this.players[2].selected){
@@ -432,6 +470,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 2, this.selectors[2]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // DOWN para seleccionar personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors3[2]) && !this.charactersSelected[this.selectors[2]]){
@@ -449,6 +490,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[2].selected = false;
                 this.ready3.alpha = 0;
                 this.readyPlayers--;
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // UP para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors3[0]) && !this.players[2].selected){
@@ -459,6 +503,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.habilities[2].hab.alpha = 0;// Ocultar habilidad
                 this.names[2].name.alpha = 0;// Ocultar nombre
                 this.bkeys.alpha = 1;// Aparecen las teclas
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }//Fin jugador 3
         // Creación y cambio del personaje del jugador 4
@@ -476,6 +523,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.changeCharacter(this.characters, 3, this.selectors[3]);
                 this.ChangeText(this.selectors[3], 3);// Que aparezca la habilidad/nombre al empezar a seleccionar
                 this.ykeys.alpha = 0;// Desaparecen las teclas
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }else {
             // NUMPAD_4 para cambiar de personaje
@@ -491,6 +541,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 3, this.selectors[3]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // NUMPAD_6 para cambiar de personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors4[3]) && !this.players[3].selected){
@@ -502,6 +555,9 @@ class ChooseCharacter extends Phaser.Scene {
                     }
                 }
                 this.changeCharacter(this.characters, 3, this.selectors[3]);
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // NUMPAD_5 para seleccionar personaje
             else if (Phaser.Input.Keyboard.JustDown(this.cursors4[2]) && !this.charactersSelected[this.selectors[3]]){
@@ -519,6 +575,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.players[3].selected = false;
                 this.ready4.alpha = 0;
                 this.readyPlayers--;
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
             // NUMPAD_8 para salir de la partida
             if (Phaser.Input.Keyboard.JustDown(this.cursors4[0]) && !this.players[3].selected){
@@ -529,6 +588,9 @@ class ChooseCharacter extends Phaser.Scene {
                 this.habilities[3].hab.alpha = 0;// Ocultar habilidad
                 this.names[3].name.alpha = 0;// Ocultar nombre
                 this.ykeys.alpha = 1;// Aparecen las teclas
+                this.change_options.play({
+                    volume: this.vol
+                });
             }
         }//Fin jugador 4
         // ENTER para cambiar de escena
