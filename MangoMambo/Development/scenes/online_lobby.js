@@ -68,6 +68,9 @@ class OnlineLobby extends Phaser.Scene{
         this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
         this.serverStatusImg;
         this.serverStatus;
+        // Música
+        this.load.audio("lobby_music", "./Design/Audio/LobbySong/lobby_music.wav");
+        this.loop;
         // Chat
         this.textChat;
         this.chat;
@@ -238,6 +241,13 @@ class OnlineLobby extends Phaser.Scene{
        this.serverStatus = true;
        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
        this.serverStatusImg.setAlpha(0);
+       // Se crea la música
+       this.sound.pauseOnBlur = false;
+       this.loop = this.sound.add("lobby_music");
+       this.loop.play({
+    	   loop: true,
+    	   volume: this.vol
+       });
     }
     /*
     textAreaChanged() {
@@ -289,6 +299,8 @@ class OnlineLobby extends Phaser.Scene{
                 this.updatePlayer();
                 this.refresh.pause;
                 this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
+                this.loop.stop();
             }// Fin if se pulsa la tecla ESC
         }// Fin if(serverStatus)
         else{ // Si el servidor no está activo
@@ -298,6 +310,8 @@ class OnlineLobby extends Phaser.Scene{
                 this.myPlayer.isConnected = false;
                 this.players[this.myPlayer.id] = this.myPlayer;
                 this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
+                this.loop.stop();
             }
         }
     }
