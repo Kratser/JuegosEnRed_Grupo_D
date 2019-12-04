@@ -175,7 +175,7 @@ class OnlineLobby extends Phaser.Scene{
     		   }
     	   }
     	   else if (event.keyCode == 13 && that.textChat.text.length > 0) {
-                thit.hit.play({
+                that.hit.play({
                     volume: that.vol
                 });
     		   text[contLines] = that.textChat.text;
@@ -246,12 +246,6 @@ class OnlineLobby extends Phaser.Scene{
     	   volume: this.vol
        });
     }
-    /*
-    textAreaChanged() {
-        var text = this.formUtil.getTextAreaValue("TEXTAREA");
-        console.log(text);
-    }
-    */
     update(){
         // Si el servidor está activo
         if (this.serverStatus){
@@ -284,7 +278,7 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia abajo
             if (Phaser.Input.Keyboard.JustDown(this.cursors[3])){
                 if (!this.players[this.myPlayer.id].isReady){
-                    this.choose_options.play({
+                    this.hit.play({
                         volume: this.vol
                     });
                     this.ticks[this.myPlayer.id].setAlpha(1);
