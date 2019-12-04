@@ -7,7 +7,7 @@ class OnlineLobby extends Phaser.Scene{
         this.myPlayer = data.client;
         this.ip = data.url;
         this.vol = data.volume;
-        data = null; 
+        data = null;
     }
     
     preload(){
@@ -71,6 +71,13 @@ class OnlineLobby extends Phaser.Scene{
         this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
         this.serverStatusImg;
         this.serverStatus;
+        // Música
+        this.load.audio("lobby_music", "./Design/Audio/LobbySong/lobby_music.wav");
+        this.loop;
+        // Sonidos
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
+        this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         // Chat
         this.textChat;
         this.chat;
@@ -168,6 +175,9 @@ class OnlineLobby extends Phaser.Scene{
     		   }
     	   }
     	   else if (event.keyCode == 13 && that.textChat.text.length > 0) {
+                thit.hit.play({
+                    volume: that.vol
+                });
     		   text[contLines] = that.textChat.text;
     		   contLines = 0;
     		   that.textChat.text = "";
@@ -226,6 +236,15 @@ class OnlineLobby extends Phaser.Scene{
        this.serverStatus = true;
        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock");
        this.serverStatusImg.setAlpha(0);
+       // Se crea la música
+       this.sound.pauseOnBlur = false;
+       this.change_options = this.sound.add("change_options");
+       this.choose_options = this.sound.add("choose_options");
+       this.loop = this.sound.add("lobby_music");
+       this.loop.play({
+    	   loop: true,
+    	   volume: this.vol
+       });
     }
     /*
     textAreaChanged() {
@@ -253,6 +272,9 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia arriba
             if (Phaser.Input.Keyboard.JustDown(this.cursors[2])){
                 if (this.players[this.myPlayer.id].isReady){
+                    this.change_options.play({
+                        volume: this.vol
+                    });
                     this.ticks[this.myPlayer.id].setAlpha(0);
                     this.myPlayer.isReady = false;
                     this.players[this.myPlayer.id] = this.myPlayer;
@@ -262,6 +284,9 @@ class OnlineLobby extends Phaser.Scene{
             // Si se pulsa el cursor hacia abajo
             if (Phaser.Input.Keyboard.JustDown(this.cursors[3])){
                 if (!this.players[this.myPlayer.id].isReady){
+                    this.choose_options.play({
+                        volume: this.vol
+                    });
                     this.ticks[this.myPlayer.id].setAlpha(1);
                     this.myPlayer.isReady = true;
                     this.players[this.myPlayer.id] = this.myPlayer;
@@ -270,6 +295,9 @@ class OnlineLobby extends Phaser.Scene{
             }
             // Si se pulsa la tecla ESC
             if (Phaser.Input.Keyboard.JustDown(this.cursors[1])) {
+                this.choose_options.play({
+                    volume: this.vol
+                });
             	// Se borra al jugador del servidor y de la lista de jugadores, y se vuelve al menú principal
                 this.myPlayer.isReady = false;
                 this.myPlayer.isConnected = false;
@@ -277,6 +305,8 @@ class OnlineLobby extends Phaser.Scene{
                 this.updatePlayer();
                 this.refresh.pause;
                 this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
+                this.loop.stop();
             }// Fin if se pulsa la tecla ESC
         }// Fin if(serverStatus)
         else{ // Si el servidor no está activo
@@ -286,6 +316,8 @@ class OnlineLobby extends Phaser.Scene{
                 this.myPlayer.isConnected = false;
                 this.players[this.myPlayer.id] = this.myPlayer;
                 this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
+                this.loop.stop();
             }
         }
     }

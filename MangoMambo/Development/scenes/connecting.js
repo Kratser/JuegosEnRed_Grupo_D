@@ -122,6 +122,8 @@ class Connecting extends Phaser.Scene{
                 }).done(function(data){
                     myPlayer = data;
                     that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, url: ip});
+                    // Se para la música
+                    that.loop.stop();
                 });  
             }
             // Si no hay espacios disponibles
