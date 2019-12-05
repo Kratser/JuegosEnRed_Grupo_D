@@ -41,10 +41,11 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 
 # **Organización del tag fase3**
 
-* Aparte de lo comentado en el tag fase1 y fase2, se adjunta un nuevo documento pdf (MangoMamboGDD_V03.pdf) donde se encuentra el documento de diseño actualizado.
+* Aparte de lo comentado en el tag fase1 y fase2, se adjunta un nuevo documento pdf (MangoMamboGDD_V03.pdf) donde se encuentra el documento de diseño actualizado. 
 * También se adjunta la presentación con la que mostraremos el trabajo de la fase 3 (MangoMamboFase3.pptx).
-* En este README y en el GDD hemos actualizado las imágenes del diagrama de flujo y el menú principal. Además hemos añadido todas las imágenes relacionadas con la parte Online. 
-* Hay un nuevo apartado que explica la parte de APIRest.
+* Se han creado carpetas para almacenar los anteriores documentos (Slides y GDDs).
+* En este README y en el GDD hemos actualizado las imágenes de la interfaz y hemos añadido un nuevo apartado **5. Diagrama de clases y API REST**, en el que hemos adjuntado los diagramas de clases de la aplicación, un esquema de las peticiones de API REST que utilizamos y en el punto **5.4. ¿Cómo se ejecuta?**, explicamos los pasos para ejecutar el servidor.
+
 
 * * *
 
@@ -267,7 +268,7 @@ Cuando hay cuatro jugadores en el servidor, si eres el quinto e intentas acceder
 
 Cuando los jugadores entran a online pasan a esta sala en la que pueden chatear y ver su estado y el de otros jugadores (conectados al servidor o preparados para jugar).
 
-![lobby_server](https://user-images.githubusercontent.com/36482605/70080681-45cf0a00-1607-11ea-9be7-dad7fcbf6ced.png)
+![lobby_server](https://user-images.githubusercontent.com/36482605/70196753-09d09d80-170a-11ea-9f48-834e63d91ad4.png)
 
 ### **3.16. Créditos**
 
@@ -330,7 +331,26 @@ El formato será “.wav” y ".mp3".
 *	Explosión del mango.
 *	Al ganar la partida, sonido de celebración(uno distinto para cada personaje).
 
-## **5. Referencias**
+## **5. Diagrama de clases y API REST**
+
+### **5.1. Diagrama de clases del cliente**
+
+![client_diagramChart](https://user-images.githubusercontent.com/36482605/70196588-83b45700-1709-11ea-9d48-0c10f5c81231.png)
+
+### **5.2. Diagrama de clases del servidor**
+
+![server_diagramChart](https://user-images.githubusercontent.com/36482605/70196610-94fd6380-1709-11ea-9bb2-939b28d2087b.png)
+
+### **5.3. Relación de peticiones API REST**
+
+![ApiRestChart](https://user-images.githubusercontent.com/36482605/70196650-bd855d80-1709-11ea-89e4-c200170d26cd.PNG)
+
+### **5.4. ¿Cómo se ejecuta?**
+
+Al descargar la fase 3, hay una carpeta en la ruta del proyecto llamada **“MangoMambo(exe)”** dentro, hay que abrir el archivo **“MangoMambo-0.0.1-SNAPSHOT.jar”**. Después de ejecutar el .jar, en la URL del navegador hay que poner la IP del host (IPv4) y el puerto 8080. 
+Para cerrarlo, hay que acceder al administrador de tareas y en la pestaña de **“Detalles”** hay que finalizar la tarea: **“javaw.exe”**.
+
+## **6. Referencias**
 
 * Guión para hacer el GDD: 
 
