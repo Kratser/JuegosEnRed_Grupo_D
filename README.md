@@ -44,7 +44,7 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * Aparte de lo comentado en el tag fase1 y fase2, se adjunta un nuevo documento pdf (MangoMamboGDD_V03.pdf) donde se encuentra el documento de diseño actualizado. 
 * También se adjunta la presentación con la que mostraremos el trabajo de la fase 3 (MangoMamboFase3.pptx).
 * Se han creado carpetas para almacenar los anteriores documentos (Slides y GDDs).
-* En este README y en el GDD hemos actualizado las imágenes de la interfaz y hemos añadido un nuevo apartado **5. Diagrama de clases y API REST**, en el que hemos adjuntado los diagramas de clases de la aplicación, un esquema de las peticiones de API REST que utilizamos y en el punto **5.4. ¿Cómo se ejecuta?**, explicamos los pasos para ejecutar el servidor.
+* En este README y en el GDD hemos actualizado las imágenes de la interfaz y hemos añadido un nuevo apartado   **5. Diagrama de clases y API REST**, en el que hemos adjuntado los diagramas de clases de la aplicación, un esquema de las peticiones de API REST que utilizamos y en el punto **5.4. ¿Cómo se ejecuta?**, explicamos los pasos para ejecutar el servidor.
 
 
 * * *
