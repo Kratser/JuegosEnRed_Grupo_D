@@ -180,7 +180,6 @@ class Level1 extends Phaser.Scene {
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
         //Botón de pausa
         this.pauseButton = this.add.image (60, 565, "pause_button").setDepth(1);
-       
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas
@@ -335,7 +334,7 @@ class Level1 extends Phaser.Scene {
         this.text = this.make.text(tconfig);
         this.text.alpha = 0;
         this.text.setDepth(-1);
-          // 3 2 1 mango mambo
+        // 3 2 1 mango mambo
         this.mangoMamboAnim = this.add.sprite(600,300, "3_2_1_mango_mambo");
         this.anims.create({
             key: '3_2_1_mango_mambo',

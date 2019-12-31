@@ -8,7 +8,7 @@ class OnlineLobby extends Phaser.Scene {
         this.ip = data.url;
         this.vol = data.volume;
         data = null;
-    }
+    }// Fin init
     preload() {
         // Pantalla de Carga
         var loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-1);
@@ -63,6 +63,14 @@ class OnlineLobby extends Phaser.Scene {
         // Imagen de los checks de preparado
         this.load.image("tick", "./Design/Objects/tick.png");
         this.ticks;
+        // 3 2 1 mango mambo
+        this.load.spritesheet('3_2_1_mango_mambo', './Design/Objects/Text/3_2_1_mango_mambo.png',
+        {
+            frameWidth: 500,
+            frameHeight: 500 
+        });
+        this.mangoMamboAnim;
+        this.startingGame;
         // Teclas
         this.cursors;
         // Estado del servidor
@@ -81,7 +89,10 @@ class OnlineLobby extends Phaser.Scene {
         this.textChat;
         this.chat;
         this.chatMessages;
-    }
+        // Número de jugadores
+        this.numPlayers;
+        this.numPlayersReady;
+    }// Fin Preload
     create() {
         // Se crea la imagen de fondo
         this.add.image(0, 0, "lobby_background").setOrigin(0, 0);
@@ -244,11 +255,47 @@ class OnlineLobby extends Phaser.Scene {
             loop: true,
             volume: this.vol
         });
-    }
+        // 3 2 1 mango mambo
+        this.mangoMamboAnim = this.add.sprite(600, 300, "3_2_1_mango_mambo");
+        this.anims.create({
+            key: '3_2_1_mango_mambo',
+            frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 2 }),
+            frameRate: 1,
+        });
+        this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
+        this.startingGame = false;
+    }// Fin Create
     update() {
         // Si el servidor está activo
         if (this.serverStatus) {
             this.serverStatusImg.setAlpha(0);
+            console.log(this.numPlayers);
+            console.log(this.numPlayersReady);
+            console.log(this.startingGame);
+            // Si hay dos o más jugadores listos, comenzar partida
+            if (this.numPlayers >= 2 && this.numPlayers == this.numPlayersReady && !this.startingGame){
+                // Se pasa a la selección de personaje
+                this.startingGame = true;
+                // 3 2 1 mango mambo
+                this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
+                this.mangoMamboAnim.setScale(0.5);
+                var tween = this.tweens.add({
+                    targets: [this.mangoMamboAnim],
+                    scaleY: 1,
+                    scaleX: 1,
+                    ease: 'Sine.easeInOut',
+                    duration: 500,
+                    yoyo: true,
+                    repeat: -1
+                });
+            // Si no están los jugadores listos, se cancela el inicio de partida
+            }else if (this.numPlayers < 2 || this.numPlayers != this.numPlayersReady){
+                this.startingGame = false;
+                // Si la animación se está reproduciendo se para
+                if (this.mangoMamboAnim.isPlaying){
+                    this.mangoMamboAnim.stop();
+                }
+            }
             // Mostrar a los jugadores si entran en el lobby
             for (var i = 0; i < this.players.length; i++) {
                 if (this.players[i].isConnected && this.players[i].isReady) {
@@ -313,7 +360,7 @@ class OnlineLobby extends Phaser.Scene {
                 this.loop.stop();
             }
         }
-    }
+    }// Fin Update
     // Función que comprueba el estado de los jugadores y lo actualiza
     checkPlayers() {
         var that = this;
@@ -328,6 +375,19 @@ class OnlineLobby extends Phaser.Scene {
             console.log(that.players);
             that.serverStatus = true;
             that.updatePlayer();
+            // Se actualiza el número de jugadores conectados y listos
+            var playersConnected;
+            var playersReady;
+            for (var i = 0; i < that.players.length; i++){
+                if (that.players[i].isConnected){
+                    playersConnected++;
+                }
+                if (that.players[i].isReady){
+                    playersReady++;
+                }
+            }
+            that.numPlayers = playersConnected;
+            that.numPlayersReady = playersReady;
         });
         // Si no se puede establecer conexión
         checkPlayerStatus.error(function (data) {
@@ -364,7 +424,8 @@ class OnlineLobby extends Phaser.Scene {
             console.log("Error de conexión");
             that.serverStatus = false;
         });
-    }
+    }// Fin CheckPlayers
+    // Función que actualiza el estado de nuestro jugador
     updatePlayer() {
         var that = this;
         var playerUpdate = $.ajax({
@@ -383,5 +444,12 @@ class OnlineLobby extends Phaser.Scene {
             console.log("Error de conexión");
             that.serverStatus = false;
         });
-    }
-}
+    }// Fin UpdatePlayer
+    // Función que se ejecuta tras la animación 3, 2, 1, Mango Mambo!
+    animComplete(animation, frame){
+        // Cambio de escena
+        this.scene.start("ws_choose_character", { volume: this.vol });
+        //Se para la música
+        this.loop.stop();
+    }// Fin AnimComplete
+}// Fin Online_Lobby.js
