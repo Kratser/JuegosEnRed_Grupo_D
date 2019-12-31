@@ -264,6 +264,9 @@ class OnlineLobby extends Phaser.Scene {
         });
         this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
         this.startingGame = false;
+        // Número de jugadores
+        this.numPlayers = 0;
+        this.numPlayersReady = 0;
     }// Fin Create
     update() {
         // Si el servidor está activo
@@ -292,8 +295,8 @@ class OnlineLobby extends Phaser.Scene {
             }else if (this.numPlayers < 2 || this.numPlayers != this.numPlayersReady){
                 this.startingGame = false;
                 // Si la animación se está reproduciendo se para
-                if (this.mangoMamboAnim.isPlaying){
-                    this.mangoMamboAnim.stop();
+                if (this.mangoMamboAnim.anims.isPlaying){
+                    this.mangoMamboAnim.anims.stop();
                 }
             }
             // Mostrar a los jugadores si entran en el lobby
@@ -376,8 +379,8 @@ class OnlineLobby extends Phaser.Scene {
             that.serverStatus = true;
             that.updatePlayer();
             // Se actualiza el número de jugadores conectados y listos
-            var playersConnected;
-            var playersReady;
+            var playersConnected = 0;
+            var playersReady = 0;
             for (var i = 0; i < that.players.length; i++){
                 if (that.players[i].isConnected){
                     playersConnected++;
@@ -447,9 +450,11 @@ class OnlineLobby extends Phaser.Scene {
     }// Fin UpdatePlayer
     // Función que se ejecuta tras la animación 3, 2, 1, Mango Mambo!
     animComplete(animation, frame){
-        // Cambio de escena
-        this.scene.start("ws_choose_character", { volume: this.vol });
-        //Se para la música
-        this.loop.stop();
+        if (this.startingGame) {
+            // Cambio de escena
+            this.scene.start("ws_choose_character", { volume: this.vol });
+            //Se para la música
+            this.loop.stop();
+        }
     }// Fin AnimComplete
 }// Fin Online_Lobby.js
