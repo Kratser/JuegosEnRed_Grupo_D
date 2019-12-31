@@ -25,7 +25,7 @@ var config = {
         WSChooseCharacter,
         WSHowToPlay,
         WSLevel1,
-        WSScoreLevel,
+        WSScoreLevel
     ]
 };
 
