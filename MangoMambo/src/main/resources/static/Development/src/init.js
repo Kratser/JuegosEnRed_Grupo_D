@@ -21,7 +21,11 @@ var config = {
         Credits,
         HowToPlay,
         Connecting,
-        OnlineLobby
+        OnlineLobby,
+        WSChooseCharacter,
+        WSHowToPlay,
+        WSLevel1,
+        WSScoreLevel,
     ]
 };
 
