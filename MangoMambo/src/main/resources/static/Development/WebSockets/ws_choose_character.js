@@ -146,11 +146,19 @@ class WSChooseCharacter extends Phaser.Scene {
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Texto e imagenes que aparecen si no te has unido a la partida
-        this.gkeys = this.add.image(169, 218, "press_g_key").setDepth(1);
-        this.pkeys = this.add.image(457.38, 218, "press_p_key").setDepth(1);
-        this.bkeys = this.add.image(746.48, 218, "press_b_key").setDepth(1);
-        this.ykeys = this.add.image(1035.07, 233.53, "press_y_key").setDepth(1);
-        // Movimiento
+        this.gkeys = this.add.image(169, 218, "press_key").setDepth(1);
+        this.gkeys.tint = 0xff0eff00;
+        this.gkeys.alpha = 1;
+        this.pkeys = this.add.image(457.38, 218, "press_key").setDepth(1);
+        this.pkeys.tint = 0xffff00e9;
+        this.pkeys.alpha = 1;
+        this.bkeys = this.add.image(746.48, 218, "press_key").setDepth(1);
+        this.bkeys.tint = 0xff00fff0;
+        this.bkeys.alpha = 1;
+        this.ykeys = this.add.image(1035.07, 218, "press_key").setDepth(1);
+        this.ykeys.tint = 0xffffff00;
+        this.ykeys.alpha = 1;
+        // Movimiento   
         var tweenKeys = this.tweens.add({
             targets: [this.gkeys, this.pkeys, this.bkeys, this.ykeys],
             scaleX: 0.96,
