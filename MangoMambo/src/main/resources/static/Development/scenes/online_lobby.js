@@ -256,7 +256,8 @@ class OnlineLobby extends Phaser.Scene {
             volume: this.vol
         });
         // 3 2 1 mango mambo
-        this.mangoMamboAnim = this.add.sprite(600, 300, "3_2_1_mango_mambo");
+        this.mangoMamboAnim = this.add.sprite(600, 300, "3_2_1_mango_mambo").setAlpha(0);
+        this.mangoMamboAnim.setScale(0.5);
         this.anims.create({
             key: '3_2_1_mango_mambo',
             frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 2 }),
@@ -272,16 +273,14 @@ class OnlineLobby extends Phaser.Scene {
         // Si el servidor está activo
         if (this.serverStatus) {
             this.serverStatusImg.setAlpha(0);
-            console.log(this.numPlayers);
-            console.log(this.numPlayersReady);
-            console.log(this.startingGame);
+            console.log(this.mangoMamboAnim.scale);
             // Si hay dos o más jugadores listos, comenzar partida
             if (this.numPlayers >= 2 && this.numPlayers == this.numPlayersReady && !this.startingGame){
                 // Se pasa a la selección de personaje
                 this.startingGame = true;
                 // 3 2 1 mango mambo
+                this.mangoMamboAnim.setAlpha(1);
                 this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
-                this.mangoMamboAnim.setScale(0.5);
                 var tween = this.tweens.add({
                     targets: [this.mangoMamboAnim],
                     scaleY: 1,
@@ -294,6 +293,8 @@ class OnlineLobby extends Phaser.Scene {
             // Si no están los jugadores listos, se cancela el inicio de partida
             }else if (this.numPlayers < 2 || this.numPlayers != this.numPlayersReady){
                 this.startingGame = false;
+                this.mangoMamboAnim.setAlpha(0);
+                this.mangoMamboAnim.setScale(0.5);
                 // Si la animación se está reproduciendo se para
                 if (this.mangoMamboAnim.anims.isPlaying){
                     this.mangoMamboAnim.anims.stop();
