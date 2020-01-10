@@ -457,7 +457,7 @@ class OnlineLobby extends Phaser.Scene {
     animComplete(animation, frame){
         if (this.startingGame) {
             // Cambio de escena
-            this.scene.start("ws_choose_character", { volume: this.vol });
+            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer });
             //Se para la música
             this.loop.stop();
         }

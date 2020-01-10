@@ -4,9 +4,8 @@ class WSChooseCharacter extends Phaser.Scene {
     }//Fin constructor
 
     init(data){
-        this.loop = data.loop;
-        this.intro = data.intro;
         this.vol = data.volume;
+        this.myPlayer = data.myPlayer;
         data = null;
     }
 
@@ -87,6 +86,10 @@ class WSChooseCharacter extends Phaser.Scene {
         this.load.image("cc_ready_button", "./Design/Objects/Buttons/cc_ready_button.png");
         this.load.image("cc_ready_button_selected", "./Design/Objects/Buttons/cc_ready_button_selected.png");
         //sonido
+        this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
+        this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
+        this.intro;
+        this.loop;
         this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
         // Arrays para los textos
@@ -251,6 +254,16 @@ class WSChooseCharacter extends Phaser.Scene {
         this.selectors = [0, 0, 0, 0];
         // Se crea la música
         this.sound.pauseOnBlur = false;
+        this.intro = this.sound.add("menu_begining");
+        this.intro.play({
+            volume: this.vol
+        });
+        this.loop = this.sound.add("menu_loop");
+        this.loop.play({
+            loop : true,
+            delay : 2.02,
+            volume: this.vol
+        });
         this.choose_options = this.sound.add("choose_options");
         this.change_options = this.sound.add("change_options");
         this.hit = this.sound.add("hit");
