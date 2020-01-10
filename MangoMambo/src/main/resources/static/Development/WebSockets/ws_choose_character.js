@@ -147,16 +147,16 @@ class WSChooseCharacter extends Phaser.Scene {
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Texto e imagenes que aparecen si no te has unido a la partida
         this.gkeys = this.add.image(169, 218, "press_key").setDepth(1);
-        this.gkeys.tint = 0xff0eff00;
+        this.gkeys.tint = 0x0eff00;
         this.gkeys.alpha = 1;
         this.pkeys = this.add.image(457.38, 218, "press_key").setDepth(1);
-        this.pkeys.tint = 0xffff00e9;
+        this.pkeys.tint = 0xff00e9;
         this.pkeys.alpha = 1;
         this.bkeys = this.add.image(746.48, 218, "press_key").setDepth(1);
-        this.bkeys.tint = 0xff00fff0;
+        this.bkeys.tint = 0x00fff0;
         this.bkeys.alpha = 1;
         this.ykeys = this.add.image(1035.07, 218, "press_key").setDepth(1);
-        this.ykeys.tint = 0xffffff00;
+        this.ykeys.tint = 0xffff00;
         this.ykeys.alpha = 1;
         // Movimiento   
         var tweenKeys = this.tweens.add({
