@@ -7,6 +7,7 @@ class OnlineLobby extends Phaser.Scene {
         this.myPlayer = data.client;
         this.ip = data.url;
         this.vol = data.volume;
+        this.connection = data.connection;
         data = null;
     }// Fin init
     preload() {
@@ -458,4 +459,13 @@ class OnlineLobby extends Phaser.Scene {
             this.loop.stop();
         }
     }// Fin AnimComplete
+    startWS(){
+        var connection = WebSocket('ws://' + this.ip + '/mango-mambo/ws_choose_character');
+        connection.onopen = function(){
+            connection.send ('Open');
+        }
+        connection.onerror = function(e) {
+            console.log("WS error: " + e);
+        }
+    }// Fin startWS
 }// Fin Online_Lobby.js

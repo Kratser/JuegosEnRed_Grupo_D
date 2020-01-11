@@ -675,4 +675,5 @@ class WSChooseCharacter extends Phaser.Scene {
         this.names[characterid].name.destroy();
         this.names[characterid].name = nameAux;
     }// Fin ChangeText
-}
+    
+}//Fin WSChooseCharacter
