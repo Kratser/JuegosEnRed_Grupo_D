@@ -284,8 +284,17 @@ class WSChooseCharacter extends Phaser.Scene {
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
                 || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
                 that.change(that.myPlayer.id, event.key);
+                that.connection.send({id: that.myPlayer.id, key: event.key});
+            }else if (event.key == "Enter" || event.key == "Escape"){
+                that.connection.send({id: that.myPlayer.id, key: event.key});
             }
         });
+        this.connection.onmessage = function(msg){
+            if (msg.key == 'a' || msg.key == 'A' || msg.key == 'w' || msg.key == 'W'
+            || msg.key == 'd' || msg.key == 'D' || msg.key == 's' || msg.key == 'S'){
+                this.scene.change(msg.id, msg.key);
+            }
+        }
     }//Fin create
 
     update() {
@@ -391,7 +400,7 @@ class WSChooseCharacter extends Phaser.Scene {
             this.characters[id] = new Character(this, id + 1, "palm_choose", false, posX, posY);
             this.players[id].active = true;
             this.numPlayers++;
-            this.keys[0].alpha = 0;// Desaparecen las teclas
+            this.keys[id].alpha = 0;// Desaparecen las teclas
             for (var i = 0; i < this.players.length; i++) {
                 if (!this.charactersSelected[i]) {
                     this.selectors[id] = i;
