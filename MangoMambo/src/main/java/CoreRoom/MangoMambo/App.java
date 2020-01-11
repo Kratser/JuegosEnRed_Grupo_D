@@ -16,8 +16,8 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class App implements WebSocketConfigurer
 {
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry reg){
-        reg.addHandler(chooseCharacterHandler(), "/mango-mambo/ws_choose_character")
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry){
+        registry.addHandler(chooseCharacterHandler(), "/ws-choose-character")
         .setAllowedOrigins("*");
     }
 

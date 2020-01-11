@@ -14,10 +14,9 @@ public class ChooseCharacterHandler extends TextWebSocketHandler{
 
     @Override
     protected void handleTextMessage(WebSocketSession session,TextMessage message)throws Exception {
-        System.out.println("Message received: " + message.getPayload());
+        System.out.println("Message received");
 
-      
-        JsonNode node = mapper.readTree(message.getPayload(););
+        JsonNode node = mapper.readTree(message.getPayload());
 
         String id = node.get("id").asText();
         String key = node.get("key").asText();
@@ -29,6 +28,5 @@ public class ChooseCharacterHandler extends TextWebSocketHandler{
 
         
         session.sendMessage(new TextMessage(responseNode.toString()));
-
-
+    }
 }
