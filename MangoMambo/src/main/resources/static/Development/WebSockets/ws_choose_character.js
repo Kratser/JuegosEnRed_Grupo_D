@@ -6,6 +6,7 @@ class WSChooseCharacter extends Phaser.Scene {
     init(data) {
         this.vol = data.volume;
         this.myPlayer = data.myPlayer;
+        this.connection = data.connection;
         data = null;
     }
 
