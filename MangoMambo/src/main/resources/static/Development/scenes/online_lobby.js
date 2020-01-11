@@ -467,12 +467,12 @@ class OnlineLobby extends Phaser.Scene {
         }
     }// Fin AnimComplete
     startWS(){
-        this.connection = WebSocket('ws://' + this.ip + '/mango-mambo/ws_choose_character');
-        connection.onopen = function(){
-            connection.send ('Open');
+        this.connection = new WebSocket('ws://' + this.ip + '/mango-mambo/ws_choose_character');
+        this.connection.onopen = function(){
+            this.connection.send ('Open');
             console.log("WS Open");
         }
-        connection.onerror = function(e) {
+        this.connection.onerror = function(e) {
             console.log("WS error: " + e);
         }
     }// Fin startWS
