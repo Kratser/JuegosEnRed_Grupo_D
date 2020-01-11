@@ -280,7 +280,7 @@ class WSChooseCharacter extends Phaser.Scene {
         this.hit = this.sound.add("hit");
 
         this.input.keyboard.on("keydown", function (event) {
-            var that = this;
+            var that = this.scene;
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
                 || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
                 that.change(that.myPlayer.id, event.key);
