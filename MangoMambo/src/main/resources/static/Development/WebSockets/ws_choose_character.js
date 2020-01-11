@@ -1,9 +1,9 @@
 class WSChooseCharacter extends Phaser.Scene {
-    constructor(){
-        super({key: "ws_choose_character"});
+    constructor() {
+        super({ key: "ws_choose_character" });
     }//Fin constructor
 
-    init(data){
+    init(data) {
         this.vol = data.volume;
         this.myPlayer = data.myPlayer;
         data = null;
@@ -28,14 +28,14 @@ class WSChooseCharacter extends Phaser.Scene {
             }
         });
         percentText.setOrigin(0.5, 0.5);
-        this.load.on("progress", function(value){
+        this.load.on("progress", function (value) {
             console.log(value);
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0x00ff00, 1);
             progressBar.fillRect(110, 510, 980 * value, 30);
         });
-        this.load.on("complete", function(){
+        this.load.on("complete", function () {
             console.log("Complete");
             progressBar.destroy();
             progressBox.destroy();
@@ -77,7 +77,6 @@ class WSChooseCharacter extends Phaser.Scene {
         this.load.image("lemur_hab", "./Design/Objects/Text/lemur_hab.png");
         // Texto e imagene que aparece si no te has unido a la partida
         this.load.image("press_key", "./Design/Objects/Keypress/ws_press_key.png");
-        
         // Ready! para cuando el personaje se selecciona
         this.load.image("ready", "./Design/Objects/Text/ready.png");
         // Boton de escape
@@ -100,17 +99,10 @@ class WSChooseCharacter extends Phaser.Scene {
         // Número de jugadores activo
         this.numPlayers;
         // Lista de jugadores
-        this.characters; 
+        this.characters;
         this.charactersSelected;
         // Controles de selección
-        // Controles de selector jugador 1
-        this.cursors1; 
-        // Controles de selector jugador 2
-        this.cursors2; 
-        // Controles de selector jugador 3
-        this.cursors3; 
-        // Controles de selector jugador 4
-        this.cursors4; 
+        this.cursors;
         // ENTER
         this.enterCursor;
         // ESCAPE
@@ -131,7 +123,7 @@ class WSChooseCharacter extends Phaser.Scene {
     create() {
         this.cameras.main.fadeIn(500);
         // Fondo
-        this.add.image(0, 0, "character_background").setOrigin(0,0);
+        this.add.image(0, 0, "character_background").setOrigin(0, 0);
         // Ready botón
         this.readyButton = this.add.image(1135.50, 568.50, "cc_ready_button").setDepth(1);
         this.readySelectedButton = this.add.image(1135.50, 568.50, "cc_ready_button_selected").setDepth(2);
@@ -149,21 +141,56 @@ class WSChooseCharacter extends Phaser.Scene {
         // Boton escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Texto e imagenes que aparecen si no te has unido a la partida
-        this.gkeys = this.add.image(169, 218, "press_key").setDepth(1);
-        this.gkeys.tint = 0x0eff00;
-        this.gkeys.alpha = 1;
-        this.pkeys = this.add.image(457.38, 218, "press_key").setDepth(1);
-        this.pkeys.tint = 0xff00e9;
-        this.pkeys.alpha = 1;
-        this.bkeys = this.add.image(746.48, 218, "press_key").setDepth(1);
-        this.bkeys.tint = 0x00fff0;
-        this.bkeys.alpha = 1;
-        this.ykeys = this.add.image(1035.07, 218, "press_key").setDepth(1);
-        this.ykeys.tint = 0xffff00;
-        this.ykeys.alpha = 1;
+        this.keys = [];
+        switch (this.myPlayer.id) {
+            case 0:
+                this.keys[0] = this.add.image(169, 218, "press_key").setDepth(1);
+                this.keys[0].tint = 0x0eff00;
+                this.keys[0].alpha = 1;
+                this.keys[1] = this.add.image(457.38, 218, "press_key").setDepth(1);
+                this.keys[1].alpha = 0;
+                this.keys[2] = this.add.image(746.48, 218, "press_key").setDepth(1);
+                this.keys[2].alpha = 0;
+                this.keys[3] = this.add.image(1035.07, 218, "press_key").setDepth(1);
+                this.keys[3].alpha = 0;
+                break;
+            case 1:
+                this.keys[0] = this.add.image(169, 218, "press_key").setDepth(1);
+                this.keys[0].alpha = 0;
+                this.keys[1] = this.add.image(457.38, 218, "press_key").setDepth(1);
+                this.keys[1].tint = 0xff00e9;
+                this.keys[1].alpha = 1;
+                this.keys[2] = this.add.image(746.48, 218, "press_key").setDepth(1);
+                this.keys[2].alpha = 0;
+                this.keys[3] = this.add.image(1035.07, 218, "press_key").setDepth(1);
+                this.keys[3].alpha = 0;
+                break;
+            case 2:
+                this.keys[0] = this.add.image(169, 218, "press_key").setDepth(1);
+                this.keys[0].alpha = 0;
+                this.keys[1] = this.add.image(457.38, 218, "press_key").setDepth(1);
+                this.keys[1].alpha = 0;
+                this.keys[2] = this.add.image(746.48, 218, "press_key").setDepth(1);
+                this.keys[2].tint = 0x00fff0;
+                this.keys[2].alpha = 1;
+                this.keys[3] = this.add.image(1035.07, 218, "press_key").setDepth(1);
+                this.keys[3].alpha = 0;
+                break;
+            case 3:
+                this.keys[0] = this.add.image(169, 218, "press_key").setDepth(1);
+                this.keys[0].alpha = 0;
+                this.keys[1] = this.add.image(457.38, 218, "press_key").setDepth(1);
+                this.keys[1].alpha = 0;
+                this.keys[2] = this.add.image(746.48, 218, "press_key").setDepth(1);
+                this.keys[2].alpha = 0;
+                this.keys[3] = this.add.image(1035.07, 218, "press_key").setDepth(1);
+                this.keys[3].tint = 0xffff00;
+                this.keys[3].alpha = 1;
+                break;
+        }
         // Movimiento   
         var tweenKeys = this.tweens.add({
-            targets: [this.gkeys, this.pkeys, this.bkeys, this.ykeys],
+            targets: [this.keys[0], this.keys[1], this.keys[2], this.keys[3]],
             scaleX: 0.96,
             scaleY: 0.96,
             ease: 'Sine.easeInOut',
@@ -172,25 +199,26 @@ class WSChooseCharacter extends Phaser.Scene {
             repeat: -1
         });
         // Texto ready (seleccionado)
-        this.ready1 = this.add.image(171.50, 239.05, "ready").setDepth(1);
-        this.ready2 = this.add.image(457.50, 239.05, "ready").setDepth(1);
-        this.ready3 = this.add.image(743.50, 239.05, "ready").setDepth(1);
-        this.ready4 = this.add.image(1034.50, 239.05, "ready").setDepth(1);
+        this.ready = [];
+        this.ready[0] = this.add.image(171.50, 239.05, "ready").setDepth(1);
+        this.ready[1] = this.add.image(457.50, 239.05, "ready").setDepth(1);
+        this.ready[2] = this.add.image(743.50, 239.05, "ready").setDepth(1);
+        this.ready[3] = this.add.image(1034.50, 239.05, "ready").setDepth(1);
         // Para que no aparezcan de primeras
-        this.ready1.alpha = 0;
-        this.ready2.alpha = 0;
-        this.ready3.alpha = 0;
-        this.ready4.alpha = 0;
+        this.ready[0].alpha = 0;
+        this.ready[1].alpha = 0;
+        this.ready[2].alpha = 0;
+        this.ready[3].alpha = 0;
         // Texto habilidades
         this.player1_hab = this.add.image(167.28, 389.96, "palm_hab");
         this.player2_hab = this.add.image(455, 389.96, "palm_hab");
         this.player3_hab = this.add.image(744.28, 389.96, "palm_hab");
         this.player4_hab = this.add.image(1035.28, 389.96, "palm_hab");
         //Array con habilidades
-        this.habilities = [{hab: this.player1_hab, img: "palm_hab"}, 
-        {hab: this.player2_hab, img: "dino_hab"}, 
-        {hab: this.player3_hab, img: "toufat_hab"}, 
-        {hab: this.player4_hab, img: "lemur_hab"}];
+        this.habilities = [{ hab: this.player1_hab, img: "palm_hab" },
+        { hab: this.player2_hab, img: "dino_hab" },
+        { hab: this.player3_hab, img: "toufat_hab" },
+        { hab: this.player4_hab, img: "lemur_hab" }];
         // Para que no aparezcan de primeras
         this.player1_hab.alpha = 0;
         this.player2_hab.alpha = 0;
@@ -207,43 +235,25 @@ class WSChooseCharacter extends Phaser.Scene {
         this.player3_name.alpha = 0;
         this.player4_name.alpha = 0;
 
-        this.names = [{name: this.player1_name, img: ["palm_G_name","dino_G_name","toufat_G_name","lemur_G_name"]}, 
-        {name: this.player2_name, img: ["palm_P_name","dino_P_name","toufat_P_name","lemur_P_name"]}, 
-        {name: this.player3_name, img: ["palm_B_name","dino_B_name","toufat_B_name","lemur_B_name"]}, 
-        {name: this.player4_name, img: ["palm_Y_name","dino_Y_name","toufat_Y_name","lemur_Y_name"]}];
+        this.names = [{ name: this.player1_name, img: ["palm_G_name", "dino_G_name", "toufat_G_name", "lemur_G_name"] },
+        { name: this.player2_name, img: ["palm_P_name", "dino_P_name", "toufat_P_name", "lemur_P_name"] },
+        { name: this.player3_name, img: ["palm_B_name", "dino_B_name", "toufat_B_name", "lemur_B_name"] },
+        { name: this.player4_name, img: ["palm_Y_name", "dino_Y_name", "toufat_Y_name", "lemur_Y_name"] }];
         // Jugadores
-        this.players = [{active:false, selected: false}, {active:false, selected: false}, 
-            {active:false, selected: false}, {active:false, selected: false}]; 
+        this.players = [{ active: false, selected: false }, { active: false, selected: false },
+        { active: false, selected: false }, { active: false, selected: false }];
         // Número de jugadores activo
         this.numPlayers = 0;
         // Lista de jugadores
-        this.characters = []; 
-        this.charactersSelected = [ false, false, false, false];
+        this.characters = [];
+        this.charactersSelected = [false, false, false, false];
         // Controles de selección
         // Controles de selector jugador 1
-        this.cursors1 = []; 
-        this.cursors1[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors1[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.cursors1[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors1[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        // Controles de selector jugador 2
-        this.cursors2 = []; 
-        this.cursors2[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
-        this.cursors2[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
-        this.cursors2[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
-        this.cursors2[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
-        // Controles de selector jugador 3
-        this.cursors3 = []; 
-        this.cursors3[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.cursors3[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.cursors3[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.cursors3[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        // Controles de selector jugador 4
-        this.cursors4 = []; 
-        this.cursors4[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT);
-        this.cursors4[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR);
-        this.cursors4[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE);
-        this.cursors4[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX);
+        this.cursors = [];
+        this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         // ENTER
         this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         // ESCAPE
@@ -260,369 +270,35 @@ class WSChooseCharacter extends Phaser.Scene {
         });
         this.loop = this.sound.add("menu_loop");
         this.loop.play({
-            loop : true,
-            delay : 2.02,
+            loop: true,
+            delay: 2.02,
             volume: this.vol
         });
         this.choose_options = this.sound.add("choose_options");
         this.change_options = this.sound.add("change_options");
         this.hit = this.sound.add("hit");
-        
+
+        this.input.keyboard.on("keydown", function (event) {
+            var that = this;
+            if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
+                || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
+                that.change(that.myPlayer.id, event.key);
+            }
+        });
     }//Fin create
 
     update() {
-        // Creación y cambio del personaje del jugador 1
-        if (!this.players[0].active){// Si el jugador 1 no se encuentra activo
-            // Si se pulsa la tecla WASD, se añade el jugador 1 a la lista de jugadores
-            if (Phaser.Input.Keyboard.JustDown(this.cursors1[0]) || Phaser.Input.Keyboard.JustDown(this.cursors1[1]) || Phaser.Input.Keyboard.JustDown(this.cursors1[2]) || Phaser.Input.Keyboard.JustDown(this.cursors1[3])) {
-                this.characters[0] = new Character(this, 1, "palm_choose", false, 163, 224.5);
-                this.players[0].active = true;
-                this.numPlayers++;
-                this.gkeys.alpha = 0;// Desaparecen las teclas
-                for (var i = 0; i < this.players.length; i++){
-                    if (!this.charactersSelected[i]){
-                        this.selectors[0] = i;
-                    }
-                }
-                this.changeCharacter(this.characters, 0, this.selectors[0]);
-                this.ChangeText(this.selectors[0], 0);// Que aparezca la habilidad/nombre al empezar a seleccionar
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }else {// Si el jugador 1 ya se encuentra activo
-            // A para cambiar de personaje
-            if(Phaser.Input.Keyboard.JustDown(this.cursors1[1]) && !this.players[0].selected) {
-                this.selectors[0] = (this.selectors[0]-1)%4;
-                if (this.selectors[0] < 0){
-                    this.selectors[0] = 3;
-                }
-                while(this.charactersSelected[this.selectors[0]]){
-                    this.selectors[0]--;
-                    if (this.selectors[0] < 0){
-                        this.selectors[0] = 3;
-                    }
-                }
-                this.changeCharacter(this.characters, 0, this.selectors[0]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            //D para cambiar de personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors1[3]) && !this.players[0].selected){
-                this.selectors[0] = (this.selectors[0]+1)%4;
-                while(this.charactersSelected[this.selectors[0]]){
-                    this.selectors[0]++;
-                    if (this.selectors[0] > 3){
-                        this.selectors[0] = 0;
-                    }
-                }
-                this.changeCharacter(this.characters, 0, this.selectors[0]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // S para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors1[2]) && !this.charactersSelected[this.selectors[0]]){
-                this.charactersSelected[this.selectors[0]] = true;
-                this.players[0].selected = true;
-                this.ready1.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.readyPlayers++;
-                this.hit.play({
-                    volume: this.vol
-                });
-            }
-            // W para deseleccionar personaje (si ya ha seleccionado alguno)
-            else if (Phaser.Input.Keyboard.JustUp(this.cursors1[0]) && this.players[0].selected){
-                this.charactersSelected[this.selectors[0]] = false;
-                this.players[0].selected = false;
-                this.ready1.alpha = 0;
-                this.readyPlayers--;
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // W para salir de la partida
-            if (Phaser.Input.Keyboard.JustDown(this.cursors1[0]) && !this.players[0].selected){
-                this.numPlayers--;
-                this.characters[0].destroy();
-                this.players[0].active = false;
-                this.selectors[0] = 0;
-                this.habilities[0].hab.alpha = 0;// Ocultar habilidad
-                this.names[0].name.alpha = 0;// Ocultar nombre
-                this.gkeys.alpha = 1;// Aparecen las teclas
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }// Fin jugador 1
-        // Creación y cambio del personaje del jugador 2
-        if (!this.players[1].active){// Si el jugador 2 no se encuentra activo
-            // Si se pulsa IJKL, se añade el jugador 2 a la lista de jugadores
-            if (Phaser.Input.Keyboard.JustDown(this.cursors2[0]) || Phaser.Input.Keyboard.JustDown(this.cursors2[1]) || Phaser.Input.Keyboard.JustDown(this.cursors2[2]) || Phaser.Input.Keyboard.JustDown(this.cursors2[3])) {
-                this.characters[1] = new Character(this, 2, "palm_choose", false, 453, 224.5);
-                this.players[1].active = true;
-                this.numPlayers++;
-                this.pkeys.alpha = 0;// Desaparecen las teclas
-                for (var i = 0; i < this.players.length; i++){
-                    if (!this.charactersSelected[i]){
-                        this.selectors[1] = i;
-                    }
-                }
-                this.changeCharacter(this.characters, 1, this.selectors[1]);
-                this.ChangeText(this.selectors[1], 1);// Que aparezca la habilidad/nombre al empezar a seleccionar
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }else {
-            // J para cambiar de personaje
-            if(Phaser.Input.Keyboard.JustDown(this.cursors2[1]) && !this.players[1].selected) {
-                this.selectors[1] = (this.selectors[1]-1)%4;
-                if (this.selectors[1] < 0){
-                    this.selectors[1] = 3;
-                }
-                while(this.charactersSelected[this.selectors[1]]){
-                    this.selectors[1]--;
-                    if (this.selectors[1] < 0){
-                        this.selectors[1] = 3;
-                    }
-                }
-                this.changeCharacter(this.characters, 1, this.selectors[1]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // L para cambiar de personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors2[3]) && !this.players[1].selected){
-                this.selectors[1] = (this.selectors[1]+1)%4;
-                while(this.charactersSelected[this.selectors[1]]){
-                    this.selectors[1]++;
-                    if (this.selectors[1] > 3){
-                        this.selectors[1] = 0;
-                    }
-                }
-                this.changeCharacter(this.characters, 1, this.selectors[1]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // K para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors2[2]) && !this.charactersSelected[this.selectors[1]]){
-                this.charactersSelected[this.selectors[1]] = true;
-                this.players[1].selected = true;
-                this.ready2.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.readyPlayers++;
-                this.hit.play({
-                    volume: this.vol
-                });
-                
-            }
-            // I para deseleccionar personaje (Si no tiene uno seleccionado)
-            else if (Phaser.Input.Keyboard.JustUp(this.cursors2[0]) && this.players[1].selected){
-                this.charactersSelected[this.selectors[1]] = false;
-                this.players[1].selected = false;
-                this.ready2.alpha = 0;
-                this.readyPlayers--;
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // I para salir de la partida
-            if (Phaser.Input.Keyboard.JustDown(this.cursors2[0]) && !this.players[1].selected){
-                this.numPlayers--;
-                this.characters[1].destroy();
-                this.players[1].active = false;
-                this.selectors[1] = 0;
-                this.habilities[1].hab.alpha = 0; // Ocultar habilidad
-                this.names[1].name.alpha = 0; // Ocultar nombre
-                this.pkeys.alpha = 1;// Aparecen las teclas
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }//Fin jugador 2
-        // Creación y cambio del personaje del jugador 3
-        if (!this.players[2].active){ // Si el jugador 3 no se encuentra activo
-            // Si se pulsa alguna flecha de dirección se añade el jugador 3 a la lista de personajes
-            if (Phaser.Input.Keyboard.JustDown(this.cursors3[0]) || Phaser.Input.Keyboard.JustDown(this.cursors3[1]) || Phaser.Input.Keyboard.JustDown(this.cursors3[2]) || Phaser.Input.Keyboard.JustDown(this.cursors3[3])) {
-                this.characters[2] = new Character(this, 3, "palm_choose", false, 740.50, 224.5);
-                this.players[2].active = true;
-                this.numPlayers++;
-                for (var i = 0; i < this.players.length; i++){
-                    if (!this.charactersSelected[i]){
-                        this.selectors[2] = i;
-                    }
-                }
-                this.changeCharacter(this.characters, 2, this.selectors[2]);
-                this.ChangeText(this.selectors[2], 2);// Que aparezca la habilidad/nombre al empezar a seleccionar
-                this.bkeys.alpha = 0;// Desaparecen las teclas
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }else {
-            // LEFT para cambiar de personaje
-            if(Phaser.Input.Keyboard.JustDown(this.cursors3[1]) && !this.players[2].selected) {
-                this.selectors[2] = (this.selectors[2]-1)%4;
-                if (this.selectors[2] < 0){
-                    this.selectors[2] = 3;
-                }
-                while(this.charactersSelected[this.selectors[2]]){
-                    this.selectors[2]--;
-                    if (this.selectors[2] < 0){
-                        this.selectors[2] = 3;
-                    }
-                }
-                this.changeCharacter(this.characters, 2, this.selectors[2]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // RIGHT para cambiar de personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors3[3]) && !this.players[2].selected){
-                this.selectors[2] = (this.selectors[2]+1)%4;
-                while(this.charactersSelected[this.selectors[2]]){
-                    this.selectors[2]++;
-                    if (this.selectors[2] > 3){
-                        this.selectors[2] = 0;
-                    }
-                }
-                this.changeCharacter(this.characters, 2, this.selectors[2]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // DOWN para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors3[2]) && !this.charactersSelected[this.selectors[2]]){
-                this.charactersSelected[this.selectors[2]] = true;
-                this.players[2].selected = true;
-                this.ready3.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.readyPlayers++;
-                this.hit.play({
-                    volume: this.vol
-                });
-            }
-            // UP para deseleccionar personaje (si no tiene uno seleccionado) 
-            else if (Phaser.Input.Keyboard.JustUp(this.cursors3[0]) && this.players[2].selected){
-                this.charactersSelected[this.selectors[2]] = false;
-                this.players[2].selected = false;
-                this.ready3.alpha = 0;
-                this.readyPlayers--;
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // UP para salir de la partida
-            if (Phaser.Input.Keyboard.JustDown(this.cursors3[0]) && !this.players[2].selected){
-                this.numPlayers--;
-                this.characters[2].destroy();
-                this.players[2].active = false;
-                this.selectors[2] = 0;
-                this.habilities[2].hab.alpha = 0;// Ocultar habilidad
-                this.names[2].name.alpha = 0;// Ocultar nombre
-                this.bkeys.alpha = 1;// Aparecen las teclas
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }//Fin jugador 3
-        // Creación y cambio del personaje del jugador 4
-        if (!this.players[3].active){ // Si el jugador 4 no se encuentra activo
-            // 8456 en el NUMPAD para añadir al jugador 4 a la lista de personajes
-            if (Phaser.Input.Keyboard.JustDown(this.cursors4[0]) || Phaser.Input.Keyboard.JustDown(this.cursors4[1]) || Phaser.Input.Keyboard.JustDown(this.cursors4[2]) || Phaser.Input.Keyboard.JustDown(this.cursors4[3])) {
-                this.characters[3] = new Character(this, 4, "palm_choose", false, 1022, 224.5);
-                this.players[3].active = true;
-                this.numPlayers++;
-                for (var i = 0; i < this.players.length; i++){
-                    if (!this.charactersSelected[i]){
-                        this.selectors[3] = i;
-                    }
-                }
-                this.changeCharacter(this.characters, 3, this.selectors[3]);
-                this.ChangeText(this.selectors[3], 3);// Que aparezca la habilidad/nombre al empezar a seleccionar
-                this.ykeys.alpha = 0;// Desaparecen las teclas
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }else {
-            // NUMPAD_4 para cambiar de personaje
-            if(Phaser.Input.Keyboard.JustDown(this.cursors4[1]) && !this.players[3].selected) {
-                this.selectors[3] = (this.selectors[3]-1)%4;
-                if (this.selectors[3] < 0){
-                    this.selectors[3] = 3;
-                }
-                while(this.charactersSelected[this.selectors[3]]){
-                    this.selectors[3]--;
-                    if (this.selectors[3] < 0){
-                        this.selectors[3] = 3;
-                    }
-                }
-                this.changeCharacter(this.characters, 3, this.selectors[3]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // NUMPAD_6 para cambiar de personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors4[3]) && !this.players[3].selected){
-                this.selectors[3] = (this.selectors[3]+1)%4;
-                while(this.charactersSelected[this.selectors[3]]){
-                    this.selectors[3]++;
-                    if (this.selectors[3] > 3){
-                        this.selectors[3] = 0;
-                    }
-                }
-                this.changeCharacter(this.characters, 3, this.selectors[3]);
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // NUMPAD_5 para seleccionar personaje
-            else if (Phaser.Input.Keyboard.JustDown(this.cursors4[2]) && !this.charactersSelected[this.selectors[3]]){
-                this.charactersSelected[this.selectors[3]] = true;
-                this.players[3].selected = true;
-                this.ready4.alpha = 1;// Personaje seleccionado, preparado para jugar
-                this.readyPlayers++;
-                this.hit.play({
-                    volume: this.vol
-                });
-            }
-            // NUMPAD_8 para deseleccionar personaje (Si ya tiene uno seleccionado)
-            else if (Phaser.Input.Keyboard.JustUp(this.cursors4[0]) && this.players[3].selected){
-                this.charactersSelected[this.selectors[3]] = false;
-                this.players[3].selected = false;
-                this.ready4.alpha = 0;
-                this.readyPlayers--;
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-            // NUMPAD_8 para salir de la partida
-            if (Phaser.Input.Keyboard.JustDown(this.cursors4[0]) && !this.players[3].selected){
-                this.numPlayers--;
-                this.characters[3].destroy();
-                this.players[3].active = false;
-                this.selectors[3] = 0;
-                this.habilities[3].hab.alpha = 0;// Ocultar habilidad
-                this.names[3].name.alpha = 0;// Ocultar nombre
-                this.ykeys.alpha = 1;// Aparecen las teclas
-                this.change_options.play({
-                    volume: this.vol
-                });
-            }
-        }//Fin jugador 4
         // ENTER para cambiar de escena
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.readyPlayers >= 2) {
             if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
-                for (var i = 0; i < this.characters.length; i++){
-                    if (!this.players[i].selected){
-                        this.players.splice(i,1);
-                        this.characters.splice(i,1);
+                for (var i = 0; i < this.characters.length; i++) {
+                    if (!this.players[i].selected) {
+                        this.players.splice(i, 1);
+                        this.characters.splice(i, 1);
                         i--;
                     }
                 }
-                this.scene.start("ws_how_to_play", {characters: this.characters, volume: this.vol});
+                this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
                 // Se para la música
                 this.loop.stop();
                 this.intro.stop();
@@ -630,29 +306,29 @@ class WSChooseCharacter extends Phaser.Scene {
                     volume: this.vol
                 });
             }
-        }  
+        }
         // Cuando haya más de 2 jugadores seleccionados se muestra que ya se puede jugar
         if (this.readyPlayers >= 2) {
             this.readyButton.alpha = 0;
             this.readySelectedButton.alpha = 1;
-        }else{
+        } else {
             this.readyButton.alpha = 1;
             this.readySelectedButton.alpha = 0;
         }
         // ESCAPE para salir al menú principal
-        if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)){
-            this.scene.start("main_menu", {volume: this.vol});
+        if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)) {
+            this.scene.start("main_menu", { volume: this.vol });
             this.choose_options.play({
                 volume: this.vol
             });
             // Se para la música
             this.loop.stop();
             this.intro.stop();
-        } 
+        }
     }// Fin Update
 
-    changeCharacter(charactersArray, characterid, selector, names){
-        switch(selector){
+    changeCharacter(charactersArray, characterid, selector, names) {
+        switch (selector) {
             case 0:
                 this.characterAux = new Character(this, characterid + 1, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
@@ -679,7 +355,7 @@ class WSChooseCharacter extends Phaser.Scene {
         this.ChangeText(selector, characterid);
     }// Fin changeCharacter
 
-    ChangeText(selector, characterid){
+    ChangeText(selector, characterid) {
         var habilityAux = this.add.image(this.habilities[characterid].hab.x, this.habilities[characterid].hab.y, this.habilities[selector].img);
         this.habilities[characterid].hab.destroy();
         this.habilities[characterid].hab = habilityAux;
@@ -688,4 +364,118 @@ class WSChooseCharacter extends Phaser.Scene {
         this.names[characterid].name.destroy();
         this.names[characterid].name = nameAux;
     }// Fin ChangeText
+
+    change(id, keypressed) {
+        var posX;
+        var posY;
+        switch (id) {
+            case 0:
+                posX = 163;
+                posY = 224.5;
+                break;
+            case 1:
+                posX = 453;
+                posY = 224.5;
+                break;
+            case 2:
+                posX = 740.50;
+                posY = 224.5;
+                break;
+            case 3:
+                posX = 1022;
+                posY = 224.5;
+                break;
+        }
+        if (!this.players[id].active) {// Si el jugador id no se encuentra activo
+            this.characters[id] = new Character(this, id + 1, "palm_choose", false, posX, posY);
+            this.players[id].active = true;
+            this.numPlayers++;
+            this.keys[0].alpha = 0;// Desaparecen las teclas
+            for (var i = 0; i < this.players.length; i++) {
+                if (!this.charactersSelected[i]) {
+                    this.selectors[id] = i;
+                }
+            }
+            this.changeCharacter(this.characters, id, this.selectors[id]);
+            this.ChangeText(this.selectors[id], id);// Que aparezca la habilidad/nombre al empezar a seleccionar
+            this.change_options.play({
+                volume: this.vol
+            });
+        } else {
+            switch (keypressed) {
+                case 'a':
+                case 'A':
+                    if (!this.players[id].selected) {
+                        this.selectors[id] = (this.selectors[id] - 1) % 4;
+                        if (this.selectors[id] < 0) {
+                            this.selectors[id] = 3;
+                        }
+                        while (this.charactersSelected[this.selectors[id]]) {
+                            this.selectors[id]--;
+                            if (this.selectors[id] < 0) {
+                                this.selectors[id] = 3;
+                            }
+                        }
+                        this.changeCharacter(this.characters, id, this.selectors[id]);
+                        this.change_options.play({
+                            volume: this.vol
+                        });
+                    }
+                    break;
+                case 'd':
+                case 'D':
+                    if (!this.players[id].selected) {
+                        this.selectors[id] = (this.selectors[id] + 1) % 4;
+                        while (this.charactersSelected[this.selectors[id]]) {
+                            this.selectors[id]++;
+                            if (this.selectors[id] > 3) {
+                                this.selectors[id] = 0;
+                            }
+                        }
+                        this.changeCharacter(this.characters, id, this.selectors[id]);
+                        this.change_options.play({
+                            volume: this.vol
+                        });
+                    }
+                    break;
+                case 's':
+                case 'S':
+                    if (!this.charactersSelected[this.selectors[id]]) {
+                        this.charactersSelected[this.selectors[id]] = true;
+                        this.players[id].selected = true;
+                        this.ready[id].alpha = 1;// Personaje seleccionado, preparado para jugar
+                        this.readyPlayers++;
+                        this.hit.play({
+                            volume: this.vol
+                        });
+                    }
+                    break;
+                case 'w':
+                case 'W':
+                    if (this.players[id].selected) {
+                        this.charactersSelected[this.selectors[id]] = false;
+                        this.players[id].selected = false;
+                        this.ready[id].alpha = 0;
+                        this.readyPlayers--;
+                        this.change_options.play({
+                            volume: this.vol
+                        });
+                    } else {
+                        this.numPlayers--;
+                        this.characters[id].destroy();
+                        this.players[id].active = false;
+                        this.selectors[id] = 0;
+                        this.habilities[id].hab.alpha = 0;// Ocultar habilidad
+                        this.names[id].name.alpha = 0;// Ocultar nombre
+                        if (id == this.myPlayer.id) {
+                            this.keys[id].alpha = 1;// Aparecen las teclas
+                        }
+                        this.change_options.play({
+                            volume: this.vol
+                        });
+                    }
+                    break;
+            }
+        }
+    }
 }
