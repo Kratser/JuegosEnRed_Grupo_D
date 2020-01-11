@@ -6,6 +6,7 @@ class WSChooseCharacter extends Phaser.Scene {
     init(data){
         this.vol = data.volume;
         this.myPlayer = data.myPlayer;
+        this.connection = data.connection;
         data = null;
     }
 
@@ -689,4 +690,28 @@ class WSChooseCharacter extends Phaser.Scene {
         this.names[characterid].name = nameAux;
     }// Fin ChangeText
     
+    reciveMsg(){
+        $(document).keypress(function(e){ // pressing key 
+            switch(e.keyCode) {
+                case 27:
+                    connection.send("ESC");
+                    break;
+                case 13:
+                    connection.send("ENTER");
+                    break;
+                case 87:
+                    connection.send("W");
+                    break;
+                case 65:
+                    connection.send("A");
+                    break;
+                case 83:
+                    connection.send("S");
+                    break;
+                case 68:
+                    connection.send("D");
+                    break;
+            }//Fin switch
+        });
+    }//Fin reciveMsg
 }//Fin WSChooseCharacter

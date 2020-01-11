@@ -7,7 +7,6 @@ class OnlineLobby extends Phaser.Scene {
         this.myPlayer = data.client;
         this.ip = data.url;
         this.vol = data.volume;
-        this.connection = data.connection;
         data = null;
     }// Fin init
     preload() {
@@ -94,6 +93,8 @@ class OnlineLobby extends Phaser.Scene {
         // Número de jugadores
         this.numPlayers;
         this.numPlayersReady;
+        //ws var
+        this.connection;
     }// Fin Preload
     create() {
         // Se crea la imagen de fondo
@@ -457,16 +458,19 @@ class OnlineLobby extends Phaser.Scene {
     // Función que se ejecuta tras la animación 3, 2, 1, Mango Mambo!
     animComplete(animation, frame){
         if (this.startingGame) {
+            //Se establece la conexión ws
+            this.startWS();
             // Cambio de escena
-            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer });
+            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection });
             //Se para la música
             this.loop.stop();
         }
     }// Fin AnimComplete
     startWS(){
-        var connection = WebSocket('ws://' + this.ip + '/mango-mambo/ws_choose_character');
+        this.connection = WebSocket('ws://' + this.ip + '/mango-mambo/ws_choose_character');
         connection.onopen = function(){
             connection.send ('Open');
+            console.log("WS Open");
         }
         connection.onerror = function(e) {
             console.log("WS error: " + e);
