@@ -4,9 +4,8 @@ class WSChooseCharacter extends Phaser.Scene {
     }//Fin constructor
 
     init(data){
-        this.loop = data.loop;
-        this.intro = data.intro;
         this.vol = data.volume;
+        this.myPlayer = data.myPlayer;
         data = null;
     }
 
@@ -87,6 +86,10 @@ class WSChooseCharacter extends Phaser.Scene {
         this.load.image("cc_ready_button", "./Design/Objects/Buttons/cc_ready_button.png");
         this.load.image("cc_ready_button_selected", "./Design/Objects/Buttons/cc_ready_button_selected.png");
         //sonido
+        this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
+        this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
+        this.intro;
+        this.loop;
         this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
         // Arrays para los textos
@@ -147,16 +150,16 @@ class WSChooseCharacter extends Phaser.Scene {
         this.escapeButton = this.add.image(45, 20, "escape_button");
         // Texto e imagenes que aparecen si no te has unido a la partida
         this.gkeys = this.add.image(169, 218, "press_key").setDepth(1);
-        this.gkeys.tint = 0xff0eff00;
+        this.gkeys.tint = 0x0eff00;
         this.gkeys.alpha = 1;
         this.pkeys = this.add.image(457.38, 218, "press_key").setDepth(1);
-        this.pkeys.tint = 0xffff00e9;
+        this.pkeys.tint = 0xff00e9;
         this.pkeys.alpha = 1;
         this.bkeys = this.add.image(746.48, 218, "press_key").setDepth(1);
-        this.bkeys.tint = 0xff00fff0;
+        this.bkeys.tint = 0x00fff0;
         this.bkeys.alpha = 1;
         this.ykeys = this.add.image(1035.07, 218, "press_key").setDepth(1);
-        this.ykeys.tint = 0xffffff00;
+        this.ykeys.tint = 0xffff00;
         this.ykeys.alpha = 1;
         // Movimiento   
         var tweenKeys = this.tweens.add({
@@ -251,6 +254,16 @@ class WSChooseCharacter extends Phaser.Scene {
         this.selectors = [0, 0, 0, 0];
         // Se crea la música
         this.sound.pauseOnBlur = false;
+        this.intro = this.sound.add("menu_begining");
+        this.intro.play({
+            volume: this.vol
+        });
+        this.loop = this.sound.add("menu_loop");
+        this.loop.play({
+            loop : true,
+            delay : 2.02,
+            volume: this.vol
+        });
         this.choose_options = this.sound.add("choose_options");
         this.change_options = this.sound.add("change_options");
         this.hit = this.sound.add("hit");

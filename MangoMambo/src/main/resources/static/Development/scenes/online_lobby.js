@@ -72,6 +72,7 @@ class OnlineLobby extends Phaser.Scene {
         });
         this.mangoMamboAnim;
         this.startingGame;
+        this.animTween;
         // Teclas
         this.cursors;
         // Estado del servidor
@@ -266,6 +267,16 @@ class OnlineLobby extends Phaser.Scene {
         });
         this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
         this.startingGame = false;
+        this.animTween = this.tweens.add({
+            targets: [this.mangoMamboAnim],
+            scaleY: 1,
+            scaleX: 1,
+            ease: 'Sine.easeInOut',
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+        this.animTween.stop();
         // Número de jugadores
         this.numPlayers = 0;
         this.numPlayersReady = 0;
@@ -282,19 +293,12 @@ class OnlineLobby extends Phaser.Scene {
                 // 3 2 1 mango mambo
                 this.mangoMamboAnim.setAlpha(1);
                 this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
-                var tween = this.tweens.add({
-                    targets: [this.mangoMamboAnim],
-                    scaleY: 1,
-                    scaleX: 1,
-                    ease: 'Sine.easeInOut',
-                    duration: 500,
-                    yoyo: true,
-                    repeat: -1
-                });
+                this.animTween.play();
             // Si no están los jugadores listos, se cancela el inicio de partida
             }else if (this.numPlayers < 2 || this.numPlayers != this.numPlayersReady){
                 this.startingGame = false;
                 this.mangoMamboAnim.setAlpha(0);
+                this.animTween.stop();
                 this.mangoMamboAnim.setScale(0.5);
                 // Si la animación se está reproduciendo se para
                 if (this.mangoMamboAnim.anims.isPlaying){
@@ -454,7 +458,7 @@ class OnlineLobby extends Phaser.Scene {
     animComplete(animation, frame){
         if (this.startingGame) {
             // Cambio de escena
-            this.scene.start("ws_choose_character", { volume: this.vol });
+            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer });
             //Se para la música
             this.loop.stop();
         }
