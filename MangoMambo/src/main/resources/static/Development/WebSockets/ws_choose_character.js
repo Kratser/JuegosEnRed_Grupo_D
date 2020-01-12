@@ -284,15 +284,19 @@ class WSChooseCharacter extends Phaser.Scene {
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
                 || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
                 that.change(that.myPlayer.id, event.key);
-                that.connection.send({id: that.myPlayer.id, key: event.key});
+                that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
             }else if (event.key == "Enter" || event.key == "Escape"){
-                that.connection.send({id: that.myPlayer.id, key: event.key});
+                that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
             }
         });
+        var that = this;
         this.connection.onmessage = function(msg){
-            if (msg.key == 'a' || msg.key == 'A' || msg.key == 'w' || msg.key == 'W'
-            || msg.key == 'd' || msg.key == 'D' || msg.key == 's' || msg.key == 'S'){
-                this.scene.change(msg.id, msg.key);
+        	console.log("message received");
+        	var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            console.log("Id: "+data.id+", Key: "+data.key);
+            if (data.key == 'a' || data.key == 'A' || data.key == 'w' || data.key == 'W'
+            || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S'){
+                that.change(data.id, data.key);
             }
         }
     }//Fin create
