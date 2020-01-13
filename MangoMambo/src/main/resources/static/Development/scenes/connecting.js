@@ -106,25 +106,48 @@ class Connecting extends Phaser.Scene{
         // Conexión establecida
         getInfo.done(function(data){
             var numPlayersConnected = 0;
+            var numPlayersReady = 0;
             var playersData = data;
             for (var i = 0; i < data.length; i++){
                 if (data[i].isConnected){
                     numPlayersConnected++;
                 }
+                if (data[i].isReady){
+                    numPlayersReady++;
+                }
             }
             // Si hay espacios disponibles
             if (numPlayersConnected < 4){
-                var myPlayer;
-                console.log("Entrando en sala");
-                $.ajax({
-                	method: "POST",
-                	url: "http://"+ip+"/mango-mambo"
-                }).done(function(data){
-                    myPlayer = data;
-                    that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, url: ip});
-                    // Se para la música
-                    that.loop.stop();
-                });  
+                if (numPlayersConnected != numPlayersReady){
+                    var myPlayer;
+                    console.log("Entrando en sala");
+                    $.ajax({
+                        method: "POST",
+                        url: "http://"+ip+"/mango-mambo"
+                    }).done(function(data){
+                        myPlayer = data;
+                        that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, ip: ip});
+                        // Se para la música
+                        that.loop.stop();
+                    });  
+                }else{
+                    if (numPlayersConnected < 2){
+                        var myPlayer;
+                        console.log("Entrando en sala");
+                        $.ajax({
+                            method: "POST",
+                            url: "http://"+ip+"/mango-mambo"
+                        }).done(function(data){
+                            myPlayer = data;
+                            that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, url: ip});
+                            // Se para la música
+                            that.loop.stop();
+                        });  
+                    }else { // Si hay 2 o más jugadores y están listos (están en partida)
+                        console.log("Sorry, the server is full, please try again later");
+                        that.add.image(600,300, "server_full_rock");
+                    }
+                }
             }
             // Si no hay espacios disponibles
             else{

@@ -7,6 +7,8 @@ class WSChooseCharacter extends Phaser.Scene {
         this.vol = data.volume;
         this.myPlayer = data.myPlayer;
         this.connection = data.connection;
+        this.numPlayers = data.numPlayers;
+        this.ip = data.ip;
         data = null;
     }
 
@@ -97,8 +99,6 @@ class WSChooseCharacter extends Phaser.Scene {
         this.habilities;
         // Jugadores
         this.players;
-        // Número de jugadores activo
-        this.numPlayers;
         // Lista de jugadores
         this.characters;
         this.charactersSelected;
@@ -243,8 +243,6 @@ class WSChooseCharacter extends Phaser.Scene {
         // Jugadores
         this.players = [{ active: false, selected: false }, { active: false, selected: false },
         { active: false, selected: false }, { active: false, selected: false }];
-        // Número de jugadores activo
-        this.numPlayers = 0;
         // Lista de jugadores
         this.characters = [];
         this.charactersSelected = [false, false, false, false];
@@ -298,12 +296,17 @@ class WSChooseCharacter extends Phaser.Scene {
             || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S'){
                 that.change(data.id, data.key);
             }else if (data.key == "Escape"){
+                console.log("El jugador "+data.id+" ha abandonado la partida :(");
                 that.leaveGame(data.id);
+                if (numPlayers <= 1){
+                    that.scene.start("online:lobby", { myPlayer: that.myPlayer, volume: that.vol, url: that.ip, players: [] });
+                }
             }
         }
     }//Fin create
 
     update() {
+        /*
         // ENTER para cambiar de escena
         if (Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.readyPlayers >= 2) {
             if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
@@ -330,7 +333,7 @@ class WSChooseCharacter extends Phaser.Scene {
         } else {
             this.readyButton.alpha = 1;
             this.readySelectedButton.alpha = 0;
-        }
+        }*/
         // ESCAPE para salir al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)) {
             this.scene.start("main_menu", { volume: this.vol });
@@ -343,7 +346,7 @@ class WSChooseCharacter extends Phaser.Scene {
         }
     }// Fin Update
 
-    changeCharacter(charactersArray, characterid, selector, names) {
+    changeCharacter(charactersArray, characterid, selector) {
         switch (selector) {
             case 0:
                 this.characterAux = new Character(this, characterid + 1, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
@@ -385,19 +388,19 @@ class WSChooseCharacter extends Phaser.Scene {
         var posX;
         var posY;
         switch (id) {
-            case 0:
+            case "0":
                 posX = 163;
                 posY = 224.5;
                 break;
-            case 1:
+            case "1":
                 posX = 453;
                 posY = 224.5;
                 break;
-            case 2:
+            case "2":
                 posX = 740.50;
                 posY = 224.5;
                 break;
-            case 3:
+            case "3":
                 posX = 1022;
                 posY = 224.5;
                 break;
@@ -405,7 +408,7 @@ class WSChooseCharacter extends Phaser.Scene {
         if (!this.players[id].active) {// Si el jugador id no se encuentra activo
             this.characters[id] = new Character(this, id + 1, "palm_choose", false, posX, posY);
             this.players[id].active = true;
-            this.numPlayers++;
+            //this.numPlayers++;
             this.keys[id].alpha = 0;// Desaparecen las teclas
             for (var i = 0; i < this.players.length; i++) {
                 if (!this.charactersSelected[i]) {
@@ -459,11 +462,15 @@ class WSChooseCharacter extends Phaser.Scene {
                     if (!this.charactersSelected[this.selectors[id]]) {
                         this.charactersSelected[this.selectors[id]] = true;
                         this.players[id].selected = true;
-                        this.ready[id].alpha = 1;// Personaje seleccionado, preparado para jugar
+                        this.ready[id].alpha = 1; // Personaje seleccionado, preparado para jugar
                         this.readyPlayers++;
                         this.hit.play({
                             volume: this.vol
                         });
+                    }
+                    // Si todos los jugadores están listos, comienza la partida
+                    if (this.readyPlayers == this.numPlayers){
+                        this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
                     }
                     break;
                 case 'w':
@@ -477,7 +484,7 @@ class WSChooseCharacter extends Phaser.Scene {
                             volume: this.vol
                         });
                     } else {
-                        this.numPlayers--;
+                        //this.numPlayers--;
                         this.characters[id].destroy();
                         this.players[id].active = false;
                         this.selectors[id] = 0;
@@ -497,10 +504,13 @@ class WSChooseCharacter extends Phaser.Scene {
 
     leaveGame(id){
         if (this.players[id].active){
+            if (this.players[id].selected) {
+                this.readyPlayers--;
+            }
             this.charactersSelected[this.selectors[id]] = false;
             this.players[id].selected = false;
             this.ready[id].alpha = 0;
-            this.readyPlayers--;
+            this.numPlayers--;
             this.characters[id].destroy();
             this.players[id].active = false;
             this.selectors[id] = 0;

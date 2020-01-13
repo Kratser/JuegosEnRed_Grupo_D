@@ -5,7 +5,7 @@ class OnlineLobby extends Phaser.Scene {
     init(data) {
         this.players = data.players;
         this.myPlayer = data.client;
-        this.ip = data.url;
+        this.ip = data.ip;
         this.vol = data.volume;
         data = null;
     }// Fin init
@@ -461,7 +461,7 @@ class OnlineLobby extends Phaser.Scene {
             //Se establece la conexión ws
             this.startWS();
             // Cambio de escena
-            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection });
+            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection, numPlayers: this.numPlayers, ip: this.ip });
             //Se para la música
             this.loop.stop();
         }
