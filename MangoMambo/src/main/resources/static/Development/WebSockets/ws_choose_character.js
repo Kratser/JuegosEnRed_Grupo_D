@@ -282,10 +282,8 @@ class WSChooseCharacter extends Phaser.Scene {
         this.input.keyboard.on("keydown", function (event) {
             var that = this.scene;
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
-                || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
-                that.change(that.myPlayer.id, event.key);
-                that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
-            }else if (event.key == "Enter" || event.key == "Escape"){
+                || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S'
+                || event.key == "Escape" || event.key == "Enter") {
                 that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
             }
         });
@@ -297,6 +295,11 @@ class WSChooseCharacter extends Phaser.Scene {
             if (data.key == 'a' || data.key == 'A' || data.key == 'w' || data.key == 'W'
             || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S'){
                 that.change(data.id, data.key);
+            }else if (data.key == "Escape"){
+                that.connection.close();
+                that.leaveGame(data.id);
+            }else if (data.key == "Enter"){
+
             }
         }
     }//Fin create
@@ -490,6 +493,20 @@ class WSChooseCharacter extends Phaser.Scene {
                     }
                     break;
             }
+        }
+    }
+
+    leaveGame(id){
+        if (this.players[id].active){
+            this.charactersSelected[this.selectors[id]] = false;
+            this.players[id].selected = false;
+            this.ready[id].alpha = 0;
+            this.readyPlayers--;
+            this.characters[id].destroy();
+            this.players[id].active = false;
+            this.selectors[id] = 0;
+            this.habilities[id].hab.alpha = 0;// Ocultar habilidad
+            this.names[id].name.alpha = 0;// Ocultar nombre
         }
     }
 }
