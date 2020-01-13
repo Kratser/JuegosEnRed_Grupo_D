@@ -282,9 +282,11 @@ class WSChooseCharacter extends Phaser.Scene {
         this.input.keyboard.on("keydown", function (event) {
             var that = this.scene;
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
-                || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S'
-                || event.key == "Escape" || event.key == "Enter") {
+                || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
                 that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
+            }else if (event.key == "Escape"){
+                that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
+                that.connection.close();
             }
         });
         var that = this;
@@ -296,10 +298,7 @@ class WSChooseCharacter extends Phaser.Scene {
             || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S'){
                 that.change(data.id, data.key);
             }else if (data.key == "Escape"){
-                that.connection.close();
                 that.leaveGame(data.id);
-            }else if (data.key == "Enter"){
-
             }
         }
     }//Fin create
