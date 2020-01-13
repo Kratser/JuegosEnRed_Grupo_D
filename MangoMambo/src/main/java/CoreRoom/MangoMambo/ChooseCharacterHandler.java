@@ -20,7 +20,7 @@ public class ChooseCharacterHandler extends TextWebSocketHandler{
 
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("New session: " + session.getId());
+        System.out.println("New session: " + session.getId());
 		sessions.put(session.getId(), session);
 	}
     

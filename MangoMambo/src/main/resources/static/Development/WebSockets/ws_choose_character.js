@@ -99,6 +99,10 @@ class WSChooseCharacter extends Phaser.Scene {
         this.habilities;
         // Jugadores
         this.players;
+        // Animación cuenta atrás
+        this.mangoMamboAnim;
+        this.startingGame;
+        this.animTween;
         // Lista de jugadores
         this.characters;
         this.charactersSelected;
@@ -317,6 +321,26 @@ class WSChooseCharacter extends Phaser.Scene {
                 }
             }
         }
+        // 3 2 1 mango mambo
+        this.mangoMamboAnim = this.add.sprite(600, 300, "3_2_1_mango_mambo").setAlpha(0);
+        this.mangoMamboAnim.setScale(0.5);
+        this.anims.create({
+            key: '3_2_1_mango_mambo',
+            frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 2 }),
+            frameRate: 1,
+        });
+        this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
+        this.startingGame = false;
+        this.animTween = this.tweens.add({
+            targets: [this.mangoMamboAnim],
+            scaleY: 1,
+            scaleX: 1,
+            ease: 'Sine.easeInOut',
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+        this.animTween.stop();
     }//Fin create
 
     update() {
@@ -357,6 +381,25 @@ class WSChooseCharacter extends Phaser.Scene {
             // Se para la música
             this.loop.stop();
             this.intro.stop();
+        }
+        // Si hay dos o más jugadores listos, comenzar partida
+        if (this.numPlayers >= 2 && this.numPlayers == this.readyPlayers && !this.startingGame){
+            // Se pasa a la selección de personaje
+            this.startingGame = true;
+            // 3 2 1 mango mambo
+            this.mangoMamboAnim.setAlpha(1);
+            this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
+            this.animTween.play();
+        // Si no están los jugadores listos, se cancela el inicio de partida
+        }else if (this.numPlayers < 2 || this.numPlayers != this.readyPlayers){
+            this.startingGame = false;
+            this.mangoMamboAnim.setAlpha(0);
+            this.animTween.stop();
+            this.mangoMamboAnim.setScale(0.5);
+            // Si la animación se está reproduciendo se para
+            if (this.mangoMamboAnim.anims.isPlaying){
+                this.mangoMamboAnim.anims.stop();
+            }
         }
     }// Fin Update
 
@@ -482,10 +525,10 @@ class WSChooseCharacter extends Phaser.Scene {
                             volume: this.vol
                         });
                     }
-                    // Si todos los jugadores están listos, comienza la partida
-                    if (this.readyPlayers == this.numPlayers) {
-                        this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
-                    }
+                    // // Si todos los jugadores están listos, comienza la partida
+                    // if (this.readyPlayers == this.numPlayers) {
+                    //     this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
+                    // }
                     break;
                 case 'w':
                 case 'W':
@@ -532,4 +575,12 @@ class WSChooseCharacter extends Phaser.Scene {
         this.habilities[id].hab.alpha = 0;// Ocultar habilidad
         this.names[id].name.alpha = 0;// Ocultar nombre
     }
+    animComplete(animation, frame){
+        if (this.startingGame) {
+            // Cambio de escena
+            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection, numPlayers: this.numPlayers, ip: this.ip });
+            //Se para la música
+            this.loop.stop();
+        }
+    }// Fin AnimComplete
 }
