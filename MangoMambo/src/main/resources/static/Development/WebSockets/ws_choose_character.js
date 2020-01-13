@@ -578,7 +578,7 @@ class WSChooseCharacter extends Phaser.Scene {
     animComplete(animation, frame){
         if (this.startingGame) {
             // Cambio de escena
-            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection, numPlayers: this.numPlayers, ip: this.ip });
+            this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
             //Se para la música
             this.loop.stop();
         }

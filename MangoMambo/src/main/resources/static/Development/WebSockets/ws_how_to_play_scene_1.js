@@ -6,6 +6,9 @@ class WSHowToPlay extends Phaser.Scene {
     init(data){
         this.characters = data.characters;
         this.vol = data.volume;
+        this.myPlayer = data.myPlayer;
+        this.numPlayers = data.numPlayers;
+        this.ip = data.ip;
         data = null;
     }// Fin init
 
