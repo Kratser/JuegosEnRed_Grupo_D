@@ -281,25 +281,39 @@ class WSChooseCharacter extends Phaser.Scene {
             var that = this.scene;
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
                 || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
-                that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
-            }else if (event.key == "Escape"){
-                that.connection.send(JSON.stringify({id: that.myPlayer.id, key: event.key}));
+                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
+            } else if (event.key == "Escape") {
+                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
                 that.connection.close();
+                that.myPlayer.isReady = false;
+                that.myPlayer.isConnected = false;
+                var playerUpdate = $.ajax({
+                    method: "PUT",
+                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                    data: JSON.stringify(that.myPlayer),
+                    processData: false,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
             }
         });
         var that = this;
-        this.connection.onmessage = function(msg){
-        	console.log("message received");
-        	var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
-            console.log("Id: "+data.id+", Key: "+data.key);
+        this.connection.onmessage = function (msg) {
+            console.log("message received");
+            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            console.log("Id: " + data.id + ", Key: " + data.key);
             if (data.key == 'a' || data.key == 'A' || data.key == 'w' || data.key == 'W'
-            || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S'){
+                || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S') {
                 that.change(data.id, data.key);
-            }else if (data.key == "Escape"){
-                console.log("El jugador "+data.id+" ha abandonado la partida :(");
+            } else if (data.key == "Escape") {
+                console.log("El jugador " + data.id + " ha abandonado la partida :(");
                 that.leaveGame(data.id);
-                if (numPlayers <= 1){
-                    that.scene.start("online:lobby", { myPlayer: that.myPlayer, volume: that.vol, ip: that.ip, players: [] });
+                if (that.numPlayers <= 1) {
+                    var players = [{ id: 0, isConnected: false, isReady: false }, { id: 1, isConnected: false, isReady: false },
+                    { id: 2, isConnected: false, isReady: false }, { id: 3, isConnected: false, isReady: false }];
+                    players[that.myPlayer.id] = that.myPlayer;
+                    that.scene.start("online_lobby", { client: that.myPlayer, volume: that.vol, ip: that.ip, players: players });
                 }
             }
         }
@@ -469,7 +483,7 @@ class WSChooseCharacter extends Phaser.Scene {
                         });
                     }
                     // Si todos los jugadores están listos, comienza la partida
-                    if (this.readyPlayers == this.numPlayers){
+                    if (this.readyPlayers == this.numPlayers) {
                         this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
                     }
                     break;
@@ -502,20 +516,20 @@ class WSChooseCharacter extends Phaser.Scene {
         }
     }
 
-    leaveGame(id){
-        if (this.players[id].active){
-            if (this.players[id].selected) {
-                this.readyPlayers--;
-            }
-            this.charactersSelected[this.selectors[id]] = false;
-            this.players[id].selected = false;
-            this.ready[id].alpha = 0;
-            this.numPlayers--;
-            this.characters[id].destroy();
-            this.players[id].active = false;
-            this.selectors[id] = 0;
-            this.habilities[id].hab.alpha = 0;// Ocultar habilidad
-            this.names[id].name.alpha = 0;// Ocultar nombre
+    leaveGame(id) {
+        if (this.players[id].selected) {
+            this.readyPlayers--;
         }
+        this.charactersSelected[this.selectors[id]] = false;
+        this.players[id].selected = false;
+        this.ready[id].alpha = 0;
+        this.numPlayers--;
+        if (this.players[id].active) {
+            this.characters[id].destroy();
+        }
+        this.players[id].active = false;
+        this.selectors[id] = 0;
+        this.habilities[id].hab.alpha = 0;// Ocultar habilidad
+        this.names[id].name.alpha = 0;// Ocultar nombre
     }
 }
