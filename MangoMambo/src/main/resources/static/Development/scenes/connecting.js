@@ -139,7 +139,7 @@ class Connecting extends Phaser.Scene{
                             url: "http://"+ip+"/mango-mambo"
                         }).done(function(data){
                             myPlayer = data;
-                            that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, url: ip});
+                            that.scene.start("online_lobby", {volume: that.vol, players: playersData, client: myPlayer, ip: ip});
                             // Se para la música
                             that.loop.stop();
                         });  

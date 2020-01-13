@@ -299,7 +299,7 @@ class WSChooseCharacter extends Phaser.Scene {
                 console.log("El jugador "+data.id+" ha abandonado la partida :(");
                 that.leaveGame(data.id);
                 if (numPlayers <= 1){
-                    that.scene.start("online:lobby", { myPlayer: that.myPlayer, volume: that.vol, url: that.ip, players: [] });
+                    that.scene.start("online:lobby", { myPlayer: that.myPlayer, volume: that.vol, ip: that.ip, players: [] });
                 }
             }
         }
