@@ -96,6 +96,7 @@ class WSHowToPlay extends Phaser.Scene {
         this.tick2;
         this.tick3;
         this.tick4;
+        this.ticks;
         // Menu de detalles
         this.details;
         // Teclas
@@ -114,6 +115,8 @@ class WSHowToPlay extends Phaser.Scene {
         // Efectos de Sonido
         this.change_options;
         this.choose_options;
+        //Jugadores
+        this.players;
     }// Fin preload
 
     create(){
@@ -132,15 +135,39 @@ class WSHowToPlay extends Phaser.Scene {
         // Jugadores preparados
         this.playersReady = this.add.image(1081.80, 28, "players_ready");
         this.gReady = this.add.image(989.5, 30, "g_ready").setDepth(2);
+        this.gReady.alpha = 0;
         this.pReady = this.add.image(1048, 30, "p_ready").setDepth(2);
+        this.pReady.alpha = 0;
         this.bReady = this.add.image(1107, 30, "b_ready").setDepth(2);
+        this.bReady.alpha = 0;
         this.yReady = this.add.image(1164, 30, "y_ready").setDepth(2);
+        this.yReady.alpha = 0;
         this.tick1 = this.add.image(989.5, 30, "tick").setDepth(3);
+        this.tick1.alpha = 0;
         this.tick2 = this.add.image(1048, 30, "tick").setDepth(3);
+        this.tick2.alpha = 0;
         this.tick3 = this.add.image(1107, 30, "tick").setDepth(3);
+        this.tick3.alpha = 0;
         this.tick4 = this.add.image(1164, 30, "tick").setDepth(3);
+        this.tick4.alpha = 0;
+        this.ticks = [this.tick1, this.tick2, this.tick3, this.tick3];
         // Menú de detalles
         this.details = false;
+        // Jugadores conectados recuadro
+        switch (this.myPlayer.id) {
+            case 0:
+                this.gReady.alpha = 1;
+                break;
+            case 1:
+                this.pReady.alpha = 1;
+                break;
+            case 2:
+                this.bReady.alpha = 1;
+                break;
+            case 3:
+                this.yReady.alpha = 1;
+                break;
+        }
         // Teclas
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -150,6 +177,8 @@ class WSHowToPlay extends Phaser.Scene {
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // Contador para el array de botones
         this.cont = 1;
+        //Jugadores
+        this.players = [{ready:false},{ready:false},{ready:false},{ready:false}];
         // Array de botones
         this.options = [false, true];
         // Música
@@ -162,12 +191,36 @@ class WSHowToPlay extends Phaser.Scene {
         // Crear sonido
         this.change_options = this.sound.add("change_options");
         this.choose_options = this.sound.add("choose_options");
+
+        var that = this;
+
+        this.input.keyboard.on("keydown", function (event) {
+            var that = this.scene;
+            if (event.which == 40) {
+                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
+                players[id].ready = true;
+            }
+        });
+
+        this.connection.onmessage = function (msg) {
+            console.log("message received");
+            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            console.log("Id: " + data.id + ", Key: " + data.key);
+            if (event.which == 40) {
+                that.change(data.id, data.key);
+            }
+        }
     }// Fin create
 
     update(time, delta){
         // Se esconde la imagen de seleción de los botones
-        this.readyButtonSelect.alpha = 0;
+        //this.readyButtonSelect.alpha = 0;
         this.detailsButtonSelect.alpha = 0;
+        for(var i = 0; i < this.numPlayers; i++){
+            if(players[id].ready = true){
+                this.ticks[id].alpha = 1;
+            }
+        }
         // Selección de botones
         if (((Phaser.Input.Keyboard.JustDown(this.aKey) || Phaser.Input.Keyboard.JustDown(this.leftKey)) && this.cont>=1) && !this.details){
             this.options[this.cont] = false;
@@ -195,7 +248,7 @@ class WSHowToPlay extends Phaser.Scene {
             this.readyButtonSelect.alpha = 1;
         }
         // Mostrar detalles
-        if(this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey)){
+        if(this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey)){//
             this.details = true;
             var tween = this.tweens.add({
                 targets: [this.howToPlayRock, this.detailsButton, this.detailsButtonSelect,
@@ -216,7 +269,7 @@ class WSHowToPlay extends Phaser.Scene {
             });
         }
         // Cambio de pantalla
-        if(this.options[1] && this.enterKey.isDown){
+        if(this.enterKey.isDown){//this.options[1] && 
             this.scene.start("ws_level_1", {characters: this.characters, volume: this.vol});
             // Se para la música
             this.loop.stop();
