@@ -49,14 +49,20 @@ class WSHowToPlay extends Phaser.Scene {
         this.load.image("how_to_play_scene_background", "./Design/Stages/Backgrounds/how_to_play_scene.png");
         // Imágenes de las rocas
         this.load.image("how_to_play_rock", "./Design/Objects/how_to_play_rock.png");
-        this.load.image("how_to_play_rock_details", "./Design/Objects/how_to_play_rock_details.png");
+        this.load.image("ws_how_to_play_rock_details", "./Design/Objects/ws_how_to_play_rock_details.png");
         // Cargar botones
-        this.load.image("ready_button", "./Design/Objects/Buttons/ready_button.png");
         this.load.image("details_button", "./Design/Objects/Buttons/details_button.png");
         this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
+        this.load.image("ready_htps", "./Design/Objects/Buttons/ready_htps.png");
         // Cargar botones seleccionados
-        this.load.image("ready_button_select", "./Design/Objects/Buttons/ready_button_select.png");
         this.load.image("details_button_select", "./Design/Objects/Buttons/details_button_select.png");
+        // Jugadores preparados
+        this.load.image("players_ready", "./Design/Objects/players_ready.png");
+        this.load.image("g_ready", "./Design/Objects/g_ready.png");
+        this.load.image("p_ready", "./Design/Objects/p_ready.png");
+        this.load.image("b_ready", "./Design/Objects/b_ready.png");
+        this.load.image("y_ready", "./Design/Objects/y_ready.png");
+        this.load.image("tick", "./Design/Objects/tick.png");
         // Cargar música
         this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
         // Sonido
@@ -65,13 +71,22 @@ class WSHowToPlay extends Phaser.Scene {
         // Fondo
         this.howToPlay;
         this.howToPlayRock;
-        this.howToPlayRockDetails;
+        this.wsHowToPlayRockDetails;
         // Botones
-        this.readyButton;
         this.detailsButton;
-        this.readyButtonSelect;
         this.detailsButtonSelect;
         this.bigEsc;
+        this.readyHtps;
+        // Jugadores preparados
+        this.playersReady;
+        this.gReady;
+        this.pReady;
+        this.bReady;
+        this.yReady;
+        this.tick1;
+        this.tick2;
+        this.tick3;
+        this.tick4;
         // Menu de detalles
         this.details;
         // Teclas
@@ -96,28 +111,27 @@ class WSHowToPlay extends Phaser.Scene {
         this.cameras.main.fadeIn(500);
         // Fondo
         this.howToPlay = this.add.image(0, 0, "how_to_play_scene_background").setOrigin(0, 0).setDepth(0);
-        this.howToPlayRock = this.add.image(600, 300, "how_to_play_rock");
-        this.howToPlayRockDetails = this.add.image(600, 300, "how_to_play_rock_details");
-        this.howToPlayRockDetails.alpha = 0;
+        this.howToPlayRock = this.add.image(599.50, 321.00, "how_to_play_rock");
+        this.wsHowToPlayRockDetails = this.add.image(599.50, 291.00, "how_to_play_rock_details");
+        this.wsHowToPlayRockDetails.alpha = 0;
         // Botones
-        this.readyButton = this.add.image(800, 500, "ready_button").setDepth(1);
-        this.detailsButton = this.add.image(400, 490, "details_button").setDepth(1);
+        this.detailsButton = this.add.image(384.50, 513, "details_button").setDepth(1);
         this.bigEsc = this.add.image(100, 50, "big_esc");
         this.bigEsc.alpha = 0;
-        this.readyButtonSelect = this.add.image(800, 500, "ready_button_select").setDepth(2);
-        this.detailsButtonSelect = this.add.image(400, 490, "details_button_select").setDepth(2);
+        this.detailsButtonSelect = this.add.image(384.50, 513, "details_button_select").setDepth(2);
+        this.readyHtps = this.add.image(1100, 568, "ready_htps");
+        // Jugadores preparados
+        this.playersReady = this.add.image(1081.80, 28, "players_ready");
+        this.gReady = this.add.image(989.5, 30, "g_ready").setDepth(2);
+        this.pReady = this.add.image(1048, 30, "p_ready").setDepth(2);
+        this.bReady = this.add.image(1107, 30, "b_ready").setDepth(2);
+        this.yReady = this.add.image(1164, 30, "y_ready").setDepth(2);
+        this.tick1 = this.add.image(989.5, 30, "tick").setDepth(3);
+        this.tick2 = this.add.image(1048, 30, "tick").setDepth(3);
+        this.tick3 = this.add.image(1107, 30, "tick").setDepth(3);
+        this.tick4 = this.add.image(1164, 30, "tick").setDepth(3);
         // Menú de detalles
         this.details = false;
-        // Movimiento
-        var tweenReadyButton = this.tweens.add({
-            targets: [this.readyButton, this.readyButtonSelect],
-            scaleX: 0.97,
-            scaleY: 0.97,
-            ease: 'Sine.easeInOut',
-            duration: 3000,
-            yoyo: true,
-            repeat: -1
-        });
         // Teclas
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
