@@ -45,6 +45,15 @@ class WSHowToPlay extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
+        //Conexión web sockets
+        this.connection;
+        this.connection = new WebSocket('ws://' + this.ip + '/ws-how-to-play');
+        this.connection.onopen = function(){
+            console.log("WS Open");
+        }
+        this.connection.onerror = function(e) {
+            console.log("WS error: " + e);
+        }
         // Cargar imagen
         this.load.image("how_to_play_scene_background", "./Design/Stages/Backgrounds/how_to_play_scene.png");
         // Imágenes de las rocas
