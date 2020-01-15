@@ -97,7 +97,8 @@ class WSPause extends Phaser.Scene {
                 volume: this.data.scene.vol
             });
             this.data.scene.pauseKey.isDown = false;
-            this.scene.resume(this.data.sceneKey);
+            //this.scene.resume(this.data.sceneKey);
+            this.data.scene.playing = true;
             this.scene.remove("ws_pause");
             this.options[0] = false;
         }  
@@ -111,6 +112,9 @@ class WSPause extends Phaser.Scene {
             this.data.scene.loop.stop();
             this.data.scene.intro.stop();
             this.data.scene.birds.stop();
+            this.data.scene.connection.send(JSON.stringify({level1: this.data.playing,
+                id: this.myPlayer.id}));
+            this.data.scene.connection.close();
             this.data.scene.scene.start("main_menu", {volume: this.data.volume});
             this.options[1] = false;
         }

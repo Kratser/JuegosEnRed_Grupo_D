@@ -19,11 +19,18 @@ public class App implements WebSocketConfigurer
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry){
         registry.addHandler(chooseCharacterHandler(), "/ws-choose-character")
         .setAllowedOrigins("*");
+        registry.addHandler(level1Handler(), "/ws-level-1")
+        .setAllowedOrigins("*");
     }
 
     @Bean
     public ChooseCharacterHandler chooseCharacterHandler(){
         return new ChooseCharacterHandler();
+    }
+
+    @Bean
+    public Level1Handler level1Handler(){
+        return new Level1Handler();
     }
 
     public static void main( String[] args )
