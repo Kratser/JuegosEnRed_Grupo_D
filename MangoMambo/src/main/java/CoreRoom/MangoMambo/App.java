@@ -19,6 +19,8 @@ public class App implements WebSocketConfigurer
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry){
         registry.addHandler(chooseCharacterHandler(), "/ws-choose-character")
         .setAllowedOrigins("*");
+        registry.addHandler(howToPlayHandler(), "/ws-how-to-play")
+        .setAllowedOrigins("*");
         registry.addHandler(level1Handler(), "/ws-level-1")
         .setAllowedOrigins("*");
     }
@@ -26,6 +28,11 @@ public class App implements WebSocketConfigurer
     @Bean
     public ChooseCharacterHandler chooseCharacterHandler(){
         return new ChooseCharacterHandler();
+    }
+
+     @Bean
+    public HowToPlayHandler howToPlayHandler(){
+        return new HowToPlayHandler();
     }
 
     @Bean

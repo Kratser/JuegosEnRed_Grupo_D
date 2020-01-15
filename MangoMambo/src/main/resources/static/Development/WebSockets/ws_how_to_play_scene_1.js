@@ -58,14 +58,19 @@ class WSHowToPlay extends Phaser.Scene {
         this.load.image("how_to_play_scene_background", "./Design/Stages/Backgrounds/how_to_play_scene.png");
         // Imágenes de las rocas
         this.load.image("how_to_play_rock", "./Design/Objects/how_to_play_rock.png");
-        this.load.image("how_to_play_rock_details", "./Design/Objects/how_to_play_rock_details.png");
+        this.load.image("ws_how_to_play_rock_details", "./Design/Objects/ws_how_to_play_rock_details.png");
         // Cargar botones
-        this.load.image("ready_button", "./Design/Objects/Buttons/ready_button.png");
-        this.load.image("details_button", "./Design/Objects/Buttons/details_button.png");
         this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
+        this.load.image("ready_htps", "./Design/Objects/Buttons/ready_htps.png");
         // Cargar botones seleccionados
-        this.load.image("ready_button_select", "./Design/Objects/Buttons/ready_button_select.png");
         this.load.image("details_button_select", "./Design/Objects/Buttons/details_button_select.png");
+        // Jugadores preparados
+        this.load.image("players_ready", "./Design/Objects/players_ready.png");
+        this.load.image("g_ready", "./Design/Objects/g_ready.png");
+        this.load.image("p_ready", "./Design/Objects/p_ready.png");
+        this.load.image("b_ready", "./Design/Objects/b_ready.png");
+        this.load.image("y_ready", "./Design/Objects/y_ready.png");
+        this.load.image("tick", "./Design/Objects/tick.png");
         // Cargar música
         this.load.audio("how_to_play_song", "./Design/Audio/HowToPlaySong/how_to_play_song.wav");
         // Sonido
@@ -74,70 +79,88 @@ class WSHowToPlay extends Phaser.Scene {
         // Fondo
         this.howToPlay;
         this.howToPlayRock;
-        this.howToPlayRockDetails;
+        this.wsHowToPlayRockDetails;
         // Botones
-        this.readyButton;
-        this.detailsButton;
-        this.readyButtonSelect;
         this.detailsButtonSelect;
         this.bigEsc;
+        this.readyHtps;
+        // Jugadores preparados
+        this.playersReady;
+        this.gReady;
+        this.pReady;
+        this.bReady;
+        this.yReady;
+        this.tick1;
+        this.tick2;
+        this.tick3;
+        this.tick4;
+        this.ticks;
+        this.readys;
+        this.contReady;
         // Menu de detalles
         this.details;
         // Teclas
-        this.aKey;
-        this.dKey;
-        this.leftKey;
-        this.rightKey;
         this.enterKey;
         this.escKey;
-        // Contador para el array de botones
-        this.cont;
-        // Array de botones
-        this.options;
         // La canción loopeada
         this.loop;
         // Efectos de Sonido
         this.change_options;
         this.choose_options;
+        //Jugadores
+        this.players;
     }// Fin preload
 
     create(){
         this.cameras.main.fadeIn(500);
         // Fondo
         this.howToPlay = this.add.image(0, 0, "how_to_play_scene_background").setOrigin(0, 0).setDepth(0);
-        this.howToPlayRock = this.add.image(600, 300, "how_to_play_rock");
-        this.howToPlayRockDetails = this.add.image(600, 300, "how_to_play_rock_details");
-        this.howToPlayRockDetails.alpha = 0;
+        this.howToPlayRock = this.add.image(599.50, 321.00, "how_to_play_rock");
+        this.wsHowToPlayRockDetails = this.add.image(599.50, 291.00, "ws_how_to_play_rock_details");
+        this.wsHowToPlayRockDetails.alpha = 0;
         // Botones
-        this.readyButton = this.add.image(800, 500, "ready_button").setDepth(1);
-        this.detailsButton = this.add.image(400, 490, "details_button").setDepth(1);
+        // this.detailsButton = this.add.image(384.50, 513, "details_button").setDepth(1);BORRAR
         this.bigEsc = this.add.image(100, 50, "big_esc");
         this.bigEsc.alpha = 0;
-        this.readyButtonSelect = this.add.image(800, 500, "ready_button_select").setDepth(2);
-        this.detailsButtonSelect = this.add.image(400, 490, "details_button_select").setDepth(2);
+        this.detailsButtonSelect = this.add.image(384.50, 513, "details_button_select").setDepth(1);
+        this.readyHtps = this.add.image(1100, 568, "ready_htps");
+        // Jugadores preparados
+        this.playersReady = this.add.image(1081.80, 28, "players_ready");
+        this.gReady = this.add.image(997.50, 28.5, "g_ready").setDepth(2);
+        this.gReady.alpha = 0;
+        this.pReady = this.add.image(1054.73, 28.5, "p_ready").setDepth(2);
+        this.pReady.alpha = 0;
+        this.bReady = this.add.image(1110.25, 28.5, "b_ready").setDepth(2);
+        this.bReady.alpha = 0;
+        this.yReady = this.add.image(1166.23, 28.5, "y_ready").setDepth(2);
+        this.yReady.alpha = 0;
+        this.tick1 = this.add.image(997.50, 28.5, "tick").setScale(0.8).setDepth(3);
+        this.tick1.alpha = 0;
+        this.tick2 = this.add.image(1054.73, 28.5, "tick").setScale(0.8).setDepth(3);
+        this.tick2.alpha = 0;
+        this.tick3 = this.add.image(1110.25, 28.5, "tick").setScale(0.8).setDepth(3);
+        this.tick3.alpha = 0;
+        this.tick4 = this.add.image(1166.23, 28.5, "tick").setScale(0.8).setDepth(3);
+        this.tick4.alpha = 0;
+        this.ticks = [this.tick1, this.tick2, this.tick3, this.tick3];
+        this.readys = [];
+        this.readys = [this.gReady, this.pReady, this.bReady, this.yReady];
+        this.contReady = 0;
         // Menú de detalles
         this.details = false;
-        // Movimiento
-        var tweenReadyButton = this.tweens.add({
-            targets: [this.readyButton, this.readyButtonSelect],
-            scaleX: 0.97,
-            scaleY: 0.97,
-            ease: 'Sine.easeInOut',
-            duration: 3000,
-            yoyo: true,
-            repeat: -1
-        });
+        // Jugadores conectados recuadro
+        for(var i = 0; i < this.numPlayers; i ++){
+            console.log(this.characters[i]);
+            this.readys[this.characters[i].id-1].setAlpha(1); 
+
+        }
         // Teclas
-        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        // Contador para el array de botones
-        this.cont = 1;
-        // Array de botones
-        this.options = [false, true];
+
+        //Jugadores
+        this.players = [{ready:false},{ready:false},{ready:false},{ready:false}];
+
         // Música
         this.sound.pauseOnBlur = false;
         this.loop = this.sound.add("how_to_play_song");
@@ -148,64 +171,69 @@ class WSHowToPlay extends Phaser.Scene {
         // Crear sonido
         this.change_options = this.sound.add("change_options");
         this.choose_options = this.sound.add("choose_options");
+
+        var that = this;
+
+        this.input.keyboard.on("keydown", function (event) {
+            if (event.which == 40) {
+                console.log(that.connection);
+                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
+                that.players[that.myPlayer.id].ready = true;
+                // Cambio de escena
+                that.contReady++;
+                if (that.contReady == that.numPlayers) {
+                    that.connection.close();
+                    that.scene.start("ws_level_1", { characters: that.characters, volume: that.vol, ip: that.ip, myPlayer: that.myPlayer});
+                    // Se para la música
+                    that.loop.stop();
+                    that.choose_options.play({
+                        volume: that.vol
+                    });
+                }
+            }
+        });
+
+        this.connection.onmessage = function (msg) {
+            console.log("message received");
+            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            console.log("Id: " + data.id + ", Key: " + data.key);
+            that.players[data.id].ready = true;
+             // Cambio de escena
+             that.contReady++;
+             if (that.contReady == that.numPlayers) {
+                 that.connection.close();
+                 that.scene.start("ws_level_1", { characters: that.characters, volume: that.vol, ip: that.ip, myPlayer: that.myPlayer});
+                 // Se para la música
+                 that.loop.stop();
+                 that.choose_options.play({
+                     volume: that.vol
+                 });
+             }
+        }
     }// Fin create
 
     update(time, delta){
-        // Se esconde la imagen de seleción de los botones
-        this.readyButtonSelect.alpha = 0;
-        this.detailsButtonSelect.alpha = 0;
-        // Selección de botones
-        if (((Phaser.Input.Keyboard.JustDown(this.aKey) || Phaser.Input.Keyboard.JustDown(this.leftKey)) && this.cont>=1) && !this.details){
-            this.options[this.cont] = false;
-            this.cont--;
-            this.options[this.cont] = true;
-            this.readyButton.alpha = 1;
-            this.change_options.play({
-                volume: this.vol
-            });
-        } 
-        if (((Phaser.Input.Keyboard.JustDown(this.dKey) || Phaser.Input.Keyboard.JustDown(this.rightKey)) && this.cont<=0) && !this.details){
-            this.options[this.cont] = false;
-            this.cont++;
-            this.options[this.cont] = true;
-            this.readyButton.alpha = 0;
-            this.change_options.play({
-                volume: this.vol
-            });
-        } 
-        //Resaltado de botón seleccionado
-        if(this.options[0]){
-            this.detailsButtonSelect.alpha = 1;
-        }
-        if(this.options[1]){
-            this.readyButtonSelect.alpha = 1;
+        // Aparece cuando el jugador está listo
+        for(var i = 0; i < this.numPlayers; i++){
+            if(this.players[i].ready == true){
+                this.ticks[i].alpha = 1;
+            }
         }
         // Mostrar detalles
-        if(this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey)){
+        if(Phaser.Input.Keyboard.JustDown(this.enterKey)){
             this.details = true;
             var tween = this.tweens.add({
-                targets: [this.howToPlayRock, this.detailsButton, this.detailsButtonSelect,
-                          this.readyButton, this.readyButtonSelect],
+                targets: [this.howToPlayRock, this.detailsButtonSelect],
                 alpha: 0,
                 ease: 'Sine.easeInOut',
                 duration: 200,
             });
             var tween = this.tweens.add({
-                targets: [this.howToPlayRockDetails, this.bigEsc],
+                targets: [this.wsHowToPlayRockDetails, this.bigEsc],
                 alpha: 1,
                 ease: 'Sine.easeInOut',
                 duration: 200,
             });
-            this.options[0] = false;
-            this.choose_options.play({
-                volume: this.vol
-            });
-        }
-        // Cambio de pantalla
-        if(this.options[1] && this.enterKey.isDown){
-            this.scene.start("ws_level_1", {characters: this.characters, volume: this.vol});
-            // Se para la música
-            this.loop.stop();
             this.choose_options.play({
                 volume: this.vol
             });
@@ -217,20 +245,17 @@ class WSHowToPlay extends Phaser.Scene {
             });
             this.details = false;
             var tween = this.tweens.add({
-                targets: [this.howToPlayRock, this.detailsButton, this.detailsButtonSelect,
-                          this.readyButton, this.readyButtonSelect],
+                targets: [this.howToPlayRock, this.detailsButtonSelect],
                 alpha: 1,
                 ease: 'Sine.easeInOut',
                 duration: 200,
             });
             var tween = this.tweens.add({
-                targets: [this.howToPlayRockDetails, this.bigEsc],
+                targets: [this.wsHowToPlayRockDetails, this.bigEsc],
                 alpha: 0,
                 ease: 'Sine.easeInOut',
                 duration: 200,
-                onComplete: function(){this.options[0] = true;}.bind(this)
             });
-            this.options[0] = false;
             this.choose_options.play({
                 volume: this.vol
             });

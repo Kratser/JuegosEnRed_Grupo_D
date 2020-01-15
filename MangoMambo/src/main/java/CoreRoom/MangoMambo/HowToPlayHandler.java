@@ -13,26 +13,26 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class ChooseCharacterHandler extends TextWebSocketHandler{
+public class HowToPlayHandler extends TextWebSocketHandler{
 
     ObjectMapper mapper = new ObjectMapper();
     private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("New session in choose charactar: " + session.getId());
+        System.out.println("New session in how to play: " + session.getId());
 		sessions.put(session.getId(), session);
 	}
     
     @Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("Session closed in choose character: " + session.getId());
+		System.out.println("Session closed in how to play: " + session.getId());
 		sessions.remove(session.getId());
 	}
     
     @Override
     protected void handleTextMessage(WebSocketSession session,TextMessage message)throws Exception {
-        System.out.println("Message received in choose character");
+        System.out.println("Message received in how to play");
 
         JsonNode node = mapper.readTree(message.getPayload());
 
@@ -46,7 +46,9 @@ public class ChooseCharacterHandler extends TextWebSocketHandler{
         responseNode.put("key", key);
 
         for(WebSocketSession participant : sessions.values()) {
-            participant.sendMessage(new TextMessage(responseNode.toString()));
+            if(participant.getId()!= session.getId()){
+                participant.sendMessage(new TextMessage(responseNode.toString()));
+            }
 		}
     }
 }
