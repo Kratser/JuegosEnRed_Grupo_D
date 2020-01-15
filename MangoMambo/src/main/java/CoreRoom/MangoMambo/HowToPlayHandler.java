@@ -20,19 +20,19 @@ public class HowToPlayHandler extends TextWebSocketHandler{
 
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("New session: " + session.getId());
+        System.out.println("New session in how to play: " + session.getId());
 		sessions.put(session.getId(), session);
 	}
     
     @Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("Session closed: " + session.getId());
+		System.out.println("Session closed in how to play: " + session.getId());
 		sessions.remove(session.getId());
 	}
     
     @Override
     protected void handleTextMessage(WebSocketSession session,TextMessage message)throws Exception {
-        System.out.println("Message received");
+        System.out.println("Message received in how to play");
 
         JsonNode node = mapper.readTree(message.getPayload());
 
@@ -46,7 +46,7 @@ public class HowToPlayHandler extends TextWebSocketHandler{
         responseNode.put("key", key);
 
         for(WebSocketSession participant : sessions.values()) {
-            if(participant.getId()!= session.getId){
+            if(participant.getId()!= session.getId()){
                 participant.sendMessage(new TextMessage(responseNode.toString()));
             }
 		}

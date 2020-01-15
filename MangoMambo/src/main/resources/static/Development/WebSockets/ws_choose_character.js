@@ -84,10 +84,7 @@ class WSChooseCharacter extends Phaser.Scene {
         this.load.image("ready", "./Design/Objects/Text/ready.png");
         // Boton de escape
         this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
-        // Boton de ready para pasar a jugar
-        this.load.image("cc_ready_button", "./Design/Objects/Buttons/cc_ready_button.png");
-        this.load.image("cc_ready_button_selected", "./Design/Objects/Buttons/cc_ready_button_selected.png");
-        //sonido
+        // Sonido
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
         this.intro;
@@ -114,9 +111,6 @@ class WSChooseCharacter extends Phaser.Scene {
         this.escapeCursor;
         // Contador de personajes seleccionados
         this.readyPlayers;
-        // Ready
-        this.readyButton;
-        this.readySelectedButton;
         // Selector para cada jugador
         this.selectors;
         // Efectos de Sonido
@@ -129,10 +123,6 @@ class WSChooseCharacter extends Phaser.Scene {
         this.cameras.main.fadeIn(500);
         // Fondo
         this.add.image(0, 0, "character_background").setOrigin(0, 0);
-        // Ready botón
-        this.readyButton = this.add.image(1135.50, 568.50, "cc_ready_button").setDepth(1);
-        this.readySelectedButton = this.add.image(1135.50, 568.50, "cc_ready_button_selected").setDepth(2);
-        this.readySelectedButton.alpha = 0;
         // Movimiento
         var tweenReadySelected = this.tweens.add({
             targets: [this.readySelectedButton],
@@ -317,6 +307,7 @@ class WSChooseCharacter extends Phaser.Scene {
                     var players = [{ id: 0, isConnected: false, isReady: false }, { id: 1, isConnected: false, isReady: false },
                     { id: 2, isConnected: false, isReady: false }, { id: 3, isConnected: false, isReady: false }];
                     players[that.myPlayer.id] = that.myPlayer;
+                    that.connection.close();
                     that.scene.start("online_lobby", { client: that.myPlayer, volume: that.vol, ip: that.ip, players: players });
                 }
             }
@@ -444,36 +435,37 @@ class WSChooseCharacter extends Phaser.Scene {
     change(id, keypressed) {
         var posX;
         var posY;
-        switch (id) {
-            case "0":
+        var idInt = parseInt(id);
+        switch (idInt) {
+            case 0:
                 posX = 163;
                 posY = 224.5;
                 break;
-            case "1":
+            case 1:
                 posX = 453;
                 posY = 224.5;
                 break;
-            case "2":
+            case 2:
                 posX = 740.50;
                 posY = 224.5;
                 break;
-            case "3":
+            case 3:
                 posX = 1022;
                 posY = 224.5;
                 break;
         }
-        if (!this.players[id].active) {// Si el jugador id no se encuentra activo
-            this.characters[id] = new Character(this, id + 1, "palm_choose", false, posX, posY);
-            this.players[id].active = true;
+        if (!this.players[idInt].active) {// Si el jugador id no se encuentra activo
+            this.characters[idInt] = new Character(this, idInt + 1, "palm_choose", false, posX, posY);
+            this.players[idInt].active = true;
             //this.numPlayers++;
-            this.keys[id].alpha = 0;// Desaparecen las teclas
+            this.keys[idInt].alpha = 0;// Desaparecen las teclas
             for (var i = 0; i < this.players.length; i++) {
                 if (!this.charactersSelected[i]) {
-                    this.selectors[id] = i;
+                    this.selectors[idInt] = i;
                 }
             }
-            this.changeCharacter(this.characters, id, this.selectors[id]);
-            this.ChangeText(this.selectors[id], id);// Que aparezca la habilidad/nombre al empezar a seleccionar
+            this.changeCharacter(this.characters, idInt, this.selectors[idInt]);
+            this.ChangeText(this.selectors[idInt], idInt);// Que aparezca la habilidad/nombre al empezar a seleccionar
             this.change_options.play({
                 volume: this.vol
             });
@@ -481,18 +473,18 @@ class WSChooseCharacter extends Phaser.Scene {
             switch (keypressed) {
                 case 'a':
                 case 'A':
-                    if (!this.players[id].selected) {
-                        this.selectors[id] = (this.selectors[id] - 1) % 4;
-                        if (this.selectors[id] < 0) {
-                            this.selectors[id] = 3;
+                    if (!this.players[idInt].selected) {
+                        this.selectors[idInt] = (this.selectors[idInt] - 1) % 4;
+                        if (this.selectors[idInt] < 0) {
+                            this.selectors[idInt] = 3;
                         }
-                        while (this.charactersSelected[this.selectors[id]]) {
-                            this.selectors[id]--;
-                            if (this.selectors[id] < 0) {
-                                this.selectors[id] = 3;
+                        while (this.charactersSelected[this.selectors[idInt]]) {
+                            this.selectors[idInt]--;
+                            if (this.selectors[idInt] < 0) {
+                                this.selectors[idInt] = 3;
                             }
                         }
-                        this.changeCharacter(this.characters, id, this.selectors[id]);
+                        this.changeCharacter(this.characters, idInt, this.selectors[idInt]);
                         this.change_options.play({
                             volume: this.vol
                         });
@@ -500,15 +492,15 @@ class WSChooseCharacter extends Phaser.Scene {
                     break;
                 case 'd':
                 case 'D':
-                    if (!this.players[id].selected) {
-                        this.selectors[id] = (this.selectors[id] + 1) % 4;
-                        while (this.charactersSelected[this.selectors[id]]) {
-                            this.selectors[id]++;
-                            if (this.selectors[id] > 3) {
-                                this.selectors[id] = 0;
+                    if (!this.players[idInt].selected) {
+                        this.selectors[idInt] = (this.selectors[idInt] + 1) % 4;
+                        while (this.charactersSelected[this.selectors[idInt]]) {
+                            this.selectors[idInt]++;
+                            if (this.selectors[idInt] > 3) {
+                                this.selectors[idInt] = 0;
                             }
                         }
-                        this.changeCharacter(this.characters, id, this.selectors[id]);
+                        this.changeCharacter(this.characters, idInt, this.selectors[idInt]);
                         this.change_options.play({
                             volume: this.vol
                         });
@@ -516,10 +508,10 @@ class WSChooseCharacter extends Phaser.Scene {
                     break;
                 case 's':
                 case 'S':
-                    if (!this.charactersSelected[this.selectors[id]]) {
-                        this.charactersSelected[this.selectors[id]] = true;
-                        this.players[id].selected = true;
-                        this.ready[id].alpha = 1; // Personaje seleccionado, preparado para jugar
+                    if (!this.charactersSelected[this.selectors[idInt]]) {
+                        this.charactersSelected[this.selectors[idInt]] = true;
+                        this.players[idInt].selected = true;
+                        this.ready[idInt].alpha = 1; // Personaje seleccionado, preparado para jugar
                         this.readyPlayers++;
                         this.hit.play({
                             volume: this.vol
@@ -532,23 +524,23 @@ class WSChooseCharacter extends Phaser.Scene {
                     break;
                 case 'w':
                 case 'W':
-                    if (this.players[id].selected) {
-                        this.charactersSelected[this.selectors[id]] = false;
-                        this.players[id].selected = false;
-                        this.ready[id].alpha = 0;
+                    if (this.players[idInt].selected) {
+                        this.charactersSelected[this.selectors[idInt]] = false;
+                        this.players[idInt].selected = false;
+                        this.ready[idInt].alpha = 0;
                         this.readyPlayers--;
                         this.change_options.play({
                             volume: this.vol
                         });
                     } else {
                         //this.numPlayers--;
-                        this.characters[id].destroy();
-                        this.players[id].active = false;
-                        this.selectors[id] = 0;
-                        this.habilities[id].hab.alpha = 0;// Ocultar habilidad
-                        this.names[id].name.alpha = 0;// Ocultar nombre
-                        if (id == this.myPlayer.id) {
-                            this.keys[id].alpha = 1;// Aparecen las teclas
+                        this.characters[idInt].destroy();
+                        this.players[idInt].active = false;
+                        this.selectors[idInt] = 0;
+                        this.habilities[idInt].hab.alpha = 0;// Ocultar habilidad
+                        this.names[idInt].name.alpha = 0;// Ocultar nombre
+                        if (idInt == this.myPlayer.id) {
+                            this.keys[idInt].alpha = 1;// Aparecen las teclas
                         }
                         this.change_options.play({
                             volume: this.vol
@@ -577,6 +569,7 @@ class WSChooseCharacter extends Phaser.Scene {
     }
     animComplete(animation, frame){
         if (this.startingGame) {
+            this.connection.close();
             // Cambio de escena
             this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
             //Se para la música
