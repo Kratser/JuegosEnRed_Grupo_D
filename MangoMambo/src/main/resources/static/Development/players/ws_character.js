@@ -2,7 +2,7 @@
 // Dinosaurio: Collider: {25, 64}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Lémur: Collider: {25, 42}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Tucán: Collider: {25, 20}, VelMax: , Acel: , Alt Salto: , Vel Caída:
-class Character extends Phaser.GameObjects.Sprite{
+class WSCharacter extends Phaser.GameObjects.Sprite{
     constructor (scene, id, type, physics, x, y, score = 0) {
         // Llamada al padre del objeto
         super(scene, x, y, type);
@@ -37,50 +37,21 @@ class Character extends Phaser.GameObjects.Sprite{
         this.emitter;
         this.outline;
         // Teclas
-        // Jugador 1
-        this.cursors1;
-        // Jugador 2
-        this.cursors2;
-        // Jugador 3
-        this.cursors3;
-        // Jugador 4
-        this.cursors4;
+        this.cursors;
     }// Fin preload
 
     create() {
 
         // Teclas
         // Jugador 1
-        this.cursors1 = []; // Esto vendrá dado en la clase Player
-        this.cursors1[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors1[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.cursors1[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors1[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        // Jugador 2
-        this.cursors2 = []; // Esto vendrá dado en la clase Player
-        this.cursors2[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
-        this.cursors2[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
-        this.cursors2[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
-        this.cursors2[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
-        // Jugador 3
-        this.cursors3 = []; // Esto vendrá dado en la clase Player
-        this.cursors3[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.cursors3[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.cursors3[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.cursors3[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        // Jugador 4
-        this.cursors4 = []; // Esto vendrá dado en la clase Player
-        this.cursors4[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT);
-        this.cursors4[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR);
-        this.cursors4[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE);
-        this.cursors4[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX);
+        this.cursors = []; // Esto vendrá dado en la clase Player
+        this.cursors[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.cursors[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.cursors[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.cursors[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         switch (this.id){
             case 1:
-                this.cursors = this.cursors1;
-                this.cursors2 = null;
-                this.cursors3 = null;
-                this.cursors4 = null;
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -96,10 +67,6 @@ class Character extends Phaser.GameObjects.Sprite{
                 });
                 break;
             case 2:
-                this.cursors1 = null;
-                this.cursors = this.cursors2;
-                this.cursors3 = null;
-                this.cursors4 = null;
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -114,10 +81,6 @@ class Character extends Phaser.GameObjects.Sprite{
                 });
                 break;
             case 3:
-                this.cursors1 = null;
-                this.cursors2 = null;
-                this.cursors = this.cursors3;
-                this.cursors4 = null;
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -132,10 +95,6 @@ class Character extends Phaser.GameObjects.Sprite{
                 });
                 break;
             case 4:
-                this.cursors1 = null;
-                this.cursors2 = null;
-                this.cursors3 = null;
-                this.cursors = this.cursors4;
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -256,6 +215,7 @@ class Character extends Phaser.GameObjects.Sprite{
     update() {
         //Controla el movimiento del personaje
         // Izquierda
+        /*
         if (this.cursors[1].isDown) {
             if(this.body.velocity.x > 0){
                 this.body.setAccelerationX(-this.acceleration);
@@ -265,7 +225,9 @@ class Character extends Phaser.GameObjects.Sprite{
             this.anims.play(this.anim[1], true);
             this.flipX = true;
         }
+        */
         // Derecha
+        /*
         else if (this.cursors[3].isDown) {
             if(this.body.velocity.x > 0){
                 this.body.setAccelerationX(this.acceleration);
@@ -275,19 +237,85 @@ class Character extends Phaser.GameObjects.Sprite{
             this.anims.play(this.anim[1], true);
             this.flipX = false;
         }
+        */
+       /*
         else {
             this.body.setAccelerationX(0);
             this.anims.play(this.anim[0], true);
         }
+        */
         // Arriba
+        /*
         if (this.cursors[0].isDown && this.body.onFloor()) {
             this.body.setVelocityY(-this.jumpHeight);
         }
+        */
         // Abajo
+        /*
         if (this.body.velocity.y >= 0){
             this.body.gravity.y = this.fallSpeed;
         }else if (this.body.velocity.y < 0){
             this.body.gravity.y = 0;
         }
+        */
     }// Fin update
+
+    accion(key, pulsado){
+        switch (key){
+            // Saltar
+            case 'w':
+            case 'W':
+                if (pulsado == "true"){
+                    if (this.body.onFloor()){
+                        this.body.setVelocityY(-this.jumpHeight);
+                    }
+                }
+                break;
+            // Izquierda
+            case 'a':
+            case 'A':
+                // Si se pulsa
+                if (pulsado == "true"){
+                    if(this.body.velocity.x > 0){
+                        this.body.setAccelerationX(-this.acceleration);
+                    }else{
+                        this.body.setAccelerationX(-this.acceleration);
+                    }
+                    this.anims.play(this.anim[1], true);
+                    this.flipX = true;
+                // Si se suelta
+                } else {
+                    this.body.setAccelerationX(0);
+                    this.anims.play(this.anim[0], true);
+                }
+                break;
+            // Abajo
+            case 's':
+            case 'S':
+                if (this.body.velocity.y >= 0){
+                    this.body.gravity.y = this.fallSpeed;
+                }else if (this.body.velocity.y < 0){
+                    this.body.gravity.y = 0;
+                }
+                break;
+            // Derecha
+            case 'd':
+            case 'D':
+                // Si se pulsa
+                if (pulsado == "true"){
+                    if(this.body.velocity.x > 0){
+                        this.body.setAccelerationX(this.acceleration);
+                    }else{
+                        this.body.setAccelerationX(this.acceleration);
+                    }
+                    this.anims.play(this.anim[1], true);
+                    this.flipX = false;
+                // Si se suelta 
+                } else {
+                    this.body.setAccelerationX(0);
+                    this.anims.play(this.anim[0], true);
+                }
+                break;
+        }
+    }
 }// Fin clase Character

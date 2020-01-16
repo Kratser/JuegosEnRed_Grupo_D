@@ -153,7 +153,7 @@ class WSLevel1 extends Phaser.Scene {
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
         // Tecla de pausa
-        this.pauseKey;
+        //this.pauseKey; BORRAR
         // Mango
         this.mango;
         // Posiciones inicales de los personajes
@@ -180,13 +180,13 @@ class WSLevel1 extends Phaser.Scene {
         this.mangoMamboAnim;
         // Variable para actualizar el update
         this.play;
+        // Variable que detecta si el juego está pausado
+        this.playing;
         // Texto del mango
         this.text;
         this.timedEvent;
-        // Teclas de movimiento
-        this.myCursors;
-        // Variable que detecta si el juego está pausado
-        this.playing;
+
+        // this.playerI; BORRAR
     }// Fin preload
 
     create() {
@@ -234,57 +234,30 @@ class WSLevel1 extends Phaser.Scene {
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
         // Tecla de pausa
-        this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC); BORRAR
         // Posiciones iniciales de los personajes
         this.positions = [{x: 50, y: 50}, {x: 1150, y: 50},
                           {x: 400, y: 500}, {x: 800, y: 500}];
-        // Se crea el personaje
-        this.myCursors = [];
-        this.cursors[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.cursors[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        for (var i = 0; i < this.characters.length; i++){
-            switch(this.characters[i].id){
+        // Se crean los personajes
+        for (var i = 0; i < this.characters.length; i++) {
+            switch (this.characters[i].id) {
                 case 1:
-                    if (this.characters[i].id == this.myPlayer.id){
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.myCursors, this.characters[i].score);    
-                    }else{
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, null, this.characters[i].score);    
-                    }
+                    this.characters[i] = new WSCharacter(this, this.characters[i].id,
+                        this.characters[i].type.split("_")[0] + "_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
                     break;
                 case 2:
-                    if (this.characters[i].id == this.myPlayer.id){
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.myCursors, this.characters[i].score);
-                            this.characters[i].flipX = true;
-                    }else{
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, null, this.characters[i].score);
-                            this.characters[i].flipX = true;
-                    }
+                    this.characters[i] = new WSCharacter(this, this.characters[i].id,
+                        this.characters[i].type.split("_")[0] + "_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
+                    this.characters[i].flipX = true;
                     break;
                 case 3:
-                    if (this.characters[i].id == this.myPlayer.id){
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.myCursors, this.characters[i].score);
-                            this.characters[i].flipX = true;
-                    }else{
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, null, this.characters[i].score);
-                            this.characters[i].flipX = true;
-                    }
+                    this.characters[i] = new WSCharacter(this, this.characters[i].id,
+                        this.characters[i].type.split("_")[0] + "_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
+                    this.characters[i].flipX = true;
                     break;
                 case 4:
-                    if (this.characters[i].id == this.myPlayer.id){
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.myCursors, this.characters[i].score);
-                    }else{
-                        this.characters[i] = new Character(this, this.characters[i].id, 
-                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, null, this.characters[i].score);
-                    }
+                    this.characters[i] = new WSCharacter(this, this.characters[i].id,
+                        this.characters[i].type.split("_")[0] + "_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
                     break;
             }
         }
@@ -377,7 +350,7 @@ class WSLevel1 extends Phaser.Scene {
         this.text = this.make.text(tconfig);
         this.text.alpha = 0;
         this.text.setDepth(-1);
-          // 3 2 1 mango mambo
+        // 3 2 1 mango mambo
         this.mangoMamboAnim = this.add.sprite(600,300, "3_2_1_mango_mambo");
         this.anims.create({
             key: '3_2_1_mango_mambo',
@@ -397,52 +370,78 @@ class WSLevel1 extends Phaser.Scene {
             repeat: -1
         });
         this.play = false;
-        // Recibir mensajes
+        this.playing = true;
+        
         var that = this;
-        var playerI;
+        /*
+        this.playerI = 0;
+        for (var i = 0; i < this.characters.length; i++){
+            if (this.characters[i].id = this.myPlayer.id){
+                this.playerI = i;
+            }
+        }
+        */
+        //this.time.addEvent({ delay: 1, callback: this.sendInfo, callbackScope: this, repeat: -1}); BORRAR
+
+        // Si se pulsa una tecla
+        this.input.keyboard.on("keydown", function (event) {
+            // Si el juego no está pausado
+            if (that.playing) {
+                // Si se pulsa WASD, se envía una señal
+                if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
+                    || event.key == 'd' || event.key == 'D' || event.key == 'w' || event.key == 'W') {
+                    that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key, press: true, playing: that.playing }));
+                }
+                // Si se pulsa ESCAPE se pausa el juego de forma local
+                if (event.key == "Escape") {
+                    if (this.playing) {
+                        if (!this.scene.get("ws_pause")) {
+                            this.playing = false;
+                            this.scene.add("ws_pause", new Pause, true, { scene: this, sceneKey: "ws_level_1", volume: this.vol });
+                        }
+                    }
+                }
+            }
+        });// Fin pulsar tecla
+        // Si se deja de pulsar una tecla
+        this.input.keyboard.on("keyup", function (event) {
+            // Si el juego no está pausado
+            if (that.playing) {
+                // Si se pulsa WASD, se envía una señal
+                if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
+                    || event.key == 'd' || event.key == 'D' || event.key == 'w' || event.key == 'W') {
+                    that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key, press: false, playing: that.playing }));
+                }
+            }
+        });// Fin soltar tecla
+        // Recibir mensajes
         this.connection.onmessage = function(msg){
             console.log("message received");
             var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
-            if (data.level1){
-                that.mango.explodeTime = (that.mango.explodeTime + data.mangoTime) / 2;
+            //Si el mensaje viene desde el juego
+            if (data.playing == "true"){ 
                 for (var i = 0;  i < that.characters.length; i++){
-                    if (that.characters[i].id == data.id){
-                        playerI = i;
-                        that.actualizar(i, data.positionX, data.positionY,
-                        data.accelerationX, data.accelerationY);
+                    if (that.characters[i] = data.id){
+                        that.characters[i].accion(data.key, data.press);
                     }
                 }
+            // Si el mensaje viene del menú de pausa
             }else{
-                // Notificar que el jugador data.id se ha ido de la partida
-                var char;
-                for (var i = 0; i < that.characters.length; i++){
-                    if (that.characters[i].id == data.id){
-                        char = that.characters[i];
+                // Se identifica al jugador que manda el mensaje y se elimina de la partida
+                for (var i = 0;  i < that.characters.length; i++){
+                    if (that.characters[i] = data.id){
+                        that.eliminarPersonaje(that.characters[i]);
                         that.characters.splice(i,1);
                     }
                 }
-                that.EliminarPersonaje(char);
-                // PETICIÓN API REST Y A PASTAR
-                that.myPlayer.isConnected = false;
-                that.myPlayer.isReady = false;
-                var playerUpdate = $.ajax({
-                    method: "PUT",
-                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                    data: JSON.stringify(that.myPlayer),
-                    processData: false,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
             }
-        }
-        this.time.addEvent({ delay: 1, callback: this.sendInfo(playerI), callbackScope: this});
-        this.playing = true;
+        }// Fin recibir mensaje
     }// Fin Create
 
     update() {
         if (this.play) {
             // Update de mi personaje
+            /*
             if (this.playing){
                 for (var i = 0; i < this.characters.length; i++){
                     if (this.characters[i].id == this.myPlayer.id){
@@ -450,8 +449,10 @@ class WSLevel1 extends Phaser.Scene {
                     }
                 }
             }
+            */
             this.mango.update();
             // Pause
+            /** BORRAR
             if (Phaser.Input.Keyboard.JustDown(this.pauseKey)) {
                 if (this.playing){
                     if (!this.scene.get("ws_pause")) {
@@ -461,6 +462,7 @@ class WSLevel1 extends Phaser.Scene {
                     }
                 }
             }
+            /**/
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();
             // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
@@ -593,9 +595,12 @@ class WSLevel1 extends Phaser.Scene {
         }
     }
 
-    sendInfo(i){
-        this.connection.send(JSON.stringify({level1: true, mangoTime: this.mango.explodeTime,
-        id: this.myPlayer.id, positionX: this.characters[i].body.position.x, positionY: this.characters[i].body.position.y,
-        accelerationX: this.characters[i].body.acceleration.x, accelerationY: this.characters[i].body.acceleration.y}));
+    /* BORRAR *
+    sendInfo(){
+        var that = this;
+        this.connection.send(JSON.stringify({level1: true, mangoTime: that.mango.explodeTime,
+        id: that.myPlayer.id, positionX: that.characters[this.playerI].body.position.x, positionY: that.characters[this.playerI].body.position.y,
+        accelerationX: that.characters[this.playerI].body.acceleration.x, accelerationY: that.characters[this.playerI].body.acceleration.y}));
     }
+    /**/
 }// Fin clase Level1

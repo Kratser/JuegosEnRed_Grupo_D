@@ -98,9 +98,9 @@ class WSPause extends Phaser.Scene {
             });
             this.data.scene.pauseKey.isDown = false;
             //this.scene.resume(this.data.sceneKey);
-            this.data.scene.playing = true;
             this.scene.remove("ws_pause");
             this.options[0] = false;
+            this.data.scene.playing = true;
         }  
         // Si se pulsa el botón de salir
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.enterKey)) {
@@ -112,9 +112,23 @@ class WSPause extends Phaser.Scene {
             this.data.scene.loop.stop();
             this.data.scene.intro.stop();
             this.data.scene.birds.stop();
-            this.data.scene.connection.send(JSON.stringify({level1: this.data.playing,
-                id: this.myPlayer.id}));
-            this.data.scene.connection.close();
+            // Se comunica que salimos del juego
+            this.data.scene.connection.send(JSON.stringify({ id: this.scene.myPlayer.id, key: "Enter", press: true, playing: false }));
+            // Se cierra la conexión
+            this.data.scene.connection.close(); 
+            // Petición API REST para eliminar al personaje
+            that.scene.myPlayer.isReady = false;
+            that.scene.myPlayer.isConnected = false;
+            var playerUpdate = $.ajax({
+                method: "PUT",
+                url: "http://" + that.scene.ip + "/mango-mambo/" + that.scene.myPlayer.id,
+                data: JSON.stringify(that.myPlayer),
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            // Se vuelve al menú principal
             this.data.scene.scene.start("main_menu", {volume: this.data.volume});
             this.options[1] = false;
         }

@@ -32,39 +32,27 @@ public class Level1Handler extends TextWebSocketHandler{
     
     @Override
     protected void handleTextMessage(WebSocketSession session,TextMessage message)throws Exception {
-        System.out.println("Message received");
+        System.out.println("Message received in level 1");
 
         JsonNode node = mapper.readTree(message.getPayload());
-        ObjectNode responseNode = mapper.createObjectNode();
-
-        /*String id = node.get("id").asText();
-        String key = node.get("key").asText();
-        System.out.println("Id: "+id+", Key: "+key);*/
-        String level1 = node.get("level1").asText();
+        
 
         String id = node.get("id").asText();
+        String key = node.get("key").asText();
+        String press = node.get("press").asText();
+        String playing = node.get("playing").asText();
 
-        responseNode.put("level1", level1);
+        System.out.println("Id: "+id+", Key: "+key+", Press: "+press+", Playing: "+playing);
+
+        ObjectNode responseNode = mapper.createObjectNode();
+
         responseNode.put("id", id);
-
-        if (level1 == "true"){
-            String mangoTime = node.get("mangoTime").asText();
-            String positionX = node.get("positionX").asText();
-            String positionY = node.get("positionY").asText();
-            String accelerationX = node.get("accelerationX").asText();
-            String accelerationY = node.get("accelerationY").asText();
-
-            responseNode.put("mangoTime", mangoTime);
-            responseNode.put("positionX", positionX);
-            responseNode.put("positionY", positionY);
-            responseNode.put("accelerationX", accelerationX);
-            responseNode.put("accelerationY", accelerationY);
-        }
+        responseNode.put("key", key);
+        responseNode.put("press", press);
+        responseNode.put("playing", playing);
 
         for(WebSocketSession participant : sessions.values()) {
-            if (participant.getId() != session.getId()){
-                participant.sendMessage(new TextMessage(responseNode.toString()));
-            }
+            participant.sendMessage(new TextMessage(responseNode.toString()));
 		}
     }
 }
