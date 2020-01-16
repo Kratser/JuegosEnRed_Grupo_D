@@ -20,19 +20,19 @@ public class ChooseCharacterHandler extends TextWebSocketHandler{
 
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("New session: " + session.getId());
+        System.out.println("New session in choose charactar: " + session.getId());
 		sessions.put(session.getId(), session);
 	}
     
     @Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("Session closed: " + session.getId());
+		System.out.println("Session closed in choose character: " + session.getId());
 		sessions.remove(session.getId());
 	}
     
     @Override
     protected void handleTextMessage(WebSocketSession session,TextMessage message)throws Exception {
-        System.out.println("Message received");
+        System.out.println("Message received in choose character");
 
         JsonNode node = mapper.readTree(message.getPayload());
 

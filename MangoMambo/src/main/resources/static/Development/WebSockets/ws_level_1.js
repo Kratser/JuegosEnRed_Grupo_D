@@ -11,6 +11,8 @@ class WSLevel1 extends Phaser.Scene {
         }else{
             this.vol = 1;
         }
+        this.ip = data.ip;
+        this.myPlayer = data.myPlayer;
         data = null;
     }// Fin init
 
@@ -47,6 +49,15 @@ class WSLevel1 extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
+        // Conexión Web Sockets
+        this.connection;
+        this.connection = new WebSocket('ws://' + this.ip + '/ws-level-1');
+        this.connection.onopen = function(){
+            console.log("WS Open");
+        }
+        this.connection.onerror = function(e) {
+            console.log("WS error: " + e);
+        }
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
         // Botón de pausa
@@ -172,6 +183,10 @@ class WSLevel1 extends Phaser.Scene {
         // Texto del mango
         this.text;
         this.timedEvent;
+        // Teclas de movimiento
+        this.myCursors;
+        // Variable que detecta si el juego está pausado
+        this.playing;
     }// Fin preload
 
     create() {
@@ -224,25 +239,52 @@ class WSLevel1 extends Phaser.Scene {
         this.positions = [{x: 50, y: 50}, {x: 1150, y: 50},
                           {x: 400, y: 500}, {x: 800, y: 500}];
         // Se crea el personaje
+        this.myCursors = [];
+        this.cursors[0] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.cursors[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.cursors[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.cursors[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         for (var i = 0; i < this.characters.length; i++){
             switch(this.characters[i].id){
                 case 1:
-                    this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
+                    if (this.characters[i].id == this.myPlayer.id){
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.myCursors, this.characters[i].score);    
+                    }else{
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, null, this.characters[i].score);    
+                    }
                     break;
                 case 2:
-                    this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
-                        this.characters[i].flipX = true;
+                    if (this.characters[i].id == this.myPlayer.id){
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.myCursors, this.characters[i].score);
+                            this.characters[i].flipX = true;
+                    }else{
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, null, this.characters[i].score);
+                            this.characters[i].flipX = true;
+                    }
                     break;
                 case 3:
-                    this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
-                        this.characters[i].flipX = true;
+                    if (this.characters[i].id == this.myPlayer.id){
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.myCursors, this.characters[i].score);
+                            this.characters[i].flipX = true;
+                    }else{
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, null, this.characters[i].score);
+                            this.characters[i].flipX = true;
+                    }
                     break;
                 case 4:
-                    this.characters[i] = new Character(this, this.characters[i].id, 
-                        this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
+                    if (this.characters[i].id == this.myPlayer.id){
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.myCursors, this.characters[i].score);
+                    }else{
+                        this.characters[i] = new Character(this, this.characters[i].id, 
+                            this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, null, this.characters[i].score);
+                    }
                     break;
             }
         }
@@ -355,25 +397,73 @@ class WSLevel1 extends Phaser.Scene {
             repeat: -1
         });
         this.play = false;
+        // Recibir mensajes
+        var that = this;
+        var playerI;
+        this.connection.onmessage = function(msg){
+            console.log("message received");
+            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            if (data.level1){
+                that.mango.explodeTime = (that.mango.explodeTime + data.mangoTime) / 2;
+                for (var i = 0;  i < that.characters.length; i++){
+                    if (that.characters[i].id == data.id){
+                        playerI = i;
+                        that.actualizar(i, data.positionX, data.positionY,
+                        data.accelerationX, data.accelerationY);
+                    }
+                }
+            }else{
+                // Notificar que el jugador data.id se ha ido de la partida
+                var char;
+                for (var i = 0; i < that.characters.length; i++){
+                    if (that.characters[i].id == data.id){
+                        char = that.characters[i];
+                        that.characters.splice(i,1);
+                    }
+                }
+                that.EliminarPersonaje(char);
+                // PETICIÓN API REST Y A PASTAR
+                that.myPlayer.isConnected = false;
+                that.myPlayer.isReady = false;
+                var playerUpdate = $.ajax({
+                    method: "PUT",
+                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                    data: JSON.stringify(that.myPlayer),
+                    processData: false,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+            }
+        }
+        this.time.addEvent({ delay: 1, callback: this.sendInfo(playerI), callbackScope: this});
+        this.playing = true;
     }// Fin Create
 
     update() {
         if (this.play) {
-            // Update de los personajes y del mango
-            for (var i = 0; i < this.characters.length; i++) {
-                this.characters[i].update();
+            // Update de mi personaje
+            if (this.playing){
+                for (var i = 0; i < this.characters.length; i++){
+                    if (this.characters[i].id == this.myPlayer.id){
+                        this.characters[this.myPlayer.id].update();
+                    }
+                }
             }
             this.mango.update();
             // Pause
             if (Phaser.Input.Keyboard.JustDown(this.pauseKey)) {
-                if (!this.scene.get("ws_pause")) {
-                    this.scene.add("ws_pause", new Pause, true, { scene: this, sceneKey: "ws_level_1", volume: this.vol });
-                    this.scene.pause("ws_level_1");
+                if (this.playing){
+                    if (!this.scene.get("ws_pause")) {
+                        this.playing = false;                        
+                        this.scene.add("ws_pause", new Pause, true, { scene: this, sceneKey: "ws_level_1", volume: this.vol });
+                        //this.scene.pause("ws_level_1");
+                    }
                 }
             }
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();
-            // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
+            // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
                 this.scene.start("ws_score_level", { characters: this.characters, volume: this.vol });
@@ -484,5 +574,28 @@ class WSLevel1 extends Phaser.Scene {
     AnimComplete(animation, frame){
         this.play = true;
         this.mangoMamboAnim.destroy();
+    }// Fin AnimComplete
+
+    actualizar(i, positionX, positionY, accelerationX, accelerationY){
+        this.characters[i].body.x = positionX;
+        this.characters[i].body.y = positionY;
+        this.characters[i].body.setAccelerationX(accelerationX);
+        this.characters[i].body.setAccelerationY(accelerationY);
+
+        if (this.characters[i].body.acceleration.x < 0){
+            this.characters[i].flipX = true;
+            this.characters[i].anims.play(this.characters[i].anim[1], true);
+        }else if (this.characters[i].body.acceleration.x > 0){
+            this.characters[i].flipX = false;
+            this.characters[i].anims.play(this.characters[i].anim[1], true);
+        }else if (this.characters[i].body.acceleration.x == 0){
+            this.characters[i].anims.play(this.characters[i].anim[0], true);
+        }
+    }
+
+    sendInfo(i){
+        this.connection.send(JSON.stringify({level1: true, mangoTime: this.mango.explodeTime,
+        id: this.myPlayer.id, positionX: this.characters[i].body.position.x, positionY: this.characters[i].body.position.y,
+        accelerationX: this.characters[i].body.acceleration.x, accelerationY: this.characters[i].body.acceleration.y}));
     }
 }// Fin clase Level1

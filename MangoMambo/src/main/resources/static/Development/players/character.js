@@ -3,7 +3,7 @@
 // Lémur: Collider: {25, 42}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 // Tucán: Collider: {25, 20}, VelMax: , Acel: , Alt Salto: , Vel Caída:
 class Character extends Phaser.GameObjects.Sprite{
-    constructor (scene, id, type, physics, x, y, score = 0) {
+    constructor (scene, id, type, physics, x, y, myCursors = null, score = 0) {
         // Llamada al padre del objeto
         super(scene, x, y, type);
         //Atributos del personaje
@@ -18,6 +18,7 @@ class Character extends Phaser.GameObjects.Sprite{
         // Animaciones: 0 idle, 1 walk, 2 jump
         this.anim = [];
         // Teclas: 0 arriba, 1 izquierda, 2 abajo, 3 derecha, movimiento
+        this.myCursors = myCursors;
         this.cursors;
         // Se añade a la escena al hacer el new
         scene.add.existing(this);
@@ -77,7 +78,12 @@ class Character extends Phaser.GameObjects.Sprite{
 
         switch (this.id){
             case 1:
-                this.cursors = this.cursors1;
+                if (this.myCursors != null){
+                    this.cursors = this.myCursors;
+                    this.cursors1 = null;
+                }else{
+                    this.cursors = this.cursors1;
+                }
                 this.cursors2 = null;
                 this.cursors3 = null;
                 this.cursors4 = null;
@@ -97,7 +103,12 @@ class Character extends Phaser.GameObjects.Sprite{
                 break;
             case 2:
                 this.cursors1 = null;
-                this.cursors = this.cursors2;
+                if (this.myCursors != null){
+                    this.cursors = this.myCursors;
+                }else{
+                    this.cursors = this.cursors2;
+                    this.cursors2 = null;
+                }
                 this.cursors3 = null;
                 this.cursors4 = null;
                 // Borde de color
@@ -116,7 +127,12 @@ class Character extends Phaser.GameObjects.Sprite{
             case 3:
                 this.cursors1 = null;
                 this.cursors2 = null;
-                this.cursors = this.cursors3;
+                if (this.myCursors != null){
+                    this.cursors = this.myCursors;
+                    this.cursors3 = null;
+                }else{
+                    this.cursors = this.cursors3;
+                }
                 this.cursors4 = null;
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
@@ -135,7 +151,12 @@ class Character extends Phaser.GameObjects.Sprite{
                 this.cursors1 = null;
                 this.cursors2 = null;
                 this.cursors3 = null;
-                this.cursors = this.cursors4;
+                if (this.myCursors != null){
+                    this.cursors = this.myCursors;
+                }else{
+                    this.cursors = this.cursors4;
+                    this.cursors4 = null;
+                }
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -279,12 +300,12 @@ class Character extends Phaser.GameObjects.Sprite{
             this.body.setAccelerationX(0);
             this.anims.play(this.anim[0], true);
         }
-
-        if (this.cursors[0].isDown && this.body.onFloor()) {// Arriba
+        // Arriba
+        if (this.cursors[0].isDown && this.body.onFloor()) {
             this.body.setVelocityY(-this.jumpHeight);
         }
-
-        if (/*this.cursors[2].isDown &&*/ this.body.velocity.y >= 0){// Abajo
+        // Abajo
+        if (this.body.velocity.y >= 0){
             this.body.gravity.y = this.fallSpeed;
         }else if (this.body.velocity.y < 0){
             this.body.gravity.y = 0;
