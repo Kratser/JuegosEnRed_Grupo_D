@@ -335,7 +335,7 @@ El formato será “.wav” y ".mp3".
 
 ### **5.1. Diagrama de clases del cliente**
 
-![client_diagramChart](https://user-images.githubusercontent.com/36482605/70196588-83b45700-1709-11ea-9d48-0c10f5c81231.png)
+![Diagram](https://user-images.githubusercontent.com/36482605/72498452-ac169180-382f-11ea-830f-20181b371ec3.PNG)
 
 ### **5.2. Diagrama de clases del servidor**
 
