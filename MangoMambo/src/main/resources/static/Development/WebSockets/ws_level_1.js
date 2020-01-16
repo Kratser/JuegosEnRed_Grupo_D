@@ -394,10 +394,10 @@ class WSLevel1 extends Phaser.Scene {
                 }
                 // Si se pulsa ESCAPE se pausa el juego de forma local
                 if (event.key == "Escape") {
-                    if (this.playing) {
-                        if (!this.scene.get("ws_pause")) {
-                            this.playing = false;
-                            this.scene.add("ws_pause", new Pause, true, { scene: this, sceneKey: "ws_level_1", volume: this.vol });
+                    if (that.playing) {
+                        if (!that.scene.get("ws_pause")) {
+                            that.playing = false;
+                            that.scene.add("ws_pause", new WSPause, true, { scene: that, sceneKey: "ws_level_1", volume: that.vol });
                         }
                     }
                 }
@@ -421,16 +421,16 @@ class WSLevel1 extends Phaser.Scene {
             //Si el mensaje viene desde el juego
             if (data.playing == "true"){ 
                 for (var i = 0;  i < that.characters.length; i++){
-                    if (that.characters[i] = data.id){
-                        that.characters[i].accion(data.key, data.press);
+                    if (that.characters[i].id-1 == parseInt(data.id)){
+                        that.characters[i].action(data.key, data.press);
                     }
                 }
             // Si el mensaje viene del menú de pausa
             }else{
                 // Se identifica al jugador que manda el mensaje y se elimina de la partida
                 for (var i = 0;  i < that.characters.length; i++){
-                    if (that.characters[i] = data.id){
-                        that.eliminarPersonaje(that.characters[i]);
+                    if (that.characters[i].id-1 == parseInt(data.id)){
+                        that.deleteCharacter(that.characters[i]);
                         that.characters.splice(i,1);
                     }
                 }
@@ -527,7 +527,7 @@ class WSLevel1 extends Phaser.Scene {
     }//Fin RobarMango
 
     // Al explotar el mango
-    EliminarPersonaje(character){ 
+    deleteCharacter(character){ 
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
                 this.characters[i].score += this.numPlayers - 1;
@@ -560,7 +560,7 @@ class WSLevel1 extends Phaser.Scene {
             }
         }
         this.numPlayers--;
-    }// Fin EliminarPersonaje
+    }// Fin deleteCharacter
     
     FormatTime(seconds) {
         // Minutos

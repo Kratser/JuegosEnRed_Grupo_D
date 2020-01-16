@@ -68,7 +68,7 @@ class Mango extends Phaser.GameObjects.Sprite{
         this.setTexture("mango", 0);
         this.x = 600;
         this.y = -10;
-        this.scene.EliminarPersonaje(this.character);
+        this.scene.deleteCharacter(this.character);
         this.character = null;
         this.timer = null;
         this.scene.text.alpha = 0;

@@ -260,7 +260,7 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
         */
     }// Fin update
 
-    accion(key, pulsado){
+    action(key, pulsado){
         switch (key){
             // Saltar
             case 'w':

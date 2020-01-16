@@ -96,7 +96,7 @@ class WSPause extends Phaser.Scene {
             this.choose_options.play({
                 volume: this.data.scene.vol
             });
-            this.data.scene.pauseKey.isDown = false;
+            //this.data.scene.pauseKey.isDown = false; BORRAR
             //this.scene.resume(this.data.sceneKey);
             this.scene.remove("ws_pause");
             this.options[0] = false;
@@ -113,16 +113,17 @@ class WSPause extends Phaser.Scene {
             this.data.scene.intro.stop();
             this.data.scene.birds.stop();
             // Se comunica que salimos del juego
-            this.data.scene.connection.send(JSON.stringify({ id: this.scene.myPlayer.id, key: "Enter", press: true, playing: false }));
+            var that = this;
+            this.data.scene.connection.send(JSON.stringify({ id: that.data.scene.myPlayer.id, key: "Enter", press: true, playing: false }));
             // Se cierra la conexión
             this.data.scene.connection.close(); 
             // Petición API REST para eliminar al personaje
-            that.scene.myPlayer.isReady = false;
-            that.scene.myPlayer.isConnected = false;
+            that.data.scene.myPlayer.isReady = false;
+            that.data.scene.myPlayer.isConnected = false;
             var playerUpdate = $.ajax({
                 method: "PUT",
-                url: "http://" + that.scene.ip + "/mango-mambo/" + that.scene.myPlayer.id,
-                data: JSON.stringify(that.myPlayer),
+                url: "http://" + that.data.scene.ip + "/mango-mambo/" + that.data.scene.myPlayer.id,
+                data: JSON.stringify(that.data.scene.myPlayer),
                 processData: false,
                 headers: {
                     "Content-Type": "application/json"
