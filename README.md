@@ -46,6 +46,11 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * Se han creado carpetas para almacenar los anteriores documentos (Slides y GDDs).
 * En este README y en el GDD hemos actualizado las imágenes de la interfaz y hemos añadido un nuevo apartado   **5. Diagrama de clases y API REST**, en el que hemos adjuntado los diagramas de clases de la aplicación, un esquema de las peticiones de API REST que utilizamos y en el punto **5.4. ¿Cómo se ejecuta?**, explicamos los pasos para ejecutar el servidor.
 
+# **Organización del tag fase4**
+
+* Aparte de lo comentado en el tag fase1, fase2 y fase 3, se adjunta la presentación con la que enseñaremos lo realizado en la fase 4 y algunas mejoras planteadas. En esta fase no se ha actualizado el pdf GDD pero sí se han hecho cambios en README. 
+* En el punto 5 hemos añadido un apartado que explica un poco qué hemos hecho en Websockets.  
+* Finalmente, se adjunta un video al principio de este README para mostrar as funcionalidades de juego y qué hemos hecho en cada parte.
 
 * * *
 
