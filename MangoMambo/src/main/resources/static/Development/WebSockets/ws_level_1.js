@@ -468,7 +468,8 @@ class WSLevel1 extends Phaser.Scene {
             // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
-                this.scene.start("ws_score_level", { characters: this.characters, volume: this.vol });
+                this.connection.close();
+                this.scene.start("ws_score_level", { characters: this.characters, volume: this.vol , myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip});
                 // Se para la música
                 this.intro.stop();
                 this.loop.stop();

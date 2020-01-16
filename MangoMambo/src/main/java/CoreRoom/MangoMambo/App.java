@@ -23,6 +23,8 @@ public class App implements WebSocketConfigurer
         .setAllowedOrigins("*");
         registry.addHandler(level1Handler(), "/ws-level-1")
         .setAllowedOrigins("*");
+        registry.addHandler(scoreLevelHandler(), "/ws-score-level")
+        .setAllowedOrigins("*");
     }
 
     @Bean
@@ -38,6 +40,11 @@ public class App implements WebSocketConfigurer
     @Bean
     public Level1Handler level1Handler(){
         return new Level1Handler();
+    }
+
+    @Bean
+    public ScoreLevelHandler scoreLevelHandler(){
+        return new ScoreLevelHandler();
     }
 
     public static void main( String[] args )
