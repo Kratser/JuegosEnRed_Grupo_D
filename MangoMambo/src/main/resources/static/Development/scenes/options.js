@@ -100,12 +100,12 @@ class Options extends Phaser.Scene {
         this.background = this.add.image(0, 0, "options_background").setOrigin(0,0).setDepth(0);
         // Botones 
         //this.tutorialButton = this.add.image(900, 130, "tutorial_button").setDepth(1); NO SE INCLUYE EN ESTA FASE
-        this.soundButton = this.add.image(900, 290, "sound_button").setDepth(1);
-        this.creditsButton = this.add.image(900, 130, "credits_button").setDepth(1);
+        this.soundButton = this.add.image(1100, 230, "sound_button").setOrigin(1, 0).setDepth(1);
+        this.creditsButton = this.add.image(1100, 50, "credits_button").setOrigin(1, 0).setDepth(1);
         this.bigEsc = this.add.image(90.50, 538.50, "big_esc").setDepth(1);
         //this.tutorialButtonSelect = this.add.image(900, 130, "tutorial_button_select").setDepth(2); NO SE INCLUYE EN ESTA FASE
-        this.soundButtonSelect = this.add.image(900, 290, "sound_button_select").setDepth(2);
-        this.creditsButtonSelect = this.add.image(900, 130, "credits_button_select").setDepth(2);
+        this.soundButtonSelect = this.add.image(1100, 230, "sound_button_select").setOrigin(1, 0).setDepth(2);
+        this.creditsButtonSelect = this.add.image(1100, 50, "credits_button_select").setOrigin(1, 0).setDepth(2);
         // Imagenes para modificar el sonido
         this.volumeBackground = this.add.image(900, 469, "volume_background").setDepth(0);
         this.volumeBackground.alpha = 0;
@@ -160,6 +160,8 @@ class Options extends Phaser.Scene {
         //this.tutorialButtonSelect.alpha = 0; NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect.alpha = 0;
         this.creditsButtonSelect.alpha = 0;
+        this.soundButton.angle = 0;
+        this.creditsButton.angle = 0;
         // Selección de botones
         if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=0){
             this.options[this.cont] = false;
@@ -180,9 +182,13 @@ class Options extends Phaser.Scene {
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.creditsButtonSelect.alpha = 1;
+            this.creditsButton.setAngle(-3);
+            this.creditsButtonSelect.setAngle(-3);
         }
         if(this.options[1]){
             this.soundButtonSelect.alpha = 1;
+            this.soundButton.setAngle(-3);
+            this.soundButtonSelect.setAngle(-3);
         }
 
         // Aparece la configuración de sonido
