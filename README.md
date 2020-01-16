@@ -276,6 +276,10 @@ Aquí visionaremos los créditos del juego.
 
 ![credits_updated](https://user-images.githubusercontent.com/36482605/70087787-3c4c9e80-1615-11ea-94f5-1ec151650c61.PNG)
 
+### **3.17. Selección de personajes online**
+
+![ws_choose_character](https://user-images.githubusercontent.com/36482605/72500740-868c8680-3835-11ea-8cb7-b03e5b6b71cf.PNG)
+
 ## **4. Arte**
 
 Con Mango Mambo queremos transmitir diversión y calidez para reforzar el género del
@@ -331,11 +335,11 @@ El formato será “.wav” y ".mp3".
 *	Explosión del mango.
 *	Al ganar la partida, sonido de celebración(uno distinto para cada personaje).
 
-## **5. Diagrama de clases y API REST**
+## **5. Diagrama de clases, API REST y Websockets**
 
 ### **5.1. Diagrama de clases del cliente**
 
-![client_diagramChart](https://user-images.githubusercontent.com/36482605/70196588-83b45700-1709-11ea-9d48-0c10f5c81231.png)
+![Diagram](https://user-images.githubusercontent.com/36482605/72498452-ac169180-382f-11ea-830f-20181b371ec3.PNG)
 
 ### **5.2. Diagrama de clases del servidor**
 
@@ -345,7 +349,11 @@ El formato será “.wav” y ".mp3".
 
 ![ApiRestChart](https://user-images.githubusercontent.com/36482605/70196650-bd855d80-1709-11ea-89e4-c200170d26cd.PNG)
 
-### **5.4. ¿Cómo se ejecuta?**
+### **5.4. Websockets**
+
+A partir de la escena de online lobby pasamos de usar API REST a utilizar el protocolo ws de websockets. Ahora ya no tendremos que realizar peticiones excepto cuando queramos volver al menú principal desde alguna otra escena. Para no enviar toda la inforación de golpe, hemos creado cinco clases/escenas nuevas para este proceso y en cada escena abrimos una conexión Websockets y enviamos un mensaje con la información de los jugadores y con las teclas que están pulsando. Este mensaje es recibdo por un manejado (handler) y este se encargará de transmitir la informacón al resto de jugadores.
+
+### **5.5. ¿Cómo se ejecuta?**
 
 Al descargar la fase 3, hay una carpeta en la ruta del proyecto llamada **“MangoMambo(exe)”** dentro, hay que abrir el archivo **“MangoMambo-0.0.1-SNAPSHOT.jar”**. Después de ejecutar el .jar, en la URL del navegador hay que poner la IP del host (IPv4) y el puerto 8080. 
 Para cerrarlo, hay que acceder al administrador de tareas y en la pestaña de **“Detalles”** hay que finalizar la tarea: **“javaw.exe”**.
