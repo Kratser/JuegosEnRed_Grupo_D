@@ -434,7 +434,7 @@ class Level1 extends Phaser.Scene {
     }//Fin RobarMango
 
     // Al explotar el mango
-    EliminarPersonaje(character){ 
+    deleteCharacter(character){ 
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
                 this.characters[i].score += this.numPlayers - 1;
