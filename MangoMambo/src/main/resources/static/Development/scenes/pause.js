@@ -44,10 +44,10 @@ class Pause extends Phaser.Scene {
         // Fondo
         this.add.image(0, 0, "pause_background").setOrigin(0,0).setDepth(0);
         // Botones
-        this.resumeButton = this.add.image(900, 130, "resume_button").setDepth(1);
-        this.quitButton = this.add.image(900, 290, "quit_button").setDepth(1);
-        this.resumeButtonSelect = this.add.image(900, 130, "resume_button_select").setDepth(2);
-        this.quitButtonSelect = this.add.image(900, 290, "quit_button_select").setDepth(2);
+        this.resumeButton = this.add.image(1100, 50, "resume_button").setOrigin(1,0).setDepth(1);
+        this.quitButton = this.add.image(1100, 230, "quit_button").setOrigin(1,0).setDepth(1);
+        this.resumeButtonSelect = this.add.image(1100, 50, "resume_button_select").setOrigin(1,0).setDepth(2);
+        this.quitButtonSelect = this.add.image(1100, 230, "quit_button_select").setOrigin(1,0).setDepth(2);
         // Teclas
         this.upKey1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.downKey1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -67,6 +67,8 @@ class Pause extends Phaser.Scene {
         // Se esconde la imagen de seleción de los botones
         this.resumeButtonSelect.alpha = 0;
         this.quitButtonSelect.alpha = 0;
+        this.resumeButton.angle = 0;
+        this.quitButton.angle = 0;
         // Selección de botones
         if ((Phaser.Input.Keyboard.JustDown(this.downKey1) || Phaser.Input.Keyboard.JustDown(this.downKey2)) && this.cont<=0){
             this.options[this.cont] = false;
@@ -87,9 +89,13 @@ class Pause extends Phaser.Scene {
         //Resaltado de botón seleccionado
         if(this.options[0]){
             this.resumeButtonSelect.alpha = 1;
+            this.resumeButton.setAngle(-3);
+            this.resumeButtonSelect.setAngle(-3);
         }
         if(this.options[1]){
             this.quitButtonSelect.alpha = 1;
+            this.quitButton.setAngle(-3);
+            this.quitButtonSelect.setAngle(-3);
         }
         // Si se pulsa el botón de resume o el escape
         if ((Phaser.Input.Keyboard.JustDown(this.resumeKey)) || (this.options[0] && Phaser.Input.Keyboard.JustDown(this.enterKey))) {

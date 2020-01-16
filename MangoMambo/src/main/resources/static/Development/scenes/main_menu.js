@@ -102,13 +102,13 @@ class MainMenu extends Phaser.Scene {
             repeat: -1
         });
         // Botones 
-        this.localButton = this.add.image(250, 160, "local_button").setDepth(1);
-        this.onlineButton = this.add.image(250, 270, "online_button").setDepth(1);
+        this.localButton = this.add.image(300, 140, "local_button").setOrigin(1, 0).setDepth(1);
+        this.onlineButton = this.add.image(300, 250, "online_button").setOrigin(1, 0).setDepth(1);
         //this.onlineDisable = this.add.image(250, 270, "online_button_disable").setDepth(1); FASE ACTUALIZADA
-        this.optionsButton = this.add.image(250, 380, "options_button").setDepth(1);
-        this.localButtonSelect = this.add.image(250, 160, "local_button_select").setDepth(2);
-        this.onlineButtonSelect = this.add.image(250, 270, "online_button_select").setDepth(2);
-        this.optionsButtonSelect = this.add.image(250, 380, "options_button_select").setDepth(2);
+        this.optionsButton = this.add.image(300, 360, "options_button").setOrigin(1, 0).setDepth(1);
+        this.localButtonSelect = this.add.image(300, 140, "local_button_select").setOrigin(1, 0).setDepth(2);
+        this.onlineButtonSelect = this.add.image(300, 250, "online_button_select").setOrigin(1, 0).setDepth(2);
+        this.optionsButtonSelect = this.add.image(300, 360, "options_button_select").setOrigin(1, 0).setDepth(2);
         // Array de teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -141,6 +141,9 @@ class MainMenu extends Phaser.Scene {
         this.localButtonSelect.alpha = 0;
         this.onlineButtonSelect.alpha = 0;
         this.optionsButtonSelect.alpha = 0;
+        this.localButton.angle = 0;
+        this.onlineButton.angle = 0;
+        this.optionsButton.angle = 0;
         // Selección de botones
         if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
             this.options[this.cont] = false;
@@ -161,12 +164,18 @@ class MainMenu extends Phaser.Scene {
         // Resaltado de botón seleccionado
         if(this.options[0]){
             this.localButtonSelect.alpha = 1;
+            this.localButton.setAngle(-5);
+            this.localButtonSelect.setAngle(-5);
         }
         if(this.options[1]){
             this.onlineButtonSelect.alpha = 1;
+            this.onlineButton.setAngle(-5);
+            this.onlineButtonSelect.setAngle(-5);
         }
         if(this.options[2]){
             this.optionsButtonSelect.alpha = 1;
+            this.optionsButton.setAngle(-5);
+            this.optionsButtonSelect.setAngle(-5);
         }
         // Cambio de pantalla "Local"
         if(this.options[0] && this.cursors[4].isDown){
