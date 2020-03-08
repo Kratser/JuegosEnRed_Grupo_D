@@ -43,49 +43,19 @@ class OnlineLobby extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
-        // Se carga la imagen de fondo
-        this.load.image("lobby_background", "./Design/Stages/Backgrounds/lobby_background.png");
-        // Boton de escape
-        this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
-        // Flecha que señala dónde se escribe
-        this.load.image("start_msg", "./Design/Objects/start_msg.png");
         // Jugadores
-        this.load.image("player1_online", "./Design/Objects/Text/player1_online.png");
-        this.load.image("player2_online", "./Design/Objects/Text/player2_online.png");
-        this.load.image("player3_online", "./Design/Objects/Text/player3_online.png");
-        this.load.image("player4_online", "./Design/Objects/Text/player4_online.png");
         this.playersImg;
-        this.load.image("you_G_player", "./Design/Objects/you_G_player.png");
-        this.load.image("you_P_player", "./Design/Objects/you_P_player.png");
-        this.load.image("you_B_player", "./Design/Objects/you_B_player.png");
-        this.load.image("you_Y_player", "./Design/Objects/you_Y_player.png");
         this.myPlayerImg;
         // Imagen de los checks de preparado
-        this.load.image("tick", "./Design/Objects/tick.png");
         this.ticks;
-        // 3 2 1 mango mambo
-        this.load.spritesheet('3_2_1_mango_mambo', './Design/Objects/Text/3_2_1_mango_mambo.png',
-        {
-            frameWidth: 500,
-            frameHeight: 500 
-        });
-        this.mangoMamboAnim;
-        this.startingGame;
-        this.animTween;
         // Teclas
         this.cursors;
         // Estado del servidor
         this.refresh;
-        this.load.image("connection_failed_rock", "./Design/Objects/connection_failed_rock.png");
         this.serverStatusImg;
         this.serverStatus;
         // Música
-        this.load.audio("lobby_music", "./Design/Audio/LobbySong/lobby_music.wav");
         this.loop;
-        // Sonidos
-        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
-        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
-        this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         // Chat
         this.textChat;
         this.chat;
@@ -258,26 +228,6 @@ class OnlineLobby extends Phaser.Scene {
             loop: true,
             volume: this.vol
         });
-        // 3 2 1 mango mambo
-        this.mangoMamboAnim = this.add.sprite(600, 300, "3_2_1_mango_mambo").setAlpha(0);
-        this.mangoMamboAnim.setScale(0.5);
-        this.anims.create({
-            key: '3_2_1_mango_mambo',
-            frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 2 }),
-            frameRate: 1,
-        });
-        this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
-        this.startingGame = false;
-        this.animTween = this.tweens.add({
-            targets: [this.mangoMamboAnim],
-            scaleY: 1,
-            scaleX: 1,
-            ease: 'Sine.easeInOut',
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-        this.animTween.stop();
         // Número de jugadores
         this.numPlayers = 0;
         this.numPlayersReady = 0;
@@ -286,25 +236,15 @@ class OnlineLobby extends Phaser.Scene {
         // Si el servidor está activo
         if (this.serverStatus) {
             this.serverStatusImg.setAlpha(0);
-            console.log(this.mangoMamboAnim.scale);
             // Si hay dos o más jugadores listos, comenzar partida
-            if (this.numPlayers >= 2 && this.numPlayers == this.numPlayersReady && !this.startingGame){
+            if (this.numPlayers >= 2 && this.numPlayers == this.numPlayersReady){
                 // Se pasa a la selección de personaje
-                this.startingGame = true;
-                // 3 2 1 mango mambo
-                this.mangoMamboAnim.setAlpha(1);
-                this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
-                this.animTween.play();
-            // Si no están los jugadores listos, se cancela el inicio de partida
-            }else if (this.numPlayers < 2 || this.numPlayers != this.numPlayersReady){
-                this.startingGame = false;
-                this.mangoMamboAnim.setAlpha(0);
-                this.animTween.stop();
-                this.mangoMamboAnim.setScale(0.5);
-                // Si la animación se está reproduciendo se para
-                if (this.mangoMamboAnim.anims.isPlaying){
-                    this.mangoMamboAnim.anims.stop();
-                }
+                //Se establece la conexión ws
+                this.startWS();
+                // Cambio de escena
+                this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection, numPlayers: this.numPlayers, ip: this.ip });
+                //Se para la música
+                this.loop.stop();
             }
             // Mostrar a los jugadores si entran en el lobby
             for (var i = 0; i < this.players.length; i++) {
@@ -455,17 +395,7 @@ class OnlineLobby extends Phaser.Scene {
             that.serverStatus = false;
         });
     }// Fin UpdatePlayer
-    // Función que se ejecuta tras la animación 3, 2, 1, Mango Mambo!
-    animComplete(animation, frame){
-        if (this.startingGame) {
-            //Se establece la conexión ws
-            this.startWS();
-            // Cambio de escena
-            this.scene.start("ws_choose_character", { volume: this.vol, myPlayer: this.myPlayer, connection: this.connection, numPlayers: this.numPlayers, ip: this.ip });
-            //Se para la música
-            this.loop.stop();
-        }
-    }// Fin AnimComplete
+    // Función que inicia la conexión con WebSockets
     startWS(){
         this.connection = new WebSocket('ws://' + this.ip + '/ws-choose-character');
         this.connection.onopen = function(){
