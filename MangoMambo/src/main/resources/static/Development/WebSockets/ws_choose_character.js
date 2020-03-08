@@ -45,61 +45,14 @@ class WSChooseCharacter extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
-        // Se cargan las imágenes
-        this.load.image("character_background", "./Design/Stages/Backgrounds/ws_choose_character_background.png");
-        // Imagenes de los personajes
-        this.load.image("palm_choose", "./Design/Characters/Palm/palm_choose.png");
-        this.load.image("dino_choose", "./Design/Characters/Dino/dino_choose.png");
-        this.load.image("toufat_choose", "./Design/Characters/Toucan/toufat_choose.png");
-        this.load.image("lemur_choose", "./Design/Characters/Lemur/lemur_choose.png");
-        // Nombre de los personajes
-        // Verde
-        this.load.image("palm_G_name", "./Design/Objects/Text/palm_G_name.png");
-        this.load.image("dino_G_name", "./Design/Objects/Text/dino_G_name.png");
-        this.load.image("toufat_G_name", "./Design/Objects/Text/toufat_G_name.png");
-        this.load.image("lemur_G_name", "./Design/Objects/Text/lemur_G_name.png");
-        // Rosa
-        this.load.image("palm_P_name", "./Design/Objects/Text/palm_P_name.png");
-        this.load.image("dino_P_name", "./Design/Objects/Text/dino_P_name.png");
-        this.load.image("toufat_P_name", "./Design/Objects/Text/toufat_P_name.png");
-        this.load.image("lemur_P_name", "./Design/Objects/Text/lemur_P_name.png");
-        // Azul
-        this.load.image("palm_B_name", "./Design/Objects/Text/palm_B_name.png");
-        this.load.image("dino_B_name", "./Design/Objects/Text/dino_B_name.png");
-        this.load.image("toufat_B_name", "./Design/Objects/Text/toufat_B_name.png");
-        this.load.image("lemur_B_name", "./Design/Objects/Text/lemur_B_name.png");
-        // Amarillo
-        this.load.image("palm_Y_name", "./Design/Objects/Text/palm_Y_name.png");
-        this.load.image("dino_Y_name", "./Design/Objects/Text/dino_Y_name.png");
-        this.load.image("toufat_Y_name", "./Design/Objects/Text/toufat_Y_name.png");
-        this.load.image("lemur_Y_name", "./Design/Objects/Text/lemur_Y_name.png");
-        // Descripción habilidades de los personajes
-        this.load.image("palm_hab", "./Design/Objects/Text/palm_hab.png");
-        this.load.image("dino_hab", "./Design/Objects/Text/dino_hab.png");
-        this.load.image("toufat_hab", "./Design/Objects/Text/toufat_hab.png");
-        this.load.image("lemur_hab", "./Design/Objects/Text/lemur_hab.png");
-        // Texto e imagene que aparece si no te has unido a la partida
-        this.load.image("press_key", "./Design/Objects/Keypress/ws_press_key.png");
-        // Ready! para cuando el personaje se selecciona
-        this.load.image("ready", "./Design/Objects/Text/ready.png");
-        // Boton de escape
-        this.load.image("escape_button", "./Design/Objects/Buttons/escape_button.png");
         // Sonido
-        this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
-        this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
         this.intro;
         this.loop;
-        this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
-        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
         // Arrays para los textos
         this.names;
         this.habilities;
         // Jugadores
         this.players;
-        // Animación cuenta atrás
-        this.mangoMamboAnim;
-        this.startingGame;
-        this.animTween;
         // Lista de jugadores
         this.characters;
         this.charactersSelected;
@@ -114,7 +67,6 @@ class WSChooseCharacter extends Phaser.Scene {
         // Selector para cada jugador
         this.selectors;
         // Efectos de Sonido
-        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
         this.choose_options;
         this.hit;
     }//Fin preload
@@ -271,16 +223,18 @@ class WSChooseCharacter extends Phaser.Scene {
         this.change_options = this.sound.add("change_options");
         this.hit = this.sound.add("hit");
 
+        // Eventos WebSockets
         this.input.keyboard.on("keydown", function (event) {
             var that = this.scene;
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
                 || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
                 that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
-            } else if (event.key == "Escape") {
+            } else if (event.key == "Escape") { // Si se pulsa scape, se vuelve al menú principal
                 that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
                 that.connection.close();
                 that.myPlayer.isReady = false;
                 that.myPlayer.isConnected = false;
+                // Update de API REST
                 var playerUpdate = $.ajax({
                     method: "PUT",
                     url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
@@ -290,6 +244,13 @@ class WSChooseCharacter extends Phaser.Scene {
                         "Content-Type": "application/json"
                     }
                 });
+                that.scene.start("main_menu", { volume: this.vol });
+                that.choose_options.play({
+                    volume: that.vol
+                });
+                // Se para la música
+                that.loop.stop();
+                that.intro.stop();
             }
         });
         var that = this;
@@ -300,9 +261,10 @@ class WSChooseCharacter extends Phaser.Scene {
             if (data.key == 'a' || data.key == 'A' || data.key == 'w' || data.key == 'W'
                 || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S') {
                 that.change(data.id, data.key);
-            } else if (data.key == "Escape") {
+            } else if (data.key == "Escape") { // Si el mensaje recibido es Escape, un jugador abandona la partida
                 console.log("El jugador " + data.id + " ha abandonado la partida :(");
                 that.leaveGame(data.id);
+                // Si me quedo sólo en la sala, vuelvo al lobby
                 if (that.numPlayers <= 1) {
                     var players = [{ id: 0, isConnected: false, isReady: false }, { id: 1, isConnected: false, isReady: false },
                     { id: 2, isConnected: false, isReady: false }, { id: 3, isConnected: false, isReady: false }];
@@ -312,112 +274,43 @@ class WSChooseCharacter extends Phaser.Scene {
                 }
             }
         }
-        // 3 2 1 mango mambo
-        this.mangoMamboAnim = this.add.sprite(600, 300, "3_2_1_mango_mambo").setAlpha(0);
-        this.mangoMamboAnim.setScale(0.5);
-        this.anims.create({
-            key: '3_2_1_mango_mambo',
-            frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 2 }),
-            frameRate: 1,
-        });
-        this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
-        this.startingGame = false;
-        this.animTween = this.tweens.add({
-            targets: [this.mangoMamboAnim],
-            scaleY: 1,
-            scaleX: 1,
-            ease: 'Sine.easeInOut',
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-        this.animTween.stop();
     }//Fin create
 
     update() {
-        /*
-        // ENTER para cambiar de escena
-        if (Phaser.Input.Keyboard.JustDown(this.enterCursor) && this.readyPlayers >= 2) {
-            if (this.readyPlayers >= 2) { // Si hay más de dos personajes seleccionados
-                for (var i = 0; i < this.characters.length; i++) {
-                    if (!this.players[i].selected) {
-                        this.players.splice(i, 1);
-                        this.characters.splice(i, 1);
-                        i--;
-                    }
-                }
-                this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
-                // Se para la música
-                this.loop.stop();
-                this.intro.stop();
-                this.choose_options.play({
-                    volume: this.vol
-                });
-            }
-        }
-        // Cuando haya más de 2 jugadores seleccionados se muestra que ya se puede jugar
-        if (this.readyPlayers >= 2) {
-            this.readyButton.alpha = 0;
-            this.readySelectedButton.alpha = 1;
-        } else {
-            this.readyButton.alpha = 1;
-            this.readySelectedButton.alpha = 0;
-        }*/
-        // ESCAPE para salir al menú principal
-        if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)) {
-            this.scene.start("main_menu", { volume: this.vol });
-            this.choose_options.play({
-                volume: this.vol
-            });
-            // Se para la música
-            this.loop.stop();
-            this.intro.stop();
-        }
         // Si hay dos o más jugadores listos, comenzar partida
-        if (this.numPlayers >= 2 && this.numPlayers == this.readyPlayers && !this.startingGame){
-            // Se pasa a la selección de personaje
-            this.startingGame = true;
-            // 3 2 1 mango mambo
-            this.mangoMamboAnim.setAlpha(1);
-            this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
-            this.animTween.play();
-        // Si no están los jugadores listos, se cancela el inicio de partida
-        }else if (this.numPlayers < 2 || this.numPlayers != this.readyPlayers){
-            this.startingGame = false;
-            this.mangoMamboAnim.setAlpha(0);
-            this.animTween.stop();
-            this.mangoMamboAnim.setScale(0.5);
-            // Si la animación se está reproduciendo se para
-            if (this.mangoMamboAnim.anims.isPlaying){
-                this.mangoMamboAnim.anims.stop();
-            }
+        if (this.numPlayers >= 2 && this.numPlayers == this.readyPlayers){
+        	// Se pasa a la pantalla de explicación
+            this.connection.close();
+            // Cambio de escena
+            this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
+            //Se para la música
+            this.loop.stop();
         }
     }// Fin Update
 
     changeCharacter(charactersArray, characterid, selector) {
         switch (selector) {
             case 0:
-                this.characterAux = new Character(this, characterid + 1, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new Character(this, characterid, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 1:
-                this.characterAux = new Character(this, characterid + 1, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new Character(this, characterid, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 2:
-                this.characterAux = new Character(this, characterid + 1, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new Character(this, characterid, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 3:
-                this.characterAux = new Character(this, characterid + 1, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new Character(this, characterid, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
         }
-
         // Cambia el texto explicativo de la habilidad y el nombre en función del personaje y el jugador
         this.ChangeText(selector, characterid);
     }// Fin changeCharacter
@@ -426,7 +319,6 @@ class WSChooseCharacter extends Phaser.Scene {
         var habilityAux = this.add.image(this.habilities[characterid].hab.x, this.habilities[characterid].hab.y, this.habilities[selector].img);
         this.habilities[characterid].hab.destroy();
         this.habilities[characterid].hab = habilityAux;
-
         var nameAux = this.add.image(this.names[characterid].name.x, this.names[characterid].name.y, this.names[characterid].img[selector]);
         this.names[characterid].name.destroy();
         this.names[characterid].name = nameAux;
@@ -455,9 +347,8 @@ class WSChooseCharacter extends Phaser.Scene {
                 break;
         }
         if (!this.players[idInt].active) {// Si el jugador id no se encuentra activo
-            this.characters[idInt] = new Character(this, idInt + 1, "palm_choose", false, posX, posY);
+            this.characters[idInt] = new Character(this, idInt, "palm_choose", false, posX, posY);
             this.players[idInt].active = true;
-            //this.numPlayers++;
             this.keys[idInt].alpha = 0;// Desaparecen las teclas
             for (var i = 0; i < this.players.length; i++) {
                 if (!this.charactersSelected[i]) {
@@ -517,10 +408,6 @@ class WSChooseCharacter extends Phaser.Scene {
                             volume: this.vol
                         });
                     }
-                    // // Si todos los jugadores están listos, comienza la partida
-                    // if (this.readyPlayers == this.numPlayers) {
-                    //     this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol });
-                    // }
                     break;
                 case 'w':
                 case 'W':
@@ -532,8 +419,8 @@ class WSChooseCharacter extends Phaser.Scene {
                         this.change_options.play({
                             volume: this.vol
                         });
+                    /*
                     } else {
-                        //this.numPlayers--;
                         this.characters[idInt].destroy();
                         this.players[idInt].active = false;
                         this.selectors[idInt] = 0;
@@ -545,6 +432,7 @@ class WSChooseCharacter extends Phaser.Scene {
                         this.change_options.play({
                             volume: this.vol
                         });
+                        */
                     }
                     break;
             }
@@ -567,13 +455,4 @@ class WSChooseCharacter extends Phaser.Scene {
         this.habilities[id].hab.alpha = 0;// Ocultar habilidad
         this.names[id].name.alpha = 0;// Ocultar nombre
     }
-    animComplete(animation, frame){
-        if (this.startingGame) {
-            this.connection.close();
-            // Cambio de escena
-            this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
-            //Se para la música
-            this.loop.stop();
-        }
-    }// Fin AnimComplete
 }

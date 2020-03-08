@@ -76,7 +76,7 @@ class Character extends Phaser.GameObjects.Sprite{
         this.cursors4[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX);
 
         switch (this.id){
-            case 1:
+            case 0:
                 this.cursors = this.cursors1;
                 this.cursors2 = null;
                 this.cursors3 = null;
@@ -95,7 +95,7 @@ class Character extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-            case 2:
+            case 1:
                 this.cursors1 = null;
                 this.cursors = this.cursors2;
                 this.cursors3 = null;
@@ -113,7 +113,7 @@ class Character extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-            case 3:
+            case 2:
                 this.cursors1 = null;
                 this.cursors2 = null;
                 this.cursors = this.cursors3;
@@ -131,7 +131,7 @@ class Character extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-            case 4:
+            case 3:
                 this.cursors1 = null;
                 this.cursors2 = null;
                 this.cursors3 = null;

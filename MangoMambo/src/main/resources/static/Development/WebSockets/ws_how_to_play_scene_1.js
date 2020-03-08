@@ -151,7 +151,7 @@ class WSHowToPlay extends Phaser.Scene {
         // Jugadores conectados recuadro
         for(var i = 0; i < this.numPlayers; i ++){
             console.log(this.characters[i]);
-            this.readys[this.characters[i].id-1].setAlpha(1); 
+            this.readys[this.characters[i].id].setAlpha(1); 
 
         }
         // Teclas
