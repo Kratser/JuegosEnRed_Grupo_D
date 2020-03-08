@@ -152,8 +152,6 @@ class WSLevel1 extends Phaser.Scene {
         this.load.audio("birds", "./Design/Audio/SoundFX/birds.mp3");
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
-        // Tecla de pausa
-        //this.pauseKey; BORRAR
         // Mango
         this.mango;
         // Posiciones inicales de los personajes

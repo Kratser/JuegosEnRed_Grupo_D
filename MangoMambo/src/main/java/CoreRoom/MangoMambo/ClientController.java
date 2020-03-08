@@ -50,6 +50,7 @@ public class ClientController {
 		}
 		return clients.values();
 	}
+	
 	// Se añade un cliente a la sala
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
