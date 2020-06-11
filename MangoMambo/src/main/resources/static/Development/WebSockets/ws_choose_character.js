@@ -228,13 +228,14 @@ class WSChooseCharacter extends Phaser.Scene {
             var that = this.scene;
             if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
                 || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
-                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
+                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
             } else if (event.key == "Escape") { // Si se pulsa scape, se vuelve al menú principal
-                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
+                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
                 that.connection.close();
+                
+                // Update de API REST
                 that.myPlayer.isReady = false;
                 that.myPlayer.isConnected = false;
-                // Update de API REST
                 var playerUpdate = $.ajax({
                     method: "PUT",
                     url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
@@ -256,21 +257,64 @@ class WSChooseCharacter extends Phaser.Scene {
         var that = this;
         this.connection.onmessage = function (msg) {
             console.log("message received");
+            console.log(that.connection);
             var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
-            console.log("Id: " + data.id + ", Key: " + data.key);
-            if (data.key == 'a' || data.key == 'A' || data.key == 'w' || data.key == 'W'
-                || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S') {
-                that.change(data.id, data.key);
-            } else if (data.key == "Escape") { // Si el mensaje recibido es Escape, un jugador abandona la partida
-                console.log("El jugador " + data.id + " ha abandonado la partida :(");
-                that.leaveGame(data.id);
-                // Si me quedo sólo en la sala, vuelvo al lobby
-                if (that.numPlayers <= 1) {
-                    var players = [{ id: 0, isConnected: false, isReady: false }, { id: 1, isConnected: false, isReady: false },
-                    { id: 2, isConnected: false, isReady: false }, { id: 3, isConnected: false, isReady: false }];
-                    players[that.myPlayer.id] = that.myPlayer;
-                    that.connection.close();
-                    that.scene.start("online_lobby", { client: that.myPlayer, volume: that.vol, ip: that.ip, players: players });
+            if(data.type == "event"){
+            	console.log("Id: " + data.id + ", Key: " + data.key);
+                if (data.key == 'a' || data.key == 'A' || data.key == 'w' || data.key == 'W'
+                    || data.key == 'd' || data.key == 'D' || data.key == 's' || data.key == 'S') {
+                    that.change(data.id, data.key);
+                } else if (data.key == "Escape") { // Si el mensaje recibido es Escape, un jugador abandona la partida
+                    console.log("El jugador " + data.id + " ha abandonado la partida :(");
+                    that.leaveGame(data.id);
+                    // Si me quedo sólo en la sala, vuelvo al lobby
+                    if (that.numPlayers <= 1) {
+                        var newPlayers = [{ id: 0, isConnected: false, isReady: false }, { id: 1, isConnected: false, isReady: false },
+                        { id: 2, isConnected: false, isReady: false }, { id: 3, isConnected: false, isReady: false }];
+                        newPlayers[that.myPlayer.id] = that.myPlayer;
+                        that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: data.key }));
+                        that.connection.close();
+                        that.scene.start("online_lobby", { client: that.myPlayer, volume: that.vol, ip: that.ip, players: newPlayers });
+                    }
+                }
+            }else if (data.type == "check"){
+            	console.log("Checking por aquí");
+            	that.connection.send(JSON.stringify({ type: "check", id: that.myPlayer.id }))
+            }
+            else if (data.type == "leave"){
+                if (data.id == that.myPlayer.id){
+                	that.connection.close();
+                	that.myPlayer.isReady = false;
+                    that.myPlayer.isConnected = false;
+                    // Update de API REST
+                    var playerUpdate = $.ajax({
+                        method: "PUT",
+                        url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                        data: JSON.stringify(that.myPlayer),
+                        processData: false,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    that.scene.start("main_menu", { volume: this.vol });
+                    that.choose_options.play({
+                        volume: that.vol
+                    });
+                    // Se para la música
+                    that.loop.stop();
+                    that.intro.stop();
+                }else{
+                	console.log("El jugador " + data.id + " ha abandonado la partida :(");
+                    that.leaveGame(data.id);
+                    // Si me quedo sólo en la sala, vuelvo al lobby
+                    if (that.numPlayers <= 1) {
+                        var newPlayers = [{ id: 0, isConnected: false, isReady: false }, { id: 1, isConnected: false, isReady: false },
+                        { id: 2, isConnected: false, isReady: false }, { id: 3, isConnected: false, isReady: false }];
+                        newPlayers[that.myPlayer.id] = that.myPlayer;
+                        that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: "Escape" }));
+                        that.connection.close();
+                        that.scene.start("online_lobby", { client: that.myPlayer, volume: that.vol, ip: that.ip, players: newPlayers });
+                    }
                 }
             }
         }
@@ -419,20 +463,6 @@ class WSChooseCharacter extends Phaser.Scene {
                         this.change_options.play({
                             volume: this.vol
                         });
-                    /*
-                    } else {
-                        this.characters[idInt].destroy();
-                        this.players[idInt].active = false;
-                        this.selectors[idInt] = 0;
-                        this.habilities[idInt].hab.alpha = 0;// Ocultar habilidad
-                        this.names[idInt].name.alpha = 0;// Ocultar nombre
-                        if (idInt == this.myPlayer.id) {
-                            this.keys[idInt].alpha = 1;// Aparecen las teclas
-                        }
-                        this.change_options.play({
-                            volume: this.vol
-                        });
-                        */
                     }
                     break;
             }
@@ -440,6 +470,7 @@ class WSChooseCharacter extends Phaser.Scene {
     }
 
     leaveGame(id) {
+    	var that = this;
         if (this.players[id].selected) {
             this.readyPlayers--;
         }
@@ -454,5 +485,18 @@ class WSChooseCharacter extends Phaser.Scene {
         this.selectors[id] = 0;
         this.habilities[id].hab.alpha = 0;// Ocultar habilidad
         this.names[id].name.alpha = 0;// Ocultar nombre
+        // Cerrar conexión API
+        var player = {id: id, isReady: false, isConnected: false};
+        console.log(player);
+        // Update de API REST
+        var playerUpdate = $.ajax({
+            method: "PUT",
+            url: "http://" + that.ip + "/mango-mambo/" + id,
+            data: JSON.stringify(player),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
     }
 }
