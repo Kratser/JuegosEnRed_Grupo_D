@@ -21,7 +21,6 @@ public class ChooseCharacterHandler extends TextWebSocketHandler {
 
 	ObjectMapper mapper = new ObjectMapper();
 	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-
 	private Map<String, Timer> timers = new ConcurrentHashMap<>();
 	private Map<String, Long> timerCheck = new ConcurrentHashMap<>();
 	
@@ -85,10 +84,9 @@ public class ChooseCharacterHandler extends TextWebSocketHandler {
 		JsonNode node = mapper.readTree(message.getPayload());
 		String type = node.get("type").asText();
 		String id = node.get("id").asText();
-		System.out.println("Message received in choose character from player " +id+", "+type+ " - [Línea 117]");
+		System.out.println("Message received in choose character from player " +id+", "+type);
 		// Si el tipo de mensaje es de evento (el cliente pulsa alguna tecla)
 		if (type.equals(TYPE_EVENT)) {
-			System.out.println("Debug - "+ id+", "+node.get("key").asText()+", "+type);
 			String key = node.get("key").asText();
 			System.out.println("Id: " + id + ", Key: " + key);
 			// Si la tecla pulsada es "Escape", se desconecta al jugador de la partida
@@ -131,6 +129,13 @@ public class ChooseCharacterHandler extends TextWebSocketHandler {
 					}
 				}
 			}, 1000, 1000);
+		} else if (type.equals(TYPE_LEAVE)) {
+			// El jugador ha pasado de pantalla
+			System.out.println("Session closed in choose character: " + id);
+			sessions.remove(id);
+			timers.get(id).cancel();
+			timerCheck.put(id, Long.parseLong("0"));
+			
 		}
 	}
 }

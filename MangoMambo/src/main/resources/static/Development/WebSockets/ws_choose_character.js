@@ -324,6 +324,7 @@ class WSChooseCharacter extends Phaser.Scene {
         // Si hay dos o más jugadores listos, comenzar partida
         if (this.numPlayers >= 2 && this.numPlayers == this.readyPlayers){
         	// Se pasa a la pantalla de explicación
+        	this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
             this.connection.close();
             // Cambio de escena
             this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
