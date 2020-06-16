@@ -50,10 +50,12 @@ class WSLevel1 extends Phaser.Scene {
             loadingImg.destroy();
         });
         // Conexión Web Sockets
+        var that = this;
         this.connection;
         this.connection = new WebSocket('ws://' + this.ip + '/ws-level-1');
         this.connection.onopen = function(){
             console.log("WS Open");
+            this.send(JSON.stringify({ type: "connect", id: that.myPlayer.id, numPlayers: that.numPlayers}));
         }
         this.connection.onerror = function(e) {
             console.log("WS error: " + e);
@@ -183,8 +185,8 @@ class WSLevel1 extends Phaser.Scene {
         // Texto del mango
         this.text;
         this.timedEvent;
-
-        // this.playerI; BORRAR
+        // Evento para actualizar con los datos del jugador
+        this.playerUpdate;
     }// Fin preload
 
     create() {
@@ -239,21 +241,21 @@ class WSLevel1 extends Phaser.Scene {
         // Se crean los personajes
         for (var i = 0; i < this.characters.length; i++) {
             switch (this.characters[i].id) {
-                case 1:
+                case 0:
                     this.characters[i] = new WSCharacter(this, this.characters[i].id,
                         this.characters[i].type.split("_")[0] + "_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
                     break;
-                case 2:
+                case 1:
                     this.characters[i] = new WSCharacter(this, this.characters[i].id,
                         this.characters[i].type.split("_")[0] + "_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
                     this.characters[i].flipX = true;
                     break;
-                case 3:
+                case 2:
                     this.characters[i] = new WSCharacter(this, this.characters[i].id,
                         this.characters[i].type.split("_")[0] + "_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
                     this.characters[i].flipX = true;
                     break;
-                case 4:
+                case 3:
                     this.characters[i] = new WSCharacter(this, this.characters[i].id,
                         this.characters[i].type.split("_")[0] + "_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
                     break;
@@ -273,7 +275,7 @@ class WSLevel1 extends Phaser.Scene {
         }
         // Se crea la colisión entre los personajes y el mango
         for (var i = 0; i < this.characters.length; i++){
-            this.physics.add.overlap(this.characters[i], this.mango, this.CogerMango, null, this);
+            this.physics.add.overlap(this.characters[i], this.mango, this.cogerMango, null, this);
         }
         // Se crea la colisión entre los personajes
         this.maxCollisionTime = 1000;
@@ -281,7 +283,7 @@ class WSLevel1 extends Phaser.Scene {
         for (var i = 0; i <this.characters.length-1; i++){
             for (var j = i+1; j < this.characters.length; j++){
                 if (i != j){
-                    this.physics.add.overlap(this.characters[i], this.characters[j], this.RobarMango, null, this);
+                    this.physics.add.overlap(this.characters[i], this.characters[j], this.robarMango, null, this);
                 }
             }
         }
@@ -334,7 +336,7 @@ class WSLevel1 extends Phaser.Scene {
         var tconfig = {
             x: 565,
             y: 6,
-            text: this.FormatTime(this.mango.explodeTime),
+            text: this.formatTime(this.mango.explodeTime),
             style: {
               fontSize: '30px',
               fontFamily: 'Berlin Sans FB',
@@ -355,36 +357,17 @@ class WSLevel1 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 3 }),
             frameRate: 1,
         });
-        this.mangoMamboAnim.on("animationcomplete", this.AnimComplete, this);
-        this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
-        this.mangoMamboAnim.setScale(0.5);
-        var tween = this.tweens.add({
-            targets: [this.mangoMamboAnim],
-            scaleY: 1,
-            scaleX: 1,
-            ease: 'Sine.easeInOut',
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
+        this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
         this.play = false;
         this.playing = true;
         
         var that = this;
-        /*
-        this.playerI = 0;
-        for (var i = 0; i < this.characters.length; i++){
-            if (this.characters[i].id = this.myPlayer.id){
-                this.playerI = i;
-            }
-        }
-        */
-        //this.time.addEvent({ delay: 1, callback: this.sendInfo, callbackScope: this, repeat: -1}); BORRAR
 
         // Si se pulsa una tecla
         this.input.keyboard.on("keydown", function (event) {
             // Si el juego no está pausado
             if (that.playing) {
+                /*
                 // Si se pulsa WASD, se envía una señal
                 if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
                     || event.key == 'd' || event.key == 'D' || event.key == 'w' || event.key == 'W') {
@@ -399,24 +382,57 @@ class WSLevel1 extends Phaser.Scene {
                         }
                     }
                 }
+                */
             }
         });// Fin pulsar tecla
         // Si se deja de pulsar una tecla
         this.input.keyboard.on("keyup", function (event) {
             // Si el juego no está pausado
             if (that.playing) {
+                /*
                 // Si se pulsa WASD, se envía una señal
                 if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
                     || event.key == 'd' || event.key == 'D' || event.key == 'w' || event.key == 'W') {
                     that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key, press: false, playing: that.playing }));
                 }
+                */
             }
         });// Fin soltar tecla
+
+        // Evento para actualizar a los jugadores con mis datos
+        this.playerUpdate = setInterval(function(){
+        	console.log("Updating...");
+        	that.connection.send(JSON.stringify({ type: "update", id: that.myPlayer.id }));
+        }, 50);
+
         // Recibir mensajes
         this.connection.onmessage = function(msg){
-            console.log("message received");
             var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            console.log(data.type + " message received");
+
+            switch(data.type){
+                case "update":
+                    var id = data.id;
+                    break;
+
+                case "event":
+                    var id = data.id;
+                    break;
+
+                case "start":
+                    that.startAnim();
+                    break;
+
+                case "leave":
+                    var id = data.id;
+                    break;
+
+                default:
+                    console.log("Tipo de mensaje no controlado");
+                    break;
+            }
             //Si el mensaje viene desde el juego
+            /*
             if (data.playing == "true"){ 
                 for (var i = 0;  i < that.characters.length; i++){
                     if (that.characters[i].id-1 == parseInt(data.id)){
@@ -433,6 +449,7 @@ class WSLevel1 extends Phaser.Scene {
                     }
                 }
             }
+            */
         }// Fin recibir mensaje
     }// Fin Create
 
@@ -449,21 +466,10 @@ class WSLevel1 extends Phaser.Scene {
             }
             */
             this.mango.update();
-            // Pause
-            /** BORRAR
-            if (Phaser.Input.Keyboard.JustDown(this.pauseKey)) {
-                if (this.playing){
-                    if (!this.scene.get("ws_pause")) {
-                        this.playing = false;                        
-                        this.scene.add("ws_pause", new Pause, true, { scene: this, sceneKey: "ws_level_1", volume: this.vol });
-                        //this.scene.pause("ws_level_1");
-                    }
-                }
-            }
-            /**/
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();
             // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
+            /*
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
                 this.connection.close();
@@ -473,6 +479,7 @@ class WSLevel1 extends Phaser.Scene {
                 this.loop.stop();
                 this.birds.stop();
             }
+            */
             if (this.mango.explodeTime <= 10) {
                 this.loop.setRate(1.05);
                 this.birds.setRate(1.05);
@@ -486,7 +493,7 @@ class WSLevel1 extends Phaser.Scene {
         }
     }// Fin Update
 
-    CogerMango(character, mango){
+    cogerMango(character, mango){
         if (!mango.character){// Si el mango no tiene ningún personaje asociado
             this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.UpdateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
             // El personaje que lo recoge queda guardado en el mango
@@ -496,9 +503,9 @@ class WSLevel1 extends Phaser.Scene {
             // Desaparece el texto de getMango
             this.getMango.alpha = 0;
         }
-    }// Fin CogerMango
+    }// Fin cogerMango
     
-    RobarMango(character1, character2){
+    robarMango(character1, character2){
         if (this.mango.character){ // Si el mango tiene un personaje asociado
             // Si ha pasado el tiempo suficiente para cambiar el mango de jugador
             if (this.clock.now - this.collisionTime >= this.maxCollisionTime){ 
@@ -523,7 +530,7 @@ class WSLevel1 extends Phaser.Scene {
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
             }
         }
-    }//Fin RobarMango
+    }//Fin robarMango
 
     // Al explotar el mango
     deleteCharacter(character){ 
@@ -561,7 +568,7 @@ class WSLevel1 extends Phaser.Scene {
         this.numPlayers--;
     }// Fin deleteCharacter
     
-    FormatTime(seconds) {
+    formatTime(seconds) {
         // Minutos
         var minutes = Math.floor(seconds / 60);
         // Segundos
@@ -570,14 +577,29 @@ class WSLevel1 extends Phaser.Scene {
         partInSeconds = partInSeconds.toString().padStart(2, '0');
         // Devuelve el tiempo formateado
         return `${minutes}:${partInSeconds}`;
-    }// Fin FormatTime
+    }// Fin formatTime
 
-    AnimComplete(animation, frame){
+    startAnim(){
+        this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
+        this.mangoMamboAnim.setScale(0.5);
+        var tween = this.tweens.add({
+            targets: [this.mangoMamboAnim],
+            scaleY: 1,
+            scaleX: 1,
+            ease: 'Sine.easeInOut',
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+    }
+
+    animComplete(animation, frame){
         this.play = true;
         this.mangoMamboAnim.destroy();
-    }// Fin AnimComplete
+    }// Fin animComplete
 
     actualizar(i, positionX, positionY, accelerationX, accelerationY){
+        /*
         this.characters[i].body.x = positionX;
         this.characters[i].body.y = positionY;
         this.characters[i].body.setAccelerationX(accelerationX);
@@ -592,14 +614,6 @@ class WSLevel1 extends Phaser.Scene {
         }else if (this.characters[i].body.acceleration.x == 0){
             this.characters[i].anims.play(this.characters[i].anim[0], true);
         }
+        */
     }
-
-    /* BORRAR *
-    sendInfo(){
-        var that = this;
-        this.connection.send(JSON.stringify({level1: true, mangoTime: that.mango.explodeTime,
-        id: that.myPlayer.id, positionX: that.characters[this.playerI].body.position.x, positionY: that.characters[this.playerI].body.position.y,
-        accelerationX: that.characters[this.playerI].body.acceleration.x, accelerationY: that.characters[this.playerI].body.acceleration.y}));
-    }
-    /**/
 }// Fin clase Level1

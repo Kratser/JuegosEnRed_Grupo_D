@@ -61,10 +61,12 @@ public class HowToPlayHandler extends TextWebSocketHandler{
         				System.out.println("Error de conexión - " + e);
         			}
         		}
-        		break;
+				break;
+				
         	case TYPE_CHECK:
         		timerCheck.put(id, Calendar.getInstance().getTime().getTime());
-        		break;
+				break;
+				
         	case TYPE_CONNECT:
         		// Se añade la sesión y se crean los temporizadores para la actualización
         		System.out.println("New session in how to play: " + id);
@@ -80,14 +82,16 @@ public class HowToPlayHandler extends TextWebSocketHandler{
         			System.out.println(id +": Todo en orden");
         		}
         		}, 1000, 1000);
-        		break;
+				break;
+				
         	case TYPE_LEAVE:
         		System.out.println("Session closed in how to play: " + id);
         		sessions.remove(id);
         		System.out.println("Parando temporizadores del jugador "+id);
         		timers.get(id).cancel();
         		timerCheck.put(id, Long.parseLong("0"));
-        		break;
+				break;
+				
         	default:
         		System.out.println("Tipo de mensaje no controlado");
         		break;
