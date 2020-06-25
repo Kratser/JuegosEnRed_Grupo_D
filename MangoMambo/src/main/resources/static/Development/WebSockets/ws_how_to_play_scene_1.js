@@ -202,6 +202,7 @@ class WSHowToPlay extends Phaser.Scene {
                 that.players[data.id].ready = true;
                  // Cambio de escena
                  if (that.contReady == that.numPlayers) {
+                	 that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
                 	 clearInterval(that.playerCheck);
                      that.connection.close();
                      that.scene.start("ws_level_1", { characters: that.characters, volume: that.vol, ip: that.ip, myPlayer: that.myPlayer});

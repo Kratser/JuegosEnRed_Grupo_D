@@ -29,13 +29,16 @@ public class Level1Handler extends TextWebSocketHandler{
     //private final String TYPE_CHECK = "check";
     private final String TYPE_UPDATE = "update";
     private final String TYPE_EVENT = "event";
+    private final String TYPE_CONNECT = "connect";
     private final String TYPE_START = "start";
-	private final String TYPE_CONNECT = "connect";
+	private final String TYPE_READY = "ready";
     private final String TYPE_LEAVE = "leave";
     
+    private int numPlayers = 0;
     // Sincronización
     Semaphore mutex = new Semaphore(1);
     private int numPlayersWaiting = 0;
+
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         //System.out.println("New session in level 1: " + session.getId());
@@ -82,11 +85,12 @@ public class Level1Handler extends TextWebSocketHandler{
         		}
                 }, 1000, 1000);
 
-                String numPlayers = node.get("numPlayers").asText();
+                numPlayers = Integer.parseInt(node.get("numPlayers").asText());
                 mutex.acquire();
                 numPlayersWaiting++;
                 // Si soy el último jugador
-                if (numPlayersWaiting == Integer.parseInt(numPlayers)){
+                if (numPlayersWaiting == numPlayers){
+                    numPlayersWaiting = 0;
                     mutex.release();
                     ObjectNode responseNode = mapper.createObjectNode();
 			        responseNode.put("type", TYPE_START);
@@ -100,7 +104,28 @@ public class Level1Handler extends TextWebSocketHandler{
                 }else{
                     mutex.release();
                 }
+                break;
 
+            case TYPE_READY:
+                mutex.acquire();
+                numPlayersWaiting++;
+                System.out.println("Player " + id + " is ready to start");
+                System.out.println(numPlayersWaiting + " / " + numPlayers);
+                if (numPlayersWaiting == numPlayers){
+                    numPlayersWaiting = 0;
+                    mutex.release();
+                    ObjectNode responseNode = mapper.createObjectNode();
+                    responseNode.put("type", TYPE_START);
+                    for (WebSocketSession participant : sessions.values()) {
+				        try {
+					        participant.sendMessage(new TextMessage(responseNode.toString()));
+				        }catch(Exception e) {
+					        System.out.println("Sesión Cerrada - " + e);
+				        }
+                    }
+                }else{
+                    mutex.release();
+                }
                 break;
         
             case TYPE_LEAVE:
@@ -117,8 +142,8 @@ public class Level1Handler extends TextWebSocketHandler{
     }
 
     public void checkPlayer(String idPlayer) {
-    	long actualTime = Calendar.getInstance().getTime().getTime();
-    	
+        long actualTime = Calendar.getInstance().getTime().getTime();
+        
     	if (actualTime - timerCheck.get(idPlayer) >= 5000) {
     		// El jugador lleva más de 5 segundos sin responder, por lo que se envía un
     		// mensaje de desconexión

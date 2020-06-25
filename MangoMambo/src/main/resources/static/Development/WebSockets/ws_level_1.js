@@ -420,7 +420,11 @@ class WSLevel1 extends Phaser.Scene {
                     break;
 
                 case "start":
-                    that.startAnim();
+                    if (that.mangoMamboAnim) {
+                        that.startAnim();
+                    } else {
+                        that.play = true;
+                    }
                     break;
 
                 case "leave":
@@ -594,8 +598,10 @@ class WSLevel1 extends Phaser.Scene {
     }
 
     animComplete(animation, frame){
-        this.play = true;
+        //this.play = true;
         this.mangoMamboAnim.destroy();
+        this.mangoMamboAnim = undefined;
+        this.connection.send(JSON.stringify({ type: "ready", id: this.myPlayer.id }));
     }// Fin animComplete
 
     actualizar(i, positionX, positionY, accelerationX, accelerationY){
