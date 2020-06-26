@@ -402,8 +402,11 @@ class WSLevel1 extends Phaser.Scene {
         // Evento para actualizar a los jugadores con mis datos
         this.playerUpdate = setInterval(function(){
         	console.log("Updating...");
-        	that.connection.send(JSON.stringify({ type: "update", id: that.myPlayer.id }));
-        }, 50);
+        	var myCharacter = that.characters[that.myPlayer.id];
+        	that.connection.send(JSON.stringify({ type: "update", id: that.myPlayer.id,
+        		posX: myCharacter.x, posY: myCharacter.y,
+        		accX: myCharacter.body.acceleration.x, accY: myCharacter.body.acceleration.y}));
+        }, 30);
 
         // Recibir mensajes
         this.connection.onmessage = function(msg){
@@ -412,7 +415,14 @@ class WSLevel1 extends Phaser.Scene {
 
             switch(data.type){
                 case "update":
-                    var id = data.id;
+                	if (data.id != that.myPlayer.id){
+                		var id = data.id;
+                        var posX = data.posX;
+                        var posY = data.posY;
+                        var accX = data.accX;
+                        var accY = data.accY;
+                        that.updateCharacter(id, posX, posY, accX, accY);
+                	}
                     break;
 
                 case "event":
@@ -469,6 +479,7 @@ class WSLevel1 extends Phaser.Scene {
                 }
             }
             */
+            this.characters[this.myPlayer.id].update();
             this.mango.update();
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();
@@ -604,13 +615,16 @@ class WSLevel1 extends Phaser.Scene {
         this.connection.send(JSON.stringify({ type: "ready", id: this.myPlayer.id }));
     }// Fin animComplete
 
-    actualizar(i, positionX, positionY, accelerationX, accelerationY){
-        /*
+    updateCharacter(i, positionX, positionY, accelerationX, accelerationY){
+    	console.log("Player "+i+": x="+positionX+" y="+positionY+" aX="+accelerationX+" aY="+accelerationY);
+        
         this.characters[i].body.x = positionX;
         this.characters[i].body.y = positionY;
+        this.characters[i].x = positionX;
+        this.characters[i].y = positionY;
         this.characters[i].body.setAccelerationX(accelerationX);
         this.characters[i].body.setAccelerationY(accelerationY);
-
+        /**/
         if (this.characters[i].body.acceleration.x < 0){
             this.characters[i].flipX = true;
             this.characters[i].anims.play(this.characters[i].anim[1], true);
@@ -620,6 +634,6 @@ class WSLevel1 extends Phaser.Scene {
         }else if (this.characters[i].body.acceleration.x == 0){
             this.characters[i].anims.play(this.characters[i].anim[0], true);
         }
-        */
+        /**/
     }
 }// Fin clase Level1

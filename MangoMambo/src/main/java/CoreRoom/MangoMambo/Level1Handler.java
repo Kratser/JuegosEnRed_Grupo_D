@@ -59,10 +59,30 @@ public class Level1Handler extends TextWebSocketHandler{
 
         System.out.println("Message received in level 1 from player: "+ id + ", " + type);
 
+        ObjectNode responseNode = mapper.createObjectNode();
+        
         switch (type) {
             case TYPE_UPDATE:
                 // Se actualiza el tiempo y se reenvía la información
                 timerCheck.put(id, Calendar.getInstance().getTime().getTime());
+                float posX = Float.parseFloat(node.get("posX").asText());
+                float posY = Float.parseFloat(node.get("posY").asText());
+                float accX = Float.parseFloat(node.get("accX").asText());
+                float accY = Float.parseFloat(node.get("accY").asText());
+                
+		        responseNode.put("type", TYPE_UPDATE);
+		        responseNode.put("id", id);
+		        responseNode.put("posX", posX);
+		        responseNode.put("posY", posY);
+		        responseNode.put("accX", accX);
+		        responseNode.put("accY", accY);
+                for (WebSocketSession participant : sessions.values()) {
+			        try {
+				        participant.sendMessage(new TextMessage(responseNode.toString()));
+			        }catch(Exception e) {
+				        System.out.println("Sesión Cerrada - " + e);
+			        }
+                }
                 break;
         
             case TYPE_EVENT:
@@ -92,7 +112,7 @@ public class Level1Handler extends TextWebSocketHandler{
                 if (numPlayersWaiting == numPlayers){
                     numPlayersWaiting = 0;
                     mutex.release();
-                    ObjectNode responseNode = mapper.createObjectNode();
+                    //ObjectNode responseNode = mapper.createObjectNode();
 			        responseNode.put("type", TYPE_START);
 			        for (WebSocketSession participant : sessions.values()) {
 				        try {
@@ -114,7 +134,7 @@ public class Level1Handler extends TextWebSocketHandler{
                 if (numPlayersWaiting == numPlayers){
                     numPlayersWaiting = 0;
                     mutex.release();
-                    ObjectNode responseNode = mapper.createObjectNode();
+                    //ObjectNode responseNode = mapper.createObjectNode();
                     responseNode.put("type", TYPE_START);
                     for (WebSocketSession participant : sessions.values()) {
 				        try {

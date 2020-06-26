@@ -215,7 +215,6 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
     update() {
         //Controla el movimiento del personaje
         // Izquierda
-        /*
         if (this.cursors[1].isDown) {
             if(this.body.velocity.x > 0){
                 this.body.setAccelerationX(-this.acceleration);
@@ -225,9 +224,8 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
             this.anims.play(this.anim[1], true);
             this.flipX = true;
         }
-        */
+
         // Derecha
-        /*
         else if (this.cursors[3].isDown) {
             if(this.body.velocity.x > 0){
                 this.body.setAccelerationX(this.acceleration);
@@ -237,29 +235,25 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
             this.anims.play(this.anim[1], true);
             this.flipX = false;
         }
-        */
-       /*
         else {
             this.body.setAccelerationX(0);
             this.anims.play(this.anim[0], true);
         }
-        */
+
         // Arriba
-        /*
         if (this.cursors[0].isDown && this.body.onFloor()) {
             this.body.setVelocityY(-this.jumpHeight);
         }
-        */
+        
         // Abajo
-        /*
         if (this.body.velocity.y >= 0){
             this.body.gravity.y = this.fallSpeed;
         }else if (this.body.velocity.y < 0){
             this.body.gravity.y = 0;
         }
-        */
     }// Fin update
 
+    /**
     action(key, pulsado){
         switch (key){
             // Saltar
@@ -318,4 +312,6 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
                 break;
         }
     }
+    /**/
+
 }// Fin clase Character
