@@ -327,7 +327,7 @@ class WSChooseCharacter extends Phaser.Scene {
         	this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
             this.connection.close();
             // Cambio de escena
-            this.scene.start("ws_how_to_play", { characters: this.characters, volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
+            this.scene.start("ws_how_to_play", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
             //Se para la música
             this.loop.stop();
         }

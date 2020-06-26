@@ -7,7 +7,7 @@ class WSHowToPlay extends Phaser.Scene {
         this.characters = data.characters;
         this.vol = data.volume;
         this.myPlayer = data.myPlayer;
-        this.numPlayers = data.numPlayers;
+        this.numPlayers = data.characters.length;
         this.ip = data.ip;
         data = null;
     }// Fin init
@@ -153,10 +153,9 @@ class WSHowToPlay extends Phaser.Scene {
         // Menú de detalles
         this.details = false;
         // Jugadores conectados recuadro
-        for(var i = 0; i < this.numPlayers; i ++){
-            console.log(this.characters[i]);
-            this.readys[this.characters[i].id].setAlpha(1); 
-
+        for(var i = 0; i < this.numPlayers; i++){
+        	console.log(this.characters[i]);
+            this.readys[this.characters[i].id].setAlpha(1);
         }
         // Teclas
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -186,7 +185,6 @@ class WSHowToPlay extends Phaser.Scene {
         
         this.input.keyboard.on("keydown", function (event) {
             if (event.which == 40) {
-                console.log(that.connection);
                 that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
             }
         });
@@ -255,8 +253,8 @@ class WSHowToPlay extends Phaser.Scene {
     update(time, delta){
         // Aparece cuando el jugador está listo
         for(var i = 0; i < this.numPlayers; i++){
-            if(this.players[i].ready == true){
-                this.ticks[i].alpha = 1;
+            if(this.players[this.characters[i].id].ready == true){
+                this.ticks[this.characters[i].id].alpha = 1;
             }
         }
         // Mostrar detalles
@@ -304,8 +302,9 @@ class WSHowToPlay extends Phaser.Scene {
     
     leaveGame(id){
         var that = this;
-        if (that.players[id].ready == true){
-            that.players[id].ready = false;
+        var playerIdx = that.characters.findIndex(function(p){return p.id == id});
+        if (that.players[playerIdx].ready == true){
+            that.players[playerIdx].ready = false;
             that.contReady--;
         }
         that.numPlayers--;

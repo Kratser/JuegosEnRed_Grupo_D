@@ -253,11 +253,11 @@ class WSLevel1 extends Phaser.Scene {
                 case 2:
                     this.characters[i] = new WSCharacter(this, this.characters[i].id,
                         this.characters[i].type.split("_")[0] + "_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
-                    this.characters[i].flipX = true;
                     break;
                 case 3:
                     this.characters[i] = new WSCharacter(this, this.characters[i].id,
                         this.characters[i].type.split("_")[0] + "_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
+                    this.characters[i].flipX = true;
                     break;
             }
         }
@@ -477,7 +477,7 @@ class WSLevel1 extends Phaser.Scene {
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
                 this.connection.close();
-                this.scene.start("ws_score_level", { characters: this.characters, volume: this.vol , myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip});
+                this.scene.start("ws_score_level", { characters: this.characters, volume: this.vol , myPlayer: this.myPlayer, numPlayers: this.characters.length, ip: this.ip});
                 // Se para la música
                 this.intro.stop();
                 this.loop.stop();
