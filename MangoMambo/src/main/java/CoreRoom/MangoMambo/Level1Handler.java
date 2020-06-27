@@ -35,6 +35,9 @@ public class Level1Handler extends TextWebSocketHandler{
     private final String TYPE_LEAVE = "leave";
     
     private int numPlayers = 0;
+    // id del jugador que tiene el mango
+    private int mango = -1;
+
     // Sincronización
     Semaphore mutex = new Semaphore(1);
     private int numPlayersWaiting = 0;
@@ -58,8 +61,6 @@ public class Level1Handler extends TextWebSocketHandler{
         String type = node.get("type").asText();
 
         System.out.println("Message received in level 1 from player: "+ id + ", " + type);
-
-        ObjectNode responseNode = mapper.createObjectNode();
         
         switch (type) {
             case TYPE_UPDATE:
@@ -69,16 +70,16 @@ public class Level1Handler extends TextWebSocketHandler{
                 float posY = Float.parseFloat(node.get("posY").asText());
                 float accX = Float.parseFloat(node.get("accX").asText());
                 float accY = Float.parseFloat(node.get("accY").asText());
-                
-		        responseNode.put("type", TYPE_UPDATE);
-		        responseNode.put("id", id);
-		        responseNode.put("posX", posX);
-		        responseNode.put("posY", posY);
-		        responseNode.put("accX", accX);
-		        responseNode.put("accY", accY);
+                ObjectNode responseNodeUpdate = mapper.createObjectNode();
+		        responseNodeUpdate.put("type", TYPE_UPDATE);
+		        responseNodeUpdate.put("id", id);
+		        responseNodeUpdate.put("posX", posX);
+		        responseNodeUpdate.put("posY", posY);
+		        responseNodeUpdate.put("accX", accX);
+		        responseNodeUpdate.put("accY", accY);
                 for (WebSocketSession participant : sessions.values()) {
 			        try {
-				        participant.sendMessage(new TextMessage(responseNode.toString()));
+				        participant.sendMessage(new TextMessage(responseNodeUpdate.toString()));
 			        }catch(Exception e) {
 				        System.out.println("Sesión Cerrada - " + e);
 			        }
@@ -86,8 +87,37 @@ public class Level1Handler extends TextWebSocketHandler{
                 break;
         
             case TYPE_EVENT:
-                String key = node.get("key").asText();
-        		System.out.println("Id: "+id+", Key: "+key);
+                mutex.acquire();
+                String msg = node.get("msg").asText();
+                ObjectNode responseNodeEvent = mapper.createObjectNode();
+                responseNodeEvent.put("type", TYPE_EVENT);
+                responseNodeEvent.put("msg", msg);
+                switch (msg){
+                    case "getMango":
+                        if (mango == -1){
+                            mango = Integer.parseInt(id);
+                        
+                            responseNodeEvent.put("id", mango);
+                            for (WebSocketSession participant : sessions.values()) {
+                            	try {
+                            		participant.sendMessage(new TextMessage(responseNodeEvent.toString()));
+                            	}catch(Exception e) {
+                            		System.out.println("Sesión Cerrada - " + e);
+                            	}
+                            }
+                        }
+                        break;
+
+                    case "stealMango":
+                        break;
+
+                    case "leaveGame":
+                        break;
+
+                    default:
+                        break;
+                }
+                mutex.release();
                 break;
 
             case TYPE_CONNECT:
@@ -112,11 +142,11 @@ public class Level1Handler extends TextWebSocketHandler{
                 if (numPlayersWaiting == numPlayers){
                     numPlayersWaiting = 0;
                     mutex.release();
-                    //ObjectNode responseNode = mapper.createObjectNode();
-			        responseNode.put("type", TYPE_START);
+                    ObjectNode responseNodeConnect = mapper.createObjectNode();
+                    responseNodeConnect.put("type", TYPE_START);
 			        for (WebSocketSession participant : sessions.values()) {
 				        try {
-					        participant.sendMessage(new TextMessage(responseNode.toString()));
+					        participant.sendMessage(new TextMessage(responseNodeConnect.toString()));
 				        }catch(Exception e) {
 					        System.out.println("Sesión Cerrada - " + e);
 				        }
@@ -134,11 +164,11 @@ public class Level1Handler extends TextWebSocketHandler{
                 if (numPlayersWaiting == numPlayers){
                     numPlayersWaiting = 0;
                     mutex.release();
-                    //ObjectNode responseNode = mapper.createObjectNode();
-                    responseNode.put("type", TYPE_START);
+                    ObjectNode responseNodeReady = mapper.createObjectNode();
+                    responseNodeReady.put("type", TYPE_START);
                     for (WebSocketSession participant : sessions.values()) {
 				        try {
-					        participant.sendMessage(new TextMessage(responseNode.toString()));
+					        participant.sendMessage(new TextMessage(responseNodeReady.toString()));
 				        }catch(Exception e) {
 					        System.out.println("Sesión Cerrada - " + e);
 				        }

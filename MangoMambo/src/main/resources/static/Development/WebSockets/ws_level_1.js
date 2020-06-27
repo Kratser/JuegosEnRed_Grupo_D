@@ -175,7 +175,7 @@ class WSLevel1 extends Phaser.Scene {
         this.toucan_win;
         this.birds;
         // Get the Mango
-        this.getMango;
+        this.getTheMango;
         // Mango Mambo animation
         this.mangoMamboAnim;
         // Variable para actualizar el update
@@ -190,6 +190,7 @@ class WSLevel1 extends Phaser.Scene {
     }// Fin preload
 
     create() {
+        var that = this;
         this.cameras.main.fadeIn(500);
         // Se crea el fondo
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
@@ -213,6 +214,7 @@ class WSLevel1 extends Phaser.Scene {
         // Plataforma que se mueve
         this.upMovePlat = platforms.create (500, 155, "yellow_plat");
         // Movimiento
+        /*
         var tween = this.tweens.add({
             targets: this.upMovePlat,
             x: 700,
@@ -221,6 +223,7 @@ class WSLevel1 extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+        */
         platforms.create (600, 299, "yellow_plat");
 
         platforms.create (600, 434, "big_plat");
@@ -274,16 +277,21 @@ class WSLevel1 extends Phaser.Scene {
             this.physics.add.collider(this.characters[i], platforms);
         }
         // Se crea la colisión entre los personajes y el mango
+        /*
         for (var i = 0; i < this.characters.length; i++){
-            this.physics.add.overlap(this.characters[i], this.mango, this.cogerMango, null, this);
+            this.physics.add.overlap(this.characters[i], this.mango, this.getMango, null, this);
         }
+        */
+       this.physics.add.overlap(this.characters[this.myPlayer.id], this.mango, 
+            (function(){ that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, msg: "getMango"})); }), 
+            null, this);
         // Se crea la colisión entre los personajes
         this.maxCollisionTime = 1000;
         this.collisionTime = 0;
         for (var i = 0; i <this.characters.length-1; i++){
             for (var j = i+1; j < this.characters.length; j++){
                 if (i != j){
-                    this.physics.add.overlap(this.characters[i], this.characters[j], this.robarMango, null, this);
+                    this.physics.add.overlap(this.characters[i], this.characters[j], this.stealMango, null, this);
                 }
             }
         }
@@ -317,10 +325,10 @@ class WSLevel1 extends Phaser.Scene {
             volume: this.vol * 0.1
         });
         // Get the Mango
-        this.getMango = this.add.image(594, 53, "get_the_mango");
+        this.getTheMango = this.add.image(594, 53, "get_the_mango");
         // Movimiento
-        var tweenGetMango = this.tweens.add({
-            targets: [this.getMango],
+        var tweenGetTheMango = this.tweens.add({
+            targets: [this.getTheMango],
             scaleY: 0.85,
             scaleX: 0.85,
             ease: 'Sine.easeInOut',
@@ -360,8 +368,6 @@ class WSLevel1 extends Phaser.Scene {
         this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
         this.play = false;
         this.playing = true;
-        
-        var that = this;
 
         // Si se pulsa una tecla
         this.input.keyboard.on("keydown", function (event) {
@@ -401,7 +407,6 @@ class WSLevel1 extends Phaser.Scene {
 
         // Evento para actualizar a los jugadores con mis datos
         this.playerUpdate = setInterval(function(){
-        	console.log("Updating...");
         	var myCharacter = that.characters[that.myPlayer.id];
         	that.connection.send(JSON.stringify({ type: "update", id: that.myPlayer.id,
         		posX: myCharacter.x, posY: myCharacter.y,
@@ -427,6 +432,21 @@ class WSLevel1 extends Phaser.Scene {
 
                 case "event":
                     var id = data.id;
+                    var msg = data.msg;
+                    switch (msg){
+                        case "getMango":
+                            that.getMango(that.characters[id], that.mango);
+                            break;
+
+                        case "stealMango":
+                            break;
+
+                        case "leaveGame":
+                            break;
+
+                        default:
+                            break;
+                    }
                     break;
 
                 case "start":
@@ -508,19 +528,20 @@ class WSLevel1 extends Phaser.Scene {
         }
     }// Fin Update
 
-    cogerMango(character, mango){
+    getMango(character, mango){
+    	console.log("El jugador " + character.id + " tiene el mango");
         if (!mango.character){// Si el mango no tiene ningún personaje asociado
-            this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.UpdateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
+            this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.updateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
             // El personaje que lo recoge queda guardado en el mango
             mango.character = character;
             this.timeImage.alpha = 1;
             this.text.alpha = 1;
-            // Desaparece el texto de getMango
-            this.getMango.alpha = 0;
+            // Desaparece el texto de getTheMango
+            this.getTheMango.alpha = 0;
         }
-    }// Fin cogerMango
+    }// Fin getMango
     
-    robarMango(character1, character2){
+    stealMango(character1, character2){
         if (this.mango.character){ // Si el mango tiene un personaje asociado
             // Si ha pasado el tiempo suficiente para cambiar el mango de jugador
             if (this.clock.now - this.collisionTime >= this.maxCollisionTime){ 
@@ -545,7 +566,7 @@ class WSLevel1 extends Phaser.Scene {
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
             }
         }
-    }//Fin robarMango
+    }//Fin stealMango
 
     // Al explotar el mango
     deleteCharacter(character){ 
@@ -616,8 +637,6 @@ class WSLevel1 extends Phaser.Scene {
     }// Fin animComplete
 
     updateCharacter(i, positionX, positionY, accelerationX, accelerationY){
-    	console.log("Player "+i+": x="+positionX+" y="+positionY+" aX="+accelerationX+" aY="+accelerationY);
-        
         this.characters[i].body.x = positionX;
         this.characters[i].body.y = positionY;
         this.characters[i].x = positionX;
