@@ -446,7 +446,11 @@ class WSLevel1 extends Phaser.Scene {
                         var accY = data.accY;
                         that.updateCharacter(id, posX, posY, accX, accY);
                 	}
-                    break;
+                break;
+
+                case "updateMango":
+                    that.mango.updateTime();
+                break;
 
                 case "event":
                     var id = data.id;
@@ -468,7 +472,7 @@ class WSLevel1 extends Phaser.Scene {
                         default:
                             break;
                     }
-                    break;
+                break;
 
                 case "start":
                     if (that.mangoMamboAnim) {
@@ -476,15 +480,23 @@ class WSLevel1 extends Phaser.Scene {
                     } else {
                         that.play = true;
                     }
-                    break;
+                break;
+
+                case "reset":
+                    var idChar = data.id;
+                    console.log("Player "+ idChar +" exploded");
+                    var charIdx = that.characters.findIndex(function(p){return p.id == idChar});
+                    that.deleteCharacter(charIdx);
+                    that.mango.resetMango();
+                break;
 
                 case "leave":
                     var id = data.id;
-                    break;
+                break;
 
                 default:
                     console.log("Tipo de mensaje no controlado");
-                    break;
+                break;
             }
             //Si el mensaje viene desde el juego
             /*
@@ -597,7 +609,8 @@ class WSLevel1 extends Phaser.Scene {
     }//Fin stealMango
 
     // Al explotar el mango
-    deleteCharacter(character){ 
+    deleteCharacter(charIdx){ 
+        /*
         for (var i = 0; i < this.characters.length; i++){
             if (character.id == this.characters[i].id){
                 this.characters[i].score += this.numPlayers - 1;
@@ -628,6 +641,37 @@ class WSLevel1 extends Phaser.Scene {
                         break;
                 }
             }
+        }
+        */
+        this.characters[charIdx].score += this.numPlayers - 1;
+        //Quitar al personaje de la escena
+        this.characters[charIdx].body.destroy();
+        this.characters[charIdx].alpha = 0;
+
+        switch(this.characters[charIdx].type.split("_")[0]){
+            case "palm":
+                this.palm_win.play({
+                    volume: this.vol
+                });
+            break;
+            
+            case "dino":
+                this.dino_win.play({
+                    volume: this.vol
+                });
+            break;
+            
+            case "toufat":
+                this.toucan_win.play({
+                    volume: this.vol
+                });
+            break;
+            
+            case "lemur":
+                this.lemur_win.play({
+                    volume: this.vol
+                });
+            break;
         }
         this.numPlayers--;
     }// Fin deleteCharacter

@@ -31,7 +31,8 @@ public class Level1Handler extends TextWebSocketHandler{
     private final String TYPE_EVENT = "event";
     private final String TYPE_CONNECT = "connect";
     private final String TYPE_START = "start";
-	private final String TYPE_READY = "ready";
+    private final String TYPE_READY = "ready";
+    private final String TYPE_RESET = "reset";
     private final String TYPE_LEAVE = "leave";
     
     private int numPlayers = 0;
@@ -40,6 +41,8 @@ public class Level1Handler extends TextWebSocketHandler{
     // Tiempo de robo del mango
     private long maxCollisionTime = 1000;
     private long collisionTime = 0;
+
+    private Timer mangoUpdate = new Timer();
 
     // Sincronización
     Semaphore mutex = new Semaphore(1);
@@ -99,7 +102,12 @@ public class Level1Handler extends TextWebSocketHandler{
                     case "getMango":
                         if (mango == -1){
                             mango = Integer.parseInt(id);
-                        
+                            mangoUpdate.scheduleAtFixedRate(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    updateMangoTime();
+                                }
+                                }, 1000, 1000);
                             responseNodeEvent.put("id", mango);
                             for (WebSocketSession participant : sessions.values()) {
                             	try {
@@ -196,7 +204,31 @@ public class Level1Handler extends TextWebSocketHandler{
                     mutex.release();
                 }
                 break;
-        
+                
+            case TYPE_RESET:
+                mutex.acquire();
+                numPlayersWaiting++;
+                if (numPlayersWaiting == numPlayers){
+                    numPlayersWaiting = 0;
+                    numPlayers--;
+                    mangoUpdate.cancel();
+                    mutex.release();
+                    ObjectNode responseNodeReset = mapper.createObjectNode();
+                    responseNodeReset.put("type", TYPE_RESET);
+                    responseNodeReset.put("id", mango);
+                    for (WebSocketSession participant : sessions.values()) {
+				        try {
+					        participant.sendMessage(new TextMessage(responseNodeReset.toString()));
+				        }catch(Exception e) {
+					        System.out.println("Sesión Cerrada - " + e);
+				        }
+                    }
+                    mango = -1;
+                }else{
+                    mutex.release();
+                }
+            break;
+
             case TYPE_LEAVE:
                 System.out.println("Session closed in Level 1: " + id);
         		sessions.remove(id);
@@ -206,7 +238,19 @@ public class Level1Handler extends TextWebSocketHandler{
                 break;
 
             default:
-                break;
+            break;
+        }
+    }
+
+    public void updateMangoTime(){
+        ObjectNode responseNode = mapper.createObjectNode();
+        responseNode.put("type", "updateMango");
+        for (WebSocketSession participant : sessions.values()) {
+            try {
+                participant.sendMessage(new TextMessage(responseNode.toString()));
+            }catch(Exception e) {
+                System.out.println("Sesión Cerrada - " + e);
+            }
         }
     }
 

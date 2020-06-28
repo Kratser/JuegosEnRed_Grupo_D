@@ -64,21 +64,30 @@ class Mango extends Phaser.GameObjects.Sprite{
     }
 
     animComplete(animation, frame) {
+        this.scene.connection.send(JSON.stringify({ type: "reset", id: this.scene.myPlayer.id }));
+        this.explodeTime = this.time;
+        this.setTexture("mango", 0);
+    }
+
+    resetMango(){
         this.explodeTime = this.time;
         this.setTexture("mango", 0);
         this.x = 600;
-        this.y = -10;
-        this.scene.deleteCharacter(this.character);
+        //this.y = -10;
+        this.y = 260;
+        //this.scene.deleteCharacter(this.character);
         this.character = null;
         this.timer = null;
         this.scene.text.alpha = 0;
         this.scene.timeImage.alpha = 0;
         // Aparece texto de getMango 
         this.scene.getMango.alpha = 1;
+        /*
         var tween = this.scene.tweens.add({
             targets: this,
             y: 260,
             duration: 2000
         });
+        */
     }
 }// Fin clase Mango
