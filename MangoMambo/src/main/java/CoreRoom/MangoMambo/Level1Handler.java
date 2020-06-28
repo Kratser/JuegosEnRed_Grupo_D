@@ -37,6 +37,9 @@ public class Level1Handler extends TextWebSocketHandler{
     private int numPlayers = 0;
     // id del jugador que tiene el mango
     private int mango = -1;
+    // Tiempo de robo del mango
+    private long maxCollisionTime = 1000;
+    private long collisionTime = 0;
 
     // Sincronización
     Semaphore mutex = new Semaphore(1);
@@ -106,16 +109,32 @@ public class Level1Handler extends TextWebSocketHandler{
                             	}
                             }
                         }
-                        break;
+                    break;
 
                     case "stealMango":
-                        break;
+                        if (Calendar.getInstance().getTime().getTime() - collisionTime >= maxCollisionTime){ 
+                            String id2 = node.get("id2").asText();
+                            if (mango == Integer.parseInt(id2)){
+                                collisionTime = Calendar.getInstance().getTime().getTime();
+                                mango = Integer.parseInt(id);
+
+                                responseNodeEvent.put("id", mango);
+                                for (WebSocketSession participant : sessions.values()) {
+                                    try {
+                                        participant.sendMessage(new TextMessage(responseNodeEvent.toString()));
+                                    }catch(Exception e) {
+                                        System.out.println("Sesión Cerrada - " + e);
+                                    }
+                                }
+                            }
+                        }
+                    break;
 
                     case "leaveGame":
-                        break;
+                    break;
 
                     default:
-                        break;
+                    break;
                 }
                 mutex.release();
                 break;

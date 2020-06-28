@@ -13,6 +13,7 @@ class WSLevel1 extends Phaser.Scene {
         }
         this.ip = data.ip;
         this.myPlayer = data.myPlayer;
+        this.myPlayerIdx = this.characters.findIndex(function(p){return p.id == data.myPlayer.id});
         data = null;
     }// Fin init
 
@@ -282,10 +283,16 @@ class WSLevel1 extends Phaser.Scene {
             this.physics.add.overlap(this.characters[i], this.mango, this.getMango, null, this);
         }
         */
-       this.physics.add.overlap(this.characters[this.myPlayer.id], this.mango, 
-            (function(){ that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, msg: "getMango"})); }), 
+       this.physics.add.overlap(this.characters[this.myPlayerIdx], this.mango, 
+            (function(){ 
+                // Si el mango no tiene ningún personaje asociado, lo recojo
+                if (!this.mango.character){
+                    that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, msg: "getMango"})); 
+                }
+            }), 
             null, this);
         // Se crea la colisión entre los personajes
+        /*
         this.maxCollisionTime = 1000;
         this.collisionTime = 0;
         for (var i = 0; i <this.characters.length-1; i++){
@@ -295,11 +302,22 @@ class WSLevel1 extends Phaser.Scene {
                 }
             }
         }
+        */
+       for (var i = 0; i < this.characters.length; i++){
+           // Si colisiono con el jugador que tiene el mango, intento robarlo
+            if (this.characters[this.myPlayerIdx].id != this.characters[i].id){
+                this.physics.add.overlap(this.characters[this.myPlayerIdx], this.characters[i], 
+                (function(c1, c2){
+                    //if (this.mango.character == c2)
+                    that.connection.send(JSON.stringify({ type: "event", id: c1.id, id2: c2.id, msg: "stealMango"})); 
+                }),
+                null, this);
+            }
+        }
         // Se inicializa el reloj
         this.clock = new Phaser.Time.Clock(this);
         this.clock.start();
         // Se crea la música
-        console.log(this.vol);
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("minigame_begining");
         this.intro.play({
@@ -435,10 +453,13 @@ class WSLevel1 extends Phaser.Scene {
                     var msg = data.msg;
                     switch (msg){
                         case "getMango":
-                            that.getMango(that.characters[id], that.mango);
+                            var charIdx = that.characters.findIndex(function(p){return p.id == id});
+                            that.getMango(that.characters[charIdx], that.mango);
                             break;
 
                         case "stealMango":
+                            var charIdx = that.characters.findIndex(function(p){return p.id == id});
+                            that.stealMango(that.characters[charIdx], that.mango);
                             break;
 
                         case "leaveGame":
@@ -530,18 +551,24 @@ class WSLevel1 extends Phaser.Scene {
 
     getMango(character, mango){
     	console.log("El jugador " + character.id + " tiene el mango");
-        if (!mango.character){// Si el mango no tiene ningún personaje asociado
-            this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.updateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
+        //if (!mango.character){// Si el mango no tiene ningún personaje asociado
+            //this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.updateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
             // El personaje que lo recoge queda guardado en el mango
             mango.character = character;
             this.timeImage.alpha = 1;
             this.text.alpha = 1;
             // Desaparece el texto de getTheMango
             this.getTheMango.alpha = 0;
-        }
+        //}
     }// Fin getMango
     
-    stealMango(character1, character2){
+    stealMango(character1/*, character2*/){
+        console.log("El jugador" + character1.id + " ha robado el mango!");
+        this.mango.character = character1;
+        this.hit.play({
+            volume: this.vol
+        });
+        /*
         if (this.mango.character){ // Si el mango tiene un personaje asociado
             // Si ha pasado el tiempo suficiente para cambiar el mango de jugador
             if (this.clock.now - this.collisionTime >= this.maxCollisionTime){ 
@@ -566,6 +593,7 @@ class WSLevel1 extends Phaser.Scene {
                 this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
             }
         }
+        */
     }//Fin stealMango
 
     // Al explotar el mango
