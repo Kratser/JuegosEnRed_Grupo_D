@@ -105,12 +105,13 @@ public class Level1Handler extends TextWebSocketHandler{
                     case "getMango":
                         if (mango == -1){
                             mango = Integer.parseInt(id);
+                            mangoUpdate = new Timer();
                             mangoUpdate.scheduleAtFixedRate(new TimerTask() {
                                 @Override
                                 public void run() {
                                     updateMangoTime();
                                 }
-                                }, 1000, 1000);
+                            }, 1000, 1000);
                             responseNodeEvent.put("id", mango);
                             for (WebSocketSession participant : sessions.values()) {
                             	try {
@@ -327,7 +328,7 @@ public class Level1Handler extends TextWebSocketHandler{
             	mangoTime = 30;
             	mango = -1;
             }else {
-            	responseNode.put("reset", true);
+            	responseNode.put("reset", false);
             }
 			for (WebSocketSession participant : sessions.values()) {
 				try {
