@@ -43,6 +43,7 @@ public class Level1Handler extends TextWebSocketHandler{
     private long collisionTime = 0;
 
     private Timer mangoUpdate = new Timer();
+    private int mangoTime = 30;
 
     // Sincronización
     Semaphore mutex = new Semaphore(1);
@@ -85,9 +86,11 @@ public class Level1Handler extends TextWebSocketHandler{
 		        responseNodeUpdate.put("accY", accY);
                 for (WebSocketSession participant : sessions.values()) {
 			        try {
-				        participant.sendMessage(new TextMessage(responseNodeUpdate.toString()));
+			        	synchronized(participant) {
+			        		participant.sendMessage(new TextMessage(responseNodeUpdate.toString()));
+			        	}
 			        }catch(Exception e) {
-				        System.out.println("Sesión Cerrada - " + e);
+				        System.out.println("Catch, Update - " + e);
 			        }
                 }
                 break;
@@ -111,9 +114,11 @@ public class Level1Handler extends TextWebSocketHandler{
                             responseNodeEvent.put("id", mango);
                             for (WebSocketSession participant : sessions.values()) {
                             	try {
-                            		participant.sendMessage(new TextMessage(responseNodeEvent.toString()));
+                            		synchronized(participant) {
+                            			participant.sendMessage(new TextMessage(responseNodeEvent.toString()));
+                            		}
                             	}catch(Exception e) {
-                            		System.out.println("Sesión Cerrada - " + e);
+                            		System.out.println("Catch, Get Mango - " + e);
                             	}
                             }
                         }
@@ -129,9 +134,11 @@ public class Level1Handler extends TextWebSocketHandler{
                                 responseNodeEvent.put("id", mango);
                                 for (WebSocketSession participant : sessions.values()) {
                                     try {
-                                        participant.sendMessage(new TextMessage(responseNodeEvent.toString()));
+                                    	synchronized(participant) {
+                                    		participant.sendMessage(new TextMessage(responseNodeEvent.toString()));
+                                    	}
                                     }catch(Exception e) {
-                                        System.out.println("Sesión Cerrada - " + e);
+                                        System.out.println("Catch, StealMango - " + e);
                                     }
                                 }
                             }
@@ -139,6 +146,32 @@ public class Level1Handler extends TextWebSocketHandler{
                     break;
 
                     case "leaveGame":
+                        ObjectNode responseNode = mapper.createObjectNode();
+			            responseNode.put("type", TYPE_LEAVE);
+                        responseNode.put("id", id);
+                        if (Integer.parseInt(id) == mango) {
+                        	responseNode.put("reset", true);
+                        	mangoUpdate.cancel();
+                        	mangoTime = 30;
+                        	mango = -1;
+                        }else {
+                        	responseNode.put("reset", false);
+                        }
+                        
+                        for (WebSocketSession participant : sessions.values()) {
+                            try {
+                            	synchronized(participant) {
+                            		participant.sendMessage(new TextMessage(responseNode.toString()));
+                            	}
+                            }catch(Exception e) {
+                                System.out.println("Catch, LeaveGame - " + e);
+                            }
+                        }
+                        System.out.println("El jugador "+ id +" se ha desconectado");
+                        System.out.println("Parando temporizadores del jugador " + id);
+                        timers.get(id).cancel();
+                        timerCheck.put(id, Long.parseLong("0"));
+                        sessions.remove(id);
                     break;
 
                     default:
@@ -173,9 +206,11 @@ public class Level1Handler extends TextWebSocketHandler{
                     responseNodeConnect.put("type", TYPE_START);
 			        for (WebSocketSession participant : sessions.values()) {
 				        try {
-					        participant.sendMessage(new TextMessage(responseNodeConnect.toString()));
+				        	synchronized(participant) {
+				        		participant.sendMessage(new TextMessage(responseNodeConnect.toString()));
+				        	}
 				        }catch(Exception e) {
-					        System.out.println("Sesión Cerrada - " + e);
+					        System.out.println("Catch, Connect - " + e);
 				        }
                     }
                 }else{
@@ -195,15 +230,17 @@ public class Level1Handler extends TextWebSocketHandler{
                     responseNodeReady.put("type", TYPE_START);
                     for (WebSocketSession participant : sessions.values()) {
 				        try {
-					        participant.sendMessage(new TextMessage(responseNodeReady.toString()));
+				        	synchronized(participant) {
+				        		participant.sendMessage(new TextMessage(responseNodeReady.toString()));
+				        	}
 				        }catch(Exception e) {
-					        System.out.println("Sesión Cerrada - " + e);
+					        System.out.println("Catch, Ready - " + e);
 				        }
                     }
                 }else{
                     mutex.release();
                 }
-                break;
+            break;
                 
             case TYPE_RESET:
                 mutex.acquire();
@@ -218,12 +255,15 @@ public class Level1Handler extends TextWebSocketHandler{
                     responseNodeReset.put("id", mango);
                     for (WebSocketSession participant : sessions.values()) {
 				        try {
-					        participant.sendMessage(new TextMessage(responseNodeReset.toString()));
+				        	synchronized(participant) {
+				        		participant.sendMessage(new TextMessage(responseNodeReset.toString()));
+				        	}
 				        }catch(Exception e) {
-					        System.out.println("Sesión Cerrada - " + e);
+					        System.out.println("Catch, Reset - " + e);
 				        }
                     }
                     mango = -1;
+                    mangoTime = 30;
                 }else{
                     mutex.release();
                 }
@@ -243,15 +283,28 @@ public class Level1Handler extends TextWebSocketHandler{
     }
 
     public void updateMangoTime(){
-        ObjectNode responseNode = mapper.createObjectNode();
-        responseNode.put("type", "updateMango");
-        for (WebSocketSession participant : sessions.values()) {
-            try {
-                participant.sendMessage(new TextMessage(responseNode.toString()));
-            }catch(Exception e) {
-                System.out.println("Sesión Cerrada - " + e);
+    	try {
+    		mutex.acquire();
+            if (mangoTime >= 1){
+                mangoTime--;
+                ObjectNode responseNode = mapper.createObjectNode();
+                responseNode.put("type", "updateMango");
+                responseNode.put("time", mangoTime);
+                for (WebSocketSession participant : sessions.values()) {
+                    try {
+                    	synchronized(participant) {
+                    		participant.sendMessage(new TextMessage(responseNode.toString()));
+                    	}
+                    }catch(Exception e) {
+                        System.out.println("Catch, UpdateTime - " + e);
+                    }
+                }
             }
-        }
+    	}catch(InterruptedException ex){
+    		System.out.println("Timer cancelado");
+    	}finally {
+    		mutex.release();
+    	}
     }
 
     public void checkPlayer(String idPlayer) {
@@ -260,20 +313,31 @@ public class Level1Handler extends TextWebSocketHandler{
     	if (actualTime - timerCheck.get(idPlayer) >= 5000) {
     		// El jugador lleva más de 5 segundos sin responder, por lo que se envía un
     		// mensaje de desconexión
-    		ObjectNode responseNode = mapper.createObjectNode();
-			responseNode.put("type", TYPE_LEAVE);
-			responseNode.put("id", idPlayer);
-			for (WebSocketSession participant : sessions.values()) {
-				try {
-					participant.sendMessage(new TextMessage(responseNode.toString()));
-				}catch(Exception e) {
-					System.out.println("Sesión Cerrada - " + e);
-				}
-			}
-			System.out.println("El jugador "+ idPlayer +" se ha desconectado");
+    		System.out.println("El jugador "+ idPlayer +" se ha desconectado");
 			timers.get(idPlayer).cancel();
 			timerCheck.put(idPlayer, Long.parseLong("0"));
 			sessions.remove(idPlayer);
+			
+    		ObjectNode responseNode = mapper.createObjectNode();
+			responseNode.put("type", TYPE_LEAVE);
+			responseNode.put("id", idPlayer);
+			if (Integer.parseInt(idPlayer) == mango) {
+            	responseNode.put("reset", true);
+            	mangoUpdate.cancel();
+            	mangoTime = 30;
+            	mango = -1;
+            }else {
+            	responseNode.put("reset", true);
+            }
+			for (WebSocketSession participant : sessions.values()) {
+				try {
+					synchronized(participant) {
+						participant.sendMessage(new TextMessage(responseNode.toString()));
+					}
+				}catch(Exception e) {
+					System.out.println("Catch, Check - " + e);
+				}
+			}
     	}
     }
 }

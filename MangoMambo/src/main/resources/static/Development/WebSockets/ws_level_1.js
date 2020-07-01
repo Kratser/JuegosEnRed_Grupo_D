@@ -270,7 +270,7 @@ class WSLevel1 extends Phaser.Scene {
             this.characters[i].create();
         }
         // Se crea el mango
-        this.mango = new Mango(this, "mango", 600, 260, 30);
+        this.mango = new WSMango(this, "mango", 600, 260, 30);
         this.mango.preload();
         this.mango.create();
         // Se crea la colisión entre los personajes y las plataformas
@@ -390,7 +390,7 @@ class WSLevel1 extends Phaser.Scene {
         // Si se pulsa una tecla
         this.input.keyboard.on("keydown", function (event) {
             // Si el juego no está pausado
-            if (that.playing) {
+            //if (that.playing) {
                 /*
                 // Si se pulsa WASD, se envía una señal
                 if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
@@ -407,6 +407,14 @@ class WSLevel1 extends Phaser.Scene {
                     }
                 }
                 */
+            //}
+            if (event.key == "Escape") {
+                if (that.playing) {
+                    if (!that.scene.get("ws_pause")) {
+                        that.playing = false;
+                        that.scene.add("ws_pause", new WSPause, true, { scene: that, sceneKey: "ws_level_1", volume: that.vol });
+                    }
+                }
             }
         });// Fin pulsar tecla
         // Si se deja de pulsar una tecla
@@ -425,12 +433,28 @@ class WSLevel1 extends Phaser.Scene {
 
         // Evento para actualizar a los jugadores con mis datos
         this.playerUpdate = setInterval(function(){
-        	var myCharacter = that.characters[that.myPlayer.id];
+        	var myCharacter = that.characters[that.myPlayerIdx];
         	that.connection.send(JSON.stringify({ type: "update", id: that.myPlayer.id,
         		posX: myCharacter.x, posY: myCharacter.y,
         		accX: myCharacter.body.acceleration.x, accY: myCharacter.body.acceleration.y}));
         }, 30);
 
+        this.connection.onclose = function(){
+            that.myPlayer.isReady = false;
+            that.myPlayer.isConnected = false;
+            var playerUpdate = $.ajax({
+                method: "PUT",
+                url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                data: JSON.stringify(that.myPlayer),
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            clearInterval(that.playerUpdate);
+            that.scene.start("main_menu", {volume: that.volume});
+        }
+        
         // Recibir mensajes
         this.connection.onmessage = function(msg){
             var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
@@ -449,7 +473,7 @@ class WSLevel1 extends Phaser.Scene {
                 break;
 
                 case "updateMango":
-                    that.mango.updateTime();
+                    that.mango.updateTime(data.time);
                 break;
 
                 case "event":
@@ -464,9 +488,6 @@ class WSLevel1 extends Phaser.Scene {
                         case "stealMango":
                             var charIdx = that.characters.findIndex(function(p){return p.id == id});
                             that.stealMango(that.characters[charIdx], that.mango);
-                            break;
-
-                        case "leaveGame":
                             break;
 
                         default:
@@ -492,6 +513,23 @@ class WSLevel1 extends Phaser.Scene {
 
                 case "leave":
                     var id = data.id;
+                    console.log("El jugador "+ id +" ha abandonado la partida :(");
+                    console.log(data.reset);
+                    if (data.reset){
+                        that.mango.resetMango();
+                    }
+                    var player = {id: data.id, isReady: false, isConnected: false};
+                    //that.data.scene.myPlayer.isReady = false;
+                    //that.data.scene.myPlayer.isConnected = false;
+                    var playerUpdate = $.ajax({
+                        method: "PUT",
+                        url: "http://" + that.ip + "/mango-mambo/" + player.id,
+                        data: JSON.stringify(player),
+                        processData: false,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
                 break;
 
                 default:
@@ -532,7 +570,9 @@ class WSLevel1 extends Phaser.Scene {
                 }
             }
             */
-            this.characters[this.myPlayer.id].update();
+            if (this.playing){
+                this.characters[this.myPlayerIdx].update();
+            }
             this.mango.update();
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();

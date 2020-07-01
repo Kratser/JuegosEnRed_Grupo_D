@@ -114,8 +114,10 @@ class WSPause extends Phaser.Scene {
             this.data.scene.birds.stop();
             // Se comunica que salimos del juego
             var that = this;
-            this.data.scene.connection.send(JSON.stringify({ id: that.data.scene.myPlayer.id, key: "Enter", press: true, playing: false }));
+            //this.data.scene.connection.send(JSON.stringify({ id: that.data.scene.myPlayer.id, key: "Enter", press: true, playing: false }));
+            this.data.scene.connection.send(JSON.stringify({ type: "event", id: that.data.scene.myPlayer.id, msg: "leaveGame" }));
             // Se cierra la conexión
+            clearInterval(this.data.scene.playerUpdate);
             this.data.scene.connection.close(); 
             // Petición API REST para eliminar al personaje
             that.data.scene.myPlayer.isReady = false;
