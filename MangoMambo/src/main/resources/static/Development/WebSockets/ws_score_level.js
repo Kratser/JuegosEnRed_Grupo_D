@@ -9,6 +9,7 @@ class WSScoreLevel extends Phaser.Scene {
         this.myPlayer = data.myPlayer;
         this.numPlayers = this.characters.length;
         this.ip = data.ip;
+        this.myPlayerIdx = this.characters.findIndex(function(p){return p.id == data.myPlayer.id});
         data = null;
     }// Fin init
 
@@ -46,11 +47,12 @@ class WSScoreLevel extends Phaser.Scene {
             loadingImg.destroy();
         });
         //Conexión web sockets
+        var that = this;
         this.connection;
         this.connection = new WebSocket('ws://' + this.ip + '/ws-score-level');
         this.connection.onopen = function () {
             console.log("WS Open");
-            console.log(this);
+            this.send(JSON.stringify({ type: "connect", id: that.myPlayer.id, numPlayers: that.numPlayers}));
         }
         this.connection.onerror = function (e) {
             console.log("WS error: " + e);
@@ -115,9 +117,12 @@ class WSScoreLevel extends Phaser.Scene {
         this.loop;
         // Jugadores
         this.players;
+        // Temporizador para comprobar si el jugador ha abandonado la partida
+        this.playerCheck;
     }// Fin preload
 
     create() {
+        var that = this;
         this.cameras.main.fadeIn(500);
         // Fondo
         this.add.image(0, 0, "score_level_background").setOrigin(0, 0);
@@ -157,7 +162,7 @@ class WSScoreLevel extends Phaser.Scene {
         // Jugadores conectados recuadro
         for (var i = 0; i < this.numPlayers; i++) {
             console.log(this.characters[i]);
-            this.readys[this.characters[i].id - 1].setAlpha(1);
+            this.readys[this.characters[i].id].setAlpha(1);
         }
         this.readyHtps = this.add.image(1100, 568, "ready_htps").setDepth(3);
         //Jugadores
@@ -201,11 +206,10 @@ class WSScoreLevel extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++) {
             switch (this.characters[i].id) {
                 // Jugador 1
-                case 1:
+                case 0:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id+1, this.characters[i].type.split("_")[0] + ["_choose"],
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                         false, 161.50, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height / 2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -221,11 +225,10 @@ class WSScoreLevel extends Phaser.Scene {
                     });
                     break;
                 // Jugador 2
-                case 2:
+                case 1:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id+1, this.characters[i].type.split("_")[0] + ["_choose"],
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                         false, 448.00, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height / 2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -241,13 +244,12 @@ class WSScoreLevel extends Phaser.Scene {
                     });
                     break;
                 // Jugador 3    
-                case 3:
+                case 2:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id+1, this.characters[i].type.split("_")[0] + ["_choose"],
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                         false, 742.00, 532, this.characters[i].score);
                     // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height / 2;
-                    // Animación subida personaje
                     var tweenCha = this.tweens.add({
                         targets: this.characters[i],
                         y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
@@ -261,11 +263,10 @@ class WSScoreLevel extends Phaser.Scene {
                     });
                     break;
                 // Jugador 4   
-                case 4:
+                case 3:
                     // Personaje
-                    this.characters[i] = new Character(this, this.characters[i].id+1, this.characters[i].type.split("_")[0] + ["_choose"],
+                    this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                         false, 1039, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height / 2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -327,7 +328,7 @@ class WSScoreLevel extends Phaser.Scene {
         var that = this;
         this.input.keyboard.on("keydown", function (event) {
             if (event.which == 40) {
-                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
+                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
                 /*
                 console.log(that.connection);
                 that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
@@ -378,7 +379,8 @@ class WSScoreLevel extends Phaser.Scene {
                     }// Fin if comprobación de la puntución.
                 }// Fin for
                 */
-            } else if (event.key == "Escape") {
+            //} else if (event.key == "Escape") {
+                /*
                 that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
                 that.connection.close();
                 that.myPlayer.isReady = false;
@@ -392,10 +394,42 @@ class WSScoreLevel extends Phaser.Scene {
                         "Content-Type": "application/json"
                     }
                 });
-            }// Fin pulsar ESCAPE
+                */
+            }else if (event.key == "Escape") {
+            	that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
+            	// Desconectar al jugador
+            }
         });
 
         this.connection.onmessage = function (msg) {
+            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            console.log(data.type + " message received");
+
+            switch (data.type) {
+                case "event":
+                    if (data.key == "ArrowDown"){
+                        // El jugador id, idx se encuentra listo
+                    	that.players[data.idx].ready = true;
+                    }
+                break;
+
+                case "leave":
+                    // El jugador id ha abandonado la partida
+                	var playerIdx = that.characters.findIndex(function(p){
+            			if (p){
+            				return p.id == data.id
+            			}
+            		});
+                	if (that.players[playerIdx].ready == true){
+                		that.players[playerIdx].ready = false;
+                	}
+                break;
+            
+                default:
+                	console.log("Tipo de mensaje no controlado");
+                break;
+            }
+            /*
             console.log("message received");
             var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
             console.log("Id: " + data.id + ", Key: " + data.key);
@@ -467,15 +501,27 @@ class WSScoreLevel extends Phaser.Scene {
                 // Se para la música
                 that.loop.stop();
             }// Fin Escape
+            */
         }// Fin onmessage
+
+        this.connection.onclose = function (msg) {
+            clearInterval(that.playerCheck);
+        }
+
+        this.playerCheck = setInterval(function(){
+        	that.connection.send(JSON.stringify({ type: "check", id: that.myPlayer.id }));
+        }, 30);
+
     }// Fin Create
 
     update() {
 
           // Aparece cuando el jugador está listo
           for(var i = 0; i < this.numPlayers; i++){
-            if(this.players[i].ready == true){
-                this.ticks[i].alpha = 1;
+            if(this.players[this.characters[i].id].ready == true){
+                this.ticks[this.characters[i].id].alpha = 1;
+            }else{
+            	this.ticks[this.characters[i].id].alpha = 0;
             }
         }
         /* Cuando terminan las rondas vuelve al menu principal
