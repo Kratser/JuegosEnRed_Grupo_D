@@ -69,7 +69,7 @@ public class ScoreLevelHandler extends TextWebSocketHandler{
         String id = node.get("id").asText();
         String type = node.get("type").asText();
 
-        if (type != TYPE_CHECK) {
+        if (!type.equals(TYPE_CHECK)) {
         	System.out.println("Message received in score level from player: "+ id + ", " + type);
         }
 
@@ -126,7 +126,8 @@ public class ScoreLevelHandler extends TextWebSocketHandler{
 
             case TYPE_LEAVE:
                 System.out.println("Session closed in score level: " + id);
-        		sessions.remove(id);
+                sessions.remove(id);
+                numPlayers--;
         		System.out.println("Parando temporizadores del jugador " + id);
         		timers.get(id).cancel();
         		timerCheck.put(id, Long.parseLong("0"));

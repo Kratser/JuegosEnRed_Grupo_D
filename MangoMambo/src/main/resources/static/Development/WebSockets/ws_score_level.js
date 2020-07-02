@@ -160,9 +160,11 @@ class WSScoreLevel extends Phaser.Scene {
         this.readys = [this.gReady, this.pReady, this.bReady, this.yReady];
         this.contReady = 0;
         // Jugadores conectados recuadro
-        for (var i = 0; i < this.numPlayers; i++) {
+        for (var i = 0; i < this.characters.length; i++) {
             console.log(this.characters[i]);
-            this.readys[this.characters[i].id].setAlpha(1);
+            if (this.characters[i]) {
+                this.readys[this.characters[i].id].setAlpha(1);
+            }
         }
         this.readyHtps = this.add.image(1100, 568, "ready_htps").setDepth(3);
         //Jugadores
@@ -396,8 +398,23 @@ class WSScoreLevel extends Phaser.Scene {
                 });
                 */
             }else if (event.key == "Escape") {
-            	that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
-            	// Desconectar al jugador
+                that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
+                // Desconectar al jugador
+                that.connection.close();
+                that.myPlayer.isReady = false;
+                that.myPlayer.isConnected = false;
+                var playerUpdate = $.ajax({
+                    method: "PUT",
+                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                    data: JSON.stringify(that.myPlayer),
+                    processData: false,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                that.scene.start("main_menu", { volume: this.vol });
+                // Se para la música
+                that.loop.stop();
             }
         });
 
@@ -409,7 +426,10 @@ class WSScoreLevel extends Phaser.Scene {
                 case "event":
                     if (data.key == "ArrowDown"){
                         // El jugador id, idx se encuentra listo
-                    	that.players[data.idx].ready = true;
+                        if (that.players[data.idx].ready == false){
+                        	that.players[data.idx].ready = true;
+                            that.contReady++;
+                        }
                     }
                 break;
 
@@ -421,8 +441,43 @@ class WSScoreLevel extends Phaser.Scene {
             			}
             		});
                 	if (that.players[playerIdx].ready == true){
-                		that.players[playerIdx].ready = false;
-                	}
+                        that.players[playerIdx].ready = false;
+                        that.contReady--;
+                    }
+                    that.numPlayers--;
+                    that.readys[data.id].setAlpha(0);
+
+                    var player = {id: data.id, isReady: false, isConnected: false};
+                    var playerUpdate = $.ajax({
+                        method: "PUT",
+                        url: "http://" + that.ip + "/mango-mambo/" + player.id,
+                        data: JSON.stringify(player),
+                        processData: false,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (that.numPlayers <= 1){
+                        console.log("Me quedo solo :C");
+                        that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
+                        // Desconectar al jugador
+                        that.connection.close();
+                        that.myPlayer.isReady = false;
+                        that.myPlayer.isConnected = false;
+                        var playerUpdate = $.ajax({
+                            method: "PUT",
+                            url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                            data: JSON.stringify(that.myPlayer),
+                            processData: false,
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        });
+                        that.scene.start("main_menu", { volume: this.vol });
+                        //  Se para la música
+                        that.loop.stop();
+                    }
                 break;
             
                 default:
@@ -515,14 +570,19 @@ class WSScoreLevel extends Phaser.Scene {
     }// Fin Create
 
     update() {
-
-          // Aparece cuando el jugador está listo
-          for(var i = 0; i < this.numPlayers; i++){
-            if(this.players[this.characters[i].id].ready == true){
-                this.ticks[this.characters[i].id].alpha = 1;
-            }else{
-            	this.ticks[this.characters[i].id].alpha = 0;
+        // Aparece cuando el jugador está listo
+        for(var i = 0; i < this.characters.length; i++){
+            if (this.characters[i]){
+                if(this.players[this.characters[i].id].ready == true){
+                    this.ticks[this.characters[i].id].alpha = 1;
+                }else{
+                    this.ticks[this.characters[i].id].alpha = 0;
+                }
             }
+        }
+
+        if (this.contReady == this.numPlayers && this.numPlayers >= 2) {
+            console.log("Volvemos a jugar :D");
         }
         /* Cuando terminan las rondas vuelve al menu principal
         for (var i = 0; i < this.characters.length; i++) {
