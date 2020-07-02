@@ -32,7 +32,7 @@ class Mango extends Phaser.GameObjects.Sprite{
             frames: this.scene.anims.generateFrameNumbers('mango_explosion', { start: 0, end: 7 }),
             frameRate: 15
         });
-        this.on("animationcomplete", this.animComplete, this);
+        this.on("animationcomplete", this.AnimComplete, this);
     }// Fin Create
 
     update() {
@@ -57,37 +57,28 @@ class Mango extends Phaser.GameObjects.Sprite{
         }
     }// Fin update
     
-    updateTime() {
+    UpdateTime() {
         // Un segundo
         this.explodeTime -= 1; 
-        this.scene.text.setText(this.scene.formatTime(this.explodeTime));
+        this.scene.text.setText(this.scene.FormatTime(this.explodeTime));
     }
 
-    animComplete(animation, frame) {
-        this.scene.connection.send(JSON.stringify({ type: "reset", id: this.scene.myPlayer.id }));
-        this.explodeTime = this.time;
-        this.setTexture("mango", 0);
-    }
-
-    resetMango(){
+    AnimComplete(animation, frame) {
         this.explodeTime = this.time;
         this.setTexture("mango", 0);
         this.x = 600;
-        //this.y = -10;
-        this.y = 260;
-        //this.scene.deleteCharacter(this.character);
+        this.y = -10;
+        this.scene.deleteCharacter(this.character);
         this.character = null;
         this.timer = null;
         this.scene.text.alpha = 0;
         this.scene.timeImage.alpha = 0;
         // Aparece texto de getMango 
         this.scene.getMango.alpha = 1;
-        /*
         var tween = this.scene.tweens.add({
             targets: this,
             y: 260,
             duration: 2000
         });
-        */
     }
 }// Fin clase Mango
