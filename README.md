@@ -44,11 +44,11 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 * Aparte de lo comentado en el tag fase1 y fase2, se adjunta un nuevo documento pdf (MangoMamboGDD_V03.pdf) donde se encuentra el documento de diseño actualizado. 
 * También se adjunta la presentación con la que mostraremos el trabajo de la fase 3 (MangoMamboFase3.pptx).
 * Se han creado carpetas para almacenar los anteriores documentos (Slides y GDDs).
-* En este README y en el GDD hemos actualizado las imágenes de la interfaz y hemos añadido un nuevo apartado   **5. Diagrama de clases y API REST**, en el que hemos adjuntado los diagramas de clases de la aplicación, un esquema de las peticiones de API REST que utilizamos y en el punto **5.4. ¿Cómo se ejecuta?**, explicamos los pasos para ejecutar el servidor.
+* En este README y en el GDD hemos actualizado las imágenes de la interfaz y hemos añadido un nuevo apartado   **5. Diagrama de clases y API REST**, en el que hemos adjuntado los diagramas de clases de la aplicación, un esquema de las peticiones de API REST que utilizamos y en el punto **5.5. ¿Cómo se ejecuta?**, explicamos los pasos para ejecutar el servidor.
 
 # **Organización del tag fase4**
 
-* Aparte de lo comentado en el tag fase1, fase2 y fase 3, se adjunta la presentación con la que enseñaremos lo realizado en la fase 4 y algunas mejoras planteadas. En esta fase no se ha actualizado el pdf GDD pero sí se han hecho cambios en README. 
+* Aparte de lo comentado en el tag fase1, fase2 y fase 3, se adjunta la presentación con la que enseñaremos lo realizado en la fase 4 y algunas mejoras planteadas. También se ha actualizado el pdf GDD y este README. 
 * En el punto 5 hemos añadido un apartado que explica un poco qué hemos hecho en Websockets.  
 * Finalmente, se adjunta un video al principio de este README para mostrar as funcionalidades de juego y qué hemos hecho en cada parte.
 
@@ -356,7 +356,7 @@ El formato será “.wav” y ".mp3".
 
 ### **5.4. Websockets**
 
-A partir de la escena de online lobby pasamos de usar API REST a utilizar el protocolo ws de websockets. Ahora ya no tendremos que realizar peticiones excepto cuando queramos volver al menú principal desde alguna otra escena. Para no enviar toda la inforación de golpe, hemos creado cinco clases/escenas nuevas para este proceso y en cada escena abrimos una conexión Websockets y enviamos un mensaje con la información de los jugadores y con las teclas que están pulsando. Este mensaje es recibdo por un manejado (handler) y este se encargará de transmitir la informacón al resto de jugadores.
+A partir de la escena de online lobby pasamos de usar API REST a utilizar el protocolo ws de WebSockets. Ahora ya no tendremos que realizar peticiones excepto cuando queramos volver al menú principal desde alguna otra escena. Para no enviar toda la inforación de golpe, hemos creado nuevas clases/escenas nuevas para este proceso y en cada escena abrimos una conexión Websockets y enviamos los mensajes con la información de los jugadores y de los elementos del juego. Este mensaje es recibdo por un manejador (handler) y este se encargará de actualizar la información al resto de jugadores.
 
 ### **5.5. ¿Cómo se ejecuta?**
 
