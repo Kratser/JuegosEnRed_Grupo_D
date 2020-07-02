@@ -119,6 +119,7 @@ class WSPause extends Phaser.Scene {
             // Se cierra la conexión
             clearInterval(this.data.scene.playerUpdate);
             this.data.scene.connection.close(); 
+            /*
             // Petición API REST para eliminar al personaje
             that.data.scene.myPlayer.isReady = false;
             that.data.scene.myPlayer.isConnected = false;
@@ -131,6 +132,7 @@ class WSPause extends Phaser.Scene {
                     "Content-Type": "application/json"
                 }
             });
+            */
             // Se vuelve al menú principal
             this.data.scene.scene.start("main_menu", {volume: this.data.volume});
             this.options[1] = false;

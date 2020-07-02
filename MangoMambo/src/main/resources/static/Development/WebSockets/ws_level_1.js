@@ -439,7 +439,9 @@ class WSLevel1 extends Phaser.Scene {
         		accX: myCharacter.body.acceleration.x, accY: myCharacter.body.acceleration.y}));
         }, 30);
 
+        
         this.connection.onclose = function(){
+        	/*
             that.myPlayer.isReady = false;
             that.myPlayer.isConnected = false;
             var playerUpdate = $.ajax({
@@ -451,9 +453,11 @@ class WSLevel1 extends Phaser.Scene {
                     "Content-Type": "application/json"
                 }
             });
+            */
             clearInterval(that.playerUpdate);
-            that.scene.start("main_menu", {volume: that.volume});
+            //that.scene.start("main_menu", {volume: that.volume});
         }
+        
         
         // Recibir mensajes
         this.connection.onmessage = function(msg){
@@ -463,7 +467,11 @@ class WSLevel1 extends Phaser.Scene {
             switch(data.type){
                 case "update":
                 	if (data.id != that.myPlayer.id){
-                		var id = data.id;
+                		var id = that.characters.findIndex(function(p){
+                			if (p){
+                				return p.id == data.id
+                			}
+                		});
                         var posX = data.posX;
                         var posY = data.posY;
                         var accX = data.accX;
@@ -481,12 +489,20 @@ class WSLevel1 extends Phaser.Scene {
                     var msg = data.msg;
                     switch (msg){
                         case "getMango":
-                            var charIdx = that.characters.findIndex(function(p){return p.id == id});
+                            var charIdx = that.characters.findIndex(function(p){
+                            	if (p){
+                            		return p.id == id
+                            	}
+                             });
                             that.getMango(that.characters[charIdx], that.mango);
                             break;
 
                         case "stealMango":
-                            var charIdx = that.characters.findIndex(function(p){return p.id == id});
+                            var charIdx = that.characters.findIndex(function(p){
+                            	if (p){
+                            		return p.id == id
+                            	}
+                            });
                             that.stealMango(that.characters[charIdx], that.mango);
                             break;
 
@@ -506,7 +522,11 @@ class WSLevel1 extends Phaser.Scene {
                 case "reset":
                     var idChar = data.id;
                     console.log("Player "+ idChar +" exploded");
-                    var charIdx = that.characters.findIndex(function(p){return p.id == idChar});
+                    var charIdx = that.characters.findIndex(function(p){
+                    	if (p){
+                    		return p.id == idChar
+                    	}
+                    });
                     that.deleteCharacter(charIdx);
                     that.mango.resetMango();
                 break;
@@ -518,6 +538,7 @@ class WSLevel1 extends Phaser.Scene {
                     if (data.reset){
                         that.mango.resetMango();
                     }
+                    /**
                     var player = {id: data.id, isReady: false, isConnected: false};
                     //that.data.scene.myPlayer.isReady = false;
                     //that.data.scene.myPlayer.isConnected = false;
@@ -530,6 +551,14 @@ class WSLevel1 extends Phaser.Scene {
                             "Content-Type": "application/json"
                         }
                     });
+                    /**/
+                    var playerIdx = that.characters.findIndex(function(p){
+                    	if (p){
+                    		return p.id == id
+                    	}
+                    });
+                    that.characters[playerIdx] = null;
+                    that.numPlayers--;
                 break;
 
                 default:
@@ -576,18 +605,20 @@ class WSLevel1 extends Phaser.Scene {
             this.mango.update();
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();
+            
             // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
-            /*
+            /**/
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
                 this.connection.close();
-                this.scene.start("ws_score_level", { characters: this.characters, volume: this.vol , myPlayer: this.myPlayer, numPlayers: this.characters.length, ip: this.ip});
+                this.scene.start("ws_score_level", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.characters.length, ip: this.ip});
                 // Se para la música
                 this.intro.stop();
                 this.loop.stop();
                 this.birds.stop();
             }
-            */
+            /**/
+            
             if (this.mango.explodeTime <= 10) {
                 this.loop.setRate(1.05);
                 this.birds.setRate(1.05);

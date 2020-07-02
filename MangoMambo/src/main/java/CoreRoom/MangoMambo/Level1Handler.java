@@ -169,6 +169,7 @@ public class Level1Handler extends TextWebSocketHandler{
                             }
                         }
                         System.out.println("El jugador "+ id +" se ha desconectado");
+                        numPlayers--;
                         System.out.println("Parando temporizadores del jugador " + id);
                         timers.get(id).cancel();
                         timerCheck.put(id, Long.parseLong("0"));
@@ -314,7 +315,8 @@ public class Level1Handler extends TextWebSocketHandler{
     	if (actualTime - timerCheck.get(idPlayer) >= 5000) {
     		// El jugador lleva más de 5 segundos sin responder, por lo que se envía un
     		// mensaje de desconexión
-    		System.out.println("El jugador "+ idPlayer +" se ha desconectado");
+            System.out.println("El jugador "+ idPlayer +" se ha desconectado");
+            numPlayers--;
 			timers.get(idPlayer).cancel();
 			timerCheck.put(idPlayer, Long.parseLong("0"));
 			sessions.remove(idPlayer);
