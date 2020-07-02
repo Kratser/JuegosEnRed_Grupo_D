@@ -131,20 +131,6 @@ public class ScoreLevelHandler extends TextWebSocketHandler{
         		System.out.println("Parando temporizadores del jugador " + id);
         		timers.get(id).cancel();
         		timerCheck.put(id, Long.parseLong("0"));
-        		
-        		ObjectNode responseNodeLeave = mapper.createObjectNode();
-        		responseNodeLeave.put("type", TYPE_LEAVE);
-        		responseNodeLeave.put("id", id);
-			    
-			    for (WebSocketSession participant : sessions.values()) {
-        			try {
-                        synchronized(participant) {
-                            participant.sendMessage(new TextMessage(responseNodeLeave.toString()));
-                        }
-        			}catch(Exception e) {
-        				System.out.println("Catch, Event - " + e);
-        			}
-        		}
             break;
         
             default:
@@ -157,7 +143,8 @@ public class ScoreLevelHandler extends TextWebSocketHandler{
     	
     	if (actualTime - timerCheck.get(idPlayer) >= 5000) {
     		// El jugador lleva más de 5 segundos sin responder, por lo que se envía un
-    		// mensaje de desconexión
+            // mensaje de desconexión
+            numPlayers--;
     		ObjectNode responseNode = mapper.createObjectNode();
 			responseNode.put("type", TYPE_LEAVE);
 			responseNode.put("id", idPlayer);
@@ -172,6 +159,7 @@ public class ScoreLevelHandler extends TextWebSocketHandler{
 			}
 			System.out.println("El jugador "+ idPlayer +" se ha desconectado");
 			timers.get(idPlayer).cancel();
+			System.out.println("Parando temporizadores del jugador " + idPlayer);
 			timerCheck.put(idPlayer, Long.parseLong("0"));
 			sessions.remove(idPlayer);
     	}

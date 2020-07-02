@@ -113,6 +113,7 @@ class WSScoreLevel extends Phaser.Scene {
         this.contReady;
         // Puntuaciones de los jugadores
         this.scores;
+        this.gameEnd;
         // La canción loopeada
         this.loop;
         // Jugadores
@@ -205,7 +206,13 @@ class WSScoreLevel extends Phaser.Scene {
         this.player3_crown.alpha = 0;
         this.player4_crown.alpha = 0;
 
+        this.gameEnd = false;
+
         for (var i = 0; i < this.characters.length; i++) {
+            if (this.characters[i].score >= this.maxScore){
+                this.crowns[this.characters[i].id].alpha = 1;
+                this.gameEnd = true;
+            }
             switch (this.characters[i].id) {
                 // Jugador 1
                 case 0:
@@ -330,6 +337,9 @@ class WSScoreLevel extends Phaser.Scene {
         var that = this;
         this.input.keyboard.on("keydown", function (event) {
             if (event.which == 40) {
+            	that.choose_options.play({
+                    volume: this.vol
+                });
                 that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
                 /*
                 console.log(that.connection);
@@ -398,7 +408,10 @@ class WSScoreLevel extends Phaser.Scene {
                 });
                 */
             }else if (event.key == "Escape") {
-                that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
+                that.choose_options.play({
+                    volume: this.vol
+                });
+                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
                 // Desconectar al jugador
                 that.connection.close();
                 that.myPlayer.isReady = false;
@@ -429,6 +442,45 @@ class WSScoreLevel extends Phaser.Scene {
                         if (that.players[data.idx].ready == false){
                         	that.players[data.idx].ready = true;
                             that.contReady++;
+                        }
+                    }else if (data.key == "Escape"){
+                        if (that.players[data.idx].ready == true){
+                            that.players[data.idx].ready = false;
+                            that.contReady--;
+                        }
+                        that.numPlayers--;
+                        that.readys[data.id].setAlpha(0);
+    
+                        var player = {id: data.id, isReady: false, isConnected: false};
+                        var playerUpdate = $.ajax({
+                            method: "PUT",
+                            url: "http://" + that.ip + "/mango-mambo/" + player.id,
+                            data: JSON.stringify(player),
+                            processData: false,
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        });
+    
+                        if (that.numPlayers <= 1){
+                            console.log("Me quedo solo :C");
+                            that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
+                            // Desconectar al jugador
+                            that.connection.close();
+                            that.myPlayer.isReady = false;
+                            that.myPlayer.isConnected = false;
+                            var playerUpdate = $.ajax({
+                                method: "PUT",
+                                url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                                data: JSON.stringify(that.myPlayer),
+                                processData: false,
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            });
+                            that.scene.start("main_menu", { volume: this.vol });
+                            //  Se para la música
+                            that.loop.stop();
                         }
                     }
                 break;
@@ -582,7 +634,35 @@ class WSScoreLevel extends Phaser.Scene {
         }
 
         if (this.contReady == this.numPlayers && this.numPlayers >= 2) {
-            console.log("Volvemos a jugar :D");
+            if (!this.gameEnd){
+                console.log("Volvemos a jugar :D");
+                // Si la partida no ha terminado, volvemos al nivel 1
+                // Se pasa a la pantalla de explicación
+        	    this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
+                this.connection.close();
+                // Cambio de escena
+                this.scene.start("ws_how_to_play", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
+                //Se para la música
+                this.loop.stop();
+            }else {
+                this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
+                this.connection.close();
+                this.myPlayer.isReady = false;
+                this.myPlayer.isConnected = false;
+                var that = this;
+                var playerUpdate = $.ajax({
+                    method: "PUT",
+                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                    data: JSON.stringify(that.myPlayer),
+                    processData: false,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                this.scene.start("main_menu", { volume: this.vol });
+                // Se para la música
+                this.loop.stop();
+            }
         }
         /* Cuando terminan las rondas vuelve al menu principal
         for (var i = 0; i < this.characters.length; i++) {

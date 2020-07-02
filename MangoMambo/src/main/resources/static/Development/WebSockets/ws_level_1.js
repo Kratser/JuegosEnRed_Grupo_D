@@ -611,6 +611,7 @@ class WSLevel1 extends Phaser.Scene {
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
                 clearInterval(this.playerUpdate);
+                this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
                 this.connection.close();
                 this.scene.start("ws_score_level", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.characters.length, ip: this.ip});
                 // Se para la música
