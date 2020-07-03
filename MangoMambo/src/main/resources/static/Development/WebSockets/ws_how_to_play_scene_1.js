@@ -203,7 +203,7 @@ class WSHowToPlay extends Phaser.Scene {
                 	 that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
                 	 clearInterval(that.playerCheck);
                      that.connection.close();
-                     that.scene.start("ws_level_1", { characters: that.characters, volume: that.vol, ip: that.ip, myPlayer: that.myPlayer});
+                     that.scene.start("ws_level_1", { characters: that.characters.filter(function(el){return el != undefined}), volume: that.vol, ip: that.ip, myPlayer: that.myPlayer});
                      // Se para la música
                      that.loop.stop();
                      that.choose_options.play({
@@ -244,6 +244,17 @@ class WSHowToPlay extends Phaser.Scene {
                         clearInterval(that.playerCheck);
                         that.connection.close();
                         that.scene.start("online_lobby", { client: that.myPlayer, volume: that.vol, ip: that.ip, players: newPlayers });
+                    // O si la partida puede comenzar
+                    }else if (that.contReady == that.numPlayers) {
+                        that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
+                        clearInterval(that.playerCheck);
+                        that.connection.close();
+                        that.scene.start("ws_level_1", { characters: that.characters.filter(function(el){return el != undefined}), volume: that.vol, ip: that.ip, myPlayer: that.myPlayer});
+                        // Se para la música
+                        that.loop.stop();
+                        that.choose_options.play({
+                            volume: that.vol
+                        });
                     }
             	}
             }
@@ -308,6 +319,8 @@ class WSHowToPlay extends Phaser.Scene {
             that.contReady--;
         }
         that.numPlayers--;
+        
+        this.readys[id].setAlpha(0);
 
         // Cerrar conexión API
         var player = {id: id, isReady: false, isConnected: false};
@@ -321,5 +334,7 @@ class WSHowToPlay extends Phaser.Scene {
                 "Content-Type": "application/json"
             }
         });
+        that.characters[playerIdx].destroy();
+        that.characters[playerIdx] = null;
     }
 }// Fin clase HowToPlayScene

@@ -538,7 +538,6 @@ class WSLevel1 extends Phaser.Scene {
                     if (data.reset){
                         that.mango.resetMango();
                     }
-                    /**
                     var player = {id: data.id, isReady: false, isConnected: false};
                     //that.data.scene.myPlayer.isReady = false;
                     //that.data.scene.myPlayer.isConnected = false;
@@ -551,12 +550,14 @@ class WSLevel1 extends Phaser.Scene {
                             "Content-Type": "application/json"
                         }
                     });
-                    /**/
                     var playerIdx = that.characters.findIndex(function(p){
                     	if (p){
                     		return p.id == id
                     	}
                     });
+                    //Quitar al personaje de la escena
+                    that.characters[playerIdx].body.destroy();
+                    that.characters[playerIdx].alpha = 0;
                     that.characters[playerIdx] = null;
                     that.numPlayers--;
                 break;

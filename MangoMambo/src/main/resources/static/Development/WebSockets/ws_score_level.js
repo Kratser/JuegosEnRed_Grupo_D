@@ -208,6 +208,9 @@ class WSScoreLevel extends Phaser.Scene {
 
         this.gameEnd = false;
 
+        if (this.numPlayers <= 1){
+        	this.gameEnd = true;
+        }
         for (var i = 0; i < this.characters.length; i++) {
             if (this.characters[i].score >= this.maxScore){
                 this.crowns[this.characters[i].id].alpha = 1;
@@ -450,6 +453,8 @@ class WSScoreLevel extends Phaser.Scene {
                         }
                         that.numPlayers--;
                         that.readys[data.id].setAlpha(0);
+                        that.characters[data.idx].destroy();
+                        that.characters[data.idx] = null;
     
                         var player = {id: data.id, isReady: false, isConnected: false};
                         var playerUpdate = $.ajax({
@@ -498,6 +503,9 @@ class WSScoreLevel extends Phaser.Scene {
                     }
                     that.numPlayers--;
                     that.readys[data.id].setAlpha(0);
+                    that.characters[playerIdx].destroy();
+                    that.characters[playerIdx] = null;
+                    console.log(that.characters);
 
                     var player = {id: data.id, isReady: false, isConnected: false};
                     var playerUpdate = $.ajax({
@@ -633,7 +641,7 @@ class WSScoreLevel extends Phaser.Scene {
             }
         }
 
-        if (this.contReady == this.numPlayers && this.numPlayers >= 2) {
+        if (this.contReady == this.numPlayers) {
             if (!this.gameEnd){
                 console.log("Volvemos a jugar :D");
                 // Si la partida no ha terminado, volvemos al nivel 1

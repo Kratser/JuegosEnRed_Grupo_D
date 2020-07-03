@@ -481,6 +481,7 @@ class WSChooseCharacter extends Phaser.Scene {
         this.numPlayers--;
         if (this.players[id].active) {
             this.characters[id].destroy();
+            this.characters[id] = null;
         }
         this.players[id].active = false;
         this.selectors[id] = 0;
