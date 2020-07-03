@@ -225,21 +225,21 @@ class Level1 extends Phaser.Scene {
         // Se crea el personaje
         for (var i = 0; i < this.characters.length; i++){
             switch(this.characters[i].id){
-                case 1:
+                case 0:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[0].x, this.positions[0].y, this.characters[i].score);
                     break;
-                case 2:
+                case 1:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[1].x, this.positions[1].y, this.characters[i].score);
                         this.characters[i].flipX = true;
                     break;
-                case 3:
+                case 2:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
                         this.characters[i].flipX = true;
                     break;
-                case 4:
+                case 3:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
                     break;

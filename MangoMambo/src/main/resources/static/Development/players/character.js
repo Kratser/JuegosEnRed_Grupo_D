@@ -7,7 +7,7 @@ class Character extends Phaser.GameObjects.Sprite{
         // Llamada al padre del objeto
         super(scene, x, y, type);
         //Atributos del personaje
-        this.scene = scene
+        this.scene = scene;
         this.id = id;
         //Sprite
         this.type = type; 

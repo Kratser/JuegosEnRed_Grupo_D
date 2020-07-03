@@ -138,7 +138,7 @@ class ScoreLevel extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++) {
             switch (this.characters[i].id) {
                 // Jugador 1
-                case 1:
+                case 0:
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 161.50, 532, this.characters[i].score);
@@ -158,7 +158,7 @@ class ScoreLevel extends Phaser.Scene {
                     });
                     break;
                 // Jugador 2
-                case 2:
+                case 1:
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 448.00, 532, this.characters[i].score);
@@ -178,7 +178,7 @@ class ScoreLevel extends Phaser.Scene {
                     });
                     break;
                 // Jugador 3    
-                case 3:
+                case 2:
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 742.00, 532, this.characters[i].score);
@@ -198,7 +198,7 @@ class ScoreLevel extends Phaser.Scene {
                     });
                     break;
                 // Jugador 4   
-                case 4:
+                case 3:
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 1039, 532, this.characters[i].score);
@@ -304,7 +304,7 @@ class ScoreLevel extends Phaser.Scene {
             this.choose_options.play({
                 volume: this.vol
             });
-            this.scene.start("level_1", {characters: this.characters, volume: this.vol});//, {characters: this.characters}
+            this.scene.start("level_1", {characters: this.characters, volume: this.vol});
             // Se para la música
             this.loop.stop();
         }
