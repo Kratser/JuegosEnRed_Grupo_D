@@ -156,7 +156,7 @@ class WSScoreLevel extends Phaser.Scene {
         this.tick3.alpha = 0;
         this.tick4 = this.add.image(1166.23, 28.5, "tick").setScale(0.8).setDepth(3);
         this.tick4.alpha = 0;
-        this.ticks = [this.tick1, this.tick2, this.tick3, this.tick3];
+        this.ticks = [this.tick1, this.tick2, this.tick3, this.tick4];
         this.readys = [];
         this.readys = [this.gReady, this.pReady, this.bReady, this.yReady];
         this.contReady = 0;
@@ -442,13 +442,13 @@ class WSScoreLevel extends Phaser.Scene {
                 case "event":
                     if (data.key == "ArrowDown"){
                         // El jugador id, idx se encuentra listo
-                        if (that.players[data.idx].ready == false){
-                        	that.players[data.idx].ready = true;
+                        if (that.players[data.id].ready == false){
+                        	that.players[data.id].ready = true;
                             that.contReady++;
                         }
                     }else if (data.key == "Escape"){
-                        if (that.players[data.idx].ready == true){
-                            that.players[data.idx].ready = false;
+                        if (that.players[data.id].ready == true){
+                            that.players[data.id].ready = false;
                             that.contReady--;
                         }
                         that.numPlayers--;

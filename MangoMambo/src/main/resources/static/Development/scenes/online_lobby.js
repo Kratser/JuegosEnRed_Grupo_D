@@ -397,9 +397,11 @@ class OnlineLobby extends Phaser.Scene {
     }// Fin UpdatePlayer
     // Función que inicia la conexión con WebSockets
     startWS(){
+    	var that = this;
         this.connection = new WebSocket('ws://' + this.ip + '/ws-choose-character');
         this.connection.onopen = function(){
             console.log("WS Open");
+            this.send(JSON.stringify({ type: "connect", id: that.myPlayer.id }));
         }
         this.connection.onerror = function(e) {
             console.log("WS error: " + e);

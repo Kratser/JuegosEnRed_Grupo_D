@@ -51,7 +51,7 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
         this.cursors[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         switch (this.id){
-            case 1:
+            case 0:
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -66,7 +66,7 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-            case 2:
+            case 1:
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -80,7 +80,7 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-            case 3:
+            case 2:
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({
@@ -94,7 +94,7 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
                     lifespan: 200
                 });
                 break;
-            case 4:
+            case 3:
                 // Borde de color
                 this.outline = this.scene.add.particles("outline").setDepth(-1);
                 this.emitter = this.outline.createEmitter({

@@ -146,7 +146,7 @@ class WSHowToPlay extends Phaser.Scene {
         this.tick3.alpha = 0;
         this.tick4 = this.add.image(1166.23, 28.5, "tick").setScale(0.8).setDepth(3);
         this.tick4.alpha = 0;
-        this.ticks = [this.tick1, this.tick2, this.tick3, this.tick3];
+        this.ticks = [this.tick1, this.tick2, this.tick3, this.tick4];
         this.readys = [];
         this.readys = [this.gReady, this.pReady, this.bReady, this.yReady];
         this.contReady = 0;
@@ -196,6 +196,7 @@ class WSHowToPlay extends Phaser.Scene {
             	console.log("Id: " + data.id + ", Key: " + data.key);
             	if (!that.players[data.id].ready){
             		that.contReady++;
+            		that.ticks[data.id].alpha = 1;
             	}
                 that.players[data.id].ready = true;
                  // Cambio de escena
@@ -262,12 +263,15 @@ class WSHowToPlay extends Phaser.Scene {
     }// Fin create
 
     update(time, delta){
+    	/*
+    	console.log(this.characters);
         // Aparece cuando el jugador está listo
         for(var i = 0; i < this.numPlayers; i++){
             if(this.players[this.characters[i].id].ready == true){
                 this.ticks[this.characters[i].id].alpha = 1;
             }
         }
+        */
         // Mostrar detalles
         if(Phaser.Input.Keyboard.JustDown(this.enterKey)){
             this.details = true;
@@ -317,6 +321,7 @@ class WSHowToPlay extends Phaser.Scene {
         if (that.players[playerIdx].ready == true){
             that.players[playerIdx].ready = false;
             that.contReady--;
+            that.ticks[id].alpha = 0;
         }
         that.numPlayers--;
         

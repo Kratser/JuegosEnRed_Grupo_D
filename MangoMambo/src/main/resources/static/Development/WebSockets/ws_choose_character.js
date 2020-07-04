@@ -334,28 +334,30 @@ class WSChooseCharacter extends Phaser.Scene {
     }// Fin Update
 
     changeCharacter(charactersArray, characterid, selector) {
+    	console.log(selector);
         switch (selector) {
             case 0:
-                this.characterAux = new Character(this, characterid, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new WSCharacter(this, characterid, "palm_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 1:
-                this.characterAux = new Character(this, characterid, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new WSCharacter(this, characterid, "dino_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 2:
-                this.characterAux = new Character(this, characterid, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new WSCharacter(this, characterid, "toufat_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
             case 3:
-                this.characterAux = new Character(this, characterid, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
+                this.characterAux = new WSCharacter(this, characterid, "lemur_choose", false, charactersArray[characterid].x, charactersArray[characterid].y);
                 this.characters[characterid].destroy();
                 this.characters[characterid] = this.characterAux;
                 break;
         }
+    	console.log(this.characterAux);
         // Cambia el texto explicativo de la habilidad y el nombre en función del personaje y el jugador
         this.ChangeText(selector, characterid);
     }// Fin changeCharacter
@@ -392,7 +394,7 @@ class WSChooseCharacter extends Phaser.Scene {
                 break;
         }
         if (!this.players[idInt].active) {// Si el jugador id no se encuentra activo
-            this.characters[idInt] = new Character(this, idInt, "palm_choose", false, posX, posY);
+            this.characters[idInt] = new WSCharacter(this, idInt, "palm_choose", false, posX, posY);
             this.players[idInt].active = true;
             this.keys[idInt].alpha = 0;// Desaparecen las teclas
             for (var i = 0; i < this.players.length; i++) {
