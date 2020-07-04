@@ -603,15 +603,13 @@ class WSLevel1 extends Phaser.Scene {
         this.characters[i].body.y = positionY;
         this.characters[i].x = positionX;
         this.characters[i].y = positionY;
-        this.characters[i].body.setAccelerationX(accelerationX);
-        this.characters[i].body.setAccelerationY(accelerationY);
-        if (this.characters[i].body.acceleration.x < 0){
+        if (accelerationX < 0){
             this.characters[i].flipX = true;
             this.characters[i].anims.play(this.characters[i].anim[1], true);
-        }else if (this.characters[i].body.acceleration.x > 0){
+        }else if (accelerationX > 0){
             this.characters[i].flipX = false;
             this.characters[i].anims.play(this.characters[i].anim[1], true);
-        }else if (this.characters[i].body.acceleration.x == 0){
+        }else if (accelerationX == 0){
             this.characters[i].anims.play(this.characters[i].anim[0], true);
         }
     }// Fin updateCharacter
