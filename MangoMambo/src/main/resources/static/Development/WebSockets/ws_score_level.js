@@ -92,6 +92,9 @@ class WSScoreLevel extends Phaser.Scene {
         this.crowns;
         // Botón escape
         this.escapeButton;
+        // Estado del servidor
+        this.serverStatusImg;
+        this.serverStatus;
         // Leyenda ready
         this.readyHtps;
         // Puntuación máxima
@@ -295,11 +298,15 @@ class WSScoreLevel extends Phaser.Scene {
             }// Fin switch
         }// Fin for
         // Botón escape
-        this.escapeButton = this.add.image(45, 20, "escape_button");
+        this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(11);
         // ESCAPE
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER
         this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        // Imagen del estado del servidor
+        this.serverStatus = true;
+        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock").setDepth(10);
+        this.serverStatusImg.setAlpha(0);
         // Puntuaciones de los jugadores
         this.scores = [];
         for (var i = 0; i < this.characters.length; i++) {
@@ -336,34 +343,36 @@ class WSScoreLevel extends Phaser.Scene {
         // Mensajes websockets
         var that = this;
         this.input.keyboard.on("keydown", function (event) {
-            // Si se pulsa la flecha hacia abajo
-            if (event.which == 40) {
-            	that.choose_options.play({
-                    volume: this.vol
-                });
-                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
-            // Si se pulsa la tecla "Escape"
-            }else if (event.key == "Escape") {
-                that.choose_options.play({
-                    volume: this.vol
-                });
-                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
-                // Desconectar al jugador
-                that.connection.close();
-                that.myPlayer.isReady = false;
-                that.myPlayer.isConnected = false;
-                var playerUpdate = $.ajax({
-                    method: "PUT",
-                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                    data: JSON.stringify(that.myPlayer),
-                    processData: false,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                that.scene.start("main_menu", { volume: this.vol });
-                // Se para la música
-                that.loop.stop();
+            if (that.serverStatus){
+                // Si se pulsa la flecha hacia abajo
+                if (event.which == 40) {
+            	    that.choose_options.play({
+                        volume: this.vol
+                    });
+                    that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
+                    // Si se pulsa la tecla "Escape"
+                }else if (event.key == "Escape") {
+                    that.choose_options.play({
+                        volume: this.vol
+                    });
+                    that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
+                    // Desconectar al jugador
+                    that.connection.close();
+                    that.myPlayer.isReady = false;
+                    that.myPlayer.isConnected = false;
+                    var playerUpdate = $.ajax({
+                        method: "PUT",
+                        url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                        data: JSON.stringify(that.myPlayer),
+                        processData: false,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    that.scene.start("main_menu", { volume: this.vol });
+                    // Se para la música
+                    that.loop.stop();
+                }
             }
         });
 
@@ -481,6 +490,7 @@ class WSScoreLevel extends Phaser.Scene {
 
         this.connection.onclose = function (msg) {
             console.log("Sesión cerrada: " + msg);
+            that.serverStatus = false;
             clearInterval(that.playerCheck);
         }
 
@@ -491,45 +501,55 @@ class WSScoreLevel extends Phaser.Scene {
     }// Fin create
 
     update() {
-        // Aparece cuando el jugador está listo
-        for(var i = 0; i < this.characters.length; i++){
-            if (this.characters[i]){
-                if(this.players[this.characters[i].id].ready == true){
-                    this.ticks[this.characters[i].id].alpha = 1;
-                }else{
-                    this.ticks[this.characters[i].id].alpha = 0;
+        if (this.serverStatus){
+            this.serverStatusImg.setAlpha(0);
+            // Aparece cuando el jugador está listo
+            for(var i = 0; i < this.characters.length; i++){
+                if (this.characters[i]){
+                    if(this.players[this.characters[i].id].ready == true){
+                        this.ticks[this.characters[i].id].alpha = 1;
+                    }else{
+                        this.ticks[this.characters[i].id].alpha = 0;
+                    }
                 }
             }
-        }
 
-        if (this.contReady == this.numPlayers) {
-            if (!this.gameEnd){
-                console.log("Volvemos a jugar :D");
-                // Si la partida no ha terminado, volvemos al nivel 1
-                // Se pasa a la pantalla de explicación
-        	    this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
-                this.connection.close();
-                // Cambio de escena
-                this.scene.start("ws_how_to_play", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
-                //Se para la música
-                this.loop.stop();
-            }else {
-                this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
-                this.connection.close();
-                this.myPlayer.isReady = false;
-                this.myPlayer.isConnected = false;
-                var that = this;
-                var playerUpdate = $.ajax({
-                    method: "PUT",
-                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                    data: JSON.stringify(that.myPlayer),
-                    processData: false,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
+            if (this.contReady == this.numPlayers) {
+                if (!this.gameEnd){
+                    console.log("Volvemos a jugar :D");
+                    // Si la partida no ha terminado, volvemos al nivel 1
+                    // Se pasa a la pantalla de explicación
+        	        this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
+                    this.connection.close();
+                    // Cambio de escena
+                    this.scene.start("ws_how_to_play", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.numPlayers, ip: this.ip });
+                    //Se para la música
+                    this.loop.stop();
+                }else {
+                    this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
+                    this.connection.close();
+                    this.myPlayer.isReady = false;
+                    this.myPlayer.isConnected = false;
+                    var that = this;
+                    var playerUpdate = $.ajax({
+                        method: "PUT",
+                        url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                        data: JSON.stringify(that.myPlayer),
+                        processData: false,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    this.scene.start("main_menu", { volume: this.vol });
+                    // Se para la música
+                    this.loop.stop();
+                }
+            }
+        }else{
+            this.serverStatusImg.setAlpha(1);
+            if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)) {
                 this.scene.start("main_menu", { volume: this.vol });
-                // Se para la música
+                //Se para la música
                 this.loop.stop();
             }
         }

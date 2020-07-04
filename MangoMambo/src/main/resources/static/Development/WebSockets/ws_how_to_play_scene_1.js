@@ -104,6 +104,11 @@ class WSHowToPlay extends Phaser.Scene {
         // Teclas
         this.enterKey;
         this.escKey;
+        // Boton escape
+        this.escapeButton;
+        // Estado del servidor
+        this.serverStatusImg;
+        this.serverStatus;
         // La canción loopeada
         this.loop;
         // Efectos de Sonido
@@ -159,6 +164,13 @@ class WSHowToPlay extends Phaser.Scene {
         // Teclas
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Boton escape
+        this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(11);
+        this.escapeButton.setAlpha(0);
+        // Imagen del estado del servidor
+        this.serverStatus = true;
+        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock").setDepth(10);
+        this.serverStatusImg.setAlpha(0);
         //Jugadores
         this.players = [{ready:false},{ready:false},{ready:false},{ready:false}];
         // Música
@@ -180,8 +192,10 @@ class WSHowToPlay extends Phaser.Scene {
         }, 1000);
         // Al pulsar la flecha hacia abajo
         this.input.keyboard.on("keydown", function (event) {
-            if (event.which == 40) {
-                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
+            if (that.serverStatus){
+                if (event.which == 40) {
+                    that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
+                }
             }
         });
         // Al recibir un mensaje
@@ -258,52 +272,65 @@ class WSHowToPlay extends Phaser.Scene {
         }// Fin onmessage
         this.connection.onclose = function(msg){
             console.log("Sesión cerrada: "+ msg);
+            that.escapeButton.setAlpha(1);
+            that.serverStatus = false;
             clearInterval(that.playerCheck);
         }
     }// Fin create
 
     update(time, delta){
-        // Mostrar detalles
-        if(Phaser.Input.Keyboard.JustDown(this.enterKey)){
-            this.details = true;
-            var tween = this.tweens.add({
-                targets: [this.howToPlayRock, this.detailsButtonSelect],
-                alpha: 0,
-                ease: 'Sine.easeInOut',
-                duration: 200,
-            });
-            var tween = this.tweens.add({
-                targets: [this.wsHowToPlayRockDetails, this.bigEsc],
-                alpha: 1,
-                ease: 'Sine.easeInOut',
-                duration: 200,
-            });
-            this.choose_options.play({
-                volume: this.vol
-            });
+        if (this.serverStatus){
+            this.serverStatusImg.setAlpha(0);
+            // Mostrar detalles
+            if(Phaser.Input.Keyboard.JustDown(this.enterKey)){
+                this.details = true;
+                var tween = this.tweens.add({
+                    targets: [this.howToPlayRock, this.detailsButtonSelect],
+                    alpha: 0,
+                    ease: 'Sine.easeInOut',
+                    duration: 200,
+                });
+                var tween = this.tweens.add({
+                    targets: [this.wsHowToPlayRockDetails, this.bigEsc],
+                    alpha: 1,
+                    ease: 'Sine.easeInOut',
+                    duration: 200,
+                });
+                this.choose_options.play({
+                    volume: this.vol
+                });
+            }
+            // Esconder los detalles
+            if(this.escKey.isDown && this.details){
+                this.choose_options.play({
+                    volume: this.vol
+                });
+                this.details = false;
+                var tween = this.tweens.add({
+                    targets: [this.howToPlayRock, this.detailsButtonSelect],
+                    alpha: 1,
+                    ease: 'Sine.easeInOut',
+                    duration: 200,
+                });
+                var tween = this.tweens.add({
+                    targets: [this.wsHowToPlayRockDetails, this.bigEsc],
+                    alpha: 0,
+                    ease: 'Sine.easeInOut',
+                    duration: 200,
+                });
+                this.choose_options.play({
+                    volume: this.vol
+                });
+            }
+        }else{
+            this.serverStatusImg.setAlpha(1);
+            if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
+                this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
+                this.loop.stop();
+            }
         }
-        // Esconder los detalles
-        if(this.escKey.isDown && this.details){
-            this.choose_options.play({
-                volume: this.vol
-            });
-            this.details = false;
-            var tween = this.tweens.add({
-                targets: [this.howToPlayRock, this.detailsButtonSelect],
-                alpha: 1,
-                ease: 'Sine.easeInOut',
-                duration: 200,
-            });
-            var tween = this.tweens.add({
-                targets: [this.wsHowToPlayRockDetails, this.bigEsc],
-                alpha: 0,
-                ease: 'Sine.easeInOut',
-                duration: 200,
-            });
-            this.choose_options.play({
-                volume: this.vol
-            });
-        }
+        
     }// Fin update
     
     leaveGame(id){

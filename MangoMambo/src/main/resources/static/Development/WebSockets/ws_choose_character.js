@@ -45,6 +45,12 @@ class WSChooseCharacter extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
+        // Boton escape
+        this.escapeButton;
+        this.escapeKey;
+        // Estado del servidor
+        this.serverStatusImg;
+        this.serverStatus;
         // Sonido
         this.intro;
         this.loop;
@@ -80,7 +86,8 @@ class WSChooseCharacter extends Phaser.Scene {
             repeat: -1
         });
         // Boton escape
-        this.escapeButton = this.add.image(45, 20, "escape_button");
+        this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(3);
+        this.escapeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // Texto e imagenes que aparecen si no te has unido a la partida
         this.keys = [];
         switch (this.myPlayer.id) {
@@ -190,6 +197,10 @@ class WSChooseCharacter extends Phaser.Scene {
         this.readyPlayers = 0;
         // Selector para cada jugador
         this.selectors = [0, 0, 0, 0];
+        // Imagen del estado del servidor
+        this.serverStatus = true;
+        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock").setDepth(2);
+        this.serverStatusImg.setAlpha(0);
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("menu_begining");
@@ -209,32 +220,34 @@ class WSChooseCharacter extends Phaser.Scene {
         // Eventos WebSockets
         this.input.keyboard.on("keydown", function (event) {
             var that = this.scene;
-            if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
-                || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
-                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
-            } else if (event.key == "Escape") { // Si se pulsa scape, se vuelve al menú principal
-                that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
-                that.connection.close();
-                
-                // Update de API REST
-                that.myPlayer.isReady = false;
-                that.myPlayer.isConnected = false;
-                var playerUpdate = $.ajax({
-                    method: "PUT",
-                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                    data: JSON.stringify(that.myPlayer),
-                    processData: false,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                that.scene.start("main_menu", { volume: this.vol });
-                that.choose_options.play({
-                    volume: that.vol
-                });
-                // Se para la música
-                that.loop.stop();
-                that.intro.stop();
+            if (that.serverStatus){
+                if (event.key == 'a' || event.key == 'A' || event.key == 'w' || event.key == 'W'
+                    || event.key == 'd' || event.key == 'D' || event.key == 's' || event.key == 'S') {
+                    that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
+                } else if (event.key == "Escape") { // Si se pulsa scape, se vuelve al menú principal
+                    that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
+                    that.connection.close();
+                    
+                    // Update de API REST
+                    that.myPlayer.isReady = false;
+                    that.myPlayer.isConnected = false;
+                    var playerUpdate = $.ajax({
+                        method: "PUT",
+                        url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
+                        data: JSON.stringify(that.myPlayer),
+                        processData: false,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    that.scene.start("main_menu", { volume: this.vol });
+                    that.choose_options.play({
+                        volume: that.vol
+                    });
+                    // Se para la música
+                    that.loop.stop();
+                    that.intro.stop();
+                }
             }
         });
         var that = this;
@@ -301,13 +314,17 @@ class WSChooseCharacter extends Phaser.Scene {
                     }
                 }
             }
+        }// Fin onmessage
+        this.connection.onclose = function(msg){
+            console.log("Sesión cerrada: "+ msg);
+            that.serverStatus = false;
         }
     }//Fin create
 
-    update() {
+    update() {   
         // Si hay dos o más jugadores listos, comenzar partida
         if (this.numPlayers >= 2 && this.numPlayers == this.readyPlayers){
-        	// Se pasa a la pantalla de explicación
+            // Se pasa a la pantalla de explicación
         	this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
             this.connection.close();
             // Cambio de escena
@@ -315,6 +332,21 @@ class WSChooseCharacter extends Phaser.Scene {
             //Se para la música
             this.loop.stop();
         }
+        
+        if (this.serverStatus){
+            this.serverStatusImg.setAlpha(0);
+        }else{
+            this.serverStatusImg.setAlpha(1);
+            if (Phaser.Input.Keyboard.JustDown(this.escapeKey)) {
+                this.myPlayer.isReady = false;
+                this.myPlayer.isConnected = false;
+                this.players[this.myPlayer.id] = this.myPlayer;
+                this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
+                this.loop.stop();
+            }
+        }
+        
     }// Fin update
 
     changeCharacter(charactersArray, characterid, selector) {

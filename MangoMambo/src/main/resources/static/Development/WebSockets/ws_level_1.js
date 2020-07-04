@@ -155,6 +155,12 @@ class WSLevel1 extends Phaser.Scene {
         this.load.audio("birds", "./Design/Audio/SoundFX/birds.mp3");
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
+        // Boton escape
+        this.escapeButton;
+        this.escapeKey;
+        // Estado del servidor
+        this.serverStatusImg;
+        this.serverStatus;
         // Mango
         this.mango;
         // Posiciones inicales de los personajes
@@ -191,6 +197,14 @@ class WSLevel1 extends Phaser.Scene {
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
         //Botón de pausa
         this.pauseButton = this.add.image (60, 565, "pause_button").setDepth(1);
+        // Boton escape
+        this.escapeButton = this.add.image(45, 20, "escape_button").setDepth(11);
+        this.escapeButton.setAlpha(0);
+        this.escapeKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Imagen del estado del servidor
+        this.serverStatus = true;
+        this.serverStatusImg = this.add.image(600, 300, "connection_failed_rock").setDepth(10);
+        this.serverStatusImg.setAlpha(0);
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas
@@ -350,11 +364,13 @@ class WSLevel1 extends Phaser.Scene {
 
         // Si se pulsa una tecla
         this.input.keyboard.on("keydown", function (event) {
-            if (event.key == "Escape") {
-                if (that.playing) {
-                    if (!that.scene.get("ws_pause")) {
-                        that.playing = false;
-                        that.scene.add("ws_pause", new WSPause, true, { scene: that, sceneKey: "ws_level_1", volume: that.vol });
+            if (that.serverStatus){
+                if (event.key == "Escape") {
+                    if (that.playing) {
+                        if (!that.scene.get("ws_pause")) {
+                            that.playing = false;
+                            that.scene.add("ws_pause", new WSPause, true, { scene: that, sceneKey: "ws_level_1", volume: that.vol });
+                        }
                     }
                 }
             }
@@ -369,6 +385,9 @@ class WSLevel1 extends Phaser.Scene {
         this.connection.onclose = function(msg){
             console.log("Sesión cerrada: "+ msg);
             clearInterval(that.playerUpdate);
+            that.escapeButton.setAlpha(1);
+            that.scene.remove("ws_pause");
+            that.serverStatus = false;
         }
         
         // Recibir mensajes
@@ -480,36 +499,48 @@ class WSLevel1 extends Phaser.Scene {
     }// Fin create
 
     update() {
-        if (this.play) {
-            if (this.playing){
-                this.characters[this.myPlayerIdx].update();
+        if (this.serverStatus){
+            this.serverStatusImg.setAlpha(0);
+            if (this.play) {
+                if (this.playing){
+                    this.characters[this.myPlayerIdx].update();
+                }
+                this.mango.update();
+                // Refresh body de la plataforma superior
+                this.upMovePlat.refreshBody();
+                
+                // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
+                if (this.numPlayers <= 1) {
+                    this.scene.remove("ws_pause");
+                    clearInterval(this.playerUpdate);
+                    this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
+                    this.connection.close();
+                    this.scene.start("ws_score_level", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.characters.length, ip: this.ip});
+                    // Se para la música
+                    this.intro.stop();
+                    this.loop.stop();
+                    this.birds.stop();
+                }
+                
+                if (this.mango.explodeTime <= 10) {
+                    this.loop.setRate(1.05);
+                    this.birds.setRate(1.05);
+                } if (this.mango.explodeTime <= 5) {
+                    this.loop.setRate(1.15);
+                    this.birds.setRate(1.15);
+                } if (this.mango.explodeTime > 10) {
+                    this.loop.setRate(1);
+                    this.birds.setRate(1);
+                }
             }
-            this.mango.update();
-            // Refresh body de la plataforma superior
-            this.upMovePlat.refreshBody();
-            
-            // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
-            if (this.numPlayers <= 1) {
-                this.scene.remove("ws_pause");
-                clearInterval(this.playerUpdate);
-                this.connection.send(JSON.stringify({ type: "leave", id: this.myPlayer.id }));
-                this.connection.close();
-                this.scene.start("ws_score_level", { characters: this.characters.filter(function(el){return el != undefined}), volume: this.vol, myPlayer: this.myPlayer, numPlayers: this.characters.length, ip: this.ip});
-                // Se para la música
+        }else{
+            this.serverStatusImg.setAlpha(1);
+            if (Phaser.Input.Keyboard.JustDown(this.escapeKey)) {
                 this.intro.stop();
                 this.loop.stop();
                 this.birds.stop();
-            }
-            
-            if (this.mango.explodeTime <= 10) {
-                this.loop.setRate(1.05);
-                this.birds.setRate(1.05);
-            } if (this.mango.explodeTime <= 5) {
-                this.loop.setRate(1.15);
-                this.birds.setRate(1.15);
-            } if (this.mango.explodeTime > 10) {
-                this.loop.setRate(1);
-                this.birds.setRate(1);
+                this.scene.start("main_menu", { volume: this.vol });
+                //Se para la música
             }
         }
     }// Fin update
