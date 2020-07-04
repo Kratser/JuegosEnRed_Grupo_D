@@ -41,6 +41,11 @@ class MainMenu extends Phaser.Scene {
             percentText.destroy();
             loadingImg.destroy();
         });
+
+        ///////////////////////////////////
+        ///////////////MENU////////////////
+        ///////////////////////////////////
+
         // Cargar la imagen de fondo
         this.load.image("menu_background", "./Design/Stages/Backgrounds/main_menu_background.png");
         this.load.image("title", "./Design/Stages/Backgrounds/mango_mambo_title.png");
@@ -81,6 +86,7 @@ class MainMenu extends Phaser.Scene {
         this.choose_options;
         // Opciones para los botones
         this.options;
+       
     }// Fin preload
 
     create() {
