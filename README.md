@@ -50,7 +50,7 @@ https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mamb
 
 * Aparte de lo comentado en el tag fase1, fase2 y fase 3, se adjunta la presentación con la que enseñaremos lo realizado en la fase 4 y algunas mejoras planteadas. También se ha actualizado el pdf GDD y este README. 
 * En el punto 5 hemos añadido un apartado que explica un poco qué hemos hecho en Websockets.  
-* Finalmente, se adjunta un video al principio de este README para mostrar as funcionalidades de juego y qué hemos hecho en cada parte.
+* Finalmente, se adjunta un video al principio de este README para mostrar las funcionalidades de juego y qué hemos hecho en cada parte.
 
 * * *
 
@@ -165,9 +165,8 @@ ya existentes, pero invirtiendo su flujo original.
 
 A continuación, se van a nombrar y mostrar todos los personajes que el jugador tiene
 disponibles durante la selección de personajes junto con sus características especiales:
-  * **Palm:** La habilidad única de la palmera será caer de forma rápida
-siempre y cuando al jugador le interese.
-  * **Dino:** La característica principal del dinosaurio será tener una esquiva.
+  * **Palm:** La habilidad única de la palmera será caer de forma rápida.
+  * **Dino:** La característica principal del dinosaurio será tener un mayor control del personaje, pudiendo cambiar de dirección fácilmente.
   * **Lemur:** El lémur tendrá una aceleración y velocidad máxima superior al
 resto de personajes.
   * **Toufat:** El tucán podrá dar saltos mucho mayores a los del resto.
@@ -356,11 +355,11 @@ El formato será “.wav” y ".mp3".
 
 ### **5.4. Websockets**
 
-A partir de la escena de online lobby pasamos de usar API REST a utilizar el protocolo ws de WebSockets. Ahora ya no tendremos que realizar peticiones excepto cuando queramos volver al menú principal desde alguna otra escena. Para no enviar toda la inforación de golpe, hemos creado nuevas clases/escenas nuevas para este proceso y en cada escena abrimos una conexión Websockets y enviamos los mensajes con la información de los jugadores y de los elementos del juego. Este mensaje es recibdo por un manejador (handler) y este se encargará de actualizar la información al resto de jugadores.
+A partir de la escena de online lobby pasamos de usar API REST a utilizar el protocolo ws de WebSockets. Ahora ya no tendremos que realizar peticiones excepto cuando queramos volver al menú principal desde alguna otra escena. Para no enviar toda la inforación de golpe, hemos creado nuevas clases/escenas para este proceso y en cada escena abrimos una conexión Websockets y enviamos los mensajes con la información de los jugadores y de los elementos del juego. Este mensaje es recibdo por un manejador (handler) y este se encargará de actualizar la información al resto de jugadores.
 
 ### **5.5. ¿Cómo se ejecuta?**
 
-Al descargar la fase 3, hay una carpeta en la ruta del proyecto llamada **“MangoMambo(exe)”** dentro, hay que abrir el archivo **“MangoMambo-0.0.1-SNAPSHOT.jar”**. Después de ejecutar el .jar, en la URL del navegador hay que poner la IP del host (IPv4) y el puerto 8080. 
+Al descargar la fase 4, hay una carpeta en la ruta del proyecto llamada **“MangoMambo(exe)”** dentro, hay que abrir el archivo **“MangoMambo-0.0.1-SNAPSHOT.jar”**. Después de ejecutar el .jar, en la URL del navegador hay que poner la IP del host (IPv4) y el puerto 8080. 
 Para cerrarlo, hay que acceder al administrador de tareas y en la pestaña de **“Detalles”** hay que finalizar la tarea: **“javaw.exe”**.
 
 ## **6. Referencias**
