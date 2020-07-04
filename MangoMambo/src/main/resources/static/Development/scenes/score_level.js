@@ -142,7 +142,6 @@ class ScoreLevel extends Phaser.Scene {
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 161.50, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -162,7 +161,6 @@ class ScoreLevel extends Phaser.Scene {
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 448.00, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -182,7 +180,6 @@ class ScoreLevel extends Phaser.Scene {
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 742.00, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -202,7 +199,6 @@ class ScoreLevel extends Phaser.Scene {
                     // Personaje
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 1039, 532, this.characters[i].score);
-                    // y del nuevo sprite (_choose)
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
                     // Animación subida personaje
                     var tweenCha = this.tweens.add({
@@ -271,7 +267,7 @@ class ScoreLevel extends Phaser.Scene {
             loop: true,
             volume: this.vol
         });
-    }// Fin Create
+    }// Fin create
 
     update() {
         // Cuando terminan las rondas vuelve al menu principal
@@ -309,4 +305,4 @@ class ScoreLevel extends Phaser.Scene {
             this.loop.stop();
         }
     }// Fin update
-}// Fin clase EndLevel
+}// Fin clase ScoreLevel

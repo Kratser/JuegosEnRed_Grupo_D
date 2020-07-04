@@ -96,8 +96,6 @@ class WSPause extends Phaser.Scene {
             this.choose_options.play({
                 volume: this.data.scene.vol
             });
-            //this.data.scene.pauseKey.isDown = false; BORRAR
-            //this.scene.resume(this.data.sceneKey);
             this.scene.remove("ws_pause");
             this.options[0] = false;
             this.data.scene.playing = true;
@@ -114,7 +112,6 @@ class WSPause extends Phaser.Scene {
             this.data.scene.birds.stop();
             // Se comunica que salimos del juego
             var that = this;
-            //this.data.scene.connection.send(JSON.stringify({ id: that.data.scene.myPlayer.id, key: "Enter", press: true, playing: false }));
             this.data.scene.connection.send(JSON.stringify({ type: "event", id: that.data.scene.myPlayer.id, msg: "leaveGame" }));
             // Se cierra la conexión
             clearInterval(this.data.scene.playerUpdate);
@@ -136,4 +133,4 @@ class WSPause extends Phaser.Scene {
             this.options[1] = false;
         }
     }// Fin update
-}// Fin clase Pause
+}// Fin clase WSPause

@@ -24,7 +24,7 @@ class Mango extends Phaser.GameObjects.Sprite{
 
     preload(){
 
-    }// Fin Preload
+    }// Fin preload
 
     create() {
         this.scene.anims.create({
@@ -32,8 +32,8 @@ class Mango extends Phaser.GameObjects.Sprite{
             frames: this.scene.anims.generateFrameNumbers('mango_explosion', { start: 0, end: 7 }),
             frameRate: 15
         });
-        this.on("animationcomplete", this.AnimComplete, this);
-    }// Fin Create
+        this.on("animationcomplete", this.animComplete, this);
+    }// Fin create
 
     update() {
         // Cambio de color y de escala en función del tiempo restante
@@ -57,13 +57,13 @@ class Mango extends Phaser.GameObjects.Sprite{
         }
     }// Fin update
     
-    UpdateTime() {
+    updateTime() {
         // Un segundo
         this.explodeTime -= 1; 
-        this.scene.text.setText(this.scene.FormatTime(this.explodeTime));
-    }
+        this.scene.text.setText(this.scene.formatTime(this.explodeTime));
+    }// Fin updateTime
 
-    AnimComplete(animation, frame) {
+    animComplete(animation, frame) {
         this.explodeTime = this.time;
         this.setTexture("mango", 0);
         this.x = 600;
@@ -80,5 +80,5 @@ class Mango extends Phaser.GameObjects.Sprite{
             y: 260,
             duration: 2000
         });
-    }
+    }// Fin animComplete
 }// Fin clase Mango

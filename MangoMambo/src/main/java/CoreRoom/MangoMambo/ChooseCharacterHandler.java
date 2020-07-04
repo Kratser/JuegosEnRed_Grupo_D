@@ -135,7 +135,6 @@ public class ChooseCharacterHandler extends TextWebSocketHandler {
 			sessions.remove(id);
 			timers.get(id).cancel();
 			timerCheck.put(id, Long.parseLong("0"));
-			
 		}
 	}
 }

@@ -159,11 +159,6 @@ class WSLevel1 extends Phaser.Scene {
         this.mango;
         // Posiciones inicales de los personajes
         this.positions;
-        // Tiempo entre colisiones para cambiar el mango
-        this.maxCollisionTime;
-        this.collisionTime;
-        // Reloj del juego
-        this.clock;
         // Música
         this.intro;
         this.loop;
@@ -185,7 +180,6 @@ class WSLevel1 extends Phaser.Scene {
         this.playing;
         // Texto del mango
         this.text;
-        this.timedEvent;
         // Evento para actualizar con los datos del jugador
         this.playerUpdate;
     }// Fin preload
@@ -197,7 +191,6 @@ class WSLevel1 extends Phaser.Scene {
         this.add.image(0, 0, "lvl1_background").setOrigin(0,0).setDepth(-2);
         //Botón de pausa
         this.pauseButton = this.add.image (60, 565, "pause_button").setDepth(1);
-       
         // Se crean las plataformas como un grupo
         var platforms = this.physics.add.staticGroup(); 
         // Creación de plataformas
@@ -212,19 +205,9 @@ class WSLevel1 extends Phaser.Scene {
         // Aire
         platforms.create (351.5, 199, "tiki_plat");
         platforms.create (849.5, 199, "tiki_plat");
-        // Plataforma que se mueve
+        // Plataforma superior
         this.upMovePlat = platforms.create (500, 155, "yellow_plat");
-        // Movimiento
-        /*
-        var tween = this.tweens.add({
-            targets: this.upMovePlat,
-            x: 700,
-            ease: 'Sine.easeInOut',
-            duration: 5000,
-            yoyo: true,
-            repeat: -1
-        });
-        */
+
         platforms.create (600, 299, "yellow_plat");
 
         platforms.create (600, 434, "big_plat");
@@ -237,8 +220,6 @@ class WSLevel1 extends Phaser.Scene {
 
         platforms.create (54.5, 185.50, "side_plat");
         platforms.create (1148.5, 185.50, "side_plat");
-        // Tecla de pausa
-        // this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC); BORRAR
         // Posiciones iniciales de los personajes
         this.positions = [{x: 50, y: 50}, {x: 1150, y: 50},
                           {x: 400, y: 500}, {x: 800, y: 500}];
@@ -277,12 +258,7 @@ class WSLevel1 extends Phaser.Scene {
         for (var i = 0; i < this.characters.length; i++){
             this.physics.add.collider(this.characters[i], platforms);
         }
-        // Se crea la colisión entre los personajes y el mango
-        /*
-        for (var i = 0; i < this.characters.length; i++){
-            this.physics.add.overlap(this.characters[i], this.mango, this.getMango, null, this);
-        }
-        */
+        // Se crea la colisión entre mi personaje y el mango
        this.physics.add.overlap(this.characters[this.myPlayerIdx], this.mango, 
             (function(){ 
                 // Si el mango no tiene ningún personaje asociado, lo recojo
@@ -292,31 +268,16 @@ class WSLevel1 extends Phaser.Scene {
             }), 
             null, this);
         // Se crea la colisión entre los personajes
-        /*
-        this.maxCollisionTime = 1000;
-        this.collisionTime = 0;
-        for (var i = 0; i <this.characters.length-1; i++){
-            for (var j = i+1; j < this.characters.length; j++){
-                if (i != j){
-                    this.physics.add.overlap(this.characters[i], this.characters[j], this.stealMango, null, this);
-                }
-            }
-        }
-        */
        for (var i = 0; i < this.characters.length; i++){
            // Si colisiono con el jugador que tiene el mango, intento robarlo
             if (this.characters[this.myPlayerIdx].id != this.characters[i].id){
                 this.physics.add.overlap(this.characters[this.myPlayerIdx], this.characters[i], 
                 (function(c1, c2){
-                    //if (this.mango.character == c2)
                     that.connection.send(JSON.stringify({ type: "event", id: c1.id, id2: c2.id, msg: "stealMango"})); 
                 }),
                 null, this);
             }
         }
-        // Se inicializa el reloj
-        this.clock = new Phaser.Time.Clock(this);
-        this.clock.start();
         // Se crea la música
         this.sound.pauseOnBlur = false;
         this.intro = this.sound.add("minigame_begining");
@@ -389,25 +350,6 @@ class WSLevel1 extends Phaser.Scene {
 
         // Si se pulsa una tecla
         this.input.keyboard.on("keydown", function (event) {
-            // Si el juego no está pausado
-            //if (that.playing) {
-                /*
-                // Si se pulsa WASD, se envía una señal
-                if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
-                    || event.key == 'd' || event.key == 'D' || event.key == 'w' || event.key == 'W') {
-                    that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key, press: true, playing: that.playing }));
-                }
-                // Si se pulsa ESCAPE se pausa el juego de forma local
-                if (event.key == "Escape") {
-                    if (that.playing) {
-                        if (!that.scene.get("ws_pause")) {
-                            that.playing = false;
-                            that.scene.add("ws_pause", new WSPause, true, { scene: that, sceneKey: "ws_level_1", volume: that.vol });
-                        }
-                    }
-                }
-                */
-            //}
             if (event.key == "Escape") {
                 if (that.playing) {
                     if (!that.scene.get("ws_pause")) {
@@ -417,20 +359,6 @@ class WSLevel1 extends Phaser.Scene {
                 }
             }
         });// Fin pulsar tecla
-        // Si se deja de pulsar una tecla
-        this.input.keyboard.on("keyup", function (event) {
-            // Si el juego no está pausado
-            if (that.playing) {
-                /*
-                // Si se pulsa WASD, se envía una señal
-                if (event.key == 'a' || event.key == 'A' || event.key == 's' || event.key == 'S'
-                    || event.key == 'd' || event.key == 'D' || event.key == 'w' || event.key == 'W') {
-                    that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key, press: false, playing: that.playing }));
-                }
-                */
-            }
-        });// Fin soltar tecla
-
         // Evento para actualizar a los jugadores con mis datos
         this.playerUpdate = setInterval(function(){
         	var myCharacter = that.characters[that.myPlayerIdx];
@@ -438,26 +366,10 @@ class WSLevel1 extends Phaser.Scene {
         		posX: myCharacter.x, posY: myCharacter.y,
         		accX: myCharacter.body.acceleration.x, accY: myCharacter.body.acceleration.y}));
         }, 30);
-
-        
-        this.connection.onclose = function(){
-        	/*
-            that.myPlayer.isReady = false;
-            that.myPlayer.isConnected = false;
-            var playerUpdate = $.ajax({
-                method: "PUT",
-                url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                data: JSON.stringify(that.myPlayer),
-                processData: false,
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            */
+        this.connection.onclose = function(msg){
+            console.log("Sesión cerrada: "+ msg);
             clearInterval(that.playerUpdate);
-            //that.scene.start("main_menu", {volume: that.volume});
         }
-        
         
         // Recibir mensajes
         this.connection.onmessage = function(msg){
@@ -539,8 +451,6 @@ class WSLevel1 extends Phaser.Scene {
                         that.mango.resetMango();
                     }
                     var player = {id: data.id, isReady: false, isConnected: false};
-                    //that.data.scene.myPlayer.isReady = false;
-                    //that.data.scene.myPlayer.isConnected = false;
                     var playerUpdate = $.ajax({
                         method: "PUT",
                         url: "http://" + that.ip + "/mango-mambo/" + player.id,
@@ -566,49 +476,19 @@ class WSLevel1 extends Phaser.Scene {
                     console.log("Tipo de mensaje no controlado");
                 break;
             }
-            //Si el mensaje viene desde el juego
-            /*
-            if (data.playing == "true"){ 
-                for (var i = 0;  i < that.characters.length; i++){
-                    if (that.characters[i].id-1 == parseInt(data.id)){
-                        that.characters[i].action(data.key, data.press);
-                    }
-                }
-            // Si el mensaje viene del menú de pausa
-            }else{
-                // Se identifica al jugador que manda el mensaje y se elimina de la partida
-                for (var i = 0;  i < that.characters.length; i++){
-                    if (that.characters[i].id-1 == parseInt(data.id)){
-                        that.deleteCharacter(that.characters[i]);
-                        that.characters.splice(i,1);
-                    }
-                }
-            }
-            */
-        }// Fin recibir mensaje
-    }// Fin Create
+        }// Fin onmessage
+    }// Fin create
 
     update() {
         if (this.play) {
-            // Update de mi personaje
-            /*
-            if (this.playing){
-                for (var i = 0; i < this.characters.length; i++){
-                    if (this.characters[i].id == this.myPlayer.id){
-                        this.characters[this.myPlayer.id].update();
-                    }
-                }
-            }
-            */
             if (this.playing){
                 this.characters[this.myPlayerIdx].update();
             }
             this.mango.update();
-            // Refresh body de la plataforma que se mueve
+            // Refresh body de la plataforma superior
             this.upMovePlat.refreshBody();
             
             // Si solo queda un personaje, se pasa a la pantalla de puntuaciones
-            /**/
             if (this.numPlayers <= 1) {
                 this.scene.remove("ws_pause");
                 clearInterval(this.playerUpdate);
@@ -620,7 +500,6 @@ class WSLevel1 extends Phaser.Scene {
                 this.loop.stop();
                 this.birds.stop();
             }
-            /**/
             
             if (this.mango.explodeTime <= 10) {
                 this.loop.setRate(1.05);
@@ -633,90 +512,28 @@ class WSLevel1 extends Phaser.Scene {
                 this.birds.setRate(1);
             }
         }
-    }// Fin Update
+    }// Fin update
 
     getMango(character, mango){
     	console.log("El jugador " + character.id + " tiene el mango");
-        //if (!mango.character){// Si el mango no tiene ningún personaje asociado
-            //this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.updateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
-            // El personaje que lo recoge queda guardado en el mango
-            mango.character = character;
-            this.timeImage.alpha = 1;
-            this.text.alpha = 1;
-            // Desaparece el texto de getTheMango
-            this.getTheMango.alpha = 0;
-        //}
+        // El personaje que lo recoge queda guardado en el mango
+        mango.character = character;
+        this.timeImage.alpha = 1;
+        this.text.alpha = 1;
+        // Desaparece el texto de getTheMango
+        this.getTheMango.alpha = 0;
     }// Fin getMango
     
-    stealMango(character1/*, character2*/){
+    stealMango(character1){
         console.log("El jugador" + character1.id + " ha robado el mango!");
         this.mango.character = character1;
         this.hit.play({
             volume: this.vol
         });
-        /*
-        if (this.mango.character){ // Si el mango tiene un personaje asociado
-            // Si ha pasado el tiempo suficiente para cambiar el mango de jugador
-            if (this.clock.now - this.collisionTime >= this.maxCollisionTime){ 
-                // Se detecta qué personaje tiene el mango, y se le da al que no lo tiene
-                switch(this.mango.character.id){
-                    case character1.id:
-                        this.mango.character = character2;
-                        this.hit.play({
-                            volume: this.vol
-                        });
-                        break;
-    
-                    case character2.id:
-                        this.mango.character = character1;
-                        this.hit.play({
-                            volume: this.vol
-                        });
-                        break;
-                    default:
-                        break;
-                }
-                this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
-            }
-        }
-        */
     }//Fin stealMango
 
     // Al explotar el mango
     deleteCharacter(charIdx){ 
-        /*
-        for (var i = 0; i < this.characters.length; i++){
-            if (character.id == this.characters[i].id){
-                this.characters[i].score += this.numPlayers - 1;
-                //Quitar al personaje de la escena
-                this.characters[i].body.destroy();
-                this.characters[i].alpha = 0;
-
-                switch(character.type.split("_")[0]){
-                    case "palm":
-                        this.palm_win.play({
-                            volume: this.vol
-                        });
-                        break;
-                    case "dino":
-                            this.dino_win.play({
-                                volume: this.vol
-                            });
-                        break;
-                    case "toufat":
-                            this.toucan_win.play({
-                                volume: this.vol
-                            });
-                        break;
-                    case "lemur":
-                            this.lemur_win.play({
-                                volume: this.vol
-                            });
-                        break;
-                }
-            }
-        }
-        */
         this.characters[charIdx].score += this.numPlayers - 1;
         //Quitar al personaje de la escena
         this.characters[charIdx].body.destroy();
@@ -773,10 +590,9 @@ class WSLevel1 extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-    }
+    }// Fin startAnim
 
     animComplete(animation, frame){
-        //this.play = true;
         this.mangoMamboAnim.destroy();
         this.mangoMamboAnim = undefined;
         this.connection.send(JSON.stringify({ type: "ready", id: this.myPlayer.id }));
@@ -789,7 +605,6 @@ class WSLevel1 extends Phaser.Scene {
         this.characters[i].y = positionY;
         this.characters[i].body.setAccelerationX(accelerationX);
         this.characters[i].body.setAccelerationY(accelerationY);
-        /**/
         if (this.characters[i].body.acceleration.x < 0){
             this.characters[i].flipX = true;
             this.characters[i].anims.play(this.characters[i].anim[1], true);
@@ -799,6 +614,5 @@ class WSLevel1 extends Phaser.Scene {
         }else if (this.characters[i].body.acceleration.x == 0){
             this.characters[i].anims.play(this.characters[i].anim[0], true);
         }
-        /**/
-    }
-}// Fin clase Level1
+    }// Fin updateCharacter
+}// Fin clase WSLevel1

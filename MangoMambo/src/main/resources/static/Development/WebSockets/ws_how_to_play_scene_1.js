@@ -123,7 +123,6 @@ class WSHowToPlay extends Phaser.Scene {
         this.wsHowToPlayRockDetails = this.add.image(599.50, 291.00, "ws_how_to_play_rock_details");
         this.wsHowToPlayRockDetails.alpha = 0;
         // Botones
-        // this.detailsButton = this.add.image(384.50, 513, "details_button").setDepth(1);BORRAR
         this.bigEsc = this.add.image(100, 50, "big_esc");
         this.bigEsc.alpha = 0;
         this.detailsButtonSelect = this.add.image(384.50, 513, "details_button_select").setDepth(1);
@@ -160,10 +159,8 @@ class WSHowToPlay extends Phaser.Scene {
         // Teclas
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
         //Jugadores
         this.players = [{ready:false},{ready:false},{ready:false},{ready:false}];
-
         // Música
         this.sound.pauseOnBlur = false;
         this.loop = this.sound.add("how_to_play_song");
@@ -176,19 +173,18 @@ class WSHowToPlay extends Phaser.Scene {
         this.choose_options = this.sound.add("choose_options");
 
         var that = this;
-        
         // Evento para actualizar el tiempo del jugador
         this.playerCheck = setInterval(function(){
         	console.log("Checking por aquí");
         	that.connection.send(JSON.stringify({ type: "check", id: that.myPlayer.id }));
         }, 1000);
-        
+        // Al pulsar la flecha hacia abajo
         this.input.keyboard.on("keydown", function (event) {
             if (event.which == 40) {
                 that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, key: event.key }));
             }
         });
-
+        // Al recibir un mensaje
         this.connection.onmessage = function (msg) {
             var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
             console.log(data.type+" message received");
@@ -259,19 +255,14 @@ class WSHowToPlay extends Phaser.Scene {
                     }
             	}
             }
+        }// Fin onmessage
+        this.connection.onclose = function(msg){
+            console.log("Sesión cerrada: "+ msg);
+            clearInterval(that.playerCheck);
         }
     }// Fin create
 
     update(time, delta){
-    	/*
-    	console.log(this.characters);
-        // Aparece cuando el jugador está listo
-        for(var i = 0; i < this.numPlayers; i++){
-            if(this.players[this.characters[i].id].ready == true){
-                this.ticks[this.characters[i].id].alpha = 1;
-            }
-        }
-        */
         // Mostrar detalles
         if(Phaser.Input.Keyboard.JustDown(this.enterKey)){
             this.details = true;
@@ -341,5 +332,5 @@ class WSHowToPlay extends Phaser.Scene {
         });
         that.characters[playerIdx].destroy();
         that.characters[playerIdx] = null;
-    }
+    }// Fin leaveGame
 }// Fin clase HowToPlayScene

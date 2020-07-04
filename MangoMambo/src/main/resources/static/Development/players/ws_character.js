@@ -21,7 +21,6 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
         this.cursors;
         // Se añade a la escena al hacer el new
         scene.add.existing(this);
-        
         // Se activan las físicas de la escena y las colisiones con los bordes del lienzo
         if(this.physics){
             scene.physics.world.enable(this);
@@ -49,7 +48,6 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
         this.cursors[1] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.cursors[2] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.cursors[3] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
         switch (this.id){
             case 0:
                 // Borde de color
@@ -109,7 +107,6 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
                 });
                 break;
         }// Fin switch 
-
         // Animaciones y propiedades
         switch (this.type.split("_")[0]) {
             case "palm":
@@ -224,7 +221,6 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
             this.anims.play(this.anim[1], true);
             this.flipX = true;
         }
-
         // Derecha
         else if (this.cursors[3].isDown) {
             if(this.body.velocity.x > 0){
@@ -239,12 +235,10 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
             this.body.setAccelerationX(0);
             this.anims.play(this.anim[0], true);
         }
-
         // Arriba
         if (this.cursors[0].isDown && this.body.onFloor()) {
             this.body.setVelocityY(-this.jumpHeight);
         }
-        
         // Abajo
         if (this.body.velocity.y >= 0){
             this.body.gravity.y = this.fallSpeed;
@@ -252,66 +246,4 @@ class WSCharacter extends Phaser.GameObjects.Sprite{
             this.body.gravity.y = 0;
         }
     }// Fin update
-
-    /**
-    action(key, pulsado){
-        switch (key){
-            // Saltar
-            case 'w':
-            case 'W':
-                if (pulsado == "true"){
-                    if (this.body.onFloor()){
-                        this.body.setVelocityY(-this.jumpHeight);
-                    }
-                }
-                break;
-            // Izquierda
-            case 'a':
-            case 'A':
-                // Si se pulsa
-                if (pulsado == "true"){
-                    if(this.body.velocity.x > 0){
-                        this.body.setAccelerationX(-this.acceleration);
-                    }else{
-                        this.body.setAccelerationX(-this.acceleration);
-                    }
-                    this.anims.play(this.anim[1], true);
-                    this.flipX = true;
-                // Si se suelta
-                } else {
-                    this.body.setAccelerationX(0);
-                    this.anims.play(this.anim[0], true);
-                }
-                break;
-            // Abajo
-            case 's':
-            case 'S':
-                if (this.body.velocity.y >= 0){
-                    this.body.gravity.y = this.fallSpeed;
-                }else if (this.body.velocity.y < 0){
-                    this.body.gravity.y = 0;
-                }
-                break;
-            // Derecha
-            case 'd':
-            case 'D':
-                // Si se pulsa
-                if (pulsado == "true"){
-                    if(this.body.velocity.x > 0){
-                        this.body.setAccelerationX(this.acceleration);
-                    }else{
-                        this.body.setAccelerationX(this.acceleration);
-                    }
-                    this.anims.play(this.anim[1], true);
-                    this.flipX = false;
-                // Si se suelta 
-                } else {
-                    this.body.setAccelerationX(0);
-                    this.anims.play(this.anim[0], true);
-                }
-                break;
-        }
-    }
-    /**/
-
-}// Fin clase Character
+}// Fin clase WSCharacter

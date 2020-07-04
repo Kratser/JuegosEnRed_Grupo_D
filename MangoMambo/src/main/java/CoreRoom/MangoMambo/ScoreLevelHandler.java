@@ -33,38 +33,14 @@ public class ScoreLevelHandler extends TextWebSocketHandler{
 
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        /*
-        System.out.println("New session in score level: " + session.getId());
-        sessions.put(session.getId(), session);
-        */
 	}
     
     @Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        /*
-		System.out.println("Session closed in score level: " + session.getId());
-        sessions.remove(session.getId());
-        */
 	}
     
     @Override
     protected void handleTextMessage(WebSocketSession session,TextMessage message)throws Exception {
-        /*
-        JsonNode node = mapper.readTree(message.getPayload());
-
-        String id = node.get("id").asText();
-        String key = node.get("key").asText();
-        System.out.println("Id: "+id+", Key: "+key);
-        
-        ObjectNode responseNode = mapper.createObjectNode();
-
-        responseNode.put("id", id);
-        responseNode.put("key", key);
-
-        for(WebSocketSession participant : sessions.values()) {
-                participant.sendMessage(new TextMessage(responseNode.toString()));
-        }
-        */
         JsonNode node = mapper.readTree(message.getPayload());
         String id = node.get("id").asText();
         String type = node.get("type").asText();

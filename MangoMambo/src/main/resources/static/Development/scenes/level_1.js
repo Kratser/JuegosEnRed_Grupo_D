@@ -164,7 +164,7 @@ class Level1 extends Phaser.Scene {
         this.toucan_win;
         this.birds;
         // Get the Mango
-        this.getMango;
+        this.getTheMango;
         // Mango Mambo animation
         this.mangoMamboAnim;
         // Variable para actualizar el update
@@ -237,11 +237,11 @@ class Level1 extends Phaser.Scene {
                 case 2:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[2].x, this.positions[2].y, this.characters[i].score);
-                        this.characters[i].flipX = true;
                     break;
                 case 3:
                     this.characters[i] = new Character(this, this.characters[i].id, 
                         this.characters[i].type.split("_")[0]+"_idle", true, this.positions[3].x, this.positions[3].y, this.characters[i].score);
+                        this.characters[i].flipX = true;
                     break;
             }
         }
@@ -259,7 +259,7 @@ class Level1 extends Phaser.Scene {
         }
         // Se crea la colisión entre los personajes y el mango
         for (var i = 0; i < this.characters.length; i++){
-            this.physics.add.overlap(this.characters[i], this.mango, this.CogerMango, null, this);
+            this.physics.add.overlap(this.characters[i], this.mango, this.getMango, null, this);
         }
         // Se crea la colisión entre los personajes
         this.maxCollisionTime = 1000;
@@ -267,7 +267,7 @@ class Level1 extends Phaser.Scene {
         for (var i = 0; i <this.characters.length-1; i++){
             for (var j = i+1; j < this.characters.length; j++){
                 if (i != j){
-                    this.physics.add.overlap(this.characters[i], this.characters[j], this.RobarMango, null, this);
+                    this.physics.add.overlap(this.characters[i], this.characters[j], this.stealMango, null, this);
                 }
             }
         }
@@ -301,10 +301,10 @@ class Level1 extends Phaser.Scene {
             volume: this.vol * 0.1
         });
         // Get the Mango
-        this.getMango = this.add.image(594, 53, "get_the_mango");
+        this.getTheMango = this.add.image(594, 53, "get_the_mango");
         // Movimiento
-        var tweenGetMango = this.tweens.add({
-            targets: [this.getMango],
+        var tweenGetTheMango = this.tweens.add({
+            targets: [this.getTheMango],
             scaleY: 0.85,
             scaleX: 0.85,
             ease: 'Sine.easeInOut',
@@ -320,7 +320,7 @@ class Level1 extends Phaser.Scene {
         var tconfig = {
             x: 565,
             y: 6,
-            text: this.FormatTime(this.mango.explodeTime),
+            text: this.formatTime(this.mango.explodeTime),
             style: {
               fontSize: '30px',
               fontFamily: 'Berlin Sans FB',
@@ -341,7 +341,7 @@ class Level1 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('3_2_1_mango_mambo', { start: 0, end: 3 }),
             frameRate: 1,
         });
-        this.mangoMamboAnim.on("animationcomplete", this.AnimComplete, this);
+        this.mangoMamboAnim.on("animationcomplete", this.animComplete, this);
         this.mangoMamboAnim.anims.play("3_2_1_mango_mambo");
         this.mangoMamboAnim.setScale(0.5);
         var tween = this.tweens.add({
@@ -372,7 +372,8 @@ class Level1 extends Phaser.Scene {
             }
             // Refresh body de la plataforma que se mueve
             this.upMovePlat.refreshBody();
-            // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones
+            // Si el tiempo de partida baja de 0, se pasa a la pantalla de puntuaciones y han acabado 
+            // todos los jugadores
             if (this.numPlayers <= 1) {
                 this.scene.remove("pause");
                 this.scene.start("score_level", { characters: this.characters, volume: this.vol });
@@ -394,19 +395,19 @@ class Level1 extends Phaser.Scene {
         }
     }// Fin Update
 
-    CogerMango(character, mango){
+    getMango(character, mango){
         if (!mango.character){// Si el mango no tiene ningún personaje asociado
-            this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.UpdateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
+            this.mango.timer = this.time.addEvent({ delay: 1000, callback: this.mango.updateTime, callbackScope: this.mango, repeat: this.mango.time-1 });
             // El personaje que lo recoge queda guardado en el mango
             mango.character = character;
             this.timeImage.alpha = 1;
             this.text.alpha = 1;
-            // Desaparece el texto de getMango
-            this.getMango.alpha = 0;
+            // Desaparece el texto de getTheMango
+            this.getTheMango.alpha = 0;
         }
-    }// Fin CogerMango
+    }// Fin getMango
     
-    RobarMango(character1, character2){
+    stealMango(character1, character2){
         if (this.mango.character){ // Si el mango tiene un personaje asociado
             // Si ha pasado el tiempo suficiente para cambiar el mango de jugador
             if (this.clock.now - this.collisionTime >= this.maxCollisionTime){ 
@@ -428,10 +429,11 @@ class Level1 extends Phaser.Scene {
                     default:
                         break;
                 }
-                this.collisionTime = this.clock.now;// Se reinicia el tiempo del mango para cambiar de jugador
+                // Se reinicia el tiempo del mango para cambiar de jugador
+                this.collisionTime = this.clock.now;
             }
         }
-    }//Fin RobarMango
+    }//Fin stealMango
 
     // Al explotar el mango
     deleteCharacter(character){ 
@@ -441,7 +443,6 @@ class Level1 extends Phaser.Scene {
                 //Quitar al personaje de la escena
                 this.characters[i].body.destroy();
                 this.characters[i].alpha = 0;
-
                 switch(character.type.split("_")[0]){
                     case "palm":
                         this.palm_win.play({
@@ -467,9 +468,9 @@ class Level1 extends Phaser.Scene {
             }
         }
         this.numPlayers--;
-    }// Fin EliminarPersonaje
+    }// Fin deleteCharacter
     
-    FormatTime(seconds) {
+    formatTime(seconds) {
         // Minutos
         var minutes = Math.floor(seconds / 60);
         // Segundos
@@ -478,10 +479,10 @@ class Level1 extends Phaser.Scene {
         partInSeconds = partInSeconds.toString().padStart(2, '0');
         // Devuelve el tiempo formateado
         return `${minutes}:${partInSeconds}`;
-    }// Fin FormatTime
+    }// Fin formatTime
 
-    AnimComplete(animation, frame){
+    animComplete(animation, frame){
         this.play = true;
         this.mangoMamboAnim.destroy();
-    }
+    }// Fin animComplete
 }// Fin clase Level1

@@ -2,10 +2,12 @@ class Connecting extends Phaser.Scene{
     constructor(){
         super({key: "connecting"})
     }// Fin constructor
+
     init(data){
         this.vol = data.volume;
         data = null; 
-    }
+    }// Fin init
+
     preload(){
         // Pantalla de Carga
         this.loadingImg = this.add.image(0, 0, "loading_background").setOrigin(0, 0).setDepth(-1);
@@ -439,8 +441,8 @@ class Connecting extends Phaser.Scene{
         this.loop;
         // Jugadores
         this.players;
+    }// Fin preload
 
-    }
     create(){
         this.cameras.main.fadeIn(500);
         // Se pasa la imagen de fondo a profundidad 0 para que la barra de carga quede por detrás
@@ -468,7 +470,8 @@ class Connecting extends Phaser.Scene{
             volume: this.vol
         });
         this.connectToServer();
-    }
+    }// Fin create
+
     update(){
         // Si se pulsa la tecla ESC se vuelve al menú principal
         if (Phaser.Input.Keyboard.JustDown(this.cursors[1])){
@@ -479,7 +482,8 @@ class Connecting extends Phaser.Scene{
             // Se para la música
             this.loop.stop();
         }
-    }
+    }// Fin update
+
     connectToServer(){
         var ip = window.location.host;
         var that = this;
@@ -545,5 +549,5 @@ class Connecting extends Phaser.Scene{
             console.log("Server Connection failed, please try again later");
             that.add.image(600,300, "connection_failed_rock");
         });
-    }
+    }// Fin connectToServer
 }

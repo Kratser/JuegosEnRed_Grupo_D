@@ -6,7 +6,7 @@ class MainMenu extends Phaser.Scene {
     init(data){
         this.vol = data.volume;
         data = null; 
-    }
+    }// Fin init
 
     preload() {
         // Pantalla de Carga
@@ -52,7 +52,7 @@ class MainMenu extends Phaser.Scene {
         this.load.image("local_button_select", "./Design/Objects/Buttons/local_button_select.png");
         this.load.image("online_button_select", "./Design/Objects/Buttons/online_button_select.png");
         this.load.image("options_button_select", "./Design/Objects/Buttons/options_button_select.png");
-        //this.load.image("online_button_disable", "./Design/Objects/Buttons/online_button_disable.png"); FASE ACTUALIZADA
+        //this.load.image("online_button_disable", "./Design/Objects/Buttons/online_button_disable.png"); FASE 5
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
@@ -104,7 +104,7 @@ class MainMenu extends Phaser.Scene {
         // Botones 
         this.localButton = this.add.image(300, 140, "local_button").setOrigin(1, 0).setDepth(1);
         this.onlineButton = this.add.image(300, 250, "online_button").setOrigin(1, 0).setDepth(1);
-        //this.onlineDisable = this.add.image(250, 270, "online_button_disable").setDepth(1); FASE ACTUALIZADA
+        //this.onlineDisable = this.add.image(250, 270, "online_button_disable").setDepth(1); FASE 5
         this.optionsButton = this.add.image(300, 360, "options_button").setOrigin(1, 0).setDepth(1);
         this.localButtonSelect = this.add.image(300, 140, "local_button_select").setOrigin(1, 0).setDepth(2);
         this.onlineButtonSelect = this.add.image(300, 250, "online_button_select").setOrigin(1, 0).setDepth(2);
@@ -132,7 +132,7 @@ class MainMenu extends Phaser.Scene {
             delay : 2.02,
             volume: this.vol
         });
-        //              local options
+        //              local online options
         this.options = [true, false, false];
     }// Fin create
 

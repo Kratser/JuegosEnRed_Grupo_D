@@ -9,7 +9,7 @@ class WSScoreLevel extends Phaser.Scene {
         this.myPlayer = data.myPlayer;
         this.numPlayers = this.characters.length;
         this.ip = data.ip;
-        this.myPlayerIdx = this.characters.findIndex(function(p){return p.id == data.myPlayer.id});
+        this.myPlayerIdx = this.characters.findIndex(function(p){ return p.id == data.myPlayer.id });
         data = null;
     }// Fin init
 
@@ -205,9 +205,8 @@ class WSScoreLevel extends Phaser.Scene {
         this.player2_crown.alpha = 0;
         this.player3_crown.alpha = 0;
         this.player4_crown.alpha = 0;
-
+        // Fin de juego
         this.gameEnd = false;
-
         if (this.numPlayers <= 1){
         	this.gameEnd = true;
         }
@@ -297,8 +296,6 @@ class WSScoreLevel extends Phaser.Scene {
         }// Fin for
         // Botón escape
         this.escapeButton = this.add.image(45, 20, "escape_button");
-        // Máxima puntuación que se puede alcanzar 
-        //this.maxScore = 10;
         // ESCAPE
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER
@@ -339,77 +336,13 @@ class WSScoreLevel extends Phaser.Scene {
         // Mensajes websockets
         var that = this;
         this.input.keyboard.on("keydown", function (event) {
+            // Si se pulsa la flecha hacia abajo
             if (event.which == 40) {
             	that.choose_options.play({
                     volume: this.vol
                 });
                 that.connection.send(JSON.stringify({ type: "event", id: that.myPlayer.id, idx: that.myPlayerIdx, key: event.key }));
-                /*
-                console.log(that.connection);
-                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
-                that.players[that.myPlayer.id].ready = true;
-                that.contReady++;
-                // Cuando terminan las rondas vuelve al menu principal
-                for (var i = 0; i < that.characters.length; i++) {
-                    if (that.characters[i].score >= that.maxScore) {
-                        // Aparece la corona del ganador
-                        that.crowns[that.characters[i].id - 1].alpha = 1;
-                        // Comprobamos los jugadores listos
-                        //that.contReady++;
-                        if (that.contReady == that.numPlayers) {
-                            that.connection.close();
-                            that.choose_options.play({
-                                volume: that.vol
-                            });
-                            //API REST
-                            that.myPlayer.isReady = false;
-                            that.myPlayer.isConnected = false;
-                            var playerUpdate = $.ajax({
-                                method: "PUT",
-                                url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                                data: JSON.stringify(that.myPlayer),
-                                processData: false,
-                                headers: {
-                                    "Content-Type": "application/json"
-                                }
-                            });
-                            // Volvemos al menú
-                            that.scene.start("main_menu", { volume: that.vol });
-                            // Se para la música
-                            that.loop.stop();
-                        }
-                    // Si no se ha llegado a la puntución máxima vuelve a repetir la ronda
-                    } else {
-                        // Se comprueba que todos los jugadores estén listos
-                        if (that.contReady == that.numPlayers) {
-                            that.connection.close();
-                            that.scene.start("ws_level_1", { characters: that.characters, volume: that.vol, ip: that.ip, myPlayer: that.myPlayer });
-                            // Se para la música
-                            that.loop.stop();
-                            that.choose_options.play({
-                                volume: that.vol
-                            });
-                        }
-                        
-                    }// Fin if comprobación de la puntución.
-                }// Fin for
-                */
-            //} else if (event.key == "Escape") {
-                /*
-                that.connection.send(JSON.stringify({ id: that.myPlayer.id, key: event.key }));
-                that.connection.close();
-                that.myPlayer.isReady = false;
-                that.myPlayer.isConnected = false;
-                var playerUpdate = $.ajax({
-                    method: "PUT",
-                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                    data: JSON.stringify(that.myPlayer),
-                    processData: false,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                */
+            // Si se pulsa la tecla "Escape"
             }else if (event.key == "Escape") {
                 that.choose_options.play({
                     volume: this.vol
@@ -434,11 +367,13 @@ class WSScoreLevel extends Phaser.Scene {
             }
         });
 
+        // Al recibir un mensaje
         this.connection.onmessage = function (msg) {
-            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
+            // Se convierte el mensaje a JSON
+            var data = JSON.parse(msg.data);
             console.log(data.type + " message received");
-
             switch (data.type) {
+                // Mensaje de evento
                 case "event":
                     if (data.key == "ArrowDown"){
                         // El jugador id, idx se encuentra listo
@@ -466,7 +401,6 @@ class WSScoreLevel extends Phaser.Scene {
                                 "Content-Type": "application/json"
                             }
                         });
-    
                         if (that.numPlayers <= 1){
                             console.log("Me quedo solo :C");
                             that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
@@ -489,7 +423,7 @@ class WSScoreLevel extends Phaser.Scene {
                         }
                     }
                 break;
-
+                // Mensaje de abandono
                 case "leave":
                     // El jugador id ha abandonado la partida
                 	var playerIdx = that.characters.findIndex(function(p){
@@ -517,7 +451,6 @@ class WSScoreLevel extends Phaser.Scene {
                             "Content-Type": "application/json"
                         }
                     });
-
                     if (that.numPlayers <= 1){
                         console.log("Me quedo solo :C");
                         that.connection.send(JSON.stringify({ type: "leave", id: that.myPlayer.id }));
@@ -544,82 +477,10 @@ class WSScoreLevel extends Phaser.Scene {
                 	console.log("Tipo de mensaje no controlado");
                 break;
             }
-            /*
-            console.log("message received");
-            var data = JSON.parse(msg.data); // Se convierte el mensaje a JSON
-            console.log("Id: " + data.id + ", Key: " + data.key);
-            if (data.key == "ArrowDown") {
-                if (that.players[data.id].ready == false){
-                    that.contReady++;
-                }
-                that.players[data.id].ready = true;
-                // Cuando terminan las rondas vuelve al menu principal
-                for (var i = 0; i < that.characters.length; i++) {
-                    if (that.characters[i].score >= that.maxScore) {
-                        // Aparece la corona del ganador
-                        that.crowns[that.characters[i].id - 1].alpha = 1;
-                        // Comprobamos los jugadores listos
-                        //that.contReady++;
-                        if (that.contReady == that.numPlayers) {
-                            //API REST
-                            that.myPlayer.isReady = false;
-                            that.myPlayer.isConnected = false;
-                            var playerUpdate = $.ajax({
-                                method: "PUT",
-                                url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                                data: JSON.stringify(that.myPlayer),
-                                processData: false,
-                                headers: {
-                                    "Content-Type": "application/json"
-                                }
-                            });
-                            that.connection.close();
-                            that.choose_options.play({
-                                volume: that.vol
-                            });
-                            that.scene.start("main_menu", { volume: that.vol });
-                            // Se para la música
-                            that.loop.stop();
-                        }
-                    // Si no ha alcanzado la máxima puntuación nadie
-                    } else {
-                        if (that.contReady == that.numPlayers) {
-                            that.connection.close();
-                            that.scene.start("ws_level_1", { characters: that.characters, volume: that.vol, ip: that.ip, myPlayer: that.myPlayer });
-                            // Se para la música
-                            that.loop.stop();
-                            that.choose_options.play({
-                                volume: that.vol
-                            });
-                        }
-                    }// Fin if comprobación de la puntución.
-                }// Fin for
-            }// Fin pulsar abajo
-            // Al pulsar el esc vuelves al menú principal
-            if (data.key == "Escape") {
-                that.connection.close();
-                that.myPlayer.isReady = false;
-                that.myPlayer.isConnected = false;
-                var playerUpdate = $.ajax({
-                    method: "PUT",
-                    url: "http://" + that.ip + "/mango-mambo/" + that.myPlayer.id,
-                    data: JSON.stringify(that.myPlayer),
-                    processData: false,
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                that.choose_options.play({
-                    volume: that.vol
-                });
-                that.scene.start("main_menu", { volume: that.vol });
-                // Se para la música
-                that.loop.stop();
-            }// Fin Escape
-            */
         }// Fin onmessage
 
         this.connection.onclose = function (msg) {
+            console.log("Sesión cerrada: " + msg);
             clearInterval(that.playerCheck);
         }
 
@@ -627,7 +488,7 @@ class WSScoreLevel extends Phaser.Scene {
         	that.connection.send(JSON.stringify({ type: "check", id: that.myPlayer.id }));
         }, 30);
 
-    }// Fin Create
+    }// Fin create
 
     update() {
         // Aparece cuando el jugador está listo
@@ -672,39 +533,5 @@ class WSScoreLevel extends Phaser.Scene {
                 this.loop.stop();
             }
         }
-        /* Cuando terminan las rondas vuelve al menu principal
-        for (var i = 0; i < this.characters.length; i++) {
-            if (this.characters[i].score >= this.maxScore) {
-                // Desaparece el siguiente ronda
-                this.nextRound.alpha = 0;
-                this.crowns[this.characters[i].id - 1].alpha = 1;
-                if (Phaser.Input.Keyboard.JustDown(this.enterCursor)) {
-                    this.choose_options.play({
-                        volume: this.vol
-                    });
-                    this.scene.start("main_menu", { volume: this.vol });
-                    // Se para la música
-                    this.loop.stop();
-                }
-            }
-        }*/// Fin for
-        /* ESCAPE para salir al menú principal
-        if (Phaser.Input.Keyboard.JustDown(this.escapeCursor)) {
-            this.choose_options.play({
-                volume: this.vol
-            });
-            this.scene.start("main_menu", { volume: this.vol });
-            // Se para la música
-            this.loop.stop();
-        }*/
-        /* ENTER para pasar a la siguiente ronda
-        if (Phaser.Input.Keyboard.JustDown(this.enterCursor)) {
-            this.choose_options.play({
-                volume: this.vol
-            });
-            this.scene.start("ws_level_1", { characters: this.characters, volume: this.vol });//, {characters: this.characters}
-            // Se para la música
-            this.loop.stop();
-        }*/
     }// Fin update
-}// Fin clase EndLevel
+}// Fin clase WSScoreLevel

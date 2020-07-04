@@ -11,7 +11,7 @@ class Options extends Phaser.Scene {
         this.vol = data.volume;
         }
         data = null;
-    }
+    }// Fin init
 
     preload(){
         // Pantalla de Carga
@@ -49,12 +49,10 @@ class Options extends Phaser.Scene {
         // Cargar la imagen de fondo
         this.load.image("options_background", "./Design/Stages/Backgrounds/options_background.png");
         // Buttons
-        //this.load.image("tutorial_button", "./Design/Objects/Buttons/tutorial_button.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("sound_button", "./Design/Objects/Buttons/sound_button.png");
         this.load.image("credits_button", "./Design/Objects/Buttons/credits_button.png");
         this.load.image("big_esc", "./Design/Objects/Buttons/big_esc.png");
         // Selected buttons
-        //this.load.image("tutorial_button_select", "./Design/Objects/Buttons/tutorial_button_select.png"); NO SE INCLUYE EN ESTA FASE
         this.load.image("sound_button_select", "./Design/Objects/Buttons/sound_button_select.png");
         this.load.image("credits_button_select", "./Design/Objects/Buttons/credits_button_select.png");
         // Imagenes para modificar el sonido
@@ -99,11 +97,9 @@ class Options extends Phaser.Scene {
         // Fondo
         this.background = this.add.image(0, 0, "options_background").setOrigin(0,0).setDepth(0);
         // Botones 
-        //this.tutorialButton = this.add.image(900, 130, "tutorial_button").setDepth(1); NO SE INCLUYE EN ESTA FASE
         this.soundButton = this.add.image(1100, 230, "sound_button").setOrigin(1, 0).setDepth(1);
         this.creditsButton = this.add.image(1100, 50, "credits_button").setOrigin(1, 0).setDepth(1);
         this.bigEsc = this.add.image(90.50, 538.50, "big_esc").setDepth(1);
-        //this.tutorialButtonSelect = this.add.image(900, 130, "tutorial_button_select").setDepth(2); NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect = this.add.image(1100, 230, "sound_button_select").setOrigin(1, 0).setDepth(2);
         this.creditsButtonSelect = this.add.image(1100, 50, "credits_button_select").setOrigin(1, 0).setDepth(2);
         // Imagenes para modificar el sonido
@@ -157,7 +153,6 @@ class Options extends Phaser.Scene {
 
     update(time, delta){
         // Se esconde la imagen de seleción de los botones
-        //this.tutorialButtonSelect.alpha = 0; NO SE INCLUYE EN ESTA FASE
         this.soundButtonSelect.alpha = 0;
         this.creditsButtonSelect.alpha = 0;
         this.soundButton.angle = 0;
@@ -190,7 +185,6 @@ class Options extends Phaser.Scene {
             this.soundButton.setAngle(-3);
             this.soundButtonSelect.setAngle(-3);
         }
-
         // Aparece la configuración de sonido
         if (this.options[1]) {
             this.volumeBackground.alpha = 1;
@@ -222,7 +216,6 @@ class Options extends Phaser.Scene {
                     volume: this.vol
                 });
                 this.vol = this.cont2/8;
-                // console.log(this.vol);
                 this.loop.setVolume(this.vol);
             } else {
                 this.plus.alpha = 0;

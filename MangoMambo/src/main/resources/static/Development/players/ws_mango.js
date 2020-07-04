@@ -60,33 +60,24 @@ class WSMango extends Phaser.GameObjects.Sprite{
     updateTime(time) {
         this.explodeTime = time; 
         this.scene.text.setText(this.scene.formatTime(this.explodeTime));
-    }
+    }// Fin updateTime
 
     animComplete(animation, frame) {
         this.scene.connection.send(JSON.stringify({ type: "reset", id: this.scene.myPlayer.id }));
         this.explodeTime = this.time;
         this.setTexture("mango", 0);
-    }
+    }// Fin animComplete
 
     resetMango(){
         this.explodeTime = this.time;
         this.setTexture("mango", 0);
         this.x = 600;
-        //this.y = -10;
         this.y = 260;
-        //this.scene.deleteCharacter(this.character);
         this.character = null;
         this.timer = null;
         this.scene.text.alpha = 0;
         this.scene.timeImage.alpha = 0;
         // Aparece texto de getMango 
         this.scene.getMango.alpha = 1;
-        /*
-        var tween = this.scene.tweens.add({
-            targets: this,
-            y: 260,
-            duration: 2000
-        });
-        */
-    }
+    }// Fin resetMango
 }// Fin clase WSMango

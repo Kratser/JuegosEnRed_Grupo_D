@@ -10,7 +10,7 @@ class WSChooseCharacter extends Phaser.Scene {
         this.numPlayers = data.numPlayers;
         this.ip = data.ip;
         data = null;
-    }
+    }// Fin init
 
     preload() {
         // Pantalla de Carga
@@ -56,12 +56,6 @@ class WSChooseCharacter extends Phaser.Scene {
         // Lista de jugadores
         this.characters;
         this.charactersSelected;
-        // Controles de selección
-        this.cursors;
-        // ENTER
-        this.enterCursor;
-        // ESCAPE
-        this.escapeCursor;
         // Contador de personajes seleccionados
         this.readyPlayers;
         // Selector para cada jugador
@@ -192,17 +186,6 @@ class WSChooseCharacter extends Phaser.Scene {
         // Lista de jugadores
         this.characters = [];
         this.charactersSelected = [false, false, false, false];
-        // Controles de selección
-        // Controles de selector jugador 1
-        this.cursors = [];
-        this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.cursors[1] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.cursors[2] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.cursors[3] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        // ENTER
-        this.enterCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        // ESCAPE
-        this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // Contador de personajes seleccionados
         this.readyPlayers = 0;
         // Selector para cada jugador
@@ -255,6 +238,7 @@ class WSChooseCharacter extends Phaser.Scene {
             }
         });
         var that = this;
+        // Al recibir un mensaje
         this.connection.onmessage = function (msg) {
             console.log("message received");
             console.log(that.connection);
@@ -331,7 +315,7 @@ class WSChooseCharacter extends Phaser.Scene {
             //Se para la música
             this.loop.stop();
         }
-    }// Fin Update
+    }// Fin update
 
     changeCharacter(charactersArray, characterid, selector) {
     	console.log(selector);
@@ -369,7 +353,7 @@ class WSChooseCharacter extends Phaser.Scene {
         var nameAux = this.add.image(this.names[characterid].name.x, this.names[characterid].name.y, this.names[characterid].img[selector]);
         this.names[characterid].name.destroy();
         this.names[characterid].name = nameAux;
-    }// Fin ChangeText
+    }// Fin changeText
 
     change(id, keypressed) {
         var posX;
@@ -470,7 +454,7 @@ class WSChooseCharacter extends Phaser.Scene {
                     break;
             }
         }
-    }
+    }// Fin change
 
     leaveGame(id) {
     	var that = this;
@@ -502,5 +486,5 @@ class WSChooseCharacter extends Phaser.Scene {
                 "Content-Type": "application/json"
             }
         });
-    }
-}
+    }// Fin leaveGame
+}// Fin clase WSChooseCharacter

@@ -113,10 +113,6 @@ public class ClientController {
 				line = msg[i];
 				chat.addLast(line);
 				contLines++;
-				/*if (contLines > 9) {
-					chat.removeFirst();
-					contLines--;
-				}*/
 				System.out.println(msg[i]);
 			}
 			writeChat();
@@ -139,10 +135,6 @@ public class ClientController {
 				chat.addLast(line);
 				System.out.println(chat.get(contLines));
 				contLines++;
-				/*if (contLines > maxMessages) {
-					chat.removeFirst();
-					contLines--;
-				}*/
 				line = bufferR.readLine();
 			}
 			bufferR.close();
