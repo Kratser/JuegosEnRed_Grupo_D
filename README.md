@@ -284,6 +284,14 @@ Aquí visionaremos los créditos del juego.
 
 ![ws_choose_character](https://user-images.githubusercontent.com/36482605/72500740-868c8680-3835-11ea-8cb7-b03e5b6b71cf.PNG)
 
+### **3.18. Pantalla de instrucciones online**
+
+![WSHOWTOPLAY](https://user-images.githubusercontent.com/55460661/86542000-fee52200-bf11-11ea-8252-24c439f42e9b.JPG)
+
+### **3.19. Pantalla de puntuaciones online**
+
+![WSSCORELEVEL](https://user-images.githubusercontent.com/55460661/86542050-5b484180-bf12-11ea-83c8-f9b66ef979d1.JPG)
+
 ## **4. Arte**
 
 Con Mango Mambo queremos transmitir diversión y calidez para reforzar el género del
@@ -343,11 +351,11 @@ El formato será “.wav” y ".mp3".
 
 ### **5.1. Diagrama de clases del cliente**
 
-![Diagram](https://user-images.githubusercontent.com/36482605/72498452-ac169180-382f-11ea-830f-20181b371ec3.PNG)
+![CLIENT](https://user-images.githubusercontent.com/55460661/86541878-e1fc1f00-bf10-11ea-8bd3-56820f0cdee6.png)
 
 ### **5.2. Diagrama de clases del servidor**
 
-![server_diagramChart](https://user-images.githubusercontent.com/36482605/70196610-94fd6380-1709-11ea-9bb2-939b28d2087b.png)
+![SERVER](https://user-images.githubusercontent.com/55460661/86541850-934e8500-bf10-11ea-8944-b4c8b3110b34.png)
 
 ### **5.3. Relación de peticiones API REST**
 
