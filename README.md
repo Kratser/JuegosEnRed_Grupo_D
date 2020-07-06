@@ -25,6 +25,9 @@ https://github.com/Kratser/JuegosEnRed_Grupo_D
 ## **Link de Trello**
 https://trello.com/invite/b/7I8TCMOV/fe154fa115b009a4f2465ad2b9ad3d65/mango-mambo-grupo-d
 
+## **Vídeo explicativo de la fase 4**
+https://youtu.be/_0JuLyt7X4s
+
 * * *
 
 # **Organización del tag fase1**
