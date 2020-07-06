@@ -285,11 +285,11 @@ Aquí visionaremos los créditos del juego.
 
 ### **3.17. Selección de personajes online**
 
-![ws_choose_character](https://user-images.githubusercontent.com/36482605/72500740-868c8680-3835-11ea-8cb7-b03e5b6b71cf.PNG)
+![ws_choose_character_background](https://user-images.githubusercontent.com/36482605/86605158-9f852180-bfa6-11ea-99c2-6c5eef92017e.png)
 
 ### **3.18. Pantalla de instrucciones online**
 
-![WSHOWTOPLAY](https://user-images.githubusercontent.com/55460661/86542000-fee52200-bf11-11ea-8252-24c439f42e9b.JPG)
+![how_to_play_online](https://user-images.githubusercontent.com/36482605/86605460-073b6c80-bfa7-11ea-8ce2-b02dd0566863.png)
 
 ### **3.19. Pantalla de puntuaciones online**
 
