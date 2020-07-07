@@ -34,6 +34,9 @@ https://kratser.itch.io/mango-mambo
 ## **Enlace a New Grounds**
 https://www.newgrounds.com/portal/view/759762
 
+## **Enlace a Game Jolt**
+https://gamejolt.com/games/mango-mambo/514054
+
 * * *
 
 # **Organización del tag fase1**
