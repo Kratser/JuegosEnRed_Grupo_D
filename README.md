@@ -64,6 +64,13 @@ https://gamejolt.com/games/mango-mambo/514054
 * En el punto 5 hemos añadido un apartado que explica un poco qué hemos hecho en Websockets.  
 * Finalmente, se adjunta un video al principio de este README para mostrar las funcionalidades de juego y qué hemos hecho en cada parte.
 
+# **Organización del tag FASE_5_EXTRAORDINARIA**
+
+* Para este tag, se adjunta la presentación con la que enseñaremos lo realizado en la fase 5 y algunas mejoras planteadas. También se ha actualizado el pdf GDD y este README. 
+* Se ha actualizado la imagen del diagrama de flujo, añadiendo la escena de selección de nivel, y el diagrama de clases, añadiendo dicha clase.
+* También se han añadido algunas capturas de la escena de selección de nivel y del nuevo nivel implementado.
+* Finalmente, se han añadido al inicio de este README tres enlaces a diferentes páginas web de videojuegos, donde se ha subido el proyecto de Mango Mambo para poder jugar de forma local.
+
 * * *
 
 # **GDD**
@@ -198,7 +205,7 @@ una interfaz sencilla e intuitiva, fácil de entender y muy representativa.
 
 Pantallas a lo largo del juego e interacción entre ellas:
 
-![flowchart](https://user-images.githubusercontent.com/36482605/70080236-7bbfbe80-1606-11ea-9e4c-bd89f2c01c53.PNG)
+![Diagrama de flujo](https://user-images.githubusercontent.com/55460661/86842480-8dd67380-c0a5-11ea-9cbc-8c0162f139fa.png)
 
 ### **3.2. Pantalla de grupo**
 
@@ -224,7 +231,14 @@ En esta pantalla se podrán seleccionar los distintos personajes, también se de
 
 ![select_characters_updated](https://user-images.githubusercontent.com/36482605/70087708-17f0c200-1615-11ea-9ca7-05a8fd7bd77e.PNG)
 
-### **3.6. Detalles del minijuego**
+### **3.6. Selección de escenario**
+En esta pantalla podremos seleccionar entre los dos escenarios disponibles (Tiki Jungle y Neon Caves).
+
+![select_map_tikijungle](https://user-images.githubusercontent.com/55460661/86842975-3d134a80-c0a6-11ea-8fd9-aca5837ae698.png)
+
+![select_map_neoncaves](https://user-images.githubusercontent.com/55460661/86843017-48667600-c0a6-11ea-9fe4-a85058173555.png)
+
+### **3.7. Detalles del minijuego**
 
 Aquí se muestra un breve esquema que explica cómo jugar al minijuego. También se podrá expandir para una explicación más detallada.
 
@@ -232,75 +246,81 @@ Aquí se muestra un breve esquema que explica cómo jugar al minijuego. También
 
 ![HowToPlayDetails](https://user-images.githubusercontent.com/36482605/68355676-45c71180-0110-11ea-8ea8-8228132a4356.png)
 
-### **3.7. Minijuego 1**
+### **3.8. Tiki Jungle**
 
 Donde tiene lugar el Minijuego 1, en el que los jugadores tendrán que obtener el mango y mantenerlo hasta que explote.
 
 ![level_1](https://user-images.githubusercontent.com/36482605/70087650-fee81100-1614-11ea-9edf-53e46c6e8940.png)
 
-### **3.8. Menú de pausa**
+### **3.9. Neon Caves**
+
+Segundo escenario en el que podremos jugar al minijuego 1, ambientado en unas cuevas naturales con distintos cristales brillantes.
+
+![neon_caves](https://user-images.githubusercontent.com/55460661/86843149-7481f700-c0a6-11ea-9464-c60ab902a648.png)
+
+### **3.10. Menú de pausa**
 
 Dicha pantalla se abre al pulsar la tecla Escape durante el Minijuego 1. Pausará el juego y nos permitirá regresar al menú principal y reanudar el minijuego.
 
 ![Pause](https://user-images.githubusercontent.com/36482605/68355690-524b6a00-0110-11ea-8cfa-446ea3591d3c.png)
 
-### **3.9. Fin de nivel**
+### **3.11. Fin de nivel**
 
 Esta es la pantalla final, donde se mostrará el progreso de puntuación de cada jugador. También se podrá volver a jugar, acumulando así los puntos, o volver al menú principal si se desea.
 
 ![ScoreLevel](https://user-images.githubusercontent.com/36482605/68355711-62fbe000-0110-11ea-8b64-90e77d81898a.png)
 
-### **3.10. Menú de opciones**
+### **3.12. Menú de opciones**
 
 Desde esta pantalla podremos pasar a los créditos y regular el sonido del juego.
 
 ![Options](https://user-images.githubusercontent.com/36482605/68355574-f4b71d80-010f-11ea-9e2a-261aa5b9459d.png)
 
-### **3.11. Pantalla de carga**
+### **3.13. Pantalla de carga**
 
 Esta aparece en las transiciones entre pantallas, mostrando el progreso de carga de dichas pantallas.
 
 ![Loading](https://user-images.githubusercontent.com/36482605/68355778-95a5d880-0110-11ea-8c81-8bc65b502430.png)
 
-### **3.12. Pantalla de carga del servidor**
+### **3.14. Pantalla de carga del servidor**
 
 Al entrar a local aparece una pantalla de carga con un icono que se actualiza mientras se esté realizando la conexión al servidor.
 
 ![loading_server](https://user-images.githubusercontent.com/36482605/70080469-e40ea000-1606-11ea-8e61-20581de639a4.png)
 
-### **3.13. Mensaje de conexión fallida del servidor**
+### **3.15. Mensaje de conexión fallida del servidor**
 
 Si las peticiones no llegan, el servidor no responde o se ha producido un error, aparece esta imagen notificando lo que ha ocurrido.
 
 ![connection_failed](https://user-images.githubusercontent.com/36482605/70080523-00aad800-1607-11ea-8bf3-fe9ef2d6de12.PNG)
 
-### **3.14. Servidor lleno**
+### **3.16. Servidor lleno**
 
 Cuando hay cuatro jugadores en el servidor, si eres el quinto e intentas acceder no puedes y aparece esta imagen emergente.
 
 ![full_server](https://user-images.githubusercontent.com/36482605/70080584-1e783d00-1607-11ea-9beb-fc8903855156.PNG)
 
-### **3.15. Lobby del servidor**
+### **3.17. Lobby del servidor**
 
 Cuando los jugadores entran a online pasan a esta sala en la que pueden chatear y ver su estado y el de otros jugadores (conectados al servidor o preparados para jugar).
 
 ![lobby_server](https://user-images.githubusercontent.com/36482605/70196753-09d09d80-170a-11ea-9f48-834e63d91ad4.png)
 
-### **3.16. Créditos**
+### **3.18. Créditos**
 
 Aquí visionaremos los créditos del juego.
 
 ![credits_updated](https://user-images.githubusercontent.com/36482605/70087787-3c4c9e80-1615-11ea-94f5-1ec151650c61.PNG)
 
-### **3.17. Selección de personajes online**
+### **3.19. Selección de personajes online**
 
 ![ws_choose_character_background](https://user-images.githubusercontent.com/36482605/86605158-9f852180-bfa6-11ea-99c2-6c5eef92017e.png)
 
-### **3.18. Pantalla de instrucciones online**
+### **3.20. Pantalla de instrucciones online**
 
 ![how_to_play_online](https://user-images.githubusercontent.com/36482605/86605460-073b6c80-bfa7-11ea-8ce2-b02dd0566863.png)
 
-### **3.19. Pantalla de puntuaciones online**
+### **3.21. Pantalla de puntuaciones online**
 
 ![WSSCORELEVEL](https://user-images.githubusercontent.com/55460661/86542050-5b484180-bf12-11ea-83c8-f9b66ef979d1.JPG)
 
@@ -363,7 +383,7 @@ El formato será “.wav” y ".mp3".
 
 ### **5.1. Diagrama de clases del cliente**
 
-![CLIENT](https://user-images.githubusercontent.com/55460661/86541878-e1fc1f00-bf10-11ea-8bd3-56820f0cdee6.png)
+![CLIENT](https://user-images.githubusercontent.com/55460661/86842592-b6f70400-c0a5-11ea-9ceb-ffa3a64d62e8.png)
 
 ### **5.2. Diagrama de clases del servidor**
 
