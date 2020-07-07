@@ -81,7 +81,7 @@ class Story extends Phaser.Scene {
         this.load.image("local_button_select", "./Design/Objects/Buttons/local_button_select.png");
         this.load.image("online_button_select", "./Design/Objects/Buttons/online_button_select.png");
         this.load.image("options_button_select", "./Design/Objects/Buttons/options_button_select.png");
-        //this.load.image("online_button_disable", "./Design/Objects/Buttons/online_button_disable.png"); FASE 5
+        this.load.image("online_button_disable", "./Design/Objects/Buttons/online_button_disable.png"); //FASE 5
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
@@ -143,11 +143,34 @@ class Story extends Phaser.Scene {
         this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
 
         ///////////////////////////////////
+        ///////////SELECT MAP//////////////
+        ///////////////////////////////////
+
+        // Cargar la imagen de fondo
+        this.load.image("select_map_background", "./Design/Stages/Backgrounds/select_map_background.png");
+        // Botones seleccionados
+        this.load.image("select_map_button_left", "./Design/Objects/Buttons/change_map_button_left.png");
+        this.load.image("select_map_button_right", "./Design/Objects/Buttons/change_map_button_right.png");
+        // Imágenes de los mapas
+        this.load.image("tiki_jungle_map", "./Design/Objects/tiki_jungle_map.png");
+        this.load.image("neon_caves_map", "./Design/Objects/neon_caves_map.png");
+        // Imágenes de los iconos de los mapas
+        this.load.image("tiki_jungle_icon", "./Design/Objects/tiki_jungle_icon.png");
+        this.load.image("neon_caves_icon", "./Design/Objects/neon_caves_icon.png");
+        // Boton de ready para pasar a jugar
+        this.load.image("cc_ready_button", "./Design/Objects/Buttons/cc_ready_button.png");
+        this.load.image("cc_ready_button_selected", "./Design/Objects/Buttons/cc_ready_button_selected.png");
+        // Efectos de Sonido
+        this.load.audio("choose_options", "./Design/Audio/SoundFX/choose_options.mp3");
+        this.load.audio("change_options", "./Design/Audio/SoundFX/change_options.mp3");
+
+        ///////////////////////////////////
         ///////////HOW TO PLAY/////////////
         ///////////////////////////////////
 
-        // Cargar imagen
-        this.load.image("how_to_play_scene_background", "./Design/Stages/Backgrounds/how_to_play_scene.png");
+         // Cargar imagen
+         this.load.image("how_to_play_scene_background_tiki_jungle", "./Design/Stages/Backgrounds/how_to_play_scene.png");
+         this.load.image("how_to_play_scene_background_neon_caves", "./Design/Stages/Backgrounds/how_to_play_scene2.png");
         // Imágenes de las rocas
         this.load.image("how_to_play_rock", "./Design/Objects/how_to_play_rock.png");
         this.load.image("how_to_play_rock_details", "./Design/Objects/how_to_play_rock_details.png");
@@ -170,6 +193,8 @@ class Story extends Phaser.Scene {
 
         // Se cargan las imágenes de las plataformas
         this.load.image("lvl1_background", "./Design/Stages/Backgrounds/level_1_background.png");
+        // Fondo de Neon Cave
+        this.load.image("lvl2_background", "./Design/Stages/Backgrounds/level_2_background.png");
         // Botón de pausa
         this.load.image("pause_button", "./Design/Objects/Buttons/pause_button.png");
         // 3 2 1 mango mambo
@@ -182,7 +207,9 @@ class Story extends Phaser.Scene {
         this.load.image("cd_background", "./Design/Objects/countdown_background.png");
         // Get the mango
         this.load.image("get_the_mango", "./Design/Objects/Text/get_the_mango.png");
-        // Plataformas
+        this.load.image("solar_beams_neon_caves", "./Design/Stages/Backgrounds/solar_beams.png");
+        this.load.image("solar_beams_tiki_jungle", "./Design/Stages/Backgrounds/solar_beams_tiki_jungle.png");
+        // Plataformas Tiki Jungle
         this.load.image("big_plat", "./Design/Stages/Platforms/big_plat.png");
         this.load.image("bott_step1", "./Design/Stages/Platforms/bott_step1.png");
         this.load.image("bott_step2", "./Design/Stages/Platforms/bott_step2.png");
@@ -197,6 +224,26 @@ class Story extends Phaser.Scene {
         this.load.image("top_step2", "./Design/Stages/Platforms/top_step2.png");
         this.load.image("yellow_plat", "./Design/Stages/Platforms/yellow_plat.png");
         this.load.image("side_plat", "./Design/Stages/Platforms/side_plat.png");
+        // Plataformas Neon Cave
+        this.load.image("floor_neon_caves", "./Design/Stages/Platforms/floor.png");
+        this.load.image("l1_p1_neon_caves", "./Design/Stages/Platforms/level_1_plat_1.png");
+        this.load.image("l1_p2_neon_caves", "./Design/Stages/Platforms/level_1_plat_2.png");
+        this.load.image("l1_p3_neon_caves", "./Design/Stages/Platforms/level_1_plat_3.png");
+        this.load.image("l1_p4_neon_caves", "./Design/Stages/Platforms/level_1_plat_4.png");
+        this.load.image("l2_c1_neon_caves", "./Design/Stages/Platforms/level_2_colum_1.png");
+        this.load.image("l2_c2_neon_caves", "./Design/Stages/Platforms/level_2_colum_2.png");
+        this.load.image("l2_c3_neon_caves", "./Design/Stages/Platforms/level_2_colum_3.png");
+        this.load.image("l2_p1_neon_caves", "./Design/Stages/Platforms/level_2_plat_1.png");
+        this.load.image("l2_p2_neon_caves", "./Design/Stages/Platforms/level_2_plat_2.png");
+        this.load.image("l2_p3_neon_caves", "./Design/Stages/Platforms/level_2_plat_3.png");
+        this.load.image("l2_p4_neon_caves", "./Design/Stages/Platforms/level_2_plat_4.png");
+        this.load.image("l2_p5_neon_caves", "./Design/Stages/Platforms/level_2_plat_5.png");
+        this.load.image("l3_c_neon_caves", "./Design/Stages/Platforms/level_3_colum.png");
+        this.load.image("l3_mp_neon_caves", "./Design/Stages/Platforms/level_3_mov_plat.png");
+        this.load.image("l3_p1_neon_caves", "./Design/Stages/Platforms/level_3_plat_1.png");
+        this.load.image("l3_p2_neon_caves", "./Design/Stages/Platforms/level_3_plat_2.png");
+        // Detalles Neon Caves
+        this.load.image("details_neon_caves", "./Design/Stages/Backgrounds/details_neon_caves.png");
         // Se cargan las animaciones de los personajes
         // Palm
         this.load.spritesheet('palm_idle', './Design/Characters/Palm/palm_idle.png',
@@ -253,6 +300,7 @@ class Story extends Phaser.Scene {
         // Se carga la música
         this.load.audio("minigame_begining", "./Design/Audio/MinigameSong/minigame_begining_with_edit.wav");
         this.load.audio("minigame_loop", "./Design/Audio/MinigameSong/minigame_with_edit.wav");
+        this.load.audio("minigame_loop_neon_caves", "./Design/Audio/MinigameSong/level_2_song_loop.mp3");
         this.load.audio("hit", "./Design/Audio/SoundFX/hit.wav");
         this.load.audio("mango_explosion", "./Design/Audio/SoundFX/mango_explosion.mp3");
         this.load.audio("dino_win", "./Design/Audio/SoundFX/dino_win.wav");
@@ -260,6 +308,7 @@ class Story extends Phaser.Scene {
         this.load.audio("lemur_win", "./Design/Audio/SoundFX/lemur_win.mp3");
         this.load.audio("toucan_win", "./Design/Audio/SoundFX/toucan_win.mp3");
         this.load.audio("birds", "./Design/Audio/SoundFX/birds.mp3");
+        this.load.audio("cave_sound", "./Design/Audio/SoundFX/cave_sound.wav");
         // Se carga el mango
         this.load.image("mango", "./Design/Objects/mango.png");
 

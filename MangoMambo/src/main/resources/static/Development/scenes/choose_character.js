@@ -603,7 +603,7 @@ class ChooseCharacter extends Phaser.Scene {
                         i--;
                     }
                 }
-                this.scene.start("how_to_play", {characters: this.characters, volume: this.vol});
+                this.scene.start("select_map", {characters: this.characters, volume: this.vol});
                 // Se para la música
                 this.loop.stop();
                 this.intro.stop();

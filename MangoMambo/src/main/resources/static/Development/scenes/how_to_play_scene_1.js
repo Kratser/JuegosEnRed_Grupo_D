@@ -6,6 +6,11 @@ class HowToPlay extends Phaser.Scene {
     init(data){
         this.characters = data.characters;
         this.vol = data.volume;
+        if (data.map){
+            this.map = data.map;
+        }else{
+            this.map = "neon_caves";
+        }
         data = null;
     }// Fin init
 
@@ -43,7 +48,8 @@ class HowToPlay extends Phaser.Scene {
             loadingImg.destroy();
         });
         // Cargar imagen
-        this.load.image("how_to_play_scene_background", "./Design/Stages/Backgrounds/how_to_play_scene.png");
+        this.load.image("how_to_play_scene_background_tiki_jungle", "./Design/Stages/Backgrounds/how_to_play_scene.png");
+        this.load.image("how_to_play_scene_background_neon_caves", "./Design/Stages/Backgrounds/how_to_play_scene2.png");
         // Imágenes de las rocas
         this.load.image("how_to_play_rock", "./Design/Objects/how_to_play_rock.png");
         this.load.image("how_to_play_rock_details", "./Design/Objects/how_to_play_rock_details.png");
@@ -92,7 +98,14 @@ class HowToPlay extends Phaser.Scene {
     create(){
         this.cameras.main.fadeIn(500);
         // Fondo
-        this.howToPlay = this.add.image(0, 0, "how_to_play_scene_background").setOrigin(0, 0).setDepth(0);
+        switch(this.map){
+            case "tiki_jungle":
+                this.howToPlay = this.add.image(0, 0, "how_to_play_scene_background_tiki_jungle").setOrigin(0, 0).setDepth(0);
+            break;
+            case "neon_caves":
+                this.howToPlay = this.add.image(0, 0, "how_to_play_scene_background_neon_caves").setOrigin(0, 0).setDepth(0);
+            break;
+        }
         this.howToPlayRock = this.add.image(600, 300, "how_to_play_rock");
         this.howToPlayRockDetails = this.add.image(600, 300, "how_to_play_rock_details");
         this.howToPlayRockDetails.alpha = 0;
@@ -191,7 +204,7 @@ class HowToPlay extends Phaser.Scene {
         }
         // Cambio de pantalla
         if(this.options[1] && this.enterKey.isDown){
-            this.scene.start("level_1", {characters: this.characters, volume: this.vol});
+            this.scene.start("level_1", {characters: this.characters, volume: this.vol, map: this.map});
             // Se para la música
             this.loop.stop();
             this.choose_options.play({

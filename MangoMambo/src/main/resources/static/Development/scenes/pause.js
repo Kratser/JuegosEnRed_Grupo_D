@@ -115,7 +115,9 @@ class Pause extends Phaser.Scene {
             this.scene.remove("pause");
             // Se para la música
             this.data.scene.loop.stop();
-            this.data.scene.intro.stop();
+            if (this.data.scene.intro){
+                this.data.scene.intro.stop();
+            }
             this.data.scene.birds.stop();
             this.data.scene.scene.start("main_menu", {volume: this.data.volume});
             this.options[1] = false;

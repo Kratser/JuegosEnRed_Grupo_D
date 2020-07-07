@@ -15,6 +15,7 @@ var config = {
         Story,
         MainMenu,
         ChooseCharacter,
+        SelectMap,
         Level1,
         ScoreLevel,
         Options,

@@ -1,5 +1,5 @@
 class Mango extends Phaser.GameObjects.Sprite{
-    constructor (scene, type, x, y, time = 30, character = null) {
+    constructor (scene, type, x, y, time = 30, endPos = 260, character = null) {
         // Llamada al padre del objeto
         super(scene, x, y, type);
         //Atributos del personaje
@@ -18,6 +18,8 @@ class Mango extends Phaser.GameObjects.Sprite{
         this.time = time;
         this.explodeTime = time;
         this.timer;
+        // Posición de reinicio
+        this.endPos = endPos;
         // Se añade a la escena al hacer el new
         scene.add.existing(this);
     }// Fin constructor
@@ -77,7 +79,7 @@ class Mango extends Phaser.GameObjects.Sprite{
         this.scene.getMango.alpha = 1;
         var tween = this.scene.tweens.add({
             targets: this,
-            y: 260,
+            y: this.endPos,
             duration: 2000
         });
     }// Fin animComplete

@@ -6,6 +6,7 @@ class ScoreLevel extends Phaser.Scene {
     init (data){
         this.characters = data.characters;
         this.vol = data.volume;
+        this.map = data.map;
         data = null;
     }// Fin init
 
@@ -143,18 +144,33 @@ class ScoreLevel extends Phaser.Scene {
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 161.50, 532, this.characters[i].score);
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
-                    // Animación subida personaje
-                    var tweenCha = this.tweens.add({
-                        targets: this.characters[i],
-                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
-                        duration: 2500
-                    });
-                    // Animación subida tótem
-                    var tweenTot = this.tweens.add({
-                        targets: this.gTotem,
-                        y: 687 - (this.characters[i].score / this.maxScore) * 210,
-                        duration: 2500
-                    });
+                    if (this.characters[i].score < this.maxScore){
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.gTotem,
+                            y: 687 - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }else{
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.gTotem,
+                            y: 687 - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }
                     break;
                 // Jugador 2
                 case 1:
@@ -162,18 +178,33 @@ class ScoreLevel extends Phaser.Scene {
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"],
                     false, 448.00, 532, this.characters[i].score);
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
-                    // Animación subida personaje
-                    var tweenCha = this.tweens.add({
-                        targets: this.characters[i],
-                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
-                        duration: 2500
-                    });
-                    // Animación subida tótem
-                    var tweenTot = this.tweens.add({
-                        targets: this.pTotem,
-                        y: 687 - (this.characters[i].score / this.maxScore) * 210, // 430 max
-                        duration: 2500
-                    });
+                    if (this.characters[i].score < this.maxScore){
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.pTotem,
+                            y: 687 - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }else{
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.pTotem,
+                            y: 687 - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }
                     break;
                 // Jugador 3    
                 case 2:
@@ -181,18 +212,33 @@ class ScoreLevel extends Phaser.Scene {
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 742.00, 532, this.characters[i].score);
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
-                    // Animación subida personaje
-                    var tweenCha = this.tweens.add({
-                        targets: this.characters[i],
-                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
-                        duration: 2500
-                    });
-                    // Animación subida tótem
-                    var tweenTot = this.tweens.add({
-                        targets: this.bTotem,
-                        y: 687 - (this.characters[i].score / this.maxScore) * 210,
-                        duration: 2500
-                    });
+                    if (this.characters[i].score < this.maxScore){
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.bTotem,
+                            y: 687 - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }else{
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.bTotem,
+                            y: 687 - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }
                     break;
                 // Jugador 4   
                 case 3:
@@ -200,18 +246,33 @@ class ScoreLevel extends Phaser.Scene {
                     this.characters[i] = new Character(this, this.characters[i].id, this.characters[i].type.split("_")[0] + ["_choose"], 
                     false, 1039, 532, this.characters[i].score);
                     this.characters[i].y = this.characters[i].y - this.characters[i].height/2;
-                    // Animación subida personaje
-                    var tweenCha = this.tweens.add({
-                        targets: this.characters[i],
-                        y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
-                        duration: 2500
-                    });
-                    // Animación subida tótem
-                    var tweenTot = this.tweens.add({
-                        targets: this.yTotem,
-                        y: 687 - (this.characters[i].score / this.maxScore) * 210, // 687 min
-                        duration: 2500
-                    });
+                    if (this.characters[i].score < this.maxScore){
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.yTotem,
+                            y: 687 - (this.characters[i].score / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }else{
+                        // Animación subida personaje
+                        var tweenCha = this.tweens.add({
+                            targets: this.characters[i],
+                            y: this.characters[i].y - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                        // Animación subida tótem
+                        var tweenTot = this.tweens.add({
+                            targets: this.yTotem,
+                            y: 687 - (this.maxScore / this.maxScore) * 210,
+                            duration: 2500
+                        });
+                    }
                     break;
             }// Fin switch
         }// Fin for
@@ -229,8 +290,6 @@ class ScoreLevel extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-        // Máxima puntuación que se puede alcanzar 
-        this.maxScore = 10;
         // ESCAPE
         this.escapeCursor = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         // ENTER
@@ -253,11 +312,20 @@ class ScoreLevel extends Phaser.Scene {
                   }
             });
             this.scores[i].angle = 20;
-            var tween = this.tweens.add({
-                targets: this.scores[i],
-                y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210 - this.characters[i].height,
-                duration: 2500
-            });
+            if (this.characters[i].score < this.maxScore){
+                var tween = this.tweens.add({
+                    targets: this.scores[i],
+                    y: this.characters[i].y - (this.characters[i].score / this.maxScore) * 210 - this.characters[i].height,
+                    duration: 2500
+                });
+            }else{
+                var tween = this.tweens.add({
+                    targets: this.scores[i],
+                    y: this.characters[i].y - (this.maxScore / this.maxScore) * 210 - this.characters[i].height,
+                    duration: 2500
+                });
+            }
+            
         }
         // Se crea la música
         this.sound.pauseOnBlur = false;
@@ -275,7 +343,7 @@ class ScoreLevel extends Phaser.Scene {
             if (this.characters[i].score >= this.maxScore) {
                 // Desaparece el siguiente ronda
                 this.nextRound.alpha = 0;
-                this.crowns[this.characters[i].id - 1].alpha = 1;
+                this.crowns[this.characters[i].id].alpha = 1;
                 if (Phaser.Input.Keyboard.JustDown(this.enterCursor)){
                     this.choose_options.play({
                         volume: this.vol
@@ -300,7 +368,8 @@ class ScoreLevel extends Phaser.Scene {
             this.choose_options.play({
                 volume: this.vol
             });
-            this.scene.start("level_1", {characters: this.characters, volume: this.vol});
+            //this.scene.start("level_1", {characters: this.characters, volume: this.vol, map: this.map});
+            this.scene.start("select_map", {characters: this.characters, volume: this.vol});
             // Se para la música
             this.loop.stop();
         }

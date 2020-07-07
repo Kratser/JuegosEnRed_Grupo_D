@@ -57,7 +57,7 @@ class MainMenu extends Phaser.Scene {
         this.load.image("local_button_select", "./Design/Objects/Buttons/local_button_select.png");
         this.load.image("online_button_select", "./Design/Objects/Buttons/online_button_select.png");
         this.load.image("options_button_select", "./Design/Objects/Buttons/options_button_select.png");
-        //this.load.image("online_button_disable", "./Design/Objects/Buttons/online_button_disable.png"); FASE 5
+        this.load.image("online_button_disable", "./Design/Objects/Buttons/online_button_disable.png");// FASE 5
         // Se carga la música
         this.load.audio("menu_begining", "./Design/Audio/MenuSong/menu_begining_with_edit.wav");
         this.load.audio("menu_loop", "./Design/Audio/MenuSong/menu_with_edit.wav");
@@ -70,9 +70,11 @@ class MainMenu extends Phaser.Scene {
         this.titleMove;
         // Botones
         this.localButton;
-        this.onlineDisable;
+        //this.onlineButton;
+        //this.onlineDisable;
         this.optionsButton;
         this.localButtonSelect;
+        //this.onlineButtonSelect;
         this.optionsButtonSelect;
         // Teclas
         this.cursors;
@@ -109,12 +111,14 @@ class MainMenu extends Phaser.Scene {
         });
         // Botones 
         this.localButton = this.add.image(300, 140, "local_button").setOrigin(1, 0).setDepth(1);
-        this.onlineButton = this.add.image(300, 250, "online_button").setOrigin(1, 0).setDepth(1);
-        //this.onlineDisable = this.add.image(250, 270, "online_button_disable").setDepth(1); FASE 5
-        this.optionsButton = this.add.image(300, 360, "options_button").setOrigin(1, 0).setDepth(1);
+        //this.onlineButton = this.add.image(300, 250, "online_button").setOrigin(1, 0).setDepth(1);
+        //this.onlineDisable = this.add.image(300, 250, "online_button_disable").setOrigin(1, 0).setDepth(1);// FASE 5
+        //this.optionsButton = this.add.image(300, 360, "options_button").setOrigin(1, 0).setDepth(1);
+        this.optionsButton = this.add.image(300, 250, "options_button").setOrigin(1, 0).setDepth(1);
         this.localButtonSelect = this.add.image(300, 140, "local_button_select").setOrigin(1, 0).setDepth(2);
-        this.onlineButtonSelect = this.add.image(300, 250, "online_button_select").setOrigin(1, 0).setDepth(2);
-        this.optionsButtonSelect = this.add.image(300, 360, "options_button_select").setOrigin(1, 0).setDepth(2);
+        //this.onlineButtonSelect = this.add.image(300, 250, "online_button_select").setOrigin(1, 0).setDepth(2);
+        //this.optionsButtonSelect = this.add.image(300, 360, "options_button_select").setOrigin(1, 0).setDepth(2);
+        this.optionsButtonSelect = this.add.image(300, 250, "options_button_select").setOrigin(1, 0).setDepth(2);
         // Array de teclas
         this.cursors = [];
         this.cursors[0] = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -139,19 +143,19 @@ class MainMenu extends Phaser.Scene {
             volume: this.vol
         });
         //              local online options
-        this.options = [true, false, false];
+        this.options = [true/*, false*/, false];
     }// Fin create
 
     update(time, delta){
         // Se esconde la imagen de seleción de los botones
         this.localButtonSelect.alpha = 0;
-        this.onlineButtonSelect.alpha = 0;
+        //this.onlineButtonSelect.alpha = 0;
         this.optionsButtonSelect.alpha = 0;
         this.localButton.angle = 0;
-        this.onlineButton.angle = 0;
+        //this.onlineButton.angle = 0;
         this.optionsButton.angle = 0;
         // Selección de botones
-        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=1){
+        if ((Phaser.Input.Keyboard.JustDown(this.cursors[1]) || Phaser.Input.Keyboard.JustDown(this.cursors[3])) && this.cont<=0){
             this.options[this.cont] = false;
             this.cont++;
             this.options[this.cont] = true;
@@ -173,12 +177,19 @@ class MainMenu extends Phaser.Scene {
             this.localButton.setAngle(-5);
             this.localButtonSelect.setAngle(-5);
         }
+        /*
         if(this.options[1]){
             this.onlineButtonSelect.alpha = 1;
             this.onlineButton.setAngle(-5);
             this.onlineButtonSelect.setAngle(-5);
         }
         if(this.options[2]){
+            this.optionsButtonSelect.alpha = 1;
+            this.optionsButton.setAngle(-5);
+            this.optionsButtonSelect.setAngle(-5);
+        }
+        */
+        if(this.options[1]){
             this.optionsButtonSelect.alpha = 1;
             this.optionsButton.setAngle(-5);
             this.optionsButtonSelect.setAngle(-5);
@@ -190,6 +201,7 @@ class MainMenu extends Phaser.Scene {
             });
             this.scene.start("choose_character", {loop: this.loop, intro: this.intro, volume: this.vol});
         }
+        /*
         // Cambio de pantalla "Online"
         if (this.options[1] && Phaser.Input.Keyboard.JustDown(this.cursors[4])){
             this.choose_options.play({
@@ -210,5 +222,16 @@ class MainMenu extends Phaser.Scene {
             this.intro.stop();
             this.loop.stop();
         }
+        */
+       // Cambio de pantalla "Opciones"
+       if(this.options[1] && this.cursors[4].isDown){
+        this.choose_options.play({
+            volume: this.vol
+        });
+        this.scene.start("options", {volume: this.vol});
+        // Se para la música
+        this.intro.stop();
+        this.loop.stop();
+    }
     }// Fin update
 }// Fin clase MainMenu
